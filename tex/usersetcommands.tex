@@ -38,28 +38,18 @@
 % THEOREM Environments ---------------------------------------------------
 %These environments are provided as a convenience - feel free to modify if needed
 
-\newtheorem{theorem}{Theorem}[chapter]%To link the theorem to each chapter uncomment the chapter option
-\newtheorem{lemma}{Lemma}%[theorem]% To link each lemma to a theorem uncomment the theorem option
-\newtheorem{corollary}{Corollary}%[theorem]% To link each corollary to a theorem uncomment the theorem option
-% to link a corollary to a chapter change the theorem option to chapter
-\newtheorem{definition}{Definition}%[chapter] %the same is true for both definitions and assumptions
-\newtheorem{assumption}{Assumption}%[chapter] %
-\newtheorem{proposition}{Proposition}[chapter]
-\newtheorem{algorithm}{Algorithm}[chapter]
+% To link the theorem to each chapter uncomment the chapter option
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{example}[theorem]{Example}
 
 
 %These were some user commands I've run across that I thought some might want to incorporate into their work
-%\newcommand{\bdm}{
- %   \begin{displaymath}}
-
-%\newcommand{\edm}{
-%    \end{displaymath}}
-
-%\newcommand{\be}{
-%    \begin{equation}}
-
-%\newcommand{\ee}{
-%    \end{equation}}
 
 %\newcommand{\bea}{
  %   \begin{eqnarray}}
