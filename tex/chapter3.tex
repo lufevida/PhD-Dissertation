@@ -1,159 +1,274 @@
+%--------------------------------------------------------------------------
 \chapter{METHODOLOGY}
 
 %--------------------------------------------------------------------------
 \section{Polya's Enumeration Formula}
 
 %--------------------------------------------------------------------------
-\begin{definition} \cite[85]{Aigner2007} Let $N$ be a set of $n$ beads and $R$ be a set of $r$ colors. A colored necklace is a function $f : N \to R$. Denote the set of all such functions by $R^N$, so that $|R^N| = r^n$. Define the \textbf{weight} associated to a coloring $f$ by
-$$
-w(f) = \prod_{i \in N} x_{f(i)} \enspace,
-$$
-where $x_j$ is an arbitrary variable associated with the color $j \in R$.
+\begin{definition}
+	\cite[85]{Aigner2007}
+	Let $N$ be a set of $n$ beads and $R$ be a set of $r$ colors. A colored necklace is
+	a function $f : N \to R$. Denote the set of all such functions by $R^N$, so that
+	$|R^N| = r^n$. Define the \textbf{weight} associated to a coloring $f$ by
+	\begin{equation}
+		w(f) = \prod_{i \in N} x_{f(i)} \enspace,
+	\end{equation}
+	where $x_j$ is a variable associated with the color $j \in R$.
 \end{definition}
 
 %--------------------------------------------------------------------------
-\begin{proposition} \cite[110]{Rotman1967} \label{coloring} Let $G$ be a group and $X = \{ 1, \cdots, n \}$ be a set. Let $\mathcal{C}$ be a set o $q$ colors. Then $G$ acts on the set $\mathcal{C}^n$ of $n$-tuples of colors by
-$$
-\tau(c_1, \cdots, c_n) = (c_{\tau 1}, \cdots, c_{\tau n}), \forall \tau \in G \enspace.
-$$
+\begin{proposition}
+	\label{coloring}
+	\cite[110]{Rotman1967}
+	Let $G$ be a group and $X = \{ 1, \cdots, n \}$ be a set. Let $\mathcal{C}$ be a set
+	of $q$ colors. Then $G$ acts on the set $\mathcal{C}^n$ of $n$-tuples of colors by
+	\begin{equation}
+		\tau(c_1, \cdots, c_n) = (c_{\tau 1}, \cdots, c_{\tau n}),
+		\forall \tau \in G \enspace.
+	\end{equation}
 \end{proposition}
 
 %--------------------------------------------------------------------------
-\begin{proposition} \cite[85]{Aigner2007} \cite[110]{Rotman1967} If $G$ is a group acting on the set $N$, then two colorings $f$ and $f^\prime$ are equivalent whenever $f = f^\prime \circ g$ for some $g \in G$. This is an equivalence relation that partitions $R^N$ into equivalence classes denoted \textbf{patterns}. Under the conditions of \ref{coloring}, an orbit $(c_1, \cdots, c_n) \in \mathcal{C}^n$ is called a $(q, G)$-\textbf{coloring} of $X$. Moreover, two equivalent colorings have the same weight, so that we may refer to the weight of a class of colorings rather than the weights of its representatives.
+\begin{proposition}
+	\cite[85]{Aigner2007}
+	\cite[110]{Rotman1967}
+	If $G$ is a group acting on the set $N$, then two colorings $f$ and $f^\prime$
+	are equivalent whenever $f = f^\prime \circ g$ for some $g \in G$. This is an
+	equivalence relation that partitions $R^N$ into equivalence classes denoted
+	\textbf{patterns}. Under the conditions of \ref{coloring}, an orbit
+	$(c_1, \cdots, c_n) \in \mathcal{C}^n$ is called a $(q, G)$-\textbf{coloring} of $X$.
+	Moreover, two equivalent colorings have the same weight, so that we may refer to
+	the weight of a class of colorings rather than the weights of its representatives.
 \end{proposition}
 
 %--------------------------------------------------------------------------
-\begin{definition} \cite[85]{Aigner2007} Let $N$ be a set of $n$ beads and $R$ be a set of $r$ colors. Let $G$ be a group acting on the set $N$ and $x_j$ the variable associated with the color $j \in R$. Let $\mathcal{M}$ be the set of of patterns. Define the pattern \textbf{enumerator} by
-$$
-w(R^N, G) = \sum_{M \in \mathcal{M}} w(M) \enspace.
-$$
-In particular, when $x_j = 1$ for all $j \in R$, we get $w(R^N, G) = |\mathcal{M}|$.
+\begin{definition}
+	\cite[85]{Aigner2007}
+	Let $N$ be a set of $n$ beads and $R$ be a set of $r$ colors. Let $G$ be a group acting
+	on the set $N$ and $x_j$ the variable associated with the color $j \in R$. Let
+	$\mathcal{M}$ be the set of of patterns. Define the pattern \textbf{enumerator} by
+	\begin{equation}
+		w(R^N, G) = \sum_{M \in \mathcal{M}} w(M) \enspace.
+	\end{equation}
+	In particular, when $x_j = 1$ for all $j \in R$, we get $w(R^N, G) = |\mathcal{M}|$.
 \end{definition}
 
 %--------------------------------------------------------------------------
-\begin{definition} \cite[86]{Aigner2007} Let $G$ be a group acting on a set $X$. Define for every $g \in G$ its \textbf{fixed-point set} by 
-$$
-\Fix(g) = \{ x \in X : gx = x \} \enspace.
-$$
+\begin{definition}
+	\cite[86]{Aigner2007}
+	Let $G$ be a group acting on a set $X$. Define for every $g \in G$ its
+	\textbf{fixed-point set} by 
+	\begin{equation}
+		\Fix(g) = \{ x \in X : gx = x \} \enspace.
+	\end{equation}
 \end{definition}
 
 %--------------------------------------------------------------------------
-\begin{lemma} \cite[112]{Rotman1967} Let $G < S_n$ be a group and let $\mathcal{C}$ be a set of $q$ colors. For $\tau \in G$,
-$$
-\Fix(\tau) = q^{t(\tau)} \enspace,
-$$
-where $t(\tau)$ is the number of cycles in the complete factorization of $\tau$.
+\begin{lemma}
+	\cite[112]{Rotman1967}
+	Let $G < S_n$ be a group and let $\mathcal{C}$ be a set of $q$ colors. For $\tau \in G$,
+	\begin{equation}
+		|\Fix(\tau)| = q^{t(\tau)} \enspace,
+	\end{equation}
+	where $t(\tau)$ is the number of cycles in the complete factorization of $\tau$.
 \end{lemma}
 
 %--------------------------------------------------------------------------
-\begin{lemma}[Burnside] \cite[109]{Rotman1967} If $G$ acts on a finite set $X$, then the number of orbits $N$ is
-$$
-N = \frac{1}{|G|} \sum_{\tau \in G} \Fix(\tau) \enspace,
-$$
-where $\Fix(\tau)$ is the cardinality of the set of $x \in X$ that are fixed by $\tau$.
+\begin{lemma}[Burnside]
+	\cite[109]{Rotman1967}
+	\cite[251]{Tucker1974}
+	If $G$ acts on a finite set $X$, then the number of orbits $N$ is
+	\begin{equation}
+		N = \frac{1}{|G|} \sum_{\tau \in G} |\Fix(\tau)| \enspace.
+	\end{equation}
 \end{lemma}
 
 %--------------------------------------------------------------------------
-\begin{corollary} \cite[112]{Rotman1967} Let $G$ be a group acting on a finite set $X$. The number $N$ of $(q, G)$-colorings of $X$ is
-$$
-N = \frac{1}{|G|} \sum_{\tau \in G} q^{t(\tau)} \enspace,
-$$
-where $t(\tau)$ is the number of cycles in the complete factorization of $\tau$.
+\begin{corollary}
+	\cite[112]{Rotman1967}
+	Let $G$ be a group acting on a finite set $X$. The number $N$ of $(q, G)$-colorings
+	of $X$ is
+	\begin{equation}
+		N = \frac{1}{|G|} \sum_{\tau \in G} q^{t(\tau)} \enspace.
+	\end{equation}
 \end{corollary}
 
 %--------------------------------------------------------------------------
-\begin{definition} \cite[87]{Aigner2007} Let $g$ be a group acting on $R^N$. Define the \textbf{cycle indicator} of $G$ by
-$$
-P_G(z_1, z_2, \cdots, z_n) = \frac{1}{|G|} \sum_{g \in G} z_1^{b_1(g)} z_2^{b_2(g)} \cdots z_n^{b_n(g)} \enspace,
-$$
-where $z_i^{b_i(g)}$ corresponds to the number of cycles in the complete factorization of $g$ that have length $i$.
+\begin{definition}
+	\cite[87]{Aigner2007}
+	Let $g$ be a group acting on $R^N$. Define the \textbf{cycle indicator} of $G$ by
+	\begin{equation}
+		P_G(z_1, z_2, \cdots, z_n) = \frac{1}{|G|} \sum_{g \in G} z_1^{b_1(g)} z_2^{b_2(g)}
+		\cdots z_n^{b_n(g)} \enspace,
+	\end{equation}
+	where $z_i^{b_i(g)}$ corresponds to the number of cycles in the complete factorization
+	of $g$ that have length $i$.
 \end{definition}
 
 %--------------------------------------------------------------------------
 \begin{example} The cycle indicator of $S_3$ is
-$$
-P_{S_3}(x_1, x_2, x_3) = \frac{1}{6}(x_1^3 + 3 x_1^1 x_2^1 + 2 x_3^1) \enspace,
-$$
-since there are two elements in $S_3$ that comprise one cycle of length three, three elements that comprise one cycle of length one, and one cycle of length two, and one element that comprises three cycles of length one.
+	\begin{equation}
+		P_{S_3}(x_1, x_2, x_3) = \frac{1}{6}(x_1^3 + 3 x_1^1 x_2^1 + 2 x_3^1) \enspace,
+	\end{equation}
+	since there are two elements in $S_3$ that comprise one cycle of length three,
+	three elements that comprise one cycle of length one, and one cycle of length two,
+	and one element that comprises three cycles of length one.
 \end{example}
 
 %--------------------------------------------------------------------------
 \begin{example} Let $C_n$ be the cyclic group of order $n$. Then
-$$
-P_{C_n} = \frac{1}{n} \sum_{d | n} \varphi(d) z_d^{n / d} \enspace.
-$$
+	\begin{equation}
+		P_{C_n} = \frac{1}{n} \sum_{d | n} \varphi(d) z_d^{n / d} \enspace.
+	\end{equation}
 \end{example}
 
 %--------------------------------------------------------------------------
 \begin{example} For $S_n$ we have
-$$
-P_{S_n} = \sum_{j_1 + 2j_2 + \cdots + nj_n = n}
-\frac{1}{\prod_{k = 1}^n k^{j_k} j_k!} \prod_{k = 1}^n a_k^{j_k}
-\enspace.
-$$
-In words, there is a summand for each conjugacy class in $S_n$, and we divide each summand by the size of its corresponding conjugacy class.
+	\begin{equation}
+		P_{S_n} = \sum_{j_1 + 2j_2 + \cdots + nj_n = n}
+		\frac{1}{\prod_{k = 1}^n k^{j_k} j_k!} \prod_{k = 1}^n a_k^{j_k} \enspace.
+	\end{equation}
+	In words, there is a summand for each conjugacy class in $S_n$, and we divide each
+	summand by the size of its corresponding conjugacy class.
 \end{example}
 
 %--------------------------------------------------------------------------
 \begin{example} For $D_n$ we have
-$$
-P_{D_n} = \frac{1}{2} P_{C_n} +
-\begin{cases}
-\frac{1}{2} a_1 a_2^{(n - 1) / 2} & n \text{ odd} \\
-\frac{1}{4} (a_1^2 a_2^{(n - 2) / 2} + a_2^{n / 2)} & n \text{ even}
-\end{cases}
-$$
+	\begin{equation}
+		P_{D_n} = \frac{1}{2} P_{C_n} +
+		\begin{cases}
+			\frac{1}{2} a_1 a_2^{(n - 1) / 2} & n \text{ odd} \\
+			\frac{1}{4} (a_1^2 a_2^{(n - 2) / 2} + a_2^{n / 2)} & n \text{ even}
+		\end{cases}
+	\end{equation}
 \end{example}
 
 %--------------------------------------------------------------------------
-\begin{theorem}[Polya] \cite[88]{Aigner2007} Let $N$ be a set of cardinality $n$ and $R$ be a set of cardinality $r$. Let $G$ be a group acting on the set $N$ and $x_j$ be arbitrary variables with $j \in R$. Let $w(R^N, G)$ be the pattern enumerator for the action of $G$ on $R^N$. Then
-$$
-w(R^N, G) = \sum_{M \in \mathcal{M}} w(M) = P_G(\sum_{j \in R} x_j, \sum_{j \in R} x_j^2, \cdots, \sum_{j \in R} x_j^n) \enspace.
-$$
+\begin{theorem}[Polya]
+	\cite[88]{Aigner2007}
+	\cite[256]{Tucker1974}
+	Let $N$ be a set of cardinality $n$ and $R$ be a set of cardinality $r$. Let $G$ be
+	a group acting on the set $N$ and $x_j$ be arbitrary variables with $j \in R$.
+	Let $w(R^N, G)$ be the pattern enumerator for the action of $G$ on $R^N$. Then
+	\begin{equation}
+		w(R^N, G) = \sum_{M \in \mathcal{M}} w(M) = P_G(\sum_{j \in R} x_j,
+		\sum_{j \in R} x_j^2, \cdots, \sum_{j \in R} x_j^n) \enspace.
+	\end{equation}
 \end{theorem}
 
 %--------------------------------------------------------------------------
-\begin{corollary} \cite[89]{Aigner2007} Let $x_j = 1$ for all $j \in R$. Then $\sum_{j \in R} x_j^k = |R| = r$ for all $k$, hence
-$$
-P_G(r, \cdots, r) = |\mathcal{M}| \enspace.
-$$
+\begin{corollary}
+	\cite[89]{Aigner2007}
+	\cite[254]{Tucker1974}
+	Let $x_j = 1$ for all $j \in R$. Then $\sum_{j \in R} x_j^k = |R| = r$ for all $k$, hence
+	\begin{equation}
+		P_G(r, \cdots, r) = |\mathcal{M}| \enspace.
+	\end{equation}
 \end{corollary}
 
 %--------------------------------------------------------------------------
-\begin{corollary} \cite[89]{Aigner2007} Let $|R| = r = 2$. Let $x_1 = x_{\text{white}} = x$ and $x_2 = x_{\text{black}} = 1$. Then
-$$
-P_G(x + 1, x^2 + 1, \cdots, x^n + 1) = \sum_{k = 0}^n a_k x^k \enspace,
-$$
-where $a_k$ is the number of patterns in which the color white occurs exactly $k$ times.
+\begin{corollary}
+	\cite[89]{Aigner2007}
+	\label{oneColor} Let $|R| = r = 2$. Let $x_1 = x_{\text{white}} = x$ and
+	$x_2 = x_{\text{black}} = 1$. Then
+	\begin{equation}
+		P_G(x + 1, x^2 + 1, \cdots, x^n + 1) = \sum_{k = 0}^n a_k x^k \enspace,
+	\end{equation}
+	where $a_k$ is the number of patterns in which the color white occurs exactly $k$ times.
 \end{corollary}
 
 %--------------------------------------------------------------------------
-\begin{example} \cite[89]{Aigner2007} The number of necklaces with $n$ beads and $r$ colors is
-$$
-\frac{1}{n} \sum_{d | n} \varphi(d) r_d^{n / d} \enspace.
-$$
+\begin{example}
+	\cite[89]{Aigner2007}
+	The number of necklaces with $n$ beads and $r$ colors is
+	\begin{equation}
+		\frac{1}{n} \sum_{d | n} \varphi(d) r_d^{n / d} \enspace.
+	\end{equation}
 \end{example}
 
 %--------------------------------------------------------------------------
-\begin{example} We use Polya's theorem to describe the pattern inventory of 3-bead necklaces under the action of $S_3$. Let the colors be $A$ and $B$. Then
-$$
-\begin{align}
-P_{S_3}(A + B, A^2 + B^2, A^3 + B^3)
-& = \frac{1}{6}[(A + B)^3 + 3 (A + B) (A^2 + B^2) + 2 (A^3 + B^3)] \\
-& = A^3 + A^2 B + A B^2 + B^3 \enspace.
-\end{align}
-$$
-In words, we have one necklace with three $A$ beads, one with two $A$ and one $B$ bead, one with one $A$ and two $B$ beads, and one with three $B$ beads.
+\begin{example}
+	\cite[86]{Aigner2007}
+	The definition of a weight function is useful in order to count how many necklaces
+	contain precisely $x_j$ beads of color $j$. Set $W$ to be the color white and $B$
+	to be the color black. Then a 4-bead necklace with exactly 2 white and 2 black beads
+	is expressed by $W^2B^2$. If we do not wish to account for a particular color,
+	per \ref{oneColor} we may assign its weight to 1. If we chose not to account for the color
+	black, say, then the representation above would become simply $W^21^2 = W^2$.
 \end{example}
 
 %--------------------------------------------------------------------------
-\begin{example} The definition of a weight function is useful in order to count how many necklaces contain precisely $a_j$ beads of color $j$. Set $W$ to be the color white and $B$ to be the color black. Then a 4-bead necklace with exactly 2 white and 2 black beads is expressed by $W^2B^2$. If we do not wish to account for a particular color, we may assign it to 1. If we chose not to account for the color black, say, then the representation above would become simply $W^21^2 = W^2$.
+\begin{example}
+	We use Polya's theorem to describe the pattern inventory of 3-bead necklaces under the action of $S_3$. Let the colors be $A$ and $B$. Then
+	\begin{equation}
+		\begin{align}
+			P_{S_3}(A + B, A^2 + B^2, A^3 + B^3)
+			& = \frac{1}{6}[(A + B)^3 + 3 (A + B) (A^2 + B^2) + 2 (A^3 + B^3)] \\
+			& = A^3 + A^2 B + A B^2 + B^3 \enspace.
+		\end{align}
+	\end{equation}
+	In words, we have one necklace with three $A$ beads, one with two $A$ and one $B$ bead, one with one $A$ and two $B$ beads, and one with three $B$ beads.
 \end{example}
 
 %--------------------------------------------------------------------------
-\begin{example} \cite{Tucker1974} Take an un-oriented cube and color its corners in black or white. Then
-$$
-b^8 + b^7w + 3b^6w^2 + 3b^5w^3 + 7b^4w^4 + 3b^3w^5 + 3b^2w^6 + bw^7 + w^8 \enspace,
-$$
-would represent the generating function, or pattern inventory of all distinct colorings of that cube, where the coefficient of $b^iw^j$ represents the particular number of colorings with $i$ black corners and $j$ white corners.
+\begin{example}
+	\cite{Reiner1985}
+	We can use Polya's theorem to count chords in 12 tones that are equivalent under
+	transposition by setting our set of colors to be $R = \{ 0, 1 \}$. We then disregard
+	one of the colors, say zero, by setting $w(0) = 1$ and $w(1) = C$. The group of
+	transpositions is just $C_{12} = \mathbb{Z} / 12 \mathbb{Z}$, so we get
+	\begin{equation}
+		\begin{align}
+			P_{C_12}
+			& = \frac{1}{12} \sum_{d \in \{ 1, 2, 3, 4, 6, 12 \}} \varphi(d) x_d^{12 / d} \\
+			& = \frac{1}{12} \left( x_1^{12} + x_2^{6} + 2 x_3^{4} + 2 x_4^{3} +
+			2 x_6^{2} + 4 x_12^1 \right) \\
+			& = \frac{1}{12} \left[ (1 + C)^{12} + (1 + C^2)^{6} + 2 (1 + C^3)^{4} +
+			2 (1 + C^4)^{3} + 2 (1 + C^6)^{2} + 4 (1 + C^{12}) \right] \\
+			& = C^{12} + C^{11} + 6 C^{10} + 19 C^9 + 43 C^8 + 66 C^7 + \cdots \\
+			& \qquad \qquad \cdots +
+			80 C^6 + 66 C^5 + 43 C^4 + 19 C^3 + 6 C^2 + C^1 + C^0 \enspace.
+		\end{align}
+	\end{equation}
+	In words, we have 43 tetrachords and 19 trichords that are transpositionally equivalent.
+\end{example}
+
+%--------------------------------------------------------------------------
+\begin{example}
+	\cite[249]{Tucker1974}
+	Consider the action of the dihedral group $D_8$ on the 16-element set of colorings in
+	black and white of the corners of a square. The cycle indicator of $D_8$ is
+	\begin{equation}
+		P_{D_8}(x_1, x_2, x_3, x_4) =
+		\frac{1}{8}(x_1^4 + 2x_1^2x_2 + 3x_2^2 + x_4^1) \enspace.
+	\end{equation}
+	Note that, in particular, we get no $x_3$ factors by Lagrange. The identity element
+	in $D_8$ fixes all collorings, and is represented as a permutation by four cycles
+	of length one. By Polya's formula, we make the substitution
+	\begin{equation}
+		x_1^4 = (B^1 + W^1)^4 = B^4 + 4 B^3 W + 6 B^2 W^2 + 4 B W^3 + W^4 \enspace,
+	\end{equation}
+	where the exponent outside the parenthesis is the number of cycles, and the exponents
+	inside the parenthesis correspond to the lengths of the cycles, for each color.
+	The element of order four in $D_8$ has one cycle of length four, so we get
+	\begin{equation}
+		x_4^1 = (B^4 + W^4)^1 = B^4 + W^4 \enspace,
+	\end{equation}
+	that is, the permutation $r = (1 \; 2 \; 3 \; 4)$ fixes the squares whose corners are
+	all black or all white. Next, there are three elements in $D_8$ which comprise
+	two cycles of length two, so each of those yield
+	\begin{equation}
+		x_2^2 = (B^2 + W^2)^2 = B^4 + 2 B^2 W^2 + W^4 \enspace.
+	\end{equation}
+	The last two elements in $D_8$ both have two cycles of length one, plus one cycle
+	of length two, which gives
+	\begin{equation}
+		x_1^2x_2 = (B + W)^2 (B^2 + W^2) =
+		B^4 + 2 B^3 W + 2 B^2 W^2 + 2 B W^2 + W^4 \enspace.
+	\end{equation}
+	Putting it all together, we get the following pattern inventory of orbits:
+	\begin{equation}
+		P_{D_8}(B + W, B^2 + W^2, B^3 + W^3, B^4 + W^4) =
+		B^4 + 4 B^3 W + 6 B^2 W^2 + 4 B W^3 + W^4 \enspace.
+	\end{equation}
 \end{example}
