@@ -1,2 +1,55 @@
 %--------------------------------------------------------------------------
 \chapter{INTRODUCTION}
+
+%--------------------------------------------------------------------------
+In \ref{rahn-common-tone}, Rahn proves the second assertion as follows. We must count the occurrences of pairs of pitch classes that are interchanged by the operation at
+hand and double them, for if $x$ maps onto $y$ under some $\T_n\I$, then certainly
+$y$ maps onto $x$ under the same operation, given that every inversion operation
+has order two. In addition to that, we must account for the occurrences of pitch
+classes that may map onto themselves under the aforementioned operation. For any
+pair $a \ne b \in S$, it follows $a$ and $b$ are exchanged by some operation
+$\T_n\I$ whenever both $\T_n\I(a) = b$ and $\T_n\I(b) = a$ hold. Since
+$\T_n\I(a) = -a + n$ and similarly $\T_n\I(b) = -b + n$, if the pair is exchanged,
+we must have $-a + n = b$ and $-b + n = a$ both true. Adding the last two
+expressions and yields $a + b = n$, which is the first set in the right-hand side
+of the formula. As discussed above, the cardinality of this set must be doubled.
+We have for any $a$ that $\T_n\I(a) = a + n$, hence $a = \T_n\I(a) \iff a = -a + n$,
+that is, whenever $2a = n$. That is the second set in the formula. Finally,
+for any pair $(a, n)$ such that $a = \T_n\I(a)$, we also have
+$a + 6 = -(a + 6) + n \iff 2a = n$, so that by the above it follows
+$a + 6 = \T_n\I(a + 6)$. Thus the set $\{a \in S : 2a = n\}$ has cardinality
+at most 2, proving the last assertion.
+
+%--------------------------------------------------------------------------
+We can demonstrate \ref{rahn-example}, as well as the omitted proof of \ref{rahn-common-tone} under transposition in a much simpler way with a little bit of abstract algebra. By observing
+the cycle decomposition the each operation at hand, if $n = 3$, then we have
+\begin{equation}
+	\T_3\I = (0 \; 3) (1 \; 2) (4 \; 11) (5 \; 10) (6 \; 9) (7 \; 8) \enspace.
+\end{equation}
+Hence, under $\T_3\I$, every pitch-class in $S = \{ 0, 1, 4, 5, 8, 9 \}$ gets sent to the
+complement of $S$. If the operation is, for instance, $\T_9$, then since
+\begin{equation}
+	\T_9 = (0 \; 9 \; 6 \; 3) (1 \; 10 \; 7 \; 4) (2 \; 11 \; 8 \; 5) \enspace,
+\end{equation}
+we get straightforwardly that $S = \{ 0, 1, 4, 5, 8, 9 \}$ shares three common tones with
+$\T_9 \circ S$, namely $0 \mapsto 9$, $4 \mapsto 1$, and $8 \mapsto 5$.
+
+%--------------------------------------------------------------------------
+Consider the 12-tone series $S = \{ 0, 1, 4, 2, 9, 5, 11, 3, 8, 10, 7, 6 \}$. This series
+has the remarkable property that, if we include a dummy $13^\text{th}$ element, then
+taking every $n^\text{th}$ element of $S$ produces a transposition of it.
+
+%--------------------------------------------------------------------------
+\begin{example}
+	We have $S^* = \{ 0, 1, 4, \dots, 7, 6, * \}$. Then taking every zeroth order number of
+	$S^* \mod 13$ yields $S^*$ itself. Taking every first order number yields the series
+	$\{ 1, 2, 5, \dots, 8, 7, * \}$ which, upon removing the dummy symbol, becomes
+	$\T_1 \circ S$. Repeating this procedure every $n^\text{th}$ order number gives the
+	sequence of transforms $\{ \T_i \}_{i \in S}$.
+\end{example}
+
+%--------------------------------------------------------------------------
+This most peculiar property, commonly called the \emph{mallalieu} property, was first discovered by Pohlman Mallalieu \cite[285]{Lewin1966}.
+It is natural to ask at this point how many different 12-tone rows are there sharing
+this property. Unfortunately, there is only one such 12-tone row class under $\T_n\M\I$.
+We phrase below a little differently an argument given in \cite[17]{Morris1976}.

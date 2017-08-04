@@ -499,14 +499,16 @@
 	transpositions is just $C_{12} = \mathbb{Z} / 12 \mathbb{Z}$, so we get
 	\begin{equation}
 		\begin{align}
-			& P_{C_{12}}(1 + x, \cdots, 1 + x^{12}) = \\
+			P_{C_{12}}(1 + x, \cdots, 1 + x^{12})
 			& = \frac{1}{12} \sum_{d \in \{ 1, 2, 3, 4, 6, 12 \}} \varphi(d) x_d^{12 / d} \\
 			& = \frac{1}{12} \left( x_1^{12} + x_2^{6} + 2 x_3^{4} + 2 x_4^{3} +
 			2 x_6^{2} + 4 x_{12} \right) \\
-			& = \frac{1}{12} \left[ (1 + C)^{12} + (1 + C^2)^{6} + 2 (1 + C^3)^{4} +
-			2 (1 + C^4)^{3} + 2 (1 + C^6)^{2} + 4 (1 + C^{12}) \right] \\
-			& = C^{12} + C^{11} + \cdots + 80 C^6 + 66 C^5 + 43 C^4 + 19 C^3 +
-			6 C^2 + C^1 + C^0 \enspace.
+			& = \frac{1}{12} \left[ (1 + C)^{12} + (1 + C^2)^{6} + 2 (1 + C^3)^{4} \right. \\
+			& \qquad \qquad
+			+ \left. 2 (1 + C^4)^{3} + 2 (1 + C^6)^{2} + 4 (1 + C^{12}) \right] \\
+			& = C^{12} + C^{11} + \cdots \\
+			& \qquad \qquad
+			\cdots + 80 C^6 + 66 C^5 + 43 C^4 + 19 C^3 + 6 C^2 + C^1 + C^0 \enspace.
 		\end{align}
 	\end{equation}
 	In particular, there are 43 tetrachords and 19 trichords that are transpositionally
@@ -534,7 +536,7 @@
 	In particular, the pattern inventory of $k$-chords in 12 tones that are equivalent under
 	$\T_n \I$ is
 	\begin{equation}
-		P_{D_{24}}(1 + x, \cdots, 1 + x^{12}) = C^{12} + C^{11} + \cdots + 50 C^6 +
+		P_{D_{24}}(1 + x, \cdots, 1 + x^{12}) = C^{12} + \cdots + 50 C^6 +
 		38 C^5 + 29 C^4 + 12 C^3 + 6 C^2 + C^1 + C^0 \enspace.
 	\end{equation}
 \end{example}
