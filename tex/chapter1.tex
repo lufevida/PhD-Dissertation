@@ -2,54 +2,87 @@
 \chapter{INTRODUCTION}
 
 %--------------------------------------------------------------------------
-In \ref{rahn-common-tone}, Rahn proves the second assertion as follows. We must count the occurrences of pairs of pitch classes that are interchanged by the operation at
-hand and double them, for if $x$ maps onto $y$ under some $\T_n\I$, then certainly
-$y$ maps onto $x$ under the same operation, given that every inversion operation
-has order two. In addition to that, we must account for the occurrences of pitch
-classes that may map onto themselves under the aforementioned operation. For any
-pair $a \ne b \in S$, it follows $a$ and $b$ are exchanged by some operation
-$\T_n\I$ whenever both $\T_n\I(a) = b$ and $\T_n\I(b) = a$ hold. Since
-$\T_n\I(a) = -a + n$ and similarly $\T_n\I(b) = -b + n$, if the pair is exchanged,
-we must have $-a + n = b$ and $-b + n = a$ both true. Adding the last two
-expressions and yields $a + b = n$, which is the first set in the right-hand side
-of the formula. As discussed above, the cardinality of this set must be doubled.
-We have for any $a$ that $\T_n\I(a) = a + n$, hence $a = \T_n\I(a) \iff a = -a + n$,
-that is, whenever $2a = n$. That is the second set in the formula. Finally,
-for any pair $(a, n)$ such that $a = \T_n\I(a)$, we also have
-$a + 6 = -(a + 6) + n \iff 2a = n$, so that by the above it follows
-$a + 6 = \T_n\I(a + 6)$. Thus the set $\{a \in S : 2a = n\}$ has cardinality
-at most 2, proving the last assertion.
+\vspace{3em}
+\setlength{\epigraphwidth}{0.86\textwidth}
+\setlength{\epigraphrule}{0pt}
+\epigraph{
+	\textit{Music has become an almost arbitrary matter, and composers will no longer be bound by laws and rules, but avoid the names of School and Law as they would Death itself...}
+}{\vspace{2em}-- Johann Joseph Fux}
+\vspace{1em}
 
 %--------------------------------------------------------------------------
-We can demonstrate \ref{rahn-example}, as well as the omitted proof of \ref{rahn-common-tone} under transposition in a much simpler way with a little bit of abstract algebra. By observing
-the cycle decomposition the each operation at hand, if $n = 3$, then we have
-\begin{equation}
-	\T_3\I = (0 \; 3) (1 \; 2) (4 \; 11) (5 \; 10) (6 \; 9) (7 \; 8) \enspace.
-\end{equation}
-Hence, under $\T_3\I$, every pitch-class in $S = \{ 0, 1, 4, 5, 8, 9 \}$ gets sent to the
-complement of $S$. If the operation is, for instance, $\T_9$, then since
-\begin{equation}
-	\T_9 = (0 \; 9 \; 6 \; 3) (1 \; 10 \; 7 \; 4) (2 \; 11 \; 8 \; 5) \enspace,
-\end{equation}
-we get straightforwardly that $S = \{ 0, 1, 4, 5, 8, 9 \}$ shares three common tones with
-$\T_9 \circ S$, namely $0 \mapsto 9$, $4 \mapsto 1$, and $8 \mapsto 5$.
+\section{Derivation and Polyphony}
 
 %--------------------------------------------------------------------------
-Consider the 12-tone series $S = \{ 0, 1, 4, 2, 9, 5, 11, 3, 8, 10, 7, 6 \}$. This series
-has the remarkable property that, if we include a dummy $13^\text{th}$ element, then
-taking every $n^\text{th}$ element of $S$ produces a transposition of it.
+Derivation is the process of extracting segments from rows in order to generate new compositional materials. It is a technique that dates back to the Second Viennese School. In its most incipient form, 
+
+The row used by Berg in \emph{Lulu} is $S = \{ 10, 2, 3, 0, 5, 7, 4, 6, 9, 8, 1, 11 \}$
+
+%--------------------------------------------------------------------------
+\begin{figure}[htbp]
+	\centering
+	\subfigure[Basic row]{
+		\begin{music}
+			\nostartrule
+			\startextract
+				\NOTes\nq{_bd_ecfge^fh^g^ji}\en
+				\setemptybar
+			\endextract
+		\end{music}
+	}
+	\subfigure[Derived row in the Prologue]{
+		\begin{music}
+			\nostartrule
+			\startextract
+				\NOTes\Qqbu{_b}{_e}{=e}{h}\Qqbu{d}{g}{^g}{^j}
+				\Qqbu{c}{f}{^f}{i}\en
+				\setemptybar
+			\endextract
+		\end{music}
+	}
+	\subfigure[Character Lulu's derived row]{
+		\begin{music}
+			\nostartrule
+			\startextract
+				\NOTes\Qqbu{_e}{f}{^f}{^g}\Qqbl{_i}{j}{l}{^j}
+				\Qqbu{k}{g}{h}{i}\en
+				\setemptybar
+			\endextract
+		\end{music}
+	}
+	\caption[Berg's \emph{Lulu}]{
+		Derived rows in Alban Berg's \emph{Lulu} \cite[182]{Starr1984}.
+	}
+\end{figure}
+
+%--------------------------------------------------------------------------
+\section{The Mallalieu Property}
+
+%--------------------------------------------------------------------------
+Consider the 12-tone series $S = \{ 0, 1, 4, 2, 9, 5, 11, 3, 8, 10, 7, 6 \}$. This series has the remarkable property that, if we include a dummy $13^\text{th}$ element, then taking every $n^\text{th}$ element of $S$ produces a transposition of it.
 
 %--------------------------------------------------------------------------
 \begin{example}
-	We have $S^* = \{ 0, 1, 4, \dots, 7, 6, * \}$. Then taking every zeroth order number of
-	$S^* \mod 13$ yields $S^*$ itself. Taking every first order number yields the series
-	$\{ 1, 2, 5, \dots, 8, 7, * \}$ which, upon removing the dummy symbol, becomes
-	$\T_1 \circ S$. Repeating this procedure every $n^\text{th}$ order number gives the
-	sequence of transforms $\{ \T_i \}_{i \in S}$.
+	We have $S^* = \{ 0, 1, 4, \dots, 7, 6, * \}$. Then taking every zeroth order number of $S^* \mod 13$ yields $S^*$ itself. Taking every first order number yields the series $\{ 1, 2, 5, \dots, 8, 7, * \}$ which, upon removing the dummy symbol, becomes $\T_1 \circ S$. Repeating this procedure every $n^\text{th}$ order number gives the sequence of transforms $\{ \T_i \}_{i \in S}$.
 \end{example}
 
 %--------------------------------------------------------------------------
-This most peculiar property, commonly called the \emph{mallalieu} property, was first discovered by Pohlman Mallalieu \cite[285]{Lewin1966}.
-It is natural to ask at this point how many different 12-tone rows are there sharing
-this property. Unfortunately, there is only one such 12-tone row class under $\T_n\M\I$.
-We phrase below a little differently an argument given in \cite[17]{Morris1976}.
+This most peculiar property, commonly called the \emph{mallalieu} property, was first discovered by Pohlman Mallalieu \cite[285]{Lewin1966}. It is natural to ask at this point how many different 12-tone rows are there sharing this property. Unfortunately, there is only one such 12-tone row class under $\T_n\M\I$. We phrase below a little differently an argument given in \cite[17]{Morris1976}.
+
+%--------------------------------------------------------------------------
+\cite[278]{Lewin1966} provides a way of looking at mallalieu rows from the standpoint of replacing, for any 12-tone row, its order-number row $\{ 0, 1, \dots, 11 \}$ by the array of integers $\{ 1, 2, \dots, 12, 0 \}$ modulo 13. It is easy to see that such an array has the same structure as the array $S_*$ we constructed above if we substitute the asterisk by the number 12 and consider multiplication as the group operation. Obviously, this is just the isomorphism between the integers modulo 12 and the group of units modulo 13. One of the advantages of this approach is that we can dispense with the extra symbol altogether and just use the indices from 1 to $p - 1$. We shall, however, still refer to the row of order numbers as $S^*$, the context making it clear whether we are constructing it with an asterisk or not. The process of taking every $n^\text{th}$ element of a 12-tone row becomes then just the aforementioned multiplicative group operation on order numbers, that is, multiplying order numbers by $k \pmod{13}$ is the same as taking every $k^\text{th}$ element of a row.
+
+%--------------------------------------------------------------------------
+\begin{example}
+	Put $S = \{ 0, 1, \dots, 11 \}$ and $S^* = \{ 1, 2, \dots, 12 \}$. Then
+	\begin{equation}
+		\M_3 \circ S^* = \{ 3, 6, \dots, 10 \} \enspace,
+	\end{equation}
+	which corresponds to the row $R = \{ 2, 5, \dots, 9 \}$. The row $R$ can be equivalently constructed by placing an asterisk as the $13^\text{th}$ order number of $S$ and taking every third element. The fact that $R$ and $S$ are not related by $\T_n\M\I$ reflects the fact that neither $S$ nor $R$ have the mallalieu property.
+\end{example}
+
+%--------------------------------------------------------------------------
+It should be of interest to many composers whether other $n$-TET systems are capable of producing mallalieu rows, and if so, how many. Unfortunately, answering this question is not as straightforward as the above discussion, since we can no longer rely on the isomorphism that constitutes the proof of \ref{lewin-mallalieu}. We shall reformulate this question at the end of the present chapter, after having covered more of what has been already done.
+
+%--------------------------------------------------------------------------
+If, on one hand, we only get one $\T_n\M\I$ row class with the mallalieu property in 12 tones, we do get considerably more row classes when we relax the requirement that a row produce a transposition of itself when taking every $n^\text{th}$ of its elements. This idea is explored in part by \cite{Mead1989}, however without specifying any combinatorial aspect (in the mathematical sense) of this generalization. Moreover, we can certainly go beyond \cite{Mead1989} and investigate, in 12 tones, what an extension of the mallalieu property could yield under operations other than transposition.

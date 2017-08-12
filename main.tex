@@ -2,9 +2,9 @@
 % UF Sample ETD Main Document Fall 2014
 
 % Use this line for Windows OS
-%\documentclass[12pt,final,CPage]{ufthesis}
+\documentclass[12pt,final,CPage]{ufthesis}
 % Use this line for Macintosh/Linux
-\documentclass[12pt,dvipdfmx,final,CPage]{ufthesis}
+%\documentclass[12pt,dvipdfmx,final,CPage]{ufthesis}
 
 % Macintosh and Linux users - If you get a dvipdfm file not found error
 % change dvipdfm to dvipdfmx here and in the packages.tex file graphicx and hyperref packages
@@ -51,7 +51,7 @@
 % Define student-specific info
 %\include{userinfo}
 
-\include{tex/usersetcommands}
+\include{tex/commands}
 
 \begin{document}
 
@@ -59,36 +59,54 @@
 
 \makecopyright
 
-%\dedication{\input{tex/dedication}} % optional
+\dedication{
+	\addvspace{4.25in}
+	\begin{center}
+		\singlespacing
+		To my family\\
+	\end{center}
+}
 
-\include{tex/acknowledgements} % required
+\acknowledge{
+	Acknowledgments go here.
+}
 
-\include{tex/TOC} % optional
+\pdfbookmark[0]{TABLE OF CONTENTS}{tableofcontents}
+\tableofcontents
+\listoftables
+%\setcounter{lofdepth}{2}
+\listoffigures
 
-% This extra line adds the word CHAPTER to the table of contents
+% Produced list of abbreviations or symbols %
+%\printindex[keylist]{KEY TO ABBREVIATIONS}{KEY TO ABBREVIATIONS}{}
+%\printindex[mathlist]{KEY TO SYMBOLS}{KEY TO SYMBOLS}{%
+%The list shown below gives a brief description of the major mathematical
+%symbols defined in this work. For each symbol, the page number corresponds
+%to the place where the symbol is first used.} %
+
 \addtocontents{toc}{\protect\addvspace{10pt}\noindent{CHAPTER}\protect\hfill\par}{}
 \phantomsection
 
 %\include{tex/abbreviations} % optional
 
-% The abstract is created using this file and userinfo.tex
-\include{tex/abstract}
+\begin{abstract}
+	Abstract goes here.
+\end{abstract}
 
 \include{tex/chapter1}
 \include{tex/chapter2}
-\include{tex/chapter3}
+%\include{tex/chapter3}
 %\include{tex/chapter4}
 %\include{tex/chapter5}
 
-%\include{tex/TwoOrMoreAppendices}
-%\include{tex/OneSingleAppendix}
+\appendix
+\clearpage
+\addtocontents{toc}{\protect\addvspace{10pt}\noindent{APPENDIX}\protect\hfill\par}{}
 
-% NOTE: If you use a numbered reference system and your references
-% are set in parentheses rather than brackets you need to select the
-% Natbib option "numbers sort and compress" in the packages.tex file
-% If you want un-numbered references comment the Natbib package with
-% the numbered options in the packages.tex file and un-comment the
-% package with the authoryear option
+\input{tex/appendixA}
+%\input{tex/appendixB}
+%\input{tex/appendixC}
+%\input{tex/appendixD}
 
 \bibliographystyle{bst/Science_Web}
 %\bibliographystyle{bst/apa-good}
@@ -99,6 +117,25 @@
 
 \bibliography{references}
 
-\include{tex/bio} % required
+\biography{
+	Luis F. Vieira Damiani earned in 2002 a Bachelor of Music degree in violin performance
+	from Rio Grande do Sul's Federal University, under the orientation of Prof.~Marcello
+	Guerchfeld, a former student of Galamian. In 2003, Luis entered Porto Alegre
+	Symphony, with which he performed as soloist in the 2005 season. In 2004, he was
+	appointed Assistant Concertmaster of the Catholic University of Rio Grande do Sul's
+	Philharmonic Orchestra, and from 2009 until 2011, Luis was a member of Minas Gerais 	Philharmonic, one of the top Brazilian groups of its kind. In Italy, he studied with
+	Boris Belkin and Giuliano Carmignola at the Accademia Chigiana. Other teachers include 	Jennifer John at the Aspen Music Festival in 1996, and Kurt Sassmannshaus at University
+	of Cincinnati's College-Conservatory of Music in 1999. As a performer, Luis researched,
+	engraved and premiered works by 20\textsuperscript{th} Century Southern Brazilian
+	composers Bruno Kiefer and Armando Albuquerque, as well as recorded in 2006 of the
+	\emph{Duo for Violin and Cello} (2000) by composer Pablo Castellar, a recording that
+	won the A\c{c}orianos Prize from the Municipal Office of Culture of Porto Alegre in 2008.
+
+	As a composer, Luis wrote in 2008 the original music for the motion picture \emph{O Guri}.
+	For television, his commissioned works include the soundtrack for the short film
+	\emph{O Sabi\'a}, aired in 2010. In the same year, he received the prestigious
+	Classical Composition Award from the National Foundation of Arts in Brazil for his 	\emph{Solo Violin Suite}, making him take a turn from a well-established orchestral 	career into pursuing graduate studies in the USA. Luis' awards since include Best 	Feature Soundtrack at the 6\textsuperscript{th} Cinefantasy International Fantastic Film 	Festival in 2011 and the University of South Florida's 2012 Percussion Composition Prize, 	among numerous 	academic awards. In 2013, he received a Master of Music degree in music 	composition from the University of South Florida, under the orientation of Dr.~Baljinder
+	Sekhon. In the same year, Luis was awarded a fellowship to pursue Ph.D. 	studies in music composition at the University of Florida, where he currently works as a 	graduate teaching assistant, under the orientation of Dr. James Paul Sain.
+}
 
 \end{document}

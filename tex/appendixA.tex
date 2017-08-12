@@ -1,37 +1,138 @@
-% % % % % % % If you have a single appendix, you should be using appendix1.tex
-% % % % % % % NOT this file
+%--------------------------------------------------------------------------
+\chapter{}
 
-\chapter{THIS IS THE FIRST APPENDIX}
+%--------------------------------------------------------------------------
+\section{ELEMENTARY TWELVE-TONE THEORY}
 
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas
-eget magna. Aenean et lorem. Ut dignissim neque at nisi. In hac
-habitasse platea dictumst. In porta ornare eros. Nunc eu ante. In
-non est vehicula tellus cursus suscipit. Proin sed libero. Sed risus
-enim, eleifend in, pellentesque ac, nonummy quis, nulla. Phasellus
-imperdiet libero nec massa. Ut sapien libero, adipiscing eu,
-volutpat porttitor, ultricies eget, nisi. Sed odio. Suspendisse
-potenti. Duis dolor augue, viverra id, porta in, dignissim id, nisl.
-Vivamus blandit cursus eros. Maecenas sit amet urna sit amet orci
-nonummy pharetra.
+% TODO Pitch, contour, and pitch class space
+% TODO Octave equivalence
+% TODO Set classes
+% TODO Interval classes are equivalence relations
+% TODO Twelve-tone rows
+% TODO Twelve-tone operations on pitch classes and order numbers
 
-Praesent cursus nibh et mauris. In aliquam felis sit amet ligula.
-Nulla faucibus nisl eget nisl. Aliquam tincidunt. Mauris eget elit
-sed massa luctus posuere. Pellentesque suscipit. In odio urna,
-semper ut, convallis ut, porta et, nibh. Nulla sodales metus nec
-velit posuere gravida. Cras tristique. Etiam urna risus, accumsan
-ut, placerat sed, iaculis id, est.
+%--------------------------------------------------------------------------
+\begin{definition}
+	Let $x$ and $y$ be arbitrary pitches. The \textbf{ordered pitch interval} between
+	$x$ and $y$ is given by
+	\begin{equation}
+		i(x, y) = y - x \enspace.
+	\end{equation}
+	The \textbf{ordered pitch-class interval} between $x$ and $y$ is given by
+	\begin{equation}
+		i(\bar{x}, \bar{y}) = \bar{y} - \bar{x} \enspace.
+	\end{equation}
+	The \textbf{unordered pitch interval} between $x$ and $y$ is given by
+	\begin{equation}
+		\bar{i}(x, y) = |x - y| \enspace.
+	\end{equation}
+	The \textbf{unordered pitch-class interval}, or simply interval class, between
+	$x$ and $y$ is given by
+	\begin{equation}
+		\bar{i}(\bar{x}, \bar{y}) = \min\{i(\bar{x}, \bar{y}), i(\bar{y}, \bar{x})\} \enspace.
+	\end{equation}
+\end{definition}
 
-Nullam mi. Pellentesque habitant morbi tristique senectus et netus
-et malesuada fames ac turpis egestas. Duis vitae metus in massa
-hendrerit rhoncus. Fusce tortor justo, laoreet eu, facilisis at,
-gravida et, felis. Donec imperdiet mollis erat. Integer tempus nulla
-ac lorem. Fusce porttitor. Aenean quis arcu. Morbi consectetuer, leo
-eu mollis elementum, urna massa malesuada risus, euismod tempor
-lorem elit ut mauris. Cras elit orci, facilisis ac, mattis iaculis,
-cursus ac, augue. Donec eget nisl. Pellentesque fermentum sodales
-nibh. Vivamus non risus. Donec est libero, tincidunt sit amet,
-pretium vitae, blandit sed, tellus. Nunc diam risus, interdum sed,
-laoreet quis, varius ac, turpis. In et purus eget nibh vehicula
-rhoncus. Aenean et neque. Praesent nisl nisi, tempus quis, nonummy
-ac, auctor a, neque. Suspendisse et metus. Suspendisse non metus eu
-mauris auctor sagittis.
+%--------------------------------------------------------------------------
+\begin{example}
+	Put $x = 43$ and $y = -13$. Then
+	\begin{gather}
+		i(x, y) = -56 \\
+		i(\bar{x}, \bar{y}) = \overline{11} - \bar{7} = \bar{4} \\
+		\bar{i}(x, y) = 56 \\
+		\bar{i}(\bar{x}, \bar{y}) = \bar{4}
+	\end{gather}
+	Whenever the context is clear, we shall drop quotient notation and subscripts.
+	In most situations, we are interested in the interval class between $x$ and $y$,
+	in which case we will simply write $i(7, -1) = 4$. Interval classes can also be
+	seen graph-theoretically as the edge connecting two members of a pitch-class set,
+	displayed clockwise.
+\end{example}
+
+%--------------------------------------------------------------------------
+\begin{theorem}
+	\label{rahn-common-tone}
+	\cite[10]{Rahn1975}
+	The number of common tones between a set $S$ and some transposition of itself is given by
+	\begin{equation}
+		|S \cap \T_n(S)| = |\{x - y = n : x, y \in S\}| \enspace.
+	\end{equation}
+	The number of common tones between a set $S$ and some inversion of itself is given by
+	\begin{equation}
+		|S \cap \T_n\I(S)| = 2 \cdot |\{x + y = n : x, y \in S\}| +
+		|\{a \in S : 2a = n\}| \enspace.
+	\end{equation}
+	Moreover, the cardinality of the set $\{a \in S : 2a = n\}$ is at most 2.
+	\begin{proof}
+		We must count the occurrences of pairs of pitch classes that are interchanged by
+		the operation at hand and double them, for if $x$ maps onto $y$ under some $\T_n\I$,
+		then certainly $y$ maps onto $x$ under the same operation, given that every inversion
+		operation has order two. In addition to that, we must account for the occurrences of
+		pitch classes that may map onto themselves under the aforementioned operation. For
+		any pair $a \ne b \in S$, it follows $a$ and $b$ are exchanged by some operation
+		$\T_n\I$ whenever both $\T_n\I(a) = b$ and $\T_n\I(b) = a$ hold. Since
+		$\T_n\I(a) = -a + n$ and similarly $\T_n\I(b) = -b + n$, if the pair is exchanged,
+		we must have $-a + n = b$ and $-b + n = a$ both true. Adding the last two
+		expressions and yields $a + b = n$, which is the first set in the right-hand side
+		of the formula. As discussed above, the cardinality of this set must be doubled.
+		We have for any $a$ that $\T_n\I(a) = a + n$, hence $a = \T_n\I(a) \iff a = -a + n$,
+		that is, whenever $2a = n$. That is the second set in the formula. Finally, for
+		any pair $(a, n)$ such that $a = \T_n\I(a)$, we also have
+		$a + 6 = -(a + 6) + n \iff 2a = n$, so that by the above it follows
+		$a + 6 = \T_n\I(a + 6)$. Thus the set $\{a \in S : 2a = n\}$ has cardinality
+		at most 2, proving the last assertion.
+	\end{proof}
+\end{theorem}
+
+%--------------------------------------------------------------------------
+\begin{example}
+	\label{rahn-example}
+	\cite[11]{Rahn1975}
+	Write $S = \{ 0, 1, 4, 5, 8, 9 \}$ and consider some inversion operation. We have
+	\begin{equation}
+		\begin{array}{ *{13}{c} }
+			n & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 \\
+			2 \cdot |\{x + y = n : x, y \in S\}| &
+			2 & 6 & 2 & 0 & 2 & 6 & 2 & 0 & 2 & 6 & 2 & 0 \\
+			|\{a \in S : 2a = n\}| & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 \\
+			Total & 3 & 6 & 3 & 0 & 3 & 6 & 3 & 0 & 3 & 6 & 3 & 0
+		\end{array}
+	\end{equation}
+\end{example}
+
+%--------------------------------------------------------------------------
+\begin{example}
+	We can demonstrate \ref{rahn-example}, as well as the omitted proof of
+	\ref{rahn-common-tone} under transposition in a much simpler way with a little bit
+	of abstract algebra. By observing the cycle decomposition the each operation at hand,
+	if $n = 3$, then we have
+	\begin{equation}
+		\T_3\I = (0 \; 3) (1 \; 2) (4 \; 11) (5 \; 10) (6 \; 9) (7 \; 8) \enspace.
+	\end{equation}
+	Hence, under $\T_3\I$, every pitch-class in $S = \{ 0, 1, 4, 5, 8, 9 \}$ maps to
+	the complement of $S$. If the operation is, for instance, $\T_9$, then since
+	\begin{equation}
+		\T_9 = (0 \; 9 \; 6 \; 3) (1 \; 10 \; 7 \; 4) (2 \; 11 \; 8 \; 5) \enspace,
+	\end{equation}
+	we get straightforwardly that $S = \{ 0, 1, 4, 5, 8, 9 \}$ shares three common tones
+	with $\T_9 \circ S$, namely $0 \mapsto 9$, $4 \mapsto 1$, and $8 \mapsto 5$.
+\end{example}
+
+%--------------------------------------------------------------------------
+\section{ELEMENTARY GROUP THEORY}
+
+% TODO Abstract and permutation groups
+
+%--------------------------------------------------------------------------
+\begin{proposition}
+	\cite[127]{FripertingerLackner2015}
+	We have the following isomorphisms:
+	\begin{gather}
+		\langle \T \rangle \cong C_{12} \\
+		\langle \T, \I \rangle \cong D_{24} \\
+		\langle \I, \R \rangle \cong V_4 \\
+		\langle \T, \I, \R \rangle \cong D_{24} \oplus \mathbb{F}_2 \\
+		\langle \T, \I, \M \rangle \cong \Aff_1(C_{12}) \\
+		\langle \T, \I, \M, \R \rangle \cong \Aff_1(C_{12}) \oplus \mathbb{F}_2
+	\end{gather}
+\end{proposition}
