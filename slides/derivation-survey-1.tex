@@ -1,0 +1,117 @@
+
+%------------------------------------------------------------------------
+\begin{frame}
+	\frametitle{Derivation with the Retrograde}
+	\begin{table}
+    	\caption{Schematics of a derivation procedure involving the retrograde and an arbitrary operation $F$.}
+    	\centering
+    	\vspace{12pt}
+    	\begin{tabular}{c|cc}
+        	\hline
+        	& $S$ & $\R \circ F(S)$\\
+        	\hline
+        	$V$ & $V_1$ & $V_2$ \\
+        	$\R \circ F(V)$ & $\R \circ F(V_2)$ & $\R \circ F(V_1)$ \\
+        	\hline
+    	\end{tabular}
+	\end{table}
+\end{frame}
+
+%------------------------------------------------------------------------
+\begin{frame}
+	\frametitle{Derivation with the Retrograde}
+	\begin{block}{Example}
+		Take the row in Berg's \emph{Lulu}, $S = \{ 10, 2, 3, 0, 5, 7, 4, 6, 9, 8, 1, 11 \}$, and consider the segment $\vec{s} = [10 \; 0 \; 5 \; 7]^T$ as a column vector. Now let $A^T = [\;\vec{s} \; | \; \vec{s} \; | \; \vec{s} \; | \; \vec{s}\;]$ be the square matrix whose every column is equal to $\vec{s}$. Then
+		\begin{equation*}
+    		A + A^T = \begin{bmatrix}
+    			2 & 10 & 3 & 5 \\
+        		10 & 0 & 5 & 7 \\
+        		3 & 5 & 10 & 0 \\
+        		5 & 7 & 0 & 2
+        	\end{bmatrix} \pmod{12} \enspace.
+		\end{equation*}
+		In particular, we see that the row segment $\{ 10, 0, 5, 7 \}$ is invariant under $\R\T_5\I$, since we get a main diagonal of fives when we mirror the matrix above vertically.
+	\end{block}
+\end{frame}
+
+%------------------------------------------------------------------------
+\begin{frame}
+	\frametitle{Derivation with the Retrograde}
+	\begin{block}{Example}
+		If we match $S$ with $\R\T_5\I(S)$, we may get the row segment $\{ 10, 0, 5, 7 \}$ in the derived row $V$ itself, rather than in its retrograde. Setting it to $V_2$, say, yields $V = \{ 2, 3, 4, 6, 9, 8, 1, 11, 10, 0, 5, 7 \}$, so we get the combination matrix below.
+		\begin{equation*}
+    	\begin{adjustbox}{width=\textwidth}
+    		$\left[\begin{array}{cccccccccccc|cccccccccccc}
+        		. & 2 & 3 & . & . & . & 4 & 6 & 9 & 8 & 1 & 11 & . & . & . & . & . & . & 10 & 0 & 5 & . & . & 7 \\
+        		10 & . & . & 0 & 5 & 7 & . & . & . & . & . & . & 6 & 4 & 9 & 8 & 11 & 1 & . & . & . & 2 & 3 & .
+    		\end{array}\right]$
+    	\end{adjustbox}
+    	\end{equation*}
+	\end{block}
+\end{frame}
+
+%------------------------------------------------------------------------
+\begin{frame}
+	\frametitle{Derivation with the Retrograde}
+	\begin{block}{Proposition}
+		Consider a 2-row combination matrix $C$ where a row is derived via the retrograde and some operation $F$. Denote the derived row by $V = V_1 | V_2$. Then the first column is the partial order $C_1 = V_1 \cup \R \circ \F(V_2)$, and similarly the second column is the partial order $C_2 = V_2 \cup \R \circ \F(V_1)$, such that $C_2 = \R \circ F(C_1)$. If $D$ is a partial order that covers $C_1$, then $\R \circ F(D)$ will cover $C_2$, and if $D$ is in the total order class of $C_1$, that is, $D$ is a row that can be linearized from $C_1$, then $\R \circ F(D)$ is in the total order class of $C_2$. Finally, 2-row derivations of this type exist for arbitrary rows. The number of such combination matrices for any given row depends on the invariances of the chosen partition of $V$.
+	\end{block}
+\end{frame}
+
+%------------------------------------------------------------------------
+\begin{frame}
+	\frametitle{Folded Derivation}
+	\begin{table}
+    	\caption{Schematics of a folded derivation procedure involving the retrograde.}
+    	\centering
+    	\vspace{12pt}
+    	\begin{tabular}{c|cc}
+        	\hline
+        	& $S$ & $\R \circ F(S)$\\
+        	\hline
+        	$V$ & $V_1$ & $V_2$ \\
+        	$\R \circ F(V)$ & $\R \circ F(V_2)$ & $\R \circ F(V_1)$ \\
+        	$\R \circ GF(V)$ & $\R \circ GF(V_2)$ & $\R \circ GF(V_1)$ \\
+        	$G(V)$ & $G(V_1)$ & $G(V_2)$ \\
+        	\hline
+        	& $G(S)$ & $\R \circ GF(S) = \R \circ FG(S)$ \\
+        	\hline
+    	\end{tabular}
+	\end{table}
+\end{frame}
+
+%------------------------------------------------------------------------
+\begin{frame}
+	\frametitle{Folded Derivation}
+	\begin{block}{Example}
+		Let $S = \{ 0, 1, 11, 3, 8, 10, 4, 9, 7, 6, 2, 5 \}$ and $V_1 = \{ 1, 3, 8, 9, 7, 2 \}$. Since the unordered set $V_1$ is $T_6$-invariant, we get $V_2 = \{ 11, 0, 10, 4, 5, 6 \}$ and the following combination matrix:
+		\begin{equation*}
+    	\begin{adjustbox}{width=\textwidth}
+    		$\left[\begin{array}{cccccccccccc|cccccccccccc}
+            	& 1 && 3 & 8 &&& 9 & 7 && 2 && 11 && 0 &&& 10 & 4 &&& 5 && 6 \\
+            	0 && 11 &&& 10 & 4 &&& 6 && 5 && 8 && 1 & 3 &&& 2 & 9 && 7 &  
+        	\end{array}\right]$
+    	\end{adjustbox}
+		\end{equation*}
+		Since $S_1 = \{ 0, 1, 11, 3, 8, 10 \}$ maps to its complement under $\T_5\I$, we can use $S$ in a combination matrix where we match $S$ with its transform under $\T_5\I$ in the usual hexachordal combinatoriality way.
+	\end{block}
+\end{frame}
+
+%------------------------------------------------------------------------
+\begin{frame}
+	\frametitle{Folded Derivation}
+	\begin{block}{Example}
+		We can then derive from $\T_5\I(S)$ the row $\T_5\I(V)$. Since $\T_5\I$ commutes with $T_6$, we get the following folded derivation:
+		\begin{equation*}
+    	\begin{adjustbox}{width=\textwidth}
+        	$\left[\begin{array}{cccccccccccc|cccccccccccc}
+            	& 1 && 3 & 8 &&& 9 & 7 && 2 && 11 && 0 &&& 10 & 4 &&& 5 && 6 \\
+            	0 && 11 &&& 10 & 4 &&& 6 && 5 && 8 && 1 & 3 &&& 2 & 9 && 7 & \\
+            	\hline
+            	5 && 6 &&& 7 & 1 &&& 11 && 0 && 9 && 4 & 2 &&& 3 & 8 && 10 & \\
+            	& 4 && 2 & 9 &&& 8 & 10 && 3 && 6 && 5 &&& 7 & 1 &&& 0 && 11
+        	\end{array}\right]$
+    	\end{adjustbox}
+		\end{equation*}
+	\end{block}
+\end{frame}
