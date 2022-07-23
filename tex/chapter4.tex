@@ -1,0 +1,1006 @@
+%--------------------------------------------------------------------------
+\chapter{THEORETICAL FRAMEWORK}
+
+This section proposes a model to describe derivation in a general setting. After writing the chapter, Luis will come back here and summarize what he wrote.
+
+%--------------------------------------------------------------------------
+\section{Defining an algorithm to compute row class}
+
+In a traditional setting, a composer will usually define a class of transforms of a basic row by computing by hand what is commonly termed as a 12-tone matrix. The general procedure is usually to fill the top row of the matrix with a transform of the row beginning with zero. The second step is to fill the leftmost column of the matrix with the inverse transform of the top row. The subsequent steps comprise going row-by-row and filling them with a transposition of the top row. The particular transposition for each row is the first pitch-class of the row. So if a row begins with, say, pitch-class $5$, then the entire row will be the $T_5$ transform of the top row. Then 12-tone matrix will hold all 48 transforms of a row: reading every row from left to right gives all transpositions, reading them from right to left gives all retrogrades, reading all columns from top to bottom gives all inversions, and reading them from bottom to top gives all retrograde inversions.
+
+Although somewhat tedious, computing 12-tone matrices by hand is a well-established procedure. The 48 transforms that can be inferred from the matrix are not necessarily unique, given that a 12-tone may be retrograde, or retrograde-inverse invariant. It is straightforward to generalize the procedure to $n$-tone matrices. However, the graphical idea of reading the matrix from right to left, or bottom to top, is not ideal for computing self-deriving combination matrices, as it is faster to read a transform of a row that is written contiguously in memory. Another caveat is that the procedure does not necessarily define a canonical form for the top row. Every row in a matrix is a representative of an equivalence class of rows under the action of $RT_NI$. The size of each orbit is $4n$ if the row is not retrograde or retrograde-inverse invariant, and $2n$ otherwise. Defining a canonical form for the first row in a data structure that holds a row class is desirable in any algorithm that iterates through row classes in lexicographic order.
+
+%--------------------------------------------------------------------------
+\subsection{The canonical form of a row}
+
+This section describes an algorithm to obtain a canonical form for a row. The canonical form defined here is simply the least element in a lexicographic ordering of a row class. Given an arbitrary representative of a row class, that representative will be considered retrograded if any interval class between two consecutive elements of the row, counted from right to left, is strictly less than the corresponding interval class counted from left to right. Finding the interval class between two pitch-classes is illustrated in Alg.~\ref{intervalClass}, which takes as input two pitch-classes $a$ and $b$, and the base $n$, returning the interval class between the two. The interval class between $a \pmod n$ and $b \pmod n$ is expressed mathematically as $\min\{(a - b) \pmod n, (b - a) \pmod n\}$.
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={Computing the interval class between two pitch-classes.},label={intervalClass}]
+number intervalClass(number a, number b, number rowSize) {
+    number interval = abs(a - b);
+    return min(interval, rowSize - interval);
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\addtocounter{enumi}{1}
+\item Line 1 simply computes the distance between $a$ and $b$.
+\item Line 2 returns the least between the above interval and its complement, that is, the interval class between the two given pitch-classes.
+\end{enumerate}
+
+The procedure for determining whether a row is retrograded utilizes Alg.~\ref{intervalClass} as a subroutine, and is outlined in Alg.~\ref{isRetrograded}. The sole parameter to Alg.~\ref{isRetrograded} is the row at hand, which can be any of the representatives of its row class, and the returned value is a boolean indicating whether the row is retrograded or not.
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={Determining whether a representative of a row class is retrograded},label={isRetrograded}]
+bool isRetrograded(const number *row, number rowSize, bool isInvariant) {
+    if (isInvariant || rowSize < 5)
+        return false;
+
+    number front, back;
+
+    for (number i = 0; i < rowSize; ++i) {
+        front = intervalClass(row[i + 1], row[i], rowSize);
+        back = intervalClass(row[rowSize - i - 1], row[rowSize - i - 2], rowSize);
+
+        if (back < front)
+            return true;
+    }
+
+    return false;
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\item Lines 1 and 2 declare the variables that will represent interval classes seen from left to right, and from right to left, respectively.
+\addtocounter{enumi}{2}
+\item Lines 4 and 5 simply update the variables front and back using Alg.~\ref{intervalClass} defined above. As $i$ increases, front traverses all interval classes in the row from left to right, whereas back does the same from right to left, that is, back looks at the row as if it were retrograded.
+\addtocounter{enumi}{1}
+\item Line 6 compares the front and back interval classes and line 7 returns true if any interval class seen from right to left is strictly less than the corresponding interval class seen from left to right, which would indicate that retrograding the row would produce a lexicographically lower-positioned row than the one given as input.
+\addtocounter{enumi}{1}
+\item If all interval classes seen from both directions are equal, then the row is retrograde or retrograde inverse-invariant. Line 8 then returns false to avoid unnecessarily reversing a row that is invariant.
+\end{enumerate}
+
+The next step in determining the canonical form of a row consists of finding whether its inverse has a lower lexicographic position within the row class.
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={A subroutine to that returns true is a pitch-class is its own inverse},label={isOwnInverse}]
+bool isOwnInverse(number x, number base) {
+    return x == 0 || x == base - x;
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\addtocounter{enumi}{1}
+\item 
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={swapInPlace}]
+void swapInPlace(number *row, number i, number j) {
+    number tmp = row[i];
+    row[i] = row[j];
+    row[j] = tmp;
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\addtocounter{enumi}{1}
+\item 
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={getTransformInPlace}]
+void getTransformInPlace(number *row, number rowSize, number T, bool I, bool R) {
+    if (R) {
+        for (number i = 0; i < rowSize / 2; ++i)
+            swapInPlace(row, i, rowSize - 1 - i);
+    }
+
+    if (I) {
+        for (number i = 0; i < rowSize; ++i)
+            row[i] = (rowSize - row[i] + T) % rowSize;
+    } else if (T != 0 % rowSize) {
+        for (number i = 0; i < rowSize; ++i)
+            row[i] = (row[i] + T) % rowSize;
+    }
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\addtocounter{enumi}{1}
+\item 
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={modulo}]
+number modulo(number x, number base) {
+    x %= base;
+    return x < 0 ? x + base : x;
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\addtocounter{enumi}{1}
+\item 
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={isInverted}]
+bool isInverted(const number *r, number rowSize, bool R) {
+    if (R) {
+        for (number i = rowSize - 1; i >= rowSize / 2; --i) {
+            number mod = modulo(r[i] - r[rowSize - 1], rowSize);
+
+            if (!isOwnInverse(mod, rowSize))
+                return mod > rowSize - mod;
+        }
+    } else {
+        for (number i = 0; i < rowSize / 2; ++i) {
+            number mod = modulo(r[i] - r[0], rowSize);
+
+            if (!isOwnInverse(mod, rowSize))
+                return mod > rowSize - mod;
+        }
+    }
+
+    return false;
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\addtocounter{enumi}{1}
+\item 
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={getCanonicalForm}]
+void getCanonicalForm(number *row, number rowSize, bool isInvariant) {
+    bool R = isRetrograded(row, rowSize, isInvariant);
+    bool I = isInverted(row, rowSize, R);
+    number T = row[R ? rowSize - 1 : 0];
+    getTransformInPlace(row, rowSize, I ? T : rowSize - T, I, R);
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\addtocounter{enumi}{1}
+\item 
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={isRetrogradeInvariant}]
+bool isRetrogradeInvariant(const number *row, number rowSize) {
+    if (rowSize > 4 && rowSize % 2 == 1)
+        return false; // TODO: can odd-sized > 5 rows produce R-invariance?
+
+    number half = rowSize / 2;
+
+    for (number i = 0; i < half; ++i) {
+        if (modulo(row[rowSize - i - 1] - row[i], rowSize) != half)
+            return false;
+    }
+
+    return true;
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\addtocounter{enumi}{1}
+\item 
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={isRetrogradeInverseInvariant}]
+bool isRetrogradeInverseInvariant(const number *row, number rowSize) {
+    number half = rowSize / 2;
+    number first = modulo(row[rowSize - 1] + row[0], rowSize);
+
+    // TODO: when row size is odd, and all pairs sum to x, will the single element plus itself sum to x?
+
+    for (number i = 1; i < half; ++i) {
+        if (modulo(row[rowSize - i - 1] + row[i], rowSize) != first)
+            return false;
+    }
+
+    return true;
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\addtocounter{enumi}{1}
+\item 
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={getRowClass}]
+number *getRowClass(range *classSize, number *row, number rowSize, bool isInvariant) {
+    getCanonicalForm(row, rowSize, isInvariant);
+    *classSize = isInvariant ? rowSize * 2 : rowSize * 4;
+
+    number *rowClass = malloc(rowSize * *classSize * sizeof(number));
+    memcpy(rowClass, row, rowSize * sizeof(number));
+
+    for (number i = 1; i < rowSize; ++i) {
+        number *rep = &rowClass[i * rowSize];
+        memcpy(rep, rowClass, rowSize * sizeof(number));
+        getTransformInPlace(rep, rowSize, i, false, false);
+    }
+
+    for (number i = rowSize; i < rowSize * 2; ++i) {
+        number *rep = &rowClass[i * rowSize];
+        memcpy(rep, rowClass, rowSize * sizeof(number));
+        getTransformInPlace(rep, rowSize, i, true, false);
+    }
+
+    if (*classSize == rowSize * 2)
+        return rowClass;
+
+    for (number i = rowSize * 2; i < rowSize * 3; ++i) {
+        number *rep = &rowClass[i * rowSize];
+        memcpy(rep, rowClass, rowSize * sizeof(number));
+        getTransformInPlace(rep, rowSize, i, false, true);
+    }
+
+    for (number i = rowSize * 3; i < rowSize * 4; ++i) {
+        number *rep = &rowClass[i * rowSize];
+        memcpy(rep, rowClass, rowSize * sizeof(number));
+        getTransformInPlace(rep, rowSize, i, true, true);
+    }
+
+    return rowClass;
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\addtocounter{enumi}{1}
+\item 
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\section{Defining an algorithm to compute semi-magical squares}
+
+%--------------------------------------------------------------------------
+\subsection{Computing the partitions of an integer}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={getFileSize}]
+long getFileSize(FILE *file) {
+    fseek(file, 0, SEEK_END);
+    long fileSize = ftell(file);
+    fseek(file, 0, SEEK_SET);
+    return fileSize;
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\addtocounter{enumi}{1}
+\item 
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={readFile}]
+number *readFile(const char *fileName, length *numLines, number problemSize) {
+    FILE *file = fopen(fileName, "rb");
+
+    if (file == NULL)
+        return NULL;
+
+    long fileSize = getFileSize(file);
+    number *buffer = malloc(fileSize);
+    *numLines = (length) (fileSize / sizeof(number)) / problemSize;
+    fread(buffer, fileSize, 1, file);
+    fclose(file);
+
+    return buffer;
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\addtocounter{enumi}{1}
+\item 
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={allPartitionsRecursive}]
+void allPartitionsRecursive(number *tmp, number currentSize, number problemSize, number currentSum, number rowSize, FILE *file) {
+    if (currentSize == problemSize - 1) {
+        // skip the [0, ..., 0, rowSize] partition
+        if (currentSum > 0) {
+            tmp[currentSize] = rowSize - currentSum;
+            fwrite(tmp, sizeof(number), problemSize, file);
+        }
+
+        return;
+    }
+
+    for (number i = 0; i < rowSize; ++i) {
+        if (i + currentSum <= rowSize) {
+            tmp[currentSize++] = i;
+            allPartitionsRecursive(tmp, currentSize, problemSize, i + currentSum, rowSize, file);
+            currentSize--;
+        }
+    }
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\addtocounter{enumi}{1}
+\item 
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={writeAllPartitions}]
+void writeAllPartitions(number problemSize, number rowSize) {
+    char fileName[NAME_SIZE];
+    sprintf(fileName, PARTITIONS_FILE, problemSize, rowSize);
+    FILE *file = fopen(fileName, "wb");
+
+    number *tmp = malloc(problemSize * sizeof(number));
+    allPartitionsRecursive(tmp, 0, problemSize, 0, rowSize, file);
+
+    free(tmp);
+    fclose(file);
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\addtocounter{enumi}{1}
+\item 
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={readAllPartitions}]
+number *readAllPartitions(length *numPartitions, number problemSize, number rowSize) {
+    char fileName[NAME_SIZE];
+    sprintf(fileName, PARTITIONS_FILE, problemSize, rowSize);
+
+    number *allPartitions = readFile(fileName, numPartitions, problemSize);
+
+    if (allPartitions == NULL) {
+        printf("Writing partitions file...\n");
+        writeAllPartitions(problemSize, rowSize);
+        allPartitions = readFile(fileName, numPartitions, problemSize);
+    }
+
+    return allPartitions;
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\addtocounter{enumi}{1}
+\item 
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\subsection{Combining partition rows into squares}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={plus}]
+void plus(number *a, const number *b, number problemSize) {
+    for (number i = 0; i < problemSize; ++i)
+        a[i] += b[i]; // FIXME: vectorize
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\addtocounter{enumi}{1}
+\item 
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={minus}]
+void minus(number *a, const number *b, number problemSize) {
+    for (number i = 0; i < problemSize; ++i)
+        a[i] -= b[i]; // FIXME: vectorize
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\addtocounter{enumi}{1}
+\item 
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={validate}]
+bool validate(const number *currentSum, number problemSize, number rowSize) {
+    for (number i = 0; i < problemSize; ++i) {
+        if (currentSum[i] > rowSize)
+            return false;
+    }
+
+    return true;
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\addtocounter{enumi}{1}
+\item 
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={allSquaresRecursive}]
+void allSquaresRecursive(number *tmp, number *currentSum, number currentSize, number problemSize, number rowSize,
+                         const number *partitions, length numPartitions, FILE *file) {
+    if (currentSize == problemSize) {
+        fwrite(tmp, sizeof(number), problemSize, file);
+        return;
+    }
+
+    number start = 0;
+
+    if (currentSize == 0)
+        memset(currentSum, 0, problemSize * sizeof(number));
+    else
+        start = tmp[currentSize - 1];
+
+    for (length i = start; i < numPartitions; ++i) {
+        const number *p = &partitions[i * problemSize];
+        plus(currentSum, p, problemSize);
+
+        if (validate(currentSum, problemSize, rowSize)) {
+            tmp[currentSize++] = i;
+            allSquaresRecursive(tmp, currentSum, currentSize, problemSize, rowSize, partitions, numPartitions, file);
+            currentSize--;
+        }
+
+        minus(currentSum, p, problemSize);
+    }
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\addtocounter{enumi}{1}
+\item 
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={writeAllSquares}]
+void writeAllSquares(number problemSize, number rowSize) {
+    char fileName[NAME_SIZE];
+    sprintf(fileName, PARTITIONS_FILE, problemSize, rowSize);
+
+    length numPartitions;
+    number *partitions = readFile(fileName, &numPartitions, problemSize);
+
+    sprintf(fileName, SQUARES_FILE, problemSize, rowSize);
+    FILE *file = fopen(fileName, "wb");
+
+    number *tmp = malloc(problemSize * sizeof(number));
+    number *sum = malloc(problemSize * sizeof(number));
+    allSquaresRecursive(tmp, sum, 0, problemSize, rowSize, partitions, numPartitions, file);
+
+    free(partitions);
+    free(tmp);
+    free(sum);
+    fclose(file);
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\addtocounter{enumi}{1}
+\item 
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\section{Defining an algorithm to compute all possible combination matrices within a row class}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={allSidesRecursive}]
+void allSidesRecursive(number *tmp, number currentSize, number problemSize, range classSize, FILE *file) {
+    if (currentSize == problemSize) {
+        fwrite(tmp, sizeof(number), problemSize, file);
+        return;
+    }
+
+    number start = currentSize == 0 ? 0 : tmp[currentSize - 1];
+
+    for (range i = start; i < classSize; ++i) {
+        tmp[currentSize++] = i;
+        allSidesRecursive(tmp, currentSize, problemSize, classSize, file);
+        currentSize--;
+    }
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\addtocounter{enumi}{1}
+\item 
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={writeAllSides}]
+void writeAllSides(number problemSize, range classSize) {
+    char fileName[NAME_SIZE];
+    sprintf(fileName, SIDES_FILE, problemSize, classSize);
+    FILE *file = fopen(fileName, "wb");
+
+    number *tmp = malloc(problemSize * sizeof(number));
+    allSidesRecursive(tmp, 0, problemSize, classSize, file);
+
+    free(tmp);
+    fclose(file);
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\addtocounter{enumi}{1}
+\item 
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={allTopsRecursive}]
+void allTopsRecursive(number *tmp, number currentSize, number problemSize, range classSize, FILE *file) {
+    if (currentSize == problemSize) {
+        fwrite(tmp, sizeof(number), problemSize, file);
+        return;
+    }
+
+    // FIXME: this implementation cannot produce the R|P top, for example.
+
+    if (currentSize == 0)
+        tmp[currentSize++] = 0;
+
+    for (range i = 0; i < classSize; ++i) {
+        tmp[currentSize++] = i;
+        allTopsRecursive(tmp, currentSize, problemSize, classSize, file);
+        currentSize--;
+    }
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\addtocounter{enumi}{1}
+\item 
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={writeAllTops}]
+void writeAllTops(number problemSize, range classSize) {
+    char fileName[NAME_SIZE];
+    sprintf(fileName, TOPS_FILE, problemSize, classSize);
+    FILE *file = fopen(fileName, "wb");
+
+    number *tmp = malloc(problemSize * sizeof(number));
+    allTopsRecursive(tmp, 0, problemSize, classSize, file);
+
+    free(tmp);
+    fclose(file);
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\addtocounter{enumi}{1}
+\item 
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={readAllTops}]
+number *readAllTops(length *numTops, number problemSize, range classSize) {
+    char fileName[NAME_SIZE];
+    sprintf(fileName, TOPS_FILE, problemSize, classSize);
+
+    number *allTops = readFile(fileName, numTops, problemSize);
+
+    if (allTops == NULL) {
+        printf("Writing top combos file...\n");
+        writeAllTops(problemSize, classSize);
+        allTops = readFile(fileName, numTops, problemSize);
+    }
+
+    return allTops;
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\addtocounter{enumi}{1}
+\item 
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\subsection{Writing a solution as text}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={writeRow}]
+void writeRow(const number *row, number rowSize, range topSize, bool newLine, FILE *file) {
+    for (range i = 0; i < topSize; ++i) {
+        if (i > 0 && i % rowSize == 0)
+            write(file, "| ");
+
+        if (row[i] < 0)
+            write(file, "   ");
+        else if (row[i] < 10)
+            write(file, "%i  ", row[i]);
+        else
+            write(file, "%i ", row[i]);
+    }
+
+    if (newLine)
+        write(file, "\n");
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\addtocounter{enumi}{1}
+\item 
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={writeSolution}]
+void writeSolution(thread_data *d, common_data *cd, FILE *solutionsFile) {
+    if (cd->problemSize > 0) {
+        for (number k = 0; k < cd->problemSize; ++k) {
+            write(solutionsFile, "%i ", d->tmpSide[k]);
+            const number *p = &cd->allPartitions[d->tmpSquare[k] * cd->problemSize];
+
+            for (int i = 0; i < cd->problemSize; ++i)
+                write(solutionsFile, "%i ", p[i]);
+        }
+
+        write(solutionsFile, "\n");
+        return;
+    }
+
+    write(solutionsFile, "Solution %lu:\n\n     ", d->counter);
+    writeRow(d->tmpTops, cd->rowSize, cd->topSize, true, solutionsFile);
+
+    for (number i = 0; i < cd->problemSize; ++i) {
+        range topIndex = 0;
+        number rowIndex = 0;
+        const number *p = &cd->allPartitions[d->tmpSquare[i] * cd->problemSize];
+        const number *r = &cd->rowClass[d->tmpSide[i] * cd->rowSize];
+        memset(d->currentTop, -1, cd->topSize * sizeof(number));
+
+        for (number j = 0; j < cd->problemSize; ++j) {
+            number pj = p[j];
+
+            for (range k = topIndex; k < topIndex + cd->rowSize; ++k) {
+                if (pj == 0)
+                    break;
+
+                if (d->tmpTops[k] == r[rowIndex]) {
+                    d->currentTop[k] = r[rowIndex];
+                    rowIndex++;
+                    pj--;
+                }
+            }
+
+            topIndex += cd->rowSize;
+        }
+
+        if (d->tmpSide[i] < 10)
+            write(solutionsFile, "%i  | ", d->tmpSide[i]);
+        else
+            write(solutionsFile, "%i | ", d->tmpSide[i]);
+
+        writeRow(d->currentTop, cd->rowSize, cd->topSize, false, solutionsFile);
+        write(solutionsFile, "| %lu\n", d->tmpSquare[i]);
+    }
+
+    write(solutionsFile, "\n");
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\addtocounter{enumi}{1}
+\item 
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\subsection{Computing all possible solutions for a given combination matrix}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={matchRowWithTop}]
+bool matchRowWithTop(number *top, const number *row, const number *partitions, number problemSize, number rowSize) {
+    range topIndex = 0;
+    number rowIndex = 0;
+
+    for (number i = 0; i < problemSize; ++i) {
+        number p = partitions[i];
+
+        for (range j = topIndex; j < topIndex + rowSize; ++j) {
+            if (p == 0)
+                break;
+
+            if (top[j] == row[rowIndex]) {
+                top[j] = -1;
+                rowIndex++;
+                p--;
+            }
+        }
+
+        if (p > 0)
+            return false;
+
+        topIndex += rowSize;
+    }
+
+    return rowIndex == rowSize;
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\addtocounter{enumi}{1}
+\item 
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={allSolutionsRecursive}]
+void allSolutionsRecursive(thread_data *d, common_data *cd, FILE *solutionsFile, number currentSize) {
+    if (currentSize == cd->problemSize) {
+        d->counter++;
+        writeSolution(d, cd, solutionsFile);
+        return;
+    }
+
+    length start = 0;
+
+    if (currentSize > 0) {
+        start = d->tmpSquare[currentSize - 1];
+        memcpy(&d->tmpTops[currentSize * cd->topSize], d->currentTop, cd->topSize * sizeof(number));
+    }
+
+    for (length i = start; i < cd->numPartitions; ++i) {
+        const number *p = &cd->allPartitions[i * cd->problemSize];
+        plus(d->currentSum, p, cd->problemSize);
+
+        if (validate(d->currentSum, cd->problemSize, cd->rowSize)) {
+            d->tmpSquare[currentSize] = i;
+
+            // If the previous square index is the same as the current square index,
+            // then we don't start from zero. Instead, we start from the previous row index plus one.
+            // The sequence of row indices can be strictly increasing, since equal indices produce
+            // equal rows, which cannot both equally fit into the same partition scheme given by the
+            // current square index, which is the same as the previous square index by assumption.
+
+            number rowStart = 0;
+
+            if (currentSize > 0 && start == i)
+                rowStart = d->tmpSide[currentSize - 1] + 1;
+
+            for (range j = rowStart; j < cd->classSize; ++j) {
+                const number *r = &cd->rowClass[j * cd->rowSize];
+
+                if (matchRowWithTop(d->currentTop, r, p, cd->problemSize, cd->rowSize)) {
+                    d->tmpSide[currentSize++] = j;
+                    allSolutionsRecursive(d, cd, solutionsFile, currentSize);
+                    currentSize--;
+                }
+
+                memcpy(d->currentTop, &d->tmpTops[currentSize * cd->topSize], cd->topSize * sizeof(number));
+            }
+        }
+
+        minus(d->currentSum, p, cd->problemSize);
+    }
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\addtocounter{enumi}{1}
+\item 
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\section{Creating working data for use in concurrent threads}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={createCommonData}]
+void createCommonData(common_data *cd, int argc, char *argv[]) {
+    number problemSize = (number) strtol(argv[1], NULL, 10);
+    number rowSize = argc - 2;
+    number *row = malloc(rowSize * sizeof(number));
+
+    for (number i = 0; i < rowSize; ++i)
+        row[i] = (number) strtol(argv[i + 2], NULL, 10);
+
+    cd->problemSize = problemSize;
+    cd->rowSize = rowSize;
+    cd->topSize = problemSize * rowSize;
+
+    bool rInvariant = isRetrogradeInvariant(row, rowSize);
+    bool riInvariant = isRetrogradeInverseInvariant(row, rowSize);
+
+    cd->isInvariant = rInvariant || riInvariant;
+    cd->rowClass = getRowClass(&cd->classSize, row, rowSize, cd->isInvariant);
+    cd->rMap = malloc(cd->classSize * sizeof(number));
+    cd->riMap = malloc(cd->classSize * sizeof(number));
+    cd->allPartitions = readAllPartitions(&cd->numPartitions, problemSize, rowSize);
+    cd->allTops = readAllTops(&cd->numTops, problemSize, cd->classSize);
+
+    if (rInvariant) {
+        for (int i = 0; i < rowSize; ++i)
+            cd->rMap[i] = cd->rowClass[(i + 1) * rowSize - 1];
+
+        for (int i = rowSize; i < cd->classSize; ++i)
+            cd->rMap[i] = cd->rowClass[(i + 1) * rowSize - 1] + rowSize;
+    } else {
+        for (int i = 0; i < rowSize; ++i)
+            cd->rMap[i] = cd->rowClass[(i + 1) * rowSize - 1] + rowSize;
+
+        for (int i = rowSize; i < cd->classSize; ++i)
+            cd->rMap[i] = cd->rowClass[(i + 1) * rowSize - 1];
+    }
+
+    for (int i = 0; i < cd->classSize; ++i)
+        cd->riMap[i] = (cd->rMap[i] == 0 || cd->rMap[i] == rowSize)
+                       ? modulo(cd->rMap[i] + rowSize, cd->classSize)
+                       : modulo(-cd->rMap[i], cd->classSize);
+
+    free(row);
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\addtocounter{enumi}{1}
+\item 
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={destroyCommonData}]
+void destroyCommonData(common_data *cd) {
+    free(cd->rowClass);
+    free(cd->rMap);
+    free(cd->riMap);
+    free(cd->allPartitions);
+    free(cd->allTops);
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\addtocounter{enumi}{1}
+\item 
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={createSolutionsFile}]
+FILE *createSolutionsFile(number *row, number problemSize, number rowSize, length startTop, length endTop) {
+    char fileName[64];
+    sprintf(fileName, "all_solutions_%i", problemSize);
+    char offset = problemSize < 10 ? 15 : 16;
+
+    for (number i = 0; i < rowSize; ++i) {
+        sprintf(&fileName[offset], "_%i", row[i]);
+        offset += row[i] < 10 ? 2 : 3;
+    }
+
+    sprintf(&fileName[offset], "_%lu_%lu.txt", startTop, endTop);
+
+    return fopen(fileName, "wt");
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\addtocounter{enumi}{1}
+\item 
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={fillTop}]
+void fillTop(thread_data *d, common_data *cd, const number *combo) {
+    for (number i = 0; i < cd->problemSize; ++i)
+        memcpy(&d->currentTop[i * cd->rowSize],
+               &cd->rowClass[combo[i] * cd->rowSize],
+               cd->rowSize * sizeof(number));
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\addtocounter{enumi}{1}
+\item 
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={unseen}]
+// 1. Compute the R or RI-transform of the top.
+// 2. Transpose the above so it starts with zero.
+// 3. Go from left to right and return true if:
+//    3.1. There is an entry greater than the top or;
+//    3.2. There are no entries less than the top, implying the top is R or RI-invariant.
+bool unseen(const number *top, common_data *cd) {
+    number last = cd->problemSize - 1;
+    number offset = cd->rMap[top[last]];
+    bool invert = offset >= cd->rowSize;
+
+    if (invert)
+        offset = cd->riMap[top[last]];
+
+    for (number i = 1; i < cd->problemSize; ++i) {
+        number front = top[i];
+        number back = invert ? cd->riMap[top[last - i]] : cd->rMap[top[last - i]];
+
+        if (back < cd->rowSize)
+            back = modulo(back - offset, cd->rowSize);
+        else {
+            back = modulo(back - offset - cd->rowSize, cd->rowSize);
+            back += cd->rowSize;
+        }
+
+        if (back > front)
+            return true;
+        else if (back < front)
+            return false;
+    }
+
+    return true;
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\addtocounter{enumi}{1}
+\item 
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={createThreadData}]
+void createThreadData(thread_data *d, common_data *cd) {
+    d->counter = 0;
+    d->tmpSide = malloc(cd->problemSize * sizeof(number));
+    d->currentTop = malloc(cd->topSize * sizeof(number));
+    d->tmpTops = malloc(cd->problemSize * cd->topSize * sizeof(number));
+    d->currentSum = malloc(cd->problemSize * sizeof(number));
+    d->tmpSquare = malloc(cd->problemSize * sizeof(length));
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\addtocounter{enumi}{1}
+\item 
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={destroyThreadData}]
+void destroyThreadData(thread_data *d) {
+    free(d->tmpSide);
+    free(d->currentTop);
+    free(d->tmpTops);
+    free(d->currentSum);
+    free(d->tmpSquare);
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\addtocounter{enumi}{1}
+\item 
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\section{Defining a top-level procedure for computing all solutions for a given row class}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={writeSolutions}]
+length writeSolutions(thread_data *d, common_data *cd, length startTop, length endTop) {
+    //printMatrix(cd->rowClass, cd->classSize, cd->rowSize);
+    length topCounter = 0;
+
+    FILE *solutionsFile = createSolutionsFile(&cd->rowClass[0], cd->problemSize, cd->rowSize, startTop, endTop);
+
+#if 0
+    for (int first = 0; first < cd->classSize; ++first)
+    for (length i = startTop; i < endTop; ++i) {
+        number *combo = &cd->allTops[i * cd->problemSize];
+        combo[0] = first;
+#else
+    for (length i = 0; i < 124; i += cd->problemSize) {
+        const number *combo = &combos[i];
+#endif
+        if (cd->isInvariant && !unseen(combo, cd))
+            continue;
+
+        fillTop(d, cd, combo);
+        memcpy(d->tmpTops, d->currentTop, cd->topSize * sizeof(number));
+        memset(d->currentSum, 0, cd->problemSize * sizeof(number));
+        allSolutionsRecursive(d, cd, solutionsFile, 0);
+        topCounter++;
+    }
+
+    fclose(solutionsFile);
+
+    return topCounter;
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\addtocounter{enumi}{1}
+\item 
+\end{enumerate}
