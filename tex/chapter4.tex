@@ -24,9 +24,9 @@ number intervalClass(number a, number b, number rowSize) {
 \end{lstlisting}
 
 \begin{enumerate}
-\addtocounter{enumi}{1}
-\item Line 1 simply computes the distance between $a$ and $b$.
-\item Line 2 returns the least between the above interval and its complement, that is, the interval class between the two given pitch-classes.
+\item \emph{intervalClass} takes as input two pitch-classes $a$ and $b$, as well as the base $n$ so that $a, b \in \mathbb{Z} / n \mathbb{Z}$.
+\item Line 2 simply computes the distance between $a$ and $b$.
+\item Line 3 returns the least between the above interval and its complement, that is, the interval class between the two given pitch-classes.
 \end{enumerate}
 
 The procedure for determining whether a row is retrograded utilizes Alg.~\ref{intervalClass} as a subroutine, and is outlined in Alg.~\ref{isRetrograded}. The sole parameter to Alg.~\ref{isRetrograded} is the row at hand, which can be any of the representatives of its row class, and the returned value is a boolean indicating whether the row is retrograded or not.
@@ -52,21 +52,70 @@ bool isRetrograded(const number *row, number rowSize, bool isInvariant) {
 \end{lstlisting}
 
 \begin{enumerate}
-\item Lines 1 and 2 declare the variables that will represent interval classes seen from left to right, and from right to left, respectively.
+\item \emph{isRetrograded} has three parameters, namely a pointer to a row, its size, and a boolean representing whether the row is retrograde or retrograde inverse-invariant.
+\item Lines 2 and 3 perform a straightforward sanity check. It will be shown below that all rows of size 4 or less are necessarily retrograde or retrograde-invariant. If a row with 5 or more elements is known to be invariant, we skip the test.
 \addtocounter{enumi}{2}
-\item Lines 4 and 5 simply update the variables front and back using Alg.~\ref{intervalClass} defined above. As $i$ increases, front traverses all interval classes in the row from left to right, whereas back does the same from right to left, that is, back looks at the row as if it were retrograded.
-\addtocounter{enumi}{1}
-\item Line 6 compares the front and back interval classes and line 7 returns true if any interval class seen from right to left is strictly less than the corresponding interval class seen from left to right, which would indicate that retrograding the row would produce a lexicographically lower-positioned row than the one given as input.
-\addtocounter{enumi}{1}
-\item If all interval classes seen from both directions are equal, then the row is retrograde or retrograde inverse-invariant. Line 8 then returns false to avoid unnecessarily reversing a row that is invariant.
+\item Line 5 declares the variables that will represent interval classes seen from left to right, and from right to left, respectively.
+\addtocounter{enumi}{2}
+\item Lines 8 and 9 simply update the variables front and back using Alg.~\ref{intervalClass} defined above. As $i$ increases, front traverses all interval classes in the row from left to right, whereas back does the same from right to left, that is, back looks at the row as if it were retrograded.
+\addtocounter{enumi}{2}
+\item Line 11 compares the front and back interval classes and line 12 returns true if any interval class seen from right to left is strictly less than the corresponding interval class seen from left to right, which would indicate that retrograding the row would produce a lexicographically lower-positioned row than the one given as input.
+\addtocounter{enumi}{3}
+\item If all interval classes seen from both directions are equal, then the row is retrograde or retrograde inverse-invariant. Line 15 then returns false to avoid unnecessarily reversing a row that is invariant.
 \end{enumerate}
 
-The next step in determining the canonical form of a row consists of finding whether its inverse has a lower lexicographic position within the row class.
+The next step in determining the canonical form of a row consists of finding whether its inverse has a lower lexicographic position within the row class. The procedure is described in Alg.~\ref{isInverted}, which in turn depends on two small subroutines, namely Alg.~\ref{modulo} and Alg.~\ref{isOwnInverse}. The former simply computes $modulo(x, n) = x \pmod{n}$. However, it needs to be defined in a subroutine this way because the result of C-language built-in modulo operator is signed, and for practical reasons that will be elaborated below, it is best that all pitch-classes be represented as unsigned integers ranging from $0$ to $n - 1$.
 
 %--------------------------------------------------------------------------
-\begin{lstlisting}[caption={A subroutine to that returns true is a pitch-class is its own inverse},label={isOwnInverse}]
+\begin{lstlisting}[caption={A subroutine to compute $x \pmod{n}$ such that the result is non-negative.},label={modulo}]
+number modulo(number x, number base) {
+    x %= base;
+    return x < 0 ? x + base : x;
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\addtocounter{enumi}{1}
+\item Line 2 simply computes $x \pmod{n}$ using the C-language built operator.
+\item Line 3 then returns then same congruence class but in the range $[0, n - 1]$.
+\end{enumerate}
+
+Alg.~\ref{isOwnInverse} is a simple convenience method that is used to check whether $x \equiv X \pmod{n}$, which is also needed in Alg.~\ref{isInverted}.
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={A subroutine that returns true if a pitch-class is its own inverse},label={isOwnInverse}]
 bool isOwnInverse(number x, number base) {
     return x == 0 || x == base - x;
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\item The input $x$ is assumed to be in the range $[0, n - 1]$.
+\item Since $x$ is non-negative, it can only be its own inverse if it is the identity, or if $x \equiv -x \pmod{n}$. It is also possible to check that if $n$ is even and $x$ is equal to $n / 2$, then $x$ is its own inverse. But this alternative method is far more computationally expensive that the one in Alg.~\ref{isOwnInverse}.
+\end{enumerate}
+
+In order to determine whether the inverse transform of a row has a lower lexicographical position than itself, it is necessary in this implementation to consider if its retrograde transform also sits in a lower lexicographical position. The reason for that is because the input row has not been transformed at all up to this point. A prerequisite to calling Alg.~\ref{isInverted} is to have previously called Alg.~\ref{isRetrograded}, the result thereof being used as one of the inputs to Alg.~\ref{isInverted}.
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={isInverted}]
+bool isInverted(const number *r, number rowSize, bool R) {
+    if (R) {
+        for (number i = rowSize - 1; i >= rowSize / 2; --i) {
+            number mod = modulo(r[i] - r[rowSize - 1], rowSize);
+
+            if (!isOwnInverse(mod, rowSize))
+                return mod > rowSize - mod;
+        }
+    } else {
+        for (number i = 0; i < rowSize / 2; ++i) {
+            number mod = modulo(r[i] - r[0], rowSize);
+
+            if (!isOwnInverse(mod, rowSize))
+                return mod > rowSize - mod;
+        }
+    }
+
+    return false;
 }
 \end{lstlisting}
 
@@ -113,47 +162,6 @@ void getTransformInPlace(number *row, number rowSize, number T, bool I, bool R) 
 \end{enumerate}
 
 %--------------------------------------------------------------------------
-\begin{lstlisting}[caption={},label={modulo}]
-number modulo(number x, number base) {
-    x %= base;
-    return x < 0 ? x + base : x;
-}
-\end{lstlisting}
-
-\begin{enumerate}
-\addtocounter{enumi}{1}
-\item 
-\end{enumerate}
-
-%--------------------------------------------------------------------------
-\begin{lstlisting}[caption={},label={isInverted}]
-bool isInverted(const number *r, number rowSize, bool R) {
-    if (R) {
-        for (number i = rowSize - 1; i >= rowSize / 2; --i) {
-            number mod = modulo(r[i] - r[rowSize - 1], rowSize);
-
-            if (!isOwnInverse(mod, rowSize))
-                return mod > rowSize - mod;
-        }
-    } else {
-        for (number i = 0; i < rowSize / 2; ++i) {
-            number mod = modulo(r[i] - r[0], rowSize);
-
-            if (!isOwnInverse(mod, rowSize))
-                return mod > rowSize - mod;
-        }
-    }
-
-    return false;
-}
-\end{lstlisting}
-
-\begin{enumerate}
-\addtocounter{enumi}{1}
-\item 
-\end{enumerate}
-
-%--------------------------------------------------------------------------
 \begin{lstlisting}[caption={},label={getCanonicalForm}]
 void getCanonicalForm(number *row, number rowSize, bool isInvariant) {
     bool R = isRetrograded(row, rowSize, isInvariant);
@@ -167,6 +175,9 @@ void getCanonicalForm(number *row, number rowSize, bool isInvariant) {
 \addtocounter{enumi}{1}
 \item 
 \end{enumerate}
+
+%--------------------------------------------------------------------------
+\subsection{Storing a row class in memory}
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={},label={isRetrogradeInvariant}]
