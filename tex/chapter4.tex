@@ -244,13 +244,21 @@ bool isRetrogradeInvariant(const number *row, number rowSize) {
 
 Unlike retrograde-invariance, every row size can produce retrograde inverse-invariance. A simple example is the lowest lexicographically-order row of any size, that is, a chromatic scale. Retrograding, inverting, and transposing by $-1$ always yields back the initial row. Listing~\ref{isRetrogradeInverseInvariant} outlines the procedure in all generality.
 
+%TODO: when row size is odd, and all pairs sum to x, will the single element plus itself sum to x?
+
+%--------------------------------------------------------------------------
+\begin{lemma}
+	\label{retrograde-inverse-invariance}
+	In a retrograde inverse-invariant row $r$, the interval between every entry seen from left to right, and the corresponding entry seen from right to left, must be equal to $r_0 + r_{n - 1} \pmod{n}$, where $n$ is the base of the row.
+	\begin{proof}
+	\end{proof}
+\end{lemma}
+
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Determining whether a row is retrograde inverse-invariant.},label={isRetrogradeInverseInvariant}]
 bool isRetrogradeInverseInvariant(const number *row, number rowSize) {
     number half = rowSize / 2;
     number first = modulo(row[rowSize - 1] + row[0], rowSize);
-
-    // TODO: when row size is odd, and all pairs sum to x, will the single element plus itself sum to x?
 
     for (number i = 1; i < half; ++i) {
         if (modulo(row[rowSize - i - 1] + row[i], rowSize) != first)
@@ -262,12 +270,19 @@ bool isRetrogradeInverseInvariant(const number *row, number rowSize) {
 \end{lstlisting}
 
 \begin{enumerate}
+\item The inputs are a row and its size.
+\item Line 2 computes half the row size for convenience. Like Listing~\ref{isRetrogradeInvariant}, retrograde inverse-invariance can be determined by traversing only half the row size.
+\item Line 3 computes $r_0 + r_{n - 1} \pmod{n}$ for later use.
 \addtocounter{enumi}{1}
-\item 
+\item Line 5 begins iteration from the second entry onward, since the first pair was already computed in line 3. Line 6 then compares the subsequent corresponding pairs, and line 7 returns false if any of them is not equal to the first pair.
+\addtocounter{enumi}{4}
+\item If line 10 is reached, it means the row is retrograde inverse-invariant, so the algorithm returns true.
 \end{enumerate}
 
+The procedure to compute and store an entire row class in memory is outlined below in Listing~\ref{getRowClass}. It returns a memory address that must be freed by the caller. While computing combination matrices of self-derivation, this memory location will be held for the duration of the program, and possibly also be shared by many different threads of execution. The procedure makes heavy use of Listing~\ref{getTransformInPlace} to sequentially store in memory all transforms of the canonical form of the row. It also takes the input row and transforms it in-place into its canonical form. Any representative of a row class can therefore be used to construct a row class with Listing~\ref{getRowClass}.
+
 %--------------------------------------------------------------------------
-\begin{lstlisting}[caption={},label={getRowClass}]
+\begin{lstlisting}[caption={Computing and storing a row class in memory.},label={getRowClass}]
 number *getRowClass(range *classSize, number *row, number rowSize, bool isInvariant) {
     getCanonicalForm(row, rowSize, isInvariant);
     *classSize = isInvariant ? rowSize * 2 : rowSize * 4;
@@ -307,8 +322,23 @@ number *getRowClass(range *classSize, number *row, number rowSize, bool isInvari
 \end{lstlisting}
 
 \begin{enumerate}
+\item The inputs are a pointer to the size of the row class, which will be computed by Listing~\ref{getRowClass} and stored in the address provided, a row, its size, and a boolean representing whether the row is retrograde or retrograde inverse-invariant. This boolean will be computed by the caller before calling Listing~\ref{getRowClass}, utilizing the aforementioned procedures Listing~\ref{isRetrogradeInvariant} and Listing~\ref{isRetrogradeInverseInvariant}. The output is a memory location containing the entire row class.
+\item As mentioned above, line 2 simply computes the canonical form of the given row in place.
+\item Line 3 computes the class size based on whether the row is retrograde or retrograde inverse-invariant. It is important to notice here that the row class size is not the length of the row class array, but the number of transforms of the canonical form that the row class array contains. This number is stored in the address provided by the caller.
 \addtocounter{enumi}{1}
-\item 
+\item Line 5 allocates in the heap the memory space that will be used to store the entire row class, and line 6 copies the canonical form of the row to the beginning of this allocated space.
+\addtocounter{enumi}{2}
+\item Line 8 starts from the second row in the row class, which is the first transposition of the canonical form, and the block adds all subsequent transpositions to the row class. Line 9 computes the address where the current transposition should start, line 10 copies the canonical for of the row into this address, and line 11 transforms the canonical for into the desired transposition in place. 
+\addtocounter{enumi}{5}
+\item Line 14 starts from the thirteenth row in the row class, that is, the $T_0I$ transform of the row. Lines 15 to 17 add the subsequent $T_nI$ transforms of the canonical for of the row in the same way the $T_n$ transforms were added above, only specifying in the call to Listing~\ref{getTransformInPlace} that the transforms now need to be inverted.
+\addtocounter{enumi}{5}
+\item Line 20 checks if the row is retrograde or retrograde inverse-invariant and, if so, halts the process and returns the memory location allocated in line 5.
+\addtocounter{enumi}{2}
+\item If the row is is retrograde or retrograde inverse-invariant, lines 23 to 26 add all $RT_n$ transforms of the row to the row class as above.
+\addtocounter{enumi}{5}
+\item Similarly, lines 29 to 32 add all the $RT_nI$ transforms of the row.
+\addtocounter{enumi}{5}
+\item Line 36 then simply returns the memory location allocated in line 5.
 \end{enumerate}
 
 %--------------------------------------------------------------------------
@@ -328,7 +358,9 @@ long getFileSize(FILE *file) {
 \end{lstlisting}
 
 \begin{enumerate}
-\addtocounter{enumi}{1}
+\item
+\item
+\addtocounter{enumi}{2}
 \item 
 \end{enumerate}
 
