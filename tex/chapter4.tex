@@ -199,10 +199,26 @@ void getCanonicalForm(number *row, number rowSize, bool isInvariant) {
 The purpose of the procedures described in this section is to store an entire row class contiguously in memory. That consists of creating an array large enough to hold all transforms of a row, and copying sequentially into this array said transforms. Even for rows whose base are considered large, a row class under $RTN_I$ is still very small. Thus holding these transforms in memory makes sense for execution speed purposes. The size of the row class array depends on whether the row is reverse or reverse inverse-invariant. The row class array begins with the canonical for of the row, followed by all its transpositions, in ascending order, followed by all transpositions of the inversion of the canonical for, also in ascending order. If the row is not reverse or reverse inverse-invariant, the row class array is appended by all transpositions of the reverse of the canonical order, followed by all transpositions of the retrograde inverse of the canonical order. Therefore, the overall size of the row class array is $2n^2$ if the row is retrograde or retrograde inverse-invariant, or $4n^2$ otherwise, where $n$ is the row size. The main routine for creating the row class array is described below in Listing~\ref{getRowClass}. It depends on two subroutines, namely Listing~\ref{isRetrogradeInvariant} and Listing~\ref{isRetrogradeInverseInvariant} that are described below.
 
 %--------------------------------------------------------------------------
+\begin{lemma}
+	\label{retrograde-invariance}
+	In a retrograde-invariant row, the interval between every entry seen from left to right, and the corresponding entry seen from right to left, must equal half the size of the row.
+	\begin{proof}
+	\end{proof}
+\end{lemma}
+
+%--------------------------------------------------------------------------
+\begin{corollary}
+	\label{odd-retrograde-invariance}
+	A row with odd size greater than $3$ cannot be retrograde-invariant.
+	\begin{proof}
+	\end{proof}
+\end{corollary}
+
+%--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Determining whether a row is retrograde-invariant.},label={isRetrogradeInvariant}]
 bool isRetrogradeInvariant(const number *row, number rowSize) {
-    if (rowSize > 4 && rowSize % 2 == 1)
-        return false; // TODO: can odd-sized > 5 rows produce R-invariance?
+    if (rowSize > 3 rowSize % 2 == 1)
+        return false;
 
     number half = rowSize / 2;
 
@@ -216,9 +232,17 @@ bool isRetrogradeInvariant(const number *row, number rowSize) {
 \end{lstlisting}
 
 \begin{enumerate}
+\item The only inputs are a row and its size.
+\item Line 2 utilizes Th.~\ref{odd-retrograde-invariance} as a sanity check. If the test in line 2 succeeds, line 3 returns false.
+\addtocounter{enumi}{2}
+\item Line 5 just computes half the row size for convenience. Retrograde-invariance can be determined by iterating through at most half the size of the row.
 \addtocounter{enumi}{1}
-\item 
+\item Line 7 iterates through the row from left to right, and line 8 applies Th.~\ref{retrograde-invariance}. Line 9 then returns false if any of the intervals is not equal to half the row size.
+\addtocounter{enumi}{4}
+\item If all pairs coming from both directions are equal to half the row size, then the row is retrograde-invariant and line 12 returns true.
 \end{enumerate}
+
+Unlike retrograde-invariance, every row size can produce retrograde inverse-invariance. A simple example is the lowest lexicographically-order row of any size, that is, a chromatic scale. Retrograding, inverting, and transposing by $-1$ always yields back the initial row. Listing~\ref{isRetrogradeInverseInvariant} outlines the procedure in all generality.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Determining whether a row is retrograde inverse-invariant.},label={isRetrogradeInverseInvariant}]
