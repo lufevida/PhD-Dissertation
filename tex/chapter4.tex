@@ -173,7 +173,7 @@ void getTransformInPlace(number *row, number rowSize, number T, bool I, bool R) 
 \item Otherwise, if the row is not inverted, lines 11 and 12 only add the offset to the entire row.
 \end{enumerate}
 
-The procedure illustrated in Listing~\ref{getTransformInPlace} is used below in Listing~\ref{getCanonicalForm}, but it will also be used many times over to construct a row class in memory. In the particular case where the canonical form of the row is desired, that is, the lowest element in a lexicographical ordering of the row class, the offset used will be the additive inverse of the row's first element. It is important to observe that Listing~\ref{getCanonicalForm} requires prior knowledge as to whether the row is retrograde or retrograde inverse-invariant. In the grand scheme of things, that knowledge will alreday be available when calling Listing~\ref{getCanonicalForm}.
+The procedure illustrated in Listing~\ref{getTransformInPlace} is used below in Listing~\ref{getCanonicalForm}, but it will also be used many times over to construct a row class in memory. In the particular case where the canonical form of the row is desired, that is, the lowest element in a lexicographical ordering of the row class, the offset used will be the additive inverse of the row's first element. It is important to observe that Listing~\ref{getCanonicalForm} requires prior knowledge as to whether the row is retrograde or retrograde inverse-invariant. In the grand scheme of things, that knowledge will already be available when calling Listing~\ref{getCanonicalForm}.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Transforming a row into its canonical form.},label={getCanonicalForm}]
@@ -196,10 +196,10 @@ void getCanonicalForm(number *row, number rowSize, bool isInvariant) {
 %--------------------------------------------------------------------------
 \subsection{Storing a row class in memory}
 
-The purpose of the procedures described in this section is to store an entire row class contiguously in memory.
+The purpose of the procedures described in this section is to store an entire row class contiguously in memory. That consists of creating an array large enough to hold all transforms of a row, and copying sequentially into this array said transforms. Even for rows whose base are considered large, a row class under $RTN_I$ is still very small. Thus holding these transforms in memory makes sense for execution speed purposes. The size of the row class array depends on whether the row is reverse or reverse inverse-invariant. The row class array begins with the canonical for of the row, followed by all its transpositions, in ascending order, followed by all transpositions of the inversion of the canonical for, also in ascending order. If the row is not reverse or reverse inverse-invariant, the row class array is appended by all transpositions of the reverse of the canonical order, followed by all transpositions of the retrograde inverse of the canonical order. Therefore, the overall size of the row class array is $2n^2$ if the row is retrograde or retrograde inverse-invariant, or $4n^2$ otherwise, where $n$ is the row size. The main routine for creating the row class array is described below in Listing~\ref{getRowClass}. It depends on two subroutines, namely Listing~\ref{isRetrogradeInvariant} and Listing~\ref{isRetrogradeInverseInvariant} that are described below.
 
 %--------------------------------------------------------------------------
-\begin{lstlisting}[caption={},label={isRetrogradeInvariant}]
+\begin{lstlisting}[caption={Determining whether a row is retrograde-invariant.},label={isRetrogradeInvariant}]
 bool isRetrogradeInvariant(const number *row, number rowSize) {
     if (rowSize > 4 && rowSize % 2 == 1)
         return false; // TODO: can odd-sized > 5 rows produce R-invariance?
@@ -221,7 +221,7 @@ bool isRetrogradeInvariant(const number *row, number rowSize) {
 \end{enumerate}
 
 %--------------------------------------------------------------------------
-\begin{lstlisting}[caption={},label={isRetrogradeInverseInvariant}]
+\begin{lstlisting}[caption={Determining whether a row is retrograde inverse-invariant.},label={isRetrogradeInverseInvariant}]
 bool isRetrogradeInverseInvariant(const number *row, number rowSize) {
     number half = rowSize / 2;
     number first = modulo(row[rowSize - 1] + row[0], rowSize);
