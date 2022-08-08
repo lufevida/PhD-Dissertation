@@ -344,11 +344,15 @@ number *getRowClass(range *classSize, number *row, number rowSize, bool isInvari
 %--------------------------------------------------------------------------
 \section{Defining an algorithm to compute semi-magical squares}
 
+A key component in the definition of a combination matrix of self-derivation is a semi-magic square. By definition, a semi-magic square is a square matrix where the sum of all elements, for each row and column, is a constant. For our purposes, that constant will be the base $n$ of the row. Seeing each entry in a semi-magic square as a real number and dividing each entry in the matrix by $n$ produces a doubly stochastic matrix, in which every row and every column sum to one. A magic square is a semi-magic square where, in addition, both main diagonals add up to the same constant as the rows and columns.
+
 %--------------------------------------------------------------------------
 \subsection{Computing the partitions of an integer}
 
+By the definition above of a semi-magic square, every row therein is a permutation of an integer partition of $n$. In fact, every column is also a permutation of an integer partition of $n$, but the algorithm described below in Listing~\ref{allPartitionsRecursive} shall concentrate on computing all integer partitions of $n$ and their permutations as rows that will ultimately become the rows of a semi-magic square. Since these integer partitions of $n$ are completely independent of the row at hand, they can be computed only once for each $n$ and stored as a file, speeding up the process of computing combination matrices for other rows. Before describing Listing~\ref{allPartitionsRecursive}, a couple subroutines for reading and writing files are outlined.
+
 %--------------------------------------------------------------------------
-\begin{lstlisting}[caption={},label={getFileSize}]
+\begin{lstlisting}[caption={Retrieving the size of a file.},label={getFileSize}]
 long getFileSize(FILE *file) {
     fseek(file, 0, SEEK_END);
     long fileSize = ftell(file);
@@ -357,15 +361,10 @@ long getFileSize(FILE *file) {
 }
 \end{lstlisting}
 
-\begin{enumerate}
-\item
-\item
-\addtocounter{enumi}{2}
-\item 
-\end{enumerate}
+Listing~\ref{getFileSize} is a completely common-place procedure in the C-language, and its details are omitted. It is used as a subroutine in Listing~\ref{readFile}, which is described next.
 
 %--------------------------------------------------------------------------
-\begin{lstlisting}[caption={},label={readFile}]
+\begin{lstlisting}[caption={Reading the contents of a file.},label={readFile}]
 number *readFile(const char *fileName, length *numLines, number problemSize) {
     FILE *file = fopen(fileName, "rb");
 
@@ -383,16 +382,22 @@ number *readFile(const char *fileName, length *numLines, number problemSize) {
 \end{lstlisting}
 
 \begin{enumerate}
+\item The inputs are the file name, assuming both the main executable and the file are in the same folder, a memory address where the number of lines read will be stored, and the problem size, which is the size of the magic square. The output is a memory location with the contents of the file, or a NULL pointer if the operation fails.
+\item Line 2 simply opens the file at the given path for reading. Line 4 performs a sanity check and line 5 returns a NULL pointer if the file cannot be read.
+\addtocounter{enumi}{4}
+\item Line 7 is a call to Listing~\ref{getFileSize} so that the correct amount of memory can be allocated. The value computed in line 7 is already in bytes. Line 8 then allocates the memory whose address will be returned.
 \addtocounter{enumi}{1}
-\item 
+\item Line 9 computes the number of lines in the file, that is, the number of integer partitions of $n$ with length \emph{problemSize} that have been previously computed and stored in the file. The value is then stored in the memory address provided in the input list to store the number of lines in the file.
+\item Line 10 simply reads the entire contents of the file into the buffer allocated in line 8, line 11 frees the FILE data structure created in line 2, and line 13 returns the allocated memory. It is the responsibility of the caller to free this memory when no longer needed.
 \end{enumerate}
 
+The procedure described in Listing~\ref{writeAllPartitions} effectively writes all integer partitions of $n$ with a certain size to a file. It depends on Listing~\ref{allPartitionsRecursive} to compute all said partitions recursively, which is described next. One important feature of Listing~\ref{allPartitionsRecursive} is that it skips partitions whose all but one entries are zero. The reason for this is because the remaining entry would be forced to be equal to $n$. In any semi-magic square where there is an entry equal to $n$, both the row and column to which this entry belongs will necessarily contain only zeros except, of course, for the entry with value $n$. This means that the linearized top of the combination matrix at that semi-magic square's column will inevitably be trivially polyphonized, that is, the corresponding square cell would simply have the entire row at the top. Therefore any combination matrix can be extended by adding a column and a row at an arbitrary indices, and making that square entry contain $n$ elements, that is, a linearized statement of a row form. Since this procedure is completely general, the semi-magic squares computed below include entries only up to $n - 1$.
+
 %--------------------------------------------------------------------------
-\begin{lstlisting}[caption={},label={allPartitionsRecursive}]
+\begin{lstlisting}[caption={Recursively computing all partitions of a number $n$ and permutations thereof with a certain size.},label={allPartitionsRecursive}]
 void allPartitionsRecursive(number *tmp, number currentSize, number problemSize, number currentSum, number rowSize, FILE *file) {
     if (currentSize == problemSize - 1) {
-        // skip the [0, ..., 0, rowSize] partition
-        if (currentSum > 0) {
+        if (currentSum > 0) { // skip the [0, ..., 0, rowSize] partition
             tmp[currentSize] = rowSize - currentSum;
             fwrite(tmp, sizeof(number), problemSize, file);
         }
@@ -411,12 +416,18 @@ void allPartitionsRecursive(number *tmp, number currentSize, number problemSize,
 \end{lstlisting}
 
 \begin{enumerate}
+\item The inputs are the address of some scratch memory previously allocated with the same length of the problem size, the current number of entries already placed in the scratch memory, the problem size, the current sum of the entries in the scratch memory, the base $n$, and a pointer to a FILE data structure where the partitions will be stored, line by line.
+\item Line 2 deals with the base case of the recursion, that is, when the current number of elements in the scratch memory is one less than the problem size. If that is the case, then the last element in the scratch memory array must be equal to $n$ minus the sum of all previous elements.
+\item Line 3 deals with the edge case where all entries up to problem size minus one are zero. That would force the very last element of the scratch memory array to be equal to $n$ which, by the discussion above is avoided in this implementation.
+\item Line 4 sets the last element of the scratch memory array to $n$ minus the sum of its previous elements and line 5 writes the current partition to the given file. Having completed an entire partition, line 8 returns, so the function recurses no further.
+\addtocounter{enumi}{6}
+\item For the recursion cases where the scratch memory array has been filled with less than problem size minus one elements, the loop in line 11 iterates from zero to $n - 1$. Line 12 is a sanity check that the sum of the current element being appended to the scratch memory array with the current sum of all elements so far introduced is no greater than $n$. Line 13 then appends the current element to the end of the scratch memory array, increases the current size counter, and line 14 pushes to the call stack another recursive call to Listing~\ref{allPartitionsRecursive}.
 \addtocounter{enumi}{1}
-\item 
+\item Line 15 backtracks the current size so that all combinations of integers in the range $[0, n - 1]$ are tried.
 \end{enumerate}
 
 %--------------------------------------------------------------------------
-\begin{lstlisting}[caption={},label={writeAllPartitions}]
+\begin{lstlisting}[caption={Writing all partitions to a file.},label={writeAllPartitions}]
 void writeAllPartitions(number problemSize, number rowSize) {
     char fileName[NAME_SIZE];
     sprintf(fileName, PARTITIONS_FILE, problemSize, rowSize);
