@@ -426,11 +426,13 @@ void allPartitionsRecursive(number *tmp, number currentSize, number problemSize,
 \item Line 15 backtracks the current size so that all combinations of integers in the range $[0, n - 1]$ are tried.
 \end{enumerate}
 
+Listing~\ref{writeAllPartitions} described below is essentially a wrapper around Listing~\ref{allPartitionsRecursive}. Partitions files are saved in the same location where the main executable is built, in order to facilitate dealing with file paths. In general, these files are very small even for large $n$, but the speed gains in precomputing them are worthwhile, given the recursive nature of Listing~\ref{allPartitionsRecursive}.
+
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Writing all partitions to a file.},label={writeAllPartitions}]
 void writeAllPartitions(number problemSize, number rowSize) {
-    char fileName[NAME_SIZE];
-    sprintf(fileName, PARTITIONS_FILE, problemSize, rowSize);
+    char fileName[32];
+    sprintf(fileName, "all_partitions_%i_%i.dat", problemSize, rowSize);
     FILE *file = fopen(fileName, "wb");
 
     number *tmp = malloc(problemSize * sizeof(number));
@@ -442,15 +444,21 @@ void writeAllPartitions(number problemSize, number rowSize) {
 \end{lstlisting}
 
 \begin{enumerate}
-\addtocounter{enumi}{1}
-\item 
+\item The inputs are a problem size, which is the size of the semi-magic square, and a row size, which is the row base $n$.
+\item Line 2 creates an array of 32 characters to hold the file name. This file name array length is large enough to accommodate all file names in this implementation. Line 3 writes the name of the file into the buffer defined in the previous line, and line 4 opens a C-type FILE for writing at the specified path.
+\addtocounter{enumi}{3}
+\item Line 6 allocates the scratch memory needed for the call to Listing~\ref{allPartitionsRecursive} in the following line. Being that Line 7 is the bottommost call on the call stack for Listing~\ref{allPartitionsRecursive}, the arguments given for the current size and current sum parameters are both zero.
+\addtocounter{enumi}{2}
+\item Line 9 frees the scratch memory used in the calls to Listing~\ref{allPartitionsRecursive}, and line 10 closes and releases the file created in line 4.
 \end{enumerate}
 
+The counterpart to Listing~\ref{writeAllPartitions} is Listing~\ref{readAllPartitions}, which is designed to not only read a partitions file, but to also generate one in case the particularly sought partitions file had not been previously created.
+
 %--------------------------------------------------------------------------
-\begin{lstlisting}[caption={},label={readAllPartitions}]
+\begin{lstlisting}[caption={Reading all partitions from a file.},label={readAllPartitions}]
 number *readAllPartitions(length *numPartitions, number problemSize, number rowSize) {
-    char fileName[NAME_SIZE];
-    sprintf(fileName, PARTITIONS_FILE, problemSize, rowSize);
+    char fileName[32];
+    sprintf(fileName, "all_partitions_%i_%i.dat", problemSize, rowSize);
 
     number *allPartitions = readFile(fileName, numPartitions, problemSize);
 
@@ -465,12 +473,20 @@ number *readAllPartitions(length *numPartitions, number problemSize, number rowS
 \end{lstlisting}
 
 \begin{enumerate}
+\item The inputs are a memory address to store the number of lines in the partitions file to be read, the problem size and the row size. The output is a memory address with the contents of the partitions file. It is the responsibility of the caller to free the returned memory when no longer needed.
+\item Lines 2 and 3 store the file name in a buffer, similarly to Listing~\ref{writeAllPartitions}.
+\addtocounter{enumi}{2}
+\item Line 5 attempts to read an existing file.
 \addtocounter{enumi}{1}
-\item 
+\item Line 7 checks that the operation in line 5 succeeded. If it failed, lines 8 to 10 print to the console that a partitions file will be created, create the file by calling Listing~\ref{writeAllPartitions}, and attempt to read the file again.
+\addtocounter{enumi}{5}
+\item Line 13 simply returns the memory address with the contents of the file, or NULL if creating the file failed.
 \end{enumerate}
 
 %--------------------------------------------------------------------------
 \subsection{Combining partition rows into squares}
+
+This section describes an algorithm to combine integer partition rows into semi-magic squares. The overall procedure consists of appending integer partition rows to the square and adding the the rows column-wise. It is a backtracking recursive algorithm similar to Listing~\ref{allPartitionsRecursive}, the main difference being that the backtracking step consists of subtracting from a vector of column sums the previously added row after pushing onto the stack another recursive call.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={},label={plus}]
