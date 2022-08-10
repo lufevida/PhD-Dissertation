@@ -498,10 +498,10 @@ void plus(number *a, const number *b, number problemSize) {
 
 \begin{enumerate}
 \item The inputs are the memory locations of two vectors and their size, which assumed to be the same.
-\item Line 2 simply iterates through the length of the vectors and line 3 adds pointwise the second vector to the first.
+\item Line 2 simply iterates through the length of the vectors and line 3 adds point-wise the second vector to the first.
 \end{enumerate}
 
-The counterpart to Listing~\ref{plus} is Listing~\ref{minus}. It is important to notice that vector addition and subtraction can be vectorized for speed, that is, SIMD instructions from the processor architecture at hand can replace much of the work the for-looops in Listing~\ref{plus} is Listing~\ref{minus} do to great effect. This option is not explored in this implementation, however.
+The counterpart to Listing~\ref{plus} is Listing~\ref{minus}. It is important to notice that vector addition and subtraction can be vectorized for speed, that is, SIMD instructions from the processor architecture at hand can replace much of the work the for-loops in Listing~\ref{plus} is Listing~\ref{minus} do to great effect. This option is not explored in this implementation, however. Details are omitted for Listing~\ref{minus}, as is essentially the same as Listing~\ref{plus}, only with the inverse operation.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Subtracting one vector from another.},label={minus}]
@@ -511,13 +511,10 @@ void minus(number *a, const number *b, number problemSize) {
 }
 \end{lstlisting}
 
-\begin{enumerate}
-\addtocounter{enumi}{1}
-\item 
-\end{enumerate}
+Listing~\ref{validate} is also used as subroutine in Listing~\ref{allSquaresRecursive} to validate whether the integer partition row that had just been added to the sum of rows vector does not violate the semi-magic square constraints.
 
 %--------------------------------------------------------------------------
-\begin{lstlisting}[caption={},label={validate}]
+\begin{lstlisting}[caption={Validating a sum of integer partition rows.},label={validate}]
 bool validate(const number *currentSum, number problemSize, number rowSize) {
     for (number i = 0; i < problemSize; ++i) {
         if (currentSum[i] > rowSize)
@@ -529,14 +526,17 @@ bool validate(const number *currentSum, number problemSize, number rowSize) {
 \end{lstlisting}
 
 \begin{enumerate}
-\addtocounter{enumi}{1}
-\item 
+\item The inputs are the memory location of the current sum of rows, the problem size, and the row size $n$.
+\item Line 2 iterates through the size of the magic square, checking in line 3 whether any entry in the current sum vector is already greater than $n$, fact that would violate the semi-magic square definition. If so, line 4 returns false.
+\addtocounter{enumi}{4}
+\item If all entries in the current sum vector are less than or equal to $n$, this is still a viable semi-magic square, so line 7 returns true.
 \end{enumerate}
 
+Listing~\ref{allSquaresRecursive} utilizes the previously computed integer partition rows to form all possible semi-magic squares of size $n$, with entries in the range $[0, n - 1]$. It is described here because it facilitates understanding of Listing~\ref{allSolutionsRecursive}, but it is not used in computing combination matrices of self-derivation. For the latter purpose, computing \emph{all} possible semi-magical squares would be impractical, but this discussion is deferred to the next sections. Although Listing~\ref{allSquaresRecursive} takes as input a pointer to a FILE data structure, a procedure to save all semi-magic squares is omitted, as the number of such squares is overwhelmingly large and grows with both the problem size and $n$.
+
 %--------------------------------------------------------------------------
-\begin{lstlisting}[caption={},label={allSquaresRecursive}]
-void allSquaresRecursive(number *tmp, number *currentSum, number currentSize, number problemSize, number rowSize,
-                         const number *partitions, length numPartitions, FILE *file) {
+\begin{lstlisting}[caption={Recursively computing all semi-magic squares of a certain size.},label={allSquaresRecursive}]
+void allSquaresRecursive(number *tmp, number *currentSum, number currentSize, number problemSize, number rowSize, const number *partitions, length numPartitions, FILE *file) {
     if (currentSize == problemSize) {
         fwrite(tmp, sizeof(number), problemSize, file);
         return;
@@ -565,34 +565,8 @@ void allSquaresRecursive(number *tmp, number *currentSum, number currentSize, nu
 \end{lstlisting}
 
 \begin{enumerate}
-\addtocounter{enumi}{1}
-\item 
-\end{enumerate}
-
-%--------------------------------------------------------------------------
-\begin{lstlisting}[caption={},label={writeAllSquares}]
-void writeAllSquares(number problemSize, number rowSize) {
-    char fileName[NAME_SIZE];
-    sprintf(fileName, PARTITIONS_FILE, problemSize, rowSize);
-
-    length numPartitions;
-    number *partitions = readFile(fileName, &numPartitions, problemSize);
-
-    sprintf(fileName, SQUARES_FILE, problemSize, rowSize);
-    FILE *file = fopen(fileName, "wb");
-
-    number *tmp = malloc(problemSize * sizeof(number));
-    number *sum = malloc(problemSize * sizeof(number));
-    allSquaresRecursive(tmp, sum, 0, problemSize, rowSize, partitions, numPartitions, file);
-
-    free(partitions);
-    free(tmp);
-    free(sum);
-    fclose(file);
-}
-\end{lstlisting}
-
-\begin{enumerate}
+\item The inputs are the memory address for some scratch memory where the semi-magical square will be stored contiguously. The size of this allocated memory must be the square of the problem size. The memory address of another scratch memory space to hold the current sum of integer partition rows, with size equal to the problem size, the current number of rows already appended to the square, the problem size, the row size $n$, a pointer to the contents of a partitions file, previously computed using Listing~\ref{allPartitionsRecursive}, the total number of integer partition rows, and a pointer to a FILE data structure.
+\item Line 2 deals with the base case of the recursion, that is, when all rows have been appended to the square. When that is the case, the algorithm writes the square to the file and returns.
 \addtocounter{enumi}{1}
 \item 
 \end{enumerate}
