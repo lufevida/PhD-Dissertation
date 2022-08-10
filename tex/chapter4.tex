@@ -486,26 +486,28 @@ number *readAllPartitions(length *numPartitions, number problemSize, number rowS
 %--------------------------------------------------------------------------
 \subsection{Combining partition rows into squares}
 
-This section describes an algorithm to combine integer partition rows into semi-magic squares. The overall procedure consists of appending integer partition rows to the square and adding the the rows column-wise. It is a backtracking recursive algorithm similar to Listing~\ref{allPartitionsRecursive}, the main difference being that the backtracking step consists of subtracting from a vector of column sums the previously added row after pushing onto the stack another recursive call.
+This section describes an algorithm to combine integer partition rows into semi-magic squares. The overall procedure consists of appending integer partition rows to the square and adding the the rows as vectors. It is a backtracking recursive algorithm similar to Listing~\ref{allPartitionsRecursive}, the main difference being that the backtracking step consists of subtracting from the vector sum the previously added row after pushing onto the stack another recursive call. Adding two integer partition rows, seen as vectors, is described next in Listing~\ref{plus}.
 
 %--------------------------------------------------------------------------
-\begin{lstlisting}[caption={},label={plus}]
+\begin{lstlisting}[caption={Adding two vectors.},label={plus}]
 void plus(number *a, const number *b, number problemSize) {
     for (number i = 0; i < problemSize; ++i)
-        a[i] += b[i]; // FIXME: vectorize
+        a[i] += b[i];
 }
 \end{lstlisting}
 
 \begin{enumerate}
-\addtocounter{enumi}{1}
-\item 
+\item The inputs are the memory locations of two vectors and their size, which assumed to be the same.
+\item Line 2 simply iterates through the length of the vectors and line 3 adds pointwise the second vector to the first.
 \end{enumerate}
 
+The counterpart to Listing~\ref{plus} is Listing~\ref{minus}. It is important to notice that vector addition and subtraction can be vectorized for speed, that is, SIMD instructions from the processor architecture at hand can replace much of the work the for-looops in Listing~\ref{plus} is Listing~\ref{minus} do to great effect. This option is not explored in this implementation, however.
+
 %--------------------------------------------------------------------------
-\begin{lstlisting}[caption={},label={minus}]
+\begin{lstlisting}[caption={Subtracting one vector from another.},label={minus}]
 void minus(number *a, const number *b, number problemSize) {
     for (number i = 0; i < problemSize; ++i)
-        a[i] -= b[i]; // FIXME: vectorize
+        a[i] -= b[i];
 }
 \end{lstlisting}
 
