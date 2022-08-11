@@ -565,14 +565,22 @@ void allSquaresRecursive(number *tmp, number *currentSum, number currentSize, nu
 \end{lstlisting}
 
 \begin{enumerate}
-\item The inputs are the memory address for some scratch memory where the semi-magical square will be stored contiguously. The size of this allocated memory must be the square of the problem size. The memory address of another scratch memory space to hold the current sum of integer partition rows, with size equal to the problem size, the current number of rows already appended to the square, the problem size, the row size $n$, a pointer to the contents of a partitions file, previously computed using Listing~\ref{allPartitionsRecursive}, the total number of integer partition rows, and a pointer to a FILE data structure.
+\item The inputs are the memory address for some scratch memory where the semi-magical square will be stored as a sequence of indices into the integer partitions array. The size of this allocated memory must this be equal to the problem size. The memory address of another scratch memory space to hold the current sum of integer partition rows, with size equal to the problem size, the current number of rows already appended to the square, the problem size, the row size $n$, a pointer to the contents of a partitions file, previously computed using Listing~\ref{allPartitionsRecursive}, the total number of integer partition rows, and a pointer to a FILE data structure.
 \item Line 2 deals with the base case of the recursion, that is, when all rows have been appended to the square. When that is the case, the algorithm writes the square to the file and returns.
+\addtocounter{enumi}{4}
+\item Line 7 defines a variable for where iteration of integer partition rows should start. This is a mechanism to avoid permutations of integer partition rows within a semi-magic square by enforcing that the rows of the constructed semi-magic square, seen as indices in the range between zero and the total number of integer partitions, be a nondecreasing sequence. The next section shall expand on the discussion of avoiding permutations of rows in semi-magical squares.
 \addtocounter{enumi}{1}
-\item 
+\item Even though the current size is normally set to zero on a very first call to Listing~\ref{allSquaresRecursive}, the backtracking nature of the algorithm will push onto the call stack many other calls to Listing~\ref{allSquaresRecursive} where the current sum scratch memory might have been previously used, thus containing left over data. Line 9 then checks if the current size is zero, and line 10 sets all entries in the current sum scratch space to zero, to clear any left over data. If, on the other hand, the current size is greater than zero, then line 12 sets the start of the iteration to the very last index into the integer partition rows seen so far, guaranteeing that the sequence of indices in each square is nondecreasing.
+\addtocounter{enumi}{4}
+\item Line 14 begins iteration from the last index already in the square. In line 15, the variable \emph{p} stores the memory location of the integer partition row at the current index of iteration, and line 16 utilizes Listing~\ref{plus} to add this integer partition row to the current sum scratch memory.
+\addtocounter{enumi}{3}
+\item Line 18 calls Listing~\ref{validate} to validate the current sum and, if the sum is valid, line 19 sets the next index in the current square scratch memory, here represented by the variable \emph{tmp} to the current iteration index and increases the current size. Line 20 then pushes another call to Listing~\ref{allSquaresRecursive} onto the stack, and line 21 backtracks the current size.
+\addtocounter{enumi}{5}
+\item Regardless whether the validation test in line 18 succeeded, the current sum must be backtracked inside the same block where it Listing~\ref{sum} was called. Line 24 accomplishes that with a balancing call to Listing~\ref{minus}.
 \end{enumerate}
 
 %--------------------------------------------------------------------------
-\section{Defining an algorithm to compute all possible combination matrices within a row class}
+\section{Computing all possible combination matrices within a row class}
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={},label={allSidesRecursive}]
