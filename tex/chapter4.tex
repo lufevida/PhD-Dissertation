@@ -576,11 +576,40 @@ void allSquaresRecursive(number *tmp, number *currentSum, number currentSize, nu
 \addtocounter{enumi}{3}
 \item Line 18 calls Listing~\ref{validate} to validate the current sum and, if the sum is valid, line 19 sets the next index in the current square scratch memory, here represented by the variable \emph{tmp} to the current iteration index and increases the current size. Line 20 then pushes another call to Listing~\ref{allSquaresRecursive} onto the stack, and line 21 backtracks the current size.
 \addtocounter{enumi}{5}
-\item Regardless whether the validation test in line 18 succeeded, the current sum must be backtracked inside the same block where it Listing~\ref{sum} was called. Line 24 accomplishes that with a balancing call to Listing~\ref{minus}.
+\item Regardless whether the validation test in line 18 succeeded, the current sum must be backtracked inside the same block where Listing~\ref{plus} was called. Line 24 accomplishes that with a balancing call to Listing~\ref{minus}.
 \end{enumerate}
 
 %--------------------------------------------------------------------------
-\section{Computing all possible combination matrices within a row class}
+\section{Computing all possible combination matrices for a row}
+
+This section outlines a procedure that produces all combination matrices of self-derivation of a certain size for a particular row. The main idea relies on departing from a top row, which is a concatenation of transforms of the canonical form of a row $r$. If the row size is $n$, and the problem size is $m$, then the size of the top row is $m \times n$. In terms of derivation theory, the top row is completely linearized, and each of its $m$ transforms of the row $r$ will constitute a column of the combination matrix, if a solution for the top exists. The top itself is not part of the combination matrix, but rather the linearization thereof. It is, nonetheless, the point of departure of the main algorithm in this implementation. The combination matrix per se consists of a semi-magic square of size $m$ by $m$, where each column in the square defines a partition of the transform of $r$ for the corresponding section of the top. The last component in this view of a combination matrix of self-derivation are the transforms of the row $r$ that can be derived from the top row as a whole from the integer partitions given by the rows of the semi-magic square. These derived rows are a column vector of size $m$ which are called the sides of the combination matrix.
+
+\begin{example}
+Let $S = \{ 3, 8, 1, 0, 9, 6, 4, 7, 10, 5, 2, 11 \}$ as in Ex.~\ref{topSquareSideExample} and consider the combination matrix of self-derivation in Eq.~\ref{topSquareSideEquation}. In it, the top vector is $[\T_7(S) | \R\T_2\I(S)]$, the side vector is $[S | \T_9\I(S)]^T$, and the semi-magic square is
+
+	\begin{equation}
+        \left[
+        \begin{array}{c|c}
+            6 & 6 \\
+            \hline
+            6 & 6
+        \end{array}
+        \right] \enspace.
+    \end{equation}
+    
+The row $S$ is not in its canonical form. An application of Listing~\ref{getCanonicalForm} reveals that the canonical form of $S$ is in fact the row $r = \{0, 3, 6, 11, 8, 5, 7, 10, 1, 2, 9, 4\}$, so that $S = RT_{11}(r)$.
+\end{example}
+
+\begin{theorem}
+	\label{topSquareSideTheorem}
+	Let $r$ be a row. If a  solution exists for a combination of top, side and square, then it is unique.
+	\begin{proof}
+	Suppose there exist two different solutions for the same combination of top, side and square. Then each solution comprises a combination matrix of self-derivation, say $M_1$ and $M_2$. By assumption $M_1 \ne M_2$. Now consider the linearized top and the first row of $M_1$, which is a transform of $r$, say $S_1(r)$. Since $M_1$ is a solution, when $S_1(r)$ is partitioned using the partition scheme given by the first row of the square, each partition of $S_1(r)$ fits exactly under each column of the top. Each column of the top is totally ordered, and so is each partition of $S_1(r)$. So there is only one way in which one can fit under another. The same reasoning applies to the first row of $M_2$, and to all subsequent rows of $M_1$ and $M_2$. Hence it must be that $M_1 = M_2$ and the solution is unique, as desired.
+	\end{proof}
+\end{theorem}
+
+%--------------------------------------------------------------------------
+\subsection{Computing the side and top rows of a combination matrix}
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={},label={allSidesRecursive}]
@@ -597,26 +626,6 @@ void allSidesRecursive(number *tmp, number currentSize, number problemSize, rang
         allSidesRecursive(tmp, currentSize, problemSize, classSize, file);
         currentSize--;
     }
-}
-\end{lstlisting}
-
-\begin{enumerate}
-\addtocounter{enumi}{1}
-\item 
-\end{enumerate}
-
-%--------------------------------------------------------------------------
-\begin{lstlisting}[caption={},label={writeAllSides}]
-void writeAllSides(number problemSize, range classSize) {
-    char fileName[NAME_SIZE];
-    sprintf(fileName, SIDES_FILE, problemSize, classSize);
-    FILE *file = fopen(fileName, "wb");
-
-    number *tmp = malloc(problemSize * sizeof(number));
-    allSidesRecursive(tmp, 0, problemSize, classSize, file);
-
-    free(tmp);
-    fclose(file);
 }
 \end{lstlisting}
 
@@ -879,7 +888,7 @@ void allSolutionsRecursive(thread_data *d, common_data *cd, FILE *solutionsFile,
 \end{enumerate}
 
 %--------------------------------------------------------------------------
-\section{Creating working data for use in concurrent threads}
+\section{Creating work data for use in concurrent threads}
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={},label={createCommonData}]
