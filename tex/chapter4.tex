@@ -619,7 +619,7 @@ The row $S$ is not in its canonical form. An application of Listing~\ref{getCano
 %--------------------------------------------------------------------------
 \subsection{Computing the side and top rows of a combination matrix}
 
-As described above the side and top vectors are key components in this implementation. Even though the side and the top are both vectors of length equal to the problem size, and they are both vectors of $RT_nI$ transforms of a row, there are some important distinctions between them. The most relevant distinction is that the top vector is used to define the input of a problem, whereas the side vector is used to compute a solution. In derivation theory words, the top vector is the linearization of the combination matrix, and each element in the side vector is a transform of the row $r$ that can be derived from from the top. Another fundamental distinction is that, the contents of a side are permutable by Corollary~\ref{topSquareSideCorollary}, whereas the contents of the top are usually not. Even though there are permutations of the top vector that yield equivalent solutions, those are special cases and will discussed in more detail in the next section. Lastly, like Listing~\ref{allSquaresRecursive}, the algorithm presented in Listing~\ref{allSidesRecursive} below also facilitates understanding of Listing~\ref{allSolutionsRecursive}, but it is not used in computing combination matrices of self-derivation. The algorithm described in Listing~\ref{allTopsRecursive}, on the other hand, is not only used in this implementation, but will also be the subject of future research.
+As described above the side and top vectors are key components in this implementation. Even though the side and the top are both vectors of length equal to the problem size, and they are both vectors of $RT_nI$ transforms of a row, there are some important distinctions between them. The most relevant distinction is that the top vector is used to define the input of a problem, whereas the side vector is used to compute a solution. In derivation theory words, the top vector is the linearization of the combination matrix, and each element in the side vector is a transform of the row $r$ that can be derived from from the top. Another fundamental distinction is that the contents of a side are permutable by Corollary~\ref{topSquareSideCorollary}, whereas the contents of the top are usually not. Even though there are permutations of the top vector that yield equivalent solutions, those are special cases and will be discussed in more detail in the next section. Lastly, like Listing~\ref{allSquaresRecursive}, the algorithm presented in Listing~\ref{allSidesRecursive} below also facilitates understanding of Listing~\ref{allSolutionsRecursive}, but it is not used in computing combination matrices of self-derivation. The algorithm described in Listing~\ref{allTopsRecursive}, on the other hand, is not only used in this implementation, but will also be the subject of future research.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Recursively computing all size vectors of a certain size.},label={allSidesRecursive}]
@@ -648,6 +648,8 @@ void allSidesRecursive(number *tmp, number currentSize, number problemSize, rang
 \item Line 9 begins iteration from the start index computed in line 7, until the last index possible, which is the size of the row class minus one. Line 10 sets the scratch memory's entry at the current size to the current index of iteration and increases the current size. Line 11 pushes onto the call stack another call to Listing~\ref{allSidesRecursive}, and line 12 backtracks by decreasing the current size, thus ensuring that all nondecreasing sequences of indices in the range from zero to row class size minus one are seen and written to the provided FILE.
 \end{enumerate}
 
+In this implementation, tops are pre-computed and saved to a file. This is a two-edged sword, as it increases speed at the expense of risking some potentially prohibitive file sizes. Let $r$ be a row of size $n$, let $c$ be the size of its row class, and let $m$ be a problem size. Then the number of all possible tops is $c^m$, which can be an incredibly large number. If $r$ is a 12-tone row that is not retrograde or retrograde inverse-invariant, then $c = 48$. The number of all possible $4 \times 4$ tops is then $48^4 = 5308416$. For music composition applications, $m = 4$ is a rather small number. A composer may well be interested in combination matrices of sizes up to $n$, hence reducing the number of tops into smaller equivalence classes is of utmost importance. Under the action of $RT_nI$, the number of tops can be reduced substantially, but this reduction is asymptotically irrelevant as row size and problem size grow. In other words, dealing with large $n$ and $m$ can be a very difficult problem. On the bright side, this analysis shows that solutions do exist in abundance, however difficult they may be to compute.
+
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Recursively computing all top vectors of a certain size.},label={allTopsRecursive}]
 void allTopsRecursive(number *tmp, number currentSize, number problemSize, range classSize, FILE *file) {
@@ -655,8 +657,6 @@ void allTopsRecursive(number *tmp, number currentSize, number problemSize, range
         fwrite(tmp, sizeof(number), problemSize, file);
         return;
     }
-
-    // FIXME: this implementation cannot produce the R|P top, for example.
 
     if (currentSize == 0)
         tmp[currentSize++] = 0;
@@ -670,12 +670,19 @@ void allTopsRecursive(number *tmp, number currentSize, number problemSize, range
 \end{lstlisting}
 
 \begin{enumerate}
-\addtocounter{enumi}{1}
-\item 
+\item The inputs are the memory address of some scratch memory space, pre-allocated with size equal to the problem size, the current size of the top, the problem size, the row class size, and a pointer to a FILE where the tops should be saved.
+\item Line 2 handles the base case of the recursion, line 3 writes the contents of the current top to the FILE, and line 4 returns.
+\addtocounter{enumi}{5}
+\item Line 7 restricts the number of tops that will be computed by enforcing in line 8 that the first element of the top vector be always zero. If the problem size is $m$ and the class size is $c$, then Listing~\ref{allTopsRecursive} effectively computes $c^{m - 1}$ tops. It will be shown in the next section how all equivalence classes of tops under the action of $RT_nI$ can be computed departing from $c^{m - 1}$ elements.
+\addtocounter{enumi}{2}
+\item In line 10, the for-loop always starts from zero, since from the second element to the last, all possibilities are needed. Lines 11 to 13 describe the same backtracking recursive procedure in other algorithms already discussed above.
 \end{enumerate}
 
+
+Similarly to Listing~\ref{writeAllPartitions}, Listing~\ref{writeAllTops} wraps around Listing~\ref{allTopRecursive} to save a file in the same location where the the main executable is built, so the details are omitted. Unlike Listing~\ref{writeAllPartitions}, however, the output of Listing~\ref{writeAllTops} can be a very large file. Suppose $r$ is a row of size $n = 12$, its row class has size $c = 48$, and the problem size is $m = 8$. Since a number of type char requires one byte of memory, the output of Listing~\ref{writeAllTops} would be a file of size $c^{m - 1} = 546.75$ Gigabytes.
+
 %--------------------------------------------------------------------------
-\begin{lstlisting}[caption={},label={writeAllTops}]
+\begin{lstlisting}[caption={Writing all tops to a file.},label={writeAllTops}]
 void writeAllTops(number problemSize, range classSize) {
     char fileName[NAME_SIZE];
     sprintf(fileName, TOPS_FILE, problemSize, classSize);
@@ -689,13 +696,10 @@ void writeAllTops(number problemSize, range classSize) {
 }
 \end{lstlisting}
 
-\begin{enumerate}
-\addtocounter{enumi}{1}
-\item 
-\end{enumerate}
+The same applies to Listing~\ref{readAllTops}, whose details are omitted for being identical to Listing~\ref{readAllPartitions} above, including the way Listing~\ref{readAllTops} generates a new file if none has been already created.
 
 %--------------------------------------------------------------------------
-\begin{lstlisting}[caption={},label={readAllTops}]
+\begin{lstlisting}[caption={Reading all tops from a file.},label={readAllTops}]
 number *readAllTops(length *numTops, number problemSize, range classSize) {
     char fileName[NAME_SIZE];
     sprintf(fileName, TOPS_FILE, problemSize, classSize);
@@ -711,11 +715,6 @@ number *readAllTops(length *numTops, number problemSize, range classSize) {
     return allTops;
 }
 \end{lstlisting}
-
-\begin{enumerate}
-\addtocounter{enumi}{1}
-\item 
-\end{enumerate}
 
 %--------------------------------------------------------------------------
 \subsection{Writing a solution as text}
