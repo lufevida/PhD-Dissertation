@@ -608,11 +608,21 @@ The row $S$ is not in its canonical form. An application of Listing~\ref{getCano
 	\end{proof}
 \end{theorem}
 
+\begin{corollary}
+	\label{topSquareSideCorollary}
+	Let $r$ be a row. If a  solution exists for a combination of top, side and square, then the set of permutations of the side vector form an equivalence class of solutions.
+	\begin{proof}
+		The identity permutation of the side is essentially the same combination matrix, hence a solution. Reordering the entries of the side and applying Th.~\ref{topSquareSideTheorem} shows that a permutation of the side is also a solution. Let the problem size be $m$ and regard the side as a vector of indices with entries in $\mathbb{Z} / m \mathbb{Z}$. Then transitivity comes from the fact that $\mathbb{Z} / m \mathbb{Z}$ is a subgroup of $S_m$, that is, composition of permutations of the side vector are also a solution.
+	\end{proof}
+\end{corollary}
+
 %--------------------------------------------------------------------------
 \subsection{Computing the side and top rows of a combination matrix}
 
+As described above the side and top vectors are key components in this implementation. Even though the side and the top are both vectors of length equal to the problem size, and they are both vectors of $RT_nI$ transforms of a row, there are some important distinctions between them. The most relevant distinction is that the top vector is used to define the input of a problem, whereas the side vector is used to compute a solution. In derivation theory words, the top vector is the linearization of the combination matrix, and each element in the side vector is a transform of the row $r$ that can be derived from from the top. Another fundamental distinction is that, the contents of a side are permutable by Corollary~\ref{topSquareSideCorollary}, whereas the contents of the top are usually not. Even though there are permutations of the top vector that yield equivalent solutions, those are special cases and will discussed in more detail in the next section. Lastly, like Listing~\ref{allSquaresRecursive}, the algorithm presented in Listing~\ref{allSidesRecursive} below also facilitates understanding of Listing~\ref{allSolutionsRecursive}, but it is not used in computing combination matrices of self-derivation. The algorithm described in Listing~\ref{allTopsRecursive}, on the other hand, is not only used in this implementation, but will also be the subject of future research.
+
 %--------------------------------------------------------------------------
-\begin{lstlisting}[caption={},label={allSidesRecursive}]
+\begin{lstlisting}[caption={Recursively computing all size vectors of a certain size.},label={allSidesRecursive}]
 void allSidesRecursive(number *tmp, number currentSize, number problemSize, range classSize, FILE *file) {
     if (currentSize == problemSize) {
         fwrite(tmp, sizeof(number), problemSize, file);
@@ -630,12 +640,16 @@ void allSidesRecursive(number *tmp, number currentSize, number problemSize, rang
 \end{lstlisting}
 
 \begin{enumerate}
+\item The inputs are some pre-allocated scratch memory with size equal to the problem size, the current size of the vector, the problem size itself, the size of the row class, and a pointer to a C-style FILE data structure.
+\item Line 2 is the base case of the recursion, and simply checks that the current size of the vector has already reached the problem size. If so, line 3 writes the contents of the scratch memory contiguously to the provided FILE handle and line 4 returns control to the caller.
+\addtocounter{enumi}{4}
+\item Line 7 is a similar mechanism to that described in line 12 of Listing~\ref{allSquaresRecursive}. Like the latter, its purpose is to avoid permutations of the size vector by forcing upon them being nondecreasing sequences of indices into the row class array. It will be shown in Listing~\ref{allSolutionsRecursive} that size vectors can actually be strictly increasing sequences.
 \addtocounter{enumi}{1}
-\item 
+\item Line 9 begins iteration from the start index computed in line 7, until the last index possible, which is the size of the row class minus one. Line 10 sets the scratch memory's entry at the current size to the current index of iteration and increases the current size. Line 11 pushes onto the call stack another call to Listing~\ref{allSidesRecursive}, and line 12 backtracks by decreasing the current size, thus ensuring that all nondecreasing sequences of indices in the range from zero to row class size minus one are seen and written to the provided FILE.
 \end{enumerate}
 
 %--------------------------------------------------------------------------
-\begin{lstlisting}[caption={},label={allTopsRecursive}]
+\begin{lstlisting}[caption={Recursively computing all top vectors of a certain size.},label={allTopsRecursive}]
 void allTopsRecursive(number *tmp, number currentSize, number problemSize, range classSize, FILE *file) {
     if (currentSize == problemSize) {
         fwrite(tmp, sizeof(number), problemSize, file);
