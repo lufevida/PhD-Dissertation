@@ -679,7 +679,7 @@ void allTopsRecursive(number *tmp, number currentSize, number problemSize, range
 \end{enumerate}
 
 
-Similarly to Listing~\ref{writeAllPartitions}, Listing~\ref{writeAllTops} wraps around Listing~\ref{allTopRecursive} to save a file in the same location where the the main executable is built, so the details are omitted. Unlike Listing~\ref{writeAllPartitions}, however, the output of Listing~\ref{writeAllTops} can be a very large file. Suppose $r$ is a row of size $n = 12$, its row class has size $c = 48$, and the problem size is $m = 8$. Since a number of type char requires one byte of memory, the output of Listing~\ref{writeAllTops} would be a file of size $c^{m - 1} = 546.75$ Gigabytes.
+Similarly to Listing~\ref{writeAllPartitions}, Listing~\ref{writeAllTops} wraps around Listing~\ref{allTopsRecursive} to save a file in the same location where the the main executable is built, so the details are omitted. Unlike Listing~\ref{writeAllPartitions}, however, the output of Listing~\ref{writeAllTops} can be a very large file. Suppose $r$ is a row of size $n = 12$, its row class has size $c = 48$, and the problem size is $m = 8$. Since a number of type char requires one byte of memory, the output of Listing~\ref{writeAllTops} would be a file of size $c^{m - 1} = 546.75$ Gigabytes.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Writing all tops to a file.},label={writeAllTops}]
@@ -696,7 +696,7 @@ void writeAllTops(number problemSize, range classSize) {
 }
 \end{lstlisting}
 
-The same applies to Listing~\ref{readAllTops}, whose details are omitted for being identical to Listing~\ref{readAllPartitions} above, including the way Listing~\ref{readAllTops} generates a new file if none has been already created.
+The same applies to Listing~\ref{readAllTops}, whose details are omitted for being similar to Listing~\ref{readAllPartitions} above, including the way Listing~\ref{readAllTops} generates a new file if none has been already created.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Reading all tops from a file.},label={readAllTops}]
@@ -718,6 +718,22 @@ number *readAllTops(length *numTops, number problemSize, range classSize) {
 
 %--------------------------------------------------------------------------
 \subsection{Writing a solution as text}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={dataStructures}]
+typedef struct {
+    number *rowClass, *rMap, *riMap, *allPartitions, *allTops;
+    length numPartitions, numTops;
+    range topSize, classSize;
+    number problemSize, rowSize, isInvariant;
+} common_data;
+
+typedef struct {
+    number *tmpSide, *currentTop, *tmpTops, *currentSum;
+    length *tmpSquare;
+    length counter;
+} thread_data;
+\end{lstlisting}
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={},label={writeRow}]
