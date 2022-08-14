@@ -719,15 +719,24 @@ number *readAllTops(length *numTops, number problemSize, range classSize) {
 %--------------------------------------------------------------------------
 \subsection{Writing a solution as text}
 
+The main algorithm in this implementation writes to a file the combination matrices of self-derivation computed from a provided set of tops. It writes them to a provided file in a format that is readily useable for music composition, unless otherwise specified. It takes as input a significant amount of pre-computed data which can be shared between several threads of execution, as well many pointers to scratch memory addresses that must be allocated for each thread. Both common and thread-specific data are organized into data structures to reduce the number of parameters necessary for each call. These data structures, as well as the text formatting of the output will be discussed in this section.
+
+Listing~\ref{threadCommonDataStructure} below is a data structure where all members are immutable, so is safe to shares between different threads of execution. Some members are common to a particular row, namely the memory address and size of the row class, the retrograde and retrograde inverse maps addresses, which will be discussed in the next section, the row size, and whether it is retrograde or retrograde inverse-invariant. All other members are common to all rows of a particular size $n$, given a problem size $m$. These members are namely the memory address and size of all partitions read from the partitions file, the memory address and size of all tops read from the tops file, and the problem size itself.
+
 %--------------------------------------------------------------------------
-\begin{lstlisting}[caption={},label={dataStructures}]
+\begin{lstlisting}[caption={Defining a data structure to hold thread-common data.},label={threadCommonDataStructure}]
 typedef struct {
     number *rowClass, *rMap, *riMap, *allPartitions, *allTops;
     length numPartitions, numTops;
     range topSize, classSize;
     number problemSize, rowSize, isInvariant;
 } common_data;
+\end{lstlisting}
 
+Listing~\ref{threadSpecificDataStructure} below, on the other hand, cannot be shared between different threads of execution, as it mostly contains allocated scratch memory space to be used in a call to Listing~\ref{allSolutionsRecursive}, which computes all solutions for a given top. The members are, in order, the scratch memory for the size vector, the current top being used as input, the memory address for a stack of tops that will be needed by Listing~\ref{allSolutionsRecursive}, the current sum of the semi-magic square columns, the scratch memory for the semi-magic square itself, and lastly a variable to store the number of solutions obtained by the top at hand.
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={Defining a data structure to hold thread-specific data.},label={threadSpecificDataStructure}]
 typedef struct {
     number *tmpSide, *currentTop, *tmpTops, *currentSum;
     length *tmpSquare;
@@ -735,8 +744,10 @@ typedef struct {
 } thread_data;
 \end{lstlisting}
 
+Listing~\ref{writeRow} is used in Listing~\ref{writeSolution} as a subroutine to write as text an entire solution line-by-line. The lines in the solution include the top line, as well as one line for each entry in the side vector.
+
 %--------------------------------------------------------------------------
-\begin{lstlisting}[caption={},label={writeRow}]
+\begin{lstlisting}[caption={Writing a single row from a combination matrix.},label={writeRow}]
 void writeRow(const number *row, number rowSize, range topSize, bool newLine, FILE *file) {
     for (range i = 0; i < topSize; ++i) {
         if (i > 0 && i % rowSize == 0)
@@ -756,26 +767,17 @@ void writeRow(const number *row, number rowSize, range topSize, bool newLine, FI
 \end{lstlisting}
 
 \begin{enumerate}
-\addtocounter{enumi}{1}
-\item 
+\item The inputs are the combination matrix row at hand, which includes the top line. These rows have the same length as the top row. Rows that are derived from the top, however, will have nonnegative entries whenever those entries align with the top's current index, and minus one otherwise. The row size, which is used to add separators at each of the top's columns, the top size, a boolean to indicate whether a new line character should be included after the combination matrix, and the address of a C-style FILE data structure.
+\item Line 2 iterates over the top's length and line 3 checks if the current index of iteration has reached the boundary of a column. If so, line 4 will write a separator character and a space.
+\addtocounter{enumi}{3}
+\item Line 6 checks if the current row's entry is less than zero, in which case there is nothing to align with the top, hence line 7 writes three spaces. Line 8 checks if the current entry is less than ten, in which case line 9 writes a single-character number and two spaces. If line 10 is reached, then the current entry has two characters, so line 11 lines the two-digit number and a single space.
+\addtocounter{enumi}{7}
+\item Line 14 checks if a new line character was requested and, if so, line 15 writes one to the file.
 \end{enumerate}
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={},label={writeSolution}]
 void writeSolution(thread_data *d, common_data *cd, FILE *solutionsFile) {
-    if (cd->problemSize > 0) {
-        for (number k = 0; k < cd->problemSize; ++k) {
-            write(solutionsFile, "%i ", d->tmpSide[k]);
-            const number *p = &cd->allPartitions[d->tmpSquare[k] * cd->problemSize];
-
-            for (int i = 0; i < cd->problemSize; ++i)
-                write(solutionsFile, "%i ", p[i]);
-        }
-
-        write(solutionsFile, "\n");
-        return;
-    }
-
     write(solutionsFile, "Solution %lu:\n\n     ", d->counter);
     writeRow(d->tmpTops, cd->rowSize, cd->topSize, true, solutionsFile);
 
@@ -810,6 +812,26 @@ void writeSolution(thread_data *d, common_data *cd, FILE *solutionsFile) {
 
         writeRow(d->currentTop, cd->rowSize, cd->topSize, false, solutionsFile);
         write(solutionsFile, "| %lu\n", d->tmpSquare[i]);
+    }
+
+    write(solutionsFile, "\n");
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\addtocounter{enumi}{1}
+\item 
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={writeSolutionScheme}]
+void writeSolution(thread_data *d, common_data *cd, FILE *solutionsFile) {
+    for (number k = 0; k < cd->problemSize; ++k) {
+        write(solutionsFile, "%i ", d->tmpSide[k]);
+        const number *p = &cd->allPartitions[d->tmpSquare[k] * cd->problemSize];
+
+        for (int i = 0; i < cd->problemSize; ++i)
+            write(solutionsFile, "%i ", p[i]);
     }
 
     write(solutionsFile, "\n");
