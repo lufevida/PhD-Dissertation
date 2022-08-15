@@ -829,7 +829,7 @@ void writeSolution(thread_data *d, common_data *cd, FILE *solutionsFile) {
 \item Line 12 too iterates over the problem size, only this time regarding each column of the semi-magic square. Line 13 simply stores the integer partition value for the current iteration in a variable for convenience. This value is effectively the cell of the semi-magic square at row \emph{i} and column \emph{j}.
 \addtocounter{enumi}{2}
 \item The innermost for-loop in line 15 starts from the last top index and iterates $n$ times, where $n$ is the row size, and its body is responsible for matching the next \emph{pj} entries in the derived row against the entire \emph{j}\textsuperscript{th} column in the top vector, which has size $n$. Line 16 checks if all \emph{pj} entries have been matched, in which case line 17 breaks the for-loop.
-\addtocounter{enumi}{3}
+\addtocounter{enumi}{2}
 \item Line 19 checks if the derived row's entry at the current row index aligns with the current top column at the index of iteration given in line 15. If so, line 20 updates the scratch memory that will be used to write the derived row, line 21 increments the row index, and line 22 decrements \emph{pj}, which at each iteration represents the number of elements in the current square cell that still need to be matched.
 \addtocounter{enumi}{6}
 \item Line 25 increments the current top index by $n$ at each iteration of the for-loop in line 12, needed in order to traverse the top vector column-by-column.
@@ -837,7 +837,7 @@ void writeSolution(thread_data *d, common_data *cd, FILE *solutionsFile) {
 \item Line 27 checks if the current side vector index is less than ten, that is, if it has a single digit and, if so, line 28 prepends to the derived row line the side index, followed by two spaces and a separator. If the side index requires two digits, then line 30 prepends the side index followed by a single spaces and a separator.
 \addtocounter{enumi}{4}
 \item Line 32 calls Listing~\ref{writeRow} to write the computed derived row without a line break. Line 33 then prepends to the line the current square row index and a new line character.
-\addtocounter{enumi}{4}
+\addtocounter{enumi}{3}
 \item Line 36 simply separates this solution from the next with an additional line break.
 \end{enumerate}
 
@@ -915,7 +915,7 @@ bool matchRowWithTop(number *top, const number *row, const number *partitions, n
 \addtocounter{enumi}{2}
 \item If line 22 is reached, then the top index is increased by the row size, like line 25 in Listing~\ref{writeSolution}, and the algorithm moves to the next top vector column.
 \addtocounter{enumi}{2}
-\item If line 25 is reached, then the row transform has been matched successfully to all top vector columns, and the algorithm returns true.
+\item If line 25 is reached, then the row transform has been matched successfully to all top vector columns. Still, the algorithm performs a sanity check and confirms that all row elements have been indeed matched by comparing the current row index with the row size.
 \end{enumerate}
 
 %--------------------------------------------------------------------------
