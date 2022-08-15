@@ -869,8 +869,10 @@ Solution 610:
 %--------------------------------------------------------------------------
 \subsection{Computing all possible solutions for a given combination matrix}
 
+The algorithm presented in Listing~\ref{allSolutionsRecursive} is the main procedure in this implementation for computing solutions to the problem of self-derivation. Like other algorithms described in the previous sections, it is a recursive backtracking algorithm. It utilizes Listing~\ref{matchRowWithTop} as a subroutine to test if the a given representative of a row class can be matched with the top row. Listing~\ref{matchRowWithTop} is very similar to the first inner for-loop in Listing~\ref{writeSolution} in that it tries to match a transform of the row $r$ against a top vector, and that matching is done column-by-column, using the partition scheme given by the current square row. The main difference between Listing~\ref{writeSolution} and Listing~\ref{matchRowWithTop} lies in the fact that the top row is not immutable. Rather, it is some scratch memory space that gets changed every time Listing~\ref{matchRowWithTop} is called. Another key difference is the fact that Listing~\ref{matchRowWithTop} can fail to produce a match, whereas Listing~\ref{writeSolution} is only called once a solution already exists for all derived rows.
+
 %--------------------------------------------------------------------------
-\begin{lstlisting}[caption={},label={matchRowWithTop}]
+\begin{lstlisting}[caption={Matching a representative of a row class with a given top vector.},label={matchRowWithTop}]
 bool matchRowWithTop(number *top, const number *row, const number *partitions, number problemSize, number rowSize) {
     range topIndex = 0;
     number rowIndex = 0;
@@ -900,8 +902,20 @@ bool matchRowWithTop(number *top, const number *row, const number *partitions, n
 \end{lstlisting}
 
 \begin{enumerate}
-\addtocounter{enumi}{1}
-\item 
+\item The inputs are a memory addres that holds some scratch space with size equal to the top size, the address of the transform of the row which the algorithm will try to match with the top, the address of the integer partition to be used, that is, a row from the semi-magic square, the problem size, and the row size.
+\item Like lines 6 and 7 in Listing~\ref{writeSolution}, lines 2 and 3 here are indices into the top vector and row transform. 
+\addtocounter{enumi}{2}
+\item Line 5 iterates over the problem size, that is, over the number of columns in the top vector, similarly to line 12 in Listing~\ref{writeSolution}. Line 6 stores in a variable the current square cell value, and the use of variable \emph{p} here is identical to the use of variable \emph{p} in Listing~\ref{writeSolution}.
+\addtocounter{enumi}{2}
+\item The inner for-loop in line 8, as well as the check in lines 9 and 10 are identical to lines 15 to 17 in Listing~\ref{writeSolution}.
+\addtocounter{enumi}{3}
+\item Line 12 tests that the \emph{j}\textsuperscript{th} entry in the top vector matches the row transform at the current row index. Unlike Listing~\ref{writeSolution}, the top vector may not be unaltered. If the \emph{j}\textsuperscript{th} entry in the top vector was already matched to a different transform of the row $r$ in a previous call to Listing~\ref{matchRowWithTop}, then the \emph{j}\textsuperscript{th} entry in the top vector will have been set to minus one, and Listing~\ref{matchRowWithTop} will fail. Otherwise, line 13 will set the \emph{j}\textsuperscript{th} entry in the top vector to minus one, which differs from Listing~\ref{writeSolution} in the sense that the latter sets a scratch memory space that had previously initialized with minus ones to the the corresponding entry in the row transform. Line 14 inreases the row index, and line 15 decreases \emph{p}, similarly to what Listing~\ref{writeSolution} does in lines 21 and 22.
+\addtocounter{enumi}{6}
+\item Line 19 checks that all \emph{p} elements from the row transform starting at row index have been matched with the current top vector column. If not, line 20 returns false.
+\addtocounter{enumi}{2}
+\item If line 22 is reached, then the top index is increased by the row size, like line 25 in Listing~\ref{writeSolution}, and the algorithm moves to the next top vector column.
+\addtocounter{enumi}{2}
+\item If line 25 is reached, then the row transform has been matched successfully to all top vector columns, and the algorithm returns true.
 \end{enumerate}
 
 %--------------------------------------------------------------------------
