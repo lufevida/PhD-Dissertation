@@ -3,6 +3,8 @@
 
 This section proposes a model to describe derivation in a general setting. After writing the chapter, Luis will come back here and summarize what he wrote.
 
+%TODO: This problem is NP-hard and is a satisfiability problem similar to Sudoku and the 8-Queens.
+
 %--------------------------------------------------------------------------
 \section{Defining an algorithm to compute a row class}
 
@@ -616,13 +618,19 @@ The row $S$ is not in its canonical form. An application of Listing~\ref{getCano
 	\end{proof}
 \end{corollary}
 
+\begin{corollary}
+    Let $r$ be a row, let the problem size be equal to $m$, and regard the top vector as the direct product of $m$ copies of $G_r$, the group of $RT_nI$-transforms of $r$. If a solution exists for a combination of top, side and square, then right-multiplying the solution by an element of $G_r$ represents a group action that induces an equivalence class of solutions. In particular, this equivalence class preserves the structure of the semi-magic square.
+    \begin{proof}
+    \end{proof}
+\end{corollary}
+
 %--------------------------------------------------------------------------
 \subsection{Computing the side and top rows of a combination matrix}
 
 As described above, the side and top vectors are key components in this implementation. Even though the side and the top are both vectors of length equal to the problem size, and they are both vectors of $RT_nI$ transforms of a row, there are some important distinctions between them. The most relevant distinction is that the top vector is used to define the input of a problem, whereas the side vector is used to compute a solution. In derivation theory words, the top vector is the linearization of the combination matrix, and each element in the side vector is a transform of the row $r$ that can be derived from from the top. Another fundamental distinction is that the contents of a side are permutable by Corollary~\ref{topSquareSideCorollary}, whereas the contents of the top are usually not. Even though there are permutations of the top vector that yield equivalent solutions, those are special cases and will be discussed in more detail in the next section. Lastly, like Listing~\ref{allSquaresRecursive}, the algorithm presented in Listing~\ref{allSidesRecursive} below also facilitates understanding of Listing~\ref{allSolutionsRecursive}, but it is not used in computing combination matrices of self-derivation. The algorithm described in Listing~\ref{allTopsRecursive}, on the other hand, is not only used in this implementation, but will also be the subject of future research.
 
 %--------------------------------------------------------------------------
-\begin{lstlisting}[caption={Recursively computing all size vectors of a certain size.},label={allSidesRecursive}]
+\begin{lstlisting}[caption={Recursively computing all side vectors of a certain size.},label={allSidesRecursive}]
 void allSidesRecursive(number *tmp, number currentSize, number problemSize, range classSize, FILE *file) {
     if (currentSize == problemSize) {
         fwrite(tmp, sizeof(number), problemSize, file);
