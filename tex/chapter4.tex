@@ -619,7 +619,7 @@ The row $S$ is not in its canonical form. An application of Listing~\ref{getCano
 %--------------------------------------------------------------------------
 \subsection{Computing the side and top rows of a combination matrix}
 
-As described above the side and top vectors are key components in this implementation. Even though the side and the top are both vectors of length equal to the problem size, and they are both vectors of $RT_nI$ transforms of a row, there are some important distinctions between them. The most relevant distinction is that the top vector is used to define the input of a problem, whereas the side vector is used to compute a solution. In derivation theory words, the top vector is the linearization of the combination matrix, and each element in the side vector is a transform of the row $r$ that can be derived from from the top. Another fundamental distinction is that the contents of a side are permutable by Corollary~\ref{topSquareSideCorollary}, whereas the contents of the top are usually not. Even though there are permutations of the top vector that yield equivalent solutions, those are special cases and will be discussed in more detail in the next section. Lastly, like Listing~\ref{allSquaresRecursive}, the algorithm presented in Listing~\ref{allSidesRecursive} below also facilitates understanding of Listing~\ref{allSolutionsRecursive}, but it is not used in computing combination matrices of self-derivation. The algorithm described in Listing~\ref{allTopsRecursive}, on the other hand, is not only used in this implementation, but will also be the subject of future research.
+As described above, the side and top vectors are key components in this implementation. Even though the side and the top are both vectors of length equal to the problem size, and they are both vectors of $RT_nI$ transforms of a row, there are some important distinctions between them. The most relevant distinction is that the top vector is used to define the input of a problem, whereas the side vector is used to compute a solution. In derivation theory words, the top vector is the linearization of the combination matrix, and each element in the side vector is a transform of the row $r$ that can be derived from from the top. Another fundamental distinction is that the contents of a side are permutable by Corollary~\ref{topSquareSideCorollary}, whereas the contents of the top are usually not. Even though there are permutations of the top vector that yield equivalent solutions, those are special cases and will be discussed in more detail in the next section. Lastly, like Listing~\ref{allSquaresRecursive}, the algorithm presented in Listing~\ref{allSidesRecursive} below also facilitates understanding of Listing~\ref{allSolutionsRecursive}, but it is not used in computing combination matrices of self-derivation. The algorithm described in Listing~\ref{allTopsRecursive}, on the other hand, is not only used in this implementation, but will also be the subject of future research.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Recursively computing all size vectors of a certain size.},label={allSidesRecursive}]
@@ -902,14 +902,14 @@ bool matchRowWithTop(number *top, const number *row, const number *partitions, n
 \end{lstlisting}
 
 \begin{enumerate}
-\item The inputs are a memory addres that holds some scratch space with size equal to the top size, the address of the transform of the row which the algorithm will try to match with the top, the address of the integer partition to be used, that is, a row from the semi-magic square, the problem size, and the row size.
+\item The inputs are a memory address that holds some scratch space with size equal to the top size, the address of the transform of the row which the algorithm will try to match with the top, the address of the integer partition to be used, that is, a row from the semi-magic square, the problem size, and the row size.
 \item Like lines 6 and 7 in Listing~\ref{writeSolution}, lines 2 and 3 here are indices into the top vector and row transform. 
 \addtocounter{enumi}{2}
 \item Line 5 iterates over the problem size, that is, over the number of columns in the top vector, similarly to line 12 in Listing~\ref{writeSolution}. Line 6 stores in a variable the current square cell value, and the use of variable \emph{p} here is identical to the use of variable \emph{p} in Listing~\ref{writeSolution}.
 \addtocounter{enumi}{2}
 \item The inner for-loop in line 8, as well as the check in lines 9 and 10 are identical to lines 15 to 17 in Listing~\ref{writeSolution}.
 \addtocounter{enumi}{3}
-\item Line 12 tests that the \emph{j}\textsuperscript{th} entry in the top vector matches the row transform at the current row index. Unlike Listing~\ref{writeSolution}, the top vector may not be unaltered. If the \emph{j}\textsuperscript{th} entry in the top vector was already matched to a different transform of the row $r$ in a previous call to Listing~\ref{matchRowWithTop}, then the \emph{j}\textsuperscript{th} entry in the top vector will have been set to minus one, and Listing~\ref{matchRowWithTop} will fail. Otherwise, line 13 will set the \emph{j}\textsuperscript{th} entry in the top vector to minus one, which differs from Listing~\ref{writeSolution} in the sense that the latter sets a scratch memory space that had previously initialized with minus ones to the the corresponding entry in the row transform. Line 14 inreases the row index, and line 15 decreases \emph{p}, similarly to what Listing~\ref{writeSolution} does in lines 21 and 22.
+\item Line 12 tests that the \emph{j}\textsuperscript{th} entry in the top vector matches the row transform at the current row index. Unlike Listing~\ref{writeSolution}, the top vector may not be unaltered. If the \emph{j}\textsuperscript{th} entry in the top vector was already matched to a different transform of the row $r$ in a previous call to Listing~\ref{matchRowWithTop}, then the \emph{j}\textsuperscript{th} entry in the top vector will have been set to minus one, and Listing~\ref{matchRowWithTop} will fail. Otherwise, line 13 will set the \emph{j}\textsuperscript{th} entry in the top vector to minus one, which differs from Listing~\ref{writeSolution} in the sense that the latter sets a scratch memory space that had previously initialized with minus ones to the the corresponding entry in the row transform. Line 14 increases the row index, and line 15 decreases \emph{p}, similarly to what Listing~\ref{writeSolution} does in lines 21 and 22.
 \addtocounter{enumi}{6}
 \item Line 19 checks that all \emph{p} elements from the row transform starting at row index have been matched with the current top vector column. If not, line 20 returns false.
 \addtocounter{enumi}{2}
@@ -918,8 +918,10 @@ bool matchRowWithTop(number *top, const number *row, const number *partitions, n
 \item If line 25 is reached, then the row transform has been matched successfully to all top vector columns. Still, the algorithm performs a sanity check and confirms that all row elements have been indeed matched by comparing the current row index with the row size.
 \end{enumerate}
 
+Listing~\ref{allSolutionsRecursive} combines Listing~\ref{allSidesRecursive} and Listing~\ref{allSquaresRecursive} to compute all possible solutions for a given top. The general idea is to, for each potential row of a semi-magic square, try to match a transform of the row $r$ with the current top using Listing~\ref{matchRowWithTop}. If that succeeds, Listing~\ref{allSolutionsRecursive} recurses then backtracks, thus covering all of the row class and all of the partitions. Side vectors are not computed directly, but rather as a side effect of matching transforms of $r$ with the top. The side vector is still maintained as the algorithm recurses, as it is crucial for avoiding permutations of the rows, as previously discussed, and is also used in Listing~\ref{writeSolution} to label each derived row in the text output of a solution.
+
 %--------------------------------------------------------------------------
-\begin{lstlisting}[caption={},label={allSolutionsRecursive}]
+\begin{lstlisting}[caption={Recursively computing all solutions for a top vector of a certain size.},label={allSolutionsRecursive}]
 void allSolutionsRecursive(thread_data *d, common_data *cd, FILE *solutionsFile, number currentSize) {
     if (currentSize == cd->problemSize) {
         d->counter++;
@@ -971,15 +973,17 @@ void allSolutionsRecursive(thread_data *d, common_data *cd, FILE *solutionsFile,
 \end{lstlisting}
 
 \begin{enumerate}
-\addtocounter{enumi}{1}
-\item 
+\item The inputs are the memory address of the thread-specific data, the memory address of the thread-common data, a pointer to a C-style FILE data structure, and the current size of the call stack.
+\item Line 2 deals with the base case of the recursion by testing whether the current size has reached the problem size. If so, line 3 increases the thread-specific solution counter, line 4 calls Listing~\ref{writeSolution} to write the solution to the provided FILE, and line 5 returns.
+\addtocounter{enumi}{5}
+\item Line 8
 \end{enumerate}
 
 %--------------------------------------------------------------------------
 \section{Creating work data for use in concurrent threads}
 
 %--------------------------------------------------------------------------
-\begin{lstlisting}[caption={},label={createCommonData}]
+\begin{lstlisting}[caption={Allocating thread-common data.},label={createCommonData}]
 void createCommonData(common_data *cd, int argc, char *argv[]) {
     number problemSize = (number) strtol(argv[1], NULL, 10);
     number rowSize = argc - 2;
@@ -1031,7 +1035,7 @@ void createCommonData(common_data *cd, int argc, char *argv[]) {
 \end{enumerate}
 
 %--------------------------------------------------------------------------
-\begin{lstlisting}[caption={},label={destroyCommonData}]
+\begin{lstlisting}[caption={Deallocating thread-common data.},label={destroyCommonData}]
 void destroyCommonData(common_data *cd) {
     free(cd->rowClass);
     free(cd->rMap);
@@ -1126,7 +1130,7 @@ bool unseen(const number *top, common_data *cd) {
 \end{enumerate}
 
 %--------------------------------------------------------------------------
-\begin{lstlisting}[caption={},label={createThreadData}]
+\begin{lstlisting}[caption={Allocating thread-specific data.},label={createThreadData}]
 void createThreadData(thread_data *d, common_data *cd) {
     d->counter = 0;
     d->tmpSide = malloc(cd->problemSize * sizeof(number));
@@ -1143,7 +1147,7 @@ void createThreadData(thread_data *d, common_data *cd) {
 \end{enumerate}
 
 %--------------------------------------------------------------------------
-\begin{lstlisting}[caption={},label={destroyThreadData}]
+\begin{lstlisting}[caption={Deallocating thread-specific data.},label={destroyThreadData}]
 void destroyThreadData(thread_data *d) {
     free(d->tmpSide);
     free(d->currentTop);
