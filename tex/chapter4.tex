@@ -1001,6 +1001,8 @@ void allSolutionsRecursive(thread_data *d, common_data *cd, FILE *solutionsFile,
 %--------------------------------------------------------------------------
 \section{Creating work data for use in concurrent threads}
 
+This section outlines the procedures used for allocating the data structures to be used as inputs to Listing~\ref{allSolutionsRecursive}. Pre-allocating and reusing scratch memory locations is absolutely critical for the performance of all algorithms described above. Unnecessary calls to allocate and deallocate memory can significantly increase the time it takes for Listing~\ref{allSolutionsRecursive} to execute as row size and problem size grow. Listing~\ref{createCommonData} describes how thread-common data is allocated, and every call to Listing~\ref{createCommonData} should be balanced with a call to Listing~\ref{destroyCommonData} when resources are no longer needed. Listing~\ref{createCommonData} allocates two arrays with size equal to the row class size. These are namely the retrograde and the retrograde inverse maps. As the name suggests, theses are mappings between indices within the row class. The retrograde map takes an element into its retrograde, and the retrograde inverse map takes an element into its retrograde inverse. These maps will be used in conjunction with Listing~\ref{unseen}, thus further details are deferred until the next section.
+
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Allocating thread-common data.},label={createCommonData}]
 void createCommonData(common_data *cd, int argc, char *argv[]) {
@@ -1049,9 +1051,43 @@ void createCommonData(common_data *cd, int argc, char *argv[]) {
 \end{lstlisting}
 
 \begin{enumerate}
-\addtocounter{enumi}{1}
-\item 
+\item The inputs are the memory address of a thread-common data structure, and the number of arguments provided in the command line, and the array of such arguments. Listing~\ref{createCommonData} allocates the internal pointers in a thread-common data structure, but also parses the command line inputs, which are a problem size and a row, separated by spaces. The row does not need to be in its canonical form.
+\item Line 2 retrieves the problem size from the first element in arguments array. Note that the zeroth element is the application name. Line 3 computes then the row size, which is just the number of arguments minus two, namely the row size and the application name. Line 4 allocates some memory space which will be used to parse the row provided in the remaining arguments.
+\addtocounter{enumi}{3}
+\item Line 6 iterates through the row size and line 7 parses each row entry provided, storing them in the memory allocated in line 4.
+\addtocounter{enumi}{2}
+\item Line 9 updates the provided pointer to a thread-common data structure with the problem size, line 10 updates the row size, and line 11 computes and updates the top size.
+\addtocounter{enumi}{3}
+\item Line 13 is a call to Listing~\ref{isRetrogradeInvariant} to determine if the row is retrograde-invariant, and line 14 is similarly a call to Listing~\ref{isRetrogradeInverseInvariant} to determine if the row is retrograde inverse-invariant. Note that the row does not need to be in its canonical form when determining retrograde or retrograde inverse-invariance.
+\addtocounter{enumi}{2}
+\item Line 16 updates the data pointer with information whether the row is retrograde or retrograde inverse-invariance. The specific information whether retrograde invariance occurs under inversion or not will be needed to compute retrograde and retrograde inverse maps in Listing~\ref{createCommonData}, but will not be needed in the algorithms that depend on a thread-common data structure. Line 17 is a call to Listing~\ref{getRowClass}, which allocates and returns the memory address of the row class array. Line 18 allocates the memory that will hold the retrograde map, and line 19 allocates the memory that will hold the retrograde inverse map. Lines 20 and 21 are calls to respectively Listing~\ref{readAllPartitions} and Listing~\ref{readAllTops}, both returning allocated memory addresses.
+\addtocounter{enumi}{6}
+\item Line 23 tests if the row is retrograde-invariant and, if so, line 24 iterates over the size of the row, filling the first half of the retrograde map in line 25. Note that, since the row is retrograde-invariant, the size of the row class is twice the size of the row.
+\addtocounter{enumi}{3}
+\item Line 27 continues iterating over the class size, filling the second half of the retrograde map in line 28.
+\addtocounter{enumi}{2}
+\item If the row is retrograde inverse-invariant, line 30 iterates over the size of the row, filling the first half of the retrograde map in line 31. Note that if the row is retrograde inverse-invariant, the first and second halves of the retrograde map are reversed, that is, line 31 does the same computation that line 28 does.
+\addtocounter{enumi}{2}
+\item Line 33 continues iterating over the class size, filling the second half of the retrograde map in line 34 with the same computation in line 25.
+\addtocounter{enumi}{3}
+\item Line 37 iterates a second time over the entire size of the row class to set the values in the retrograde inverse map. Line 37 tests if the entry corresponds to the $T_0$ or the $T_0I$ transforms of the row, in which case line 38 assigns these indices such that $T_0 \mapsto T_0I$ and $T_0I \mapsto T_0$. If not, then line 39 the other indices such that $T_0 \mapsto T_0I$.
 \end{enumerate}
+
+\begin{example}
+Let $r$ be a retrograde-invariant row with size $n = 6$. Then the row class array computed by Listing~\ref{getRowClass} will contain a sequence of transforms of $r$ equal to $C = \{T_0, \cdots, T_5, T_0I, \cdots, T_5I\}$. Let $\tilde{C} = \{0, \cdots, 11\}$ be the sequence of indices of $C$, such that $T_0 \mapsto 0, \cdots, T_5I \mapsto 11$ is a mapping from $C$ to $\tilde{C}$. Then the retrograde map of the row class of $r$ will be the sequence of indices
+\begin{equation}
+	R(\tilde{C}) = \{3, 4, 5, 0, 1, 2, 9, 10, 11, 6, 7, 8\} \enspace.
+\end{equation}
+Since $r$ is retrograde-invariant, the sequence $\{0, \cdots, 5\}$ of indices of $r$ maps to itself under the retrograde operator, that is, $R$ is the permutation $(0 \; 5) \; (1 \; 4) \; (2 \; 3)$ when seen as a permutation of indices. Since $r = RT_x(r)$ by assumption, $Tx$ must be a transposition that, seen as a permutation of pitch-classes, in which all cycles are 2-cycles. This is only possible if $x = 3$. Since $T_3 = (0 \; 3) \; (1 \; 4) \; (2 \; 5)$, the array given by $R(\tilde{C})$, when seen as a permutation of indices of the row class, is in fact the map
+\begin{equation}
+	T_0 \mapsto T_3, \cdots, T_5 \mapsto T_2, T_3I \mapsto T_0I, \cdots, T_5I \mapsto T_2I \enspace.
+\end{equation}
+If, instead, $r$ is retrograde inverse-invariant, let $C$ and $tilde{C}$ be as above. Then the retrograde inverse map of the row class of $r$ will be the sequence of indices
+\begin{equation}
+	RI(\tilde{C}) = \{11, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 0\} \enspace.
+\end{equation}
+
+\end{example}
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Deallocating thread-common data.},label={destroyCommonData}]
@@ -1063,6 +1099,32 @@ void destroyCommonData(common_data *cd) {
     free(cd->allTops);
 }
 \end{lstlisting}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={Allocating thread-specific data.},label={createThreadData}]
+void createThreadData(thread_data *d, common_data *cd) {
+    d->counter = 0;
+    d->tmpSide = malloc(cd->problemSize * sizeof(number));
+    d->currentTop = malloc(cd->topSize * sizeof(number));
+    d->tmpTops = malloc(cd->problemSize * cd->topSize * sizeof(number));
+    d->currentSum = malloc(cd->problemSize * sizeof(number));
+    d->tmpSquare = malloc(cd->problemSize * sizeof(length));
+}
+\end{lstlisting}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={Deallocating thread-specific data.},label={destroyThreadData}]
+void destroyThreadData(thread_data *d) {
+    free(d->tmpSide);
+    free(d->currentTop);
+    free(d->tmpTops);
+    free(d->currentSum);
+    free(d->tmpSquare);
+}
+\end{lstlisting}
+
+%--------------------------------------------------------------------------
+\section{Defining a top-level procedure for computing all solutions for a given row class}
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={},label={createSolutionsFile}]
@@ -1088,12 +1150,66 @@ FILE *createSolutionsFile(number *row, number problemSize, number rowSize, lengt
 \end{enumerate}
 
 %--------------------------------------------------------------------------
-\begin{lstlisting}[caption={},label={fillTop}]
-void fillTop(thread_data *d, common_data *cd, const number *combo) {
-    for (number i = 0; i < cd->problemSize; ++i)
-        memcpy(&d->currentTop[i * cd->rowSize],
-               &cd->rowClass[combo[i] * cd->rowSize],
-               cd->rowSize * sizeof(number));
+\begin{lstlisting}[caption={},label={}]
+range getInverse(range num, number rowSize) {
+    if (num == 0 || num == rowSize * 2)
+        return num + rowSize;
+
+    if (num == rowSize || num == rowSize * 3)
+        return num - rowSize;
+
+    if (num < rowSize * 2)
+        return rowSize * 2 - num;
+
+    return rowSize * 6 - num;
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\addtocounter{enumi}{1}
+\item 
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={}]
+range getReverse(range num, number rowSize) {
+    return (num + rowSize * 2) % (rowSize * 4);
+}
+\end{lstlisting}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={}]
+range getReverseInverse(range num, number rowSize) {
+    return getInverse(getReverse(num, rowSize), rowSize);
+}
+\end{lstlisting}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={}]
+bool seen(const number *combo, common_data *cd) {
+    number last = cd->problemSize - 1;
+    bool I = (combo[last] % (cd->rowSize * 2)) > (cd->rowSize - 1);
+    number T = combo[last] % cd->rowSize;
+    range back, transform, offset;
+
+    for (int i = 0; i <= last; ++i) {
+        if (I) {
+            back = getReverseInverse(combo[last - i], cd->rowSize);
+            transform = modulo(back + T, cd->rowSize);
+        } else {
+            back = getReverse(combo[last - i], cd->rowSize);
+            transform = modulo(back - T, cd->rowSize);
+        }
+
+        offset = (back / cd->rowSize) * cd->rowSize;
+
+        if (combo[i] < transform + offset)
+            return false;
+        else if (combo[i] > transform + offset)
+            return true;
+    }
+
+    return false;
 }
 \end{lstlisting}
 
@@ -1104,11 +1220,6 @@ void fillTop(thread_data *d, common_data *cd, const number *combo) {
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={},label={unseen}]
-// 1. Compute the R or RI-transform of the top.
-// 2. Transpose the above so it starts with zero.
-// 3. Go from left to right and return true if:
-//    3.1. There is an entry greater than the top or;
-//    3.2. There are no entries less than the top, implying the top is R or RI-invariant.
 bool unseen(const number *top, common_data *cd) {
     number last = cd->problemSize - 1;
     number offset = cd->rMap[top[last]];
@@ -1138,62 +1249,56 @@ bool unseen(const number *top, common_data *cd) {
 }
 \end{lstlisting}
 
+%// 1. Compute the R or RI-transform of the top.
+%// 2. Transpose the above so it starts with zero.
+%// 3. Go from left to right and return true if:
+%//    3.1. There is an entry greater than the top or;
+%//    3.2. There are no entries less than the top, implying the top is R or RI-invariant.
+
 \begin{enumerate}
 \addtocounter{enumi}{1}
 \item 
 \end{enumerate}
 
 %--------------------------------------------------------------------------
-\begin{lstlisting}[caption={Allocating thread-specific data.},label={createThreadData}]
-void createThreadData(thread_data *d, common_data *cd) {
-    d->counter = 0;
-    d->tmpSide = malloc(cd->problemSize * sizeof(number));
-    d->currentTop = malloc(cd->topSize * sizeof(number));
-    d->tmpTops = malloc(cd->problemSize * cd->topSize * sizeof(number));
-    d->currentSum = malloc(cd->problemSize * sizeof(number));
-    d->tmpSquare = malloc(cd->problemSize * sizeof(length));
+\begin{lstlisting}[caption={},label={fillTop}]
+void fillTop(thread_data *d, common_data *cd, const number *combo) {
+    for (number i = 0; i < cd->problemSize; ++i)
+        memcpy(&d->currentTop[i * cd->rowSize],
+               &cd->rowClass[combo[i] * cd->rowSize],
+               cd->rowSize * sizeof(number));
 }
 \end{lstlisting}
 
-%--------------------------------------------------------------------------
-\begin{lstlisting}[caption={Deallocating thread-specific data.},label={destroyThreadData}]
-void destroyThreadData(thread_data *d) {
-    free(d->tmpSide);
-    free(d->currentTop);
-    free(d->tmpTops);
-    free(d->currentSum);
-    free(d->tmpSquare);
-}
-\end{lstlisting}
-
-%--------------------------------------------------------------------------
-\section{Defining a top-level procedure for computing all solutions for a given row class}
+\begin{enumerate}
+\addtocounter{enumi}{1}
+\item 
+\end{enumerate}
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={},label={writeSolutions}]
 length writeSolutions(thread_data *d, common_data *cd, length startTop, length endTop) {
-    //printMatrix(cd->rowClass, cd->classSize, cd->rowSize);
     length topCounter = 0;
 
     FILE *solutionsFile = createSolutionsFile(&cd->rowClass[0], cd->problemSize, cd->rowSize, startTop, endTop);
 
-#if 0
-    for (int first = 0; first < cd->classSize; ++first)
-    for (length i = startTop; i < endTop; ++i) {
-        number *combo = &cd->allTops[i * cd->problemSize];
-        combo[0] = first;
-#else
-    for (length i = 0; i < 124; i += cd->problemSize) {
-        const number *combo = &combos[i];
-#endif
-        if (cd->isInvariant && !unseen(combo, cd))
-            continue;
+    for (range first = 0; first < cd->classSize; first += cd->classSize / 2) {
+        for (length i = startTop; i < endTop; ++i) {
+            number *combo = &cd->allTops[i * cd->problemSize];
+            combo[0] = first;
 
-        fillTop(d, cd, combo);
-        memcpy(d->tmpTops, d->currentTop, cd->topSize * sizeof(number));
-        memset(d->currentSum, 0, cd->problemSize * sizeof(number));
-        allSolutionsRecursive(d, cd, solutionsFile, 0);
-        topCounter++;
+            if (!cd->isInvariant && seen(combo, cd))
+                continue;
+
+            if (cd->isInvariant && !unseen(combo, cd))
+                continue;
+
+            fillTop(d, cd, combo);
+            memcpy(d->tmpTops, d->currentTop, cd->topSize * sizeof(number));
+            memset(d->currentSum, 0, cd->problemSize * sizeof(number));
+            allSolutionsRecursive(d, cd, solutionsFile, 0);
+            topCounter++;
+        }
     }
 
     fclose(solutionsFile);
@@ -1206,3 +1311,6 @@ length writeSolutions(thread_data *d, common_data *cd, length startTop, length e
 \addtocounter{enumi}{1}
 \item 
 \end{enumerate}
+
+%--------------------------------------------------------------------------
+\section{Defining a single and multi-threaded command line tools for computing all solutions for a given row and problem size}
