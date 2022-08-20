@@ -950,13 +950,6 @@ void allSolutionsRecursive(thread_data *d, common_data *cd, FILE *solutionsFile,
 
         if (validate(d->currentSum, cd->problemSize, cd->rowSize)) {
             d->tmpSquare[currentSize] = i;
-
-            // If the previous square index is the same as the current square index,
-            // then we don't start from zero. Instead, we start from the previous row index plus one.
-            // The sequence of row indices can be strictly increasing, since equal indices produce
-            // equal rows, which cannot both equally fit into the same partition scheme given by the
-            // current square index, which is the same as the previous square index by assumption.
-
             number rowStart = 0;
 
             if (currentSize > 0 && start == i)
@@ -984,8 +977,36 @@ void allSolutionsRecursive(thread_data *d, common_data *cd, FILE *solutionsFile,
 \item The inputs are the memory address of the thread-specific data, the memory address of the thread-common data, a pointer to a C-style FILE data structure, and the current size of the call stack.
 \item Line 2 deals with the base case of the recursion by testing whether the current size has reached the problem size. If so, line 3 increases the thread-specific solution counter, line 4 calls Listing~\ref{writeSolution} to write the solution to the provided FILE, and line 5 returns.
 \addtocounter{enumi}{5}
-\item Line 8
+\item Line 8 initializes a variable for where iteration of integer partition rows should start, similarly to line 7 in Listing~\ref{allSquaresRecursive}.
+\addtocounter{enumi}{1}
+\item Line 10 tests if the current size is greater than zero and, if so, line 11 sets the start value to the last row appended to the current semi-magic square, similarly to what line 12 in Listing~\ref{allSquaresRecursive} does, and line 12 here pushes onto the top history stack the current top. As derived rows are added to form a solution, the state of the current sum of square columns is always easy to backtrack by subtracting from the current sum array the last integer partition row that was appended to the square. Backtracking the current top, on the other hand, is more difficult. Every time a derived row is successfully matched against the current top, the entries where they align according to the square row at hand will be set to minus one in the current top. If all derived rows are matched and a solution is found, the entire current top scratch memory will contain only minus ones. Therefore backtracking the current top requires maintaining its history every time Listing~\ref{matchRowWithTop} succeeds and a new call to Listing~\ref{allSolutionsRecursive} is pushed onto the call stack.
+\addtocounter{enumi}{4}
+\item Lines 15 to 17 do exactly what lines 14 to 16 do in Listing~\ref{allSquaresRecursive}.
+\addtocounter{enumi}{3}
+\item Similarly, lines 19 and 20 are identical to lines 18 and 19 in Listing~\ref{allSquaresRecursive}. At this point, the current sum of square columns have been validated and a new integer partition row has been appended to the square. With an integer partition row and a current top in place, the algorithm now searches for a representative of the row class that will fit under the current top given the scheme provided by the integer partition. Line 21 then declares a variable to represent what the start index of iteration over the representatives of the row class should be.
+\addtocounter{enumi}{3}
+\item The rows of the square, seen as indices into the array of all integer partition rows, form a nondecreasing sequence. That is to avoid permutations of the square's rows, as by Cor.~\ref{topSquareSideCorollary} two squares with permuted rows are equivalent. Nonetheless, squares may have several repeated rows. One simple example is the square in which all entries are equal to $n / m$, where $n$ is the row size, $m$ is the problem size, and $m$ divides $n$. If $m \nmid n$ and $n > 2$, then consider the square where all entries in all rows but the bottommost row are equal to $x = \lfloor n / m \rfloor$, and all entries in the bottommost row are equal to $x + 1$. Line 23 tests for the case where the current square row is the same as the previous one, which can only be true if the current size is greater than zero. If that is the case, then the sequence of representatives of the row class that fall under the subsequence of repeated integer partition rows can be allowed to be nondecreasing, as well, to avoid permutations that would produce equivalent solutions. In fact, a stronger condition applies, and the sequence of representatives falling under repeated square rows can be strictly increasing. That is because the same representative of a row class cannot fit under the top row twice using the same integer partition row. Line 24 then changes the start index of iteration over the representatives of the row class accordingly.
+\addtocounter{enumi}{2}
+\item Line 25
 \end{enumerate}
+
+% for (length i = start; i < numPartitions; ++i) {
+%     const number *p = &partitions[i * problemSize];
+%     plus(currentSum, p, problemSize);
+
+%     if (validate(currentSum, problemSize, rowSize)) {
+%         tmp[currentSize++] = i;
+%         allSquaresRecursive(tmp, currentSum, currentSize, problemSize, rowSize, partitions, numPartitions, file);
+%         currentSize--;
+%     }
+
+%     minus(currentSum, p, problemSize);
+% }
+
+% \addtocounter{enumi}{3}
+% \item Line 18 calls Listing~\ref{validate} to validate the current sum and, if the sum is valid, line 19 sets the next index in the current square scratch memory, here represented by the variable \emph{tmp} to the current iteration index and increases the current size. Line 20 then pushes another call to Listing~\ref{allSquaresRecursive} onto the stack, and line 21 backtracks the current size.
+% \addtocounter{enumi}{5}
+% \item Regardless whether the validation test in line 18 succeeded, the current sum must be backtracked inside the same block where Listing~\ref{plus} was called. Line 24 accomplishes that with a balancing call to Listing~\ref{minus}.
 
 %--------------------------------------------------------------------------
 \section{Creating work data for use in concurrent threads}
@@ -1052,11 +1073,6 @@ void destroyCommonData(common_data *cd) {
     free(cd->allTops);
 }
 \end{lstlisting}
-
-\begin{enumerate}
-\addtocounter{enumi}{1}
-\item 
-\end{enumerate}
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={},label={createSolutionsFile}]
@@ -1149,11 +1165,6 @@ void createThreadData(thread_data *d, common_data *cd) {
 }
 \end{lstlisting}
 
-\begin{enumerate}
-\addtocounter{enumi}{1}
-\item 
-\end{enumerate}
-
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Deallocating thread-specific data.},label={destroyThreadData}]
 void destroyThreadData(thread_data *d) {
@@ -1164,11 +1175,6 @@ void destroyThreadData(thread_data *d) {
     free(d->tmpSquare);
 }
 \end{lstlisting}
-
-\begin{enumerate}
-\addtocounter{enumi}{1}
-\item 
-\end{enumerate}
 
 %--------------------------------------------------------------------------
 \section{Defining a top-level procedure for computing all solutions for a given row class}
