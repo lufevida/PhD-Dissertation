@@ -985,28 +985,18 @@ void allSolutionsRecursive(thread_data *d, common_data *cd, FILE *solutionsFile,
 \addtocounter{enumi}{3}
 \item Similarly, lines 19 and 20 are identical to lines 18 and 19 in Listing~\ref{allSquaresRecursive}. At this point, the current sum of square columns have been validated and a new integer partition row has been appended to the square. With an integer partition row and a current top in place, the algorithm now searches for a representative of the row class that will fit under the current top given the scheme provided by the integer partition. Line 21 then declares a variable to represent what the start index of iteration over the representatives of the row class should be.
 \addtocounter{enumi}{3}
-\item The rows of the square, seen as indices into the array of all integer partition rows, form a nondecreasing sequence. That is to avoid permutations of the square's rows, as by Cor.~\ref{topSquareSideCorollary} two squares with permuted rows are equivalent. Nonetheless, squares may have several repeated rows. One simple example is the square in which all entries are equal to $n / m$, where $n$ is the row size, $m$ is the problem size, and $m$ divides $n$. If $m \nmid n$ and $n > 2$, then consider the square where all entries in all rows but the bottommost row are equal to $x = \lfloor n / m \rfloor$, and all entries in the bottommost row are equal to $x + 1$. Line 23 tests for the case where the current square row is the same as the previous one, which can only be true if the current size is greater than zero. If that is the case, then the sequence of representatives of the row class that fall under the subsequence of repeated integer partition rows can be allowed to be nondecreasing, as well, to avoid permutations that would produce equivalent solutions. In fact, a stronger condition applies, and the sequence of representatives falling under repeated square rows can be strictly increasing. That is because the same representative of a row class cannot fit under the top row twice using the same integer partition row. Line 24 then changes the start index of iteration over the representatives of the row class accordingly.
+\item The rows of the square, seen as indices into the array of all integer partition rows, form a nondecreasing sequence. That is to avoid permutations of the square's rows, as by Cor.~\ref{topSquareSideCorollary} two squares with permuted rows are equivalent. Nonetheless, squares may have several repeated rows. One simple example is the square in which all entries are equal to $n / m$, where $n$ is the row size, $m$ is the problem size, and $m$ divides $n$. Line 23 tests for the case where the current square row is the same as the previous one, which can only be true if the current size is greater than zero. If that is the case, then the sequence of representatives of the row class that fall under the subsequence of repeated integer partition rows can be allowed to be nondecreasing, as well, to avoid permutations that would produce equivalent solutions. In fact, a stronger condition applies, and the sequence of representatives falling under repeated square rows can be strictly increasing. That is because the same representative of a row class cannot fit under the top row twice using the same integer partition row scheme. Line 24 then changes the start index of iteration over the representatives of the row class accordingly.
 \addtocounter{enumi}{2}
-\item Line 25
+\item Line 26 iterates over the representatives of a row class, according to the row start index declared in line 21, and line 27 stores in a variable the memory address of the representative being considered.
+\addtocounter{enumi}{2}
+\item Line 29 is a call to Listing~\ref{matchRowWithTop}. If it succeeds, line 30 sets the next row representative index in the side vector and increases the current size. Line 31 then pushes another call to Listing~\ref{allSolutionsRecursive} onto the stack, and line 32 backtracks the current size.
+\addtocounter{enumi}{5}
+\item Line 35 backtracks the current top to its previous state, using the top history stored in the top stack in line 12. Every call to Listing~\ref{matchRowWithTop} is matched with the backtracking procedure in line 35.
+\addtocounter{enumi}{3}
+\item Finally, line 39 backtracks the current sum of square columns with a balancing call to Listing~\ref{minus}, similarly to what Listing~\ref{allSquaresRecursive} does in its line 24.
 \end{enumerate}
 
-% for (length i = start; i < numPartitions; ++i) {
-%     const number *p = &partitions[i * problemSize];
-%     plus(currentSum, p, problemSize);
-
-%     if (validate(currentSum, problemSize, rowSize)) {
-%         tmp[currentSize++] = i;
-%         allSquaresRecursive(tmp, currentSum, currentSize, problemSize, rowSize, partitions, numPartitions, file);
-%         currentSize--;
-%     }
-
-%     minus(currentSum, p, problemSize);
-% }
-
-% \addtocounter{enumi}{3}
-% \item Line 18 calls Listing~\ref{validate} to validate the current sum and, if the sum is valid, line 19 sets the next index in the current square scratch memory, here represented by the variable \emph{tmp} to the current iteration index and increases the current size. Line 20 then pushes another call to Listing~\ref{allSquaresRecursive} onto the stack, and line 21 backtracks the current size.
-% \addtocounter{enumi}{5}
-% \item Regardless whether the validation test in line 18 succeeded, the current sum must be backtracked inside the same block where Listing~\ref{plus} was called. Line 24 accomplishes that with a balancing call to Listing~\ref{minus}.
+% TODO: If $m \nmid n$ and $n > 2$, then consider the square where all entries in all rows but the bottommost row are equal to $x = \lfloor n / m \rfloor$, and all entries in the bottommost row are equal to $x + 1$.
 
 %--------------------------------------------------------------------------
 \section{Creating work data for use in concurrent threads}
