@@ -1066,29 +1066,32 @@ void createCommonData(common_data *cd, int argc, char *argv[]) {
 \addtocounter{enumi}{3}
 \item Line 27 continues iterating over the class size, filling the second half of the retrograde map in line 28.
 \addtocounter{enumi}{2}
-\item If the row is retrograde inverse-invariant, line 30 iterates over the size of the row, filling the first half of the retrograde map in line 31. Note that if the row is retrograde inverse-invariant, the first and second halves of the retrograde map are reversed, that is, line 31 does the same computation that line 28 does.
+\item If the row is retrograde inverse-invariant, line 30 iterates over the size of the row, filling the first half of the retrograde map in line 31. Note that here the first and second halves of the retrograde map are reversed in regard to the retrograde-invariant case, that is, line 31 does the same computation that line 28 does.
 \addtocounter{enumi}{2}
-\item Line 33 continues iterating over the class size, filling the second half of the retrograde map in line 34 with the same computation in line 25.
+\item Line 33 continues iterating over the class size, filling the second half of the retrograde map in line 34, with the same computation in line 25.
 \addtocounter{enumi}{3}
-\item Line 37 iterates over the entire size of the row class to set the values in the retrograde inverse map. Line 38 tests if the corresponding retrograde map entry contains the $T_0$ or the $T_0I$ transforms of the row, in which case line 39 assigns these indices such that $T_0 \mapsto T_0I$ and $T_0I \mapsto T_0$. If not, then line 40 assigns the other indices such that $T_x \mapsto T_{-x pmod n}I$.
-\addtocounter{enumi}{3}
+\item Line 37 iterates over the entire size of the row class to set the values in the retrograde inverse map. Line 38 tests if the corresponding retrograde map entry contains the $T_0$ or the $T_0I$ transforms of the row, in which case line 39 assigns these indices such that $T_0 \mapsto T_0I$ and $T_0I \mapsto T_0$. If not, then line 40 assigns the other indices such that $T_x \mapsto T_{-x}$.
+\addtocounter{enumi}{4}
 \item Finally, line 42 deallocates the space created in line 4, as the original row can now be retrieved from the row class array.
 \end{enumerate}
 
 \begin{example}
-Let $r$ be a retrograde-invariant row with size $n = 6$. Then the row class array computed by Listing~\ref{getRowClass} will contain a sequence of transforms of $r$ equal to $C = \{T_0, \cdots, T_5, T_0I, \cdots, T_5I\}$. Let $\tilde{C} = \{0, \cdots, 11\}$ be the sequence of indices of $C$, such that $T_0 \mapsto 0, \cdots, T_5I \mapsto 11$ is a mapping from $C$ to $\tilde{C}$. Then the retrograde map of the row class of $r$ will be the sequence of indices
-\begin{equation}
-	R(\tilde{C}) = \{3, 4, 5, 0, 1, 2, 9, 10, 11, 6, 7, 8\} \enspace.
-\end{equation}
-Since $r$ is retrograde-invariant, the sequence $\{0, \cdots, 5\}$ of indices of $r$ maps to itself under the retrograde operator, that is, $R$ is the permutation $(0 \; 5) \; (1 \; 4) \; (2 \; 3)$ when seen as a permutation of indices. Since $r = RT_x(r)$ by assumption, $Tx$ must be a transposition that, seen as a permutation of pitch-classes, in which all cycles are 2-cycles. This is only possible if $x = 3$. Since $T_3 = (0 \; 3) \; (1 \; 4) \; (2 \; 5)$, the array given by $R(\tilde{C})$, when seen as a permutation of indices of the row class, is in fact the map
+\label{rMapExample}
+Let $r$ be a retrograde-invariant row with size $n = 6$. Then the row class array computed by Listing~\ref{getRowClass} will contain a sequence of transforms of $r$ equal to $C = \{T_0, \cdots, T_5, T_0I, \cdots, T_5I\}$. The retrograde map of the row class of $r$ will be the sequence containing the last entry in each transform of $r$ in $C$. This sequence will always be equal to $C_R = \{3, 4, 5, 0, 1, 2, 9, 10, 11, 6, 7, 8\}$. Since $r$ is retrograde-invariant, the sequence $\{0, \cdots, 5\}$ of indices of $r$ maps to itself under the retrograde operator, that is, $R$ is the permutation $(0 \; 5) \; (1 \; 4) \; (2 \; 3)$ when seen as a permutation of indices. Since $r = RT_x(r)$ by assumption, $Tx$ must be a transposition that, seen as a permutation of pitch-classes, comprises solely 2-cycles. This is only possible if $x = 3$. Since $T_3 = (0 \; 3) \; (1 \; 4) \; (2 \; 5)$, the array given by $C_R$, when seen as a permutation of indices of the row class, is in fact the map
 \begin{equation}
 	T_0 \mapsto T_3, \cdots, T_5 \mapsto T_2, T_3I \mapsto T_0I, \cdots, T_5I \mapsto T_2I \enspace.
 \end{equation}
-If, instead, $r$ is retrograde inverse-invariant, let $C$ and $tilde{C}$ be as above. Then the retrograde inverse map of the row class of $r$ will be the sequence of indices
+Given an index in $C$, the retrograde map takes that index to another index in $C$ such that a transform of $r$ maps to itself under $RT_{n / 2}$. Let $C_I = \{6, 11, 10, 9, 8, 7, 0, 5, 4, 3, 2, 1\}$ be the array that maps a transform of $r$ in the row class array to its inverse. Seen as a permutation, $C_I = (0 \; 6) \; (1 \; 11) \; (2 \; 10) \; (3 \; 9) \; (4 \; 8) \; (5 \; 7)$. The retrograde inverse map is then the composition of $C_R$ with $C_I$, that is
 \begin{equation}
-	RI(\tilde{C}) = \{11, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 0\} \enspace.
+	C_R \circ C_I = \{9, 8, 7, 6, 11, 10, 3, 2, 1, 0, 5, 4\} \enspace.
 \end{equation}
+\end{example}
 
+\begin{example}
+Let $r = \{0, 2, 3, 4, 5, 1\}$, with $n$, $C$ and $C_I$ as in Ex.~\ref{rMapExample}. Then $r$ is retrograde inverse-invariant. The sequence containing the last entry in each transform of $r$ in $C$ will depend on which $x$ satisfies $r = RT_xI(r)$. Since $T_xI$, seen as a permutation, must comprise only 2-cycles, $x$ is necessarily odd. In particular, $x = 1$ for this choice of $r$, but unlike retrograde maps, retrograde inverse maps depend on the row at hand. More precisely, on the transposition index in the operation that maps the row to itself. Here, $C_R = \{7, 8, 9, 10, 11, 6, 5, 0, 1, 2, 3, 4\}$ and thus
+\begin{equation}
+	C_R \circ C_I = \{5, 4, 3, 2, 1, 0, 7, 6, 11, 10, 9, 8\} \enspace.
+\end{equation}
 \end{example}
 
 %--------------------------------------------------------------------------
