@@ -1070,7 +1070,9 @@ void createCommonData(common_data *cd, int argc, char *argv[]) {
 \addtocounter{enumi}{2}
 \item Line 33 continues iterating over the class size, filling the second half of the retrograde map in line 34 with the same computation in line 25.
 \addtocounter{enumi}{3}
-\item Line 37 iterates a second time over the entire size of the row class to set the values in the retrograde inverse map. Line 37 tests if the entry corresponds to the $T_0$ or the $T_0I$ transforms of the row, in which case line 38 assigns these indices such that $T_0 \mapsto T_0I$ and $T_0I \mapsto T_0$. If not, then line 39 the other indices such that $T_0 \mapsto T_0I$.
+\item Line 37 iterates over the entire size of the row class to set the values in the retrograde inverse map. Line 38 tests if the corresponding retrograde map entry contains the $T_0$ or the $T_0I$ transforms of the row, in which case line 39 assigns these indices such that $T_0 \mapsto T_0I$ and $T_0I \mapsto T_0$. If not, then line 40 assigns the other indices such that $T_x \mapsto T_{-x pmod n}I$.
+\addtocounter{enumi}{3}
+\item Finally, line 42 deallocates the space created in line 4, as the original row can now be retrieved from the row class array.
 \end{enumerate}
 
 \begin{example}
@@ -1249,11 +1251,11 @@ bool unseen(const number *top, common_data *cd) {
 }
 \end{lstlisting}
 
-%// 1. Compute the R or RI-transform of the top.
-%// 2. Transpose the above so it starts with zero.
-%// 3. Go from left to right and return true if:
-%//    3.1. There is an entry greater than the top or;
-%//    3.2. There are no entries less than the top, implying the top is R or RI-invariant.
+% 1. Compute the R or RI-transform of the top.
+% 2. Transpose the above so it starts with zero.
+% 3. Go from left to right and return true if:
+%    3.1. There is an entry greater than the top or;
+%    3.2. There are no entries less than the top, implying the top is R or RI-invariant.
 
 \begin{enumerate}
 \addtocounter{enumi}{1}
