@@ -996,8 +996,6 @@ void allSolutionsRecursive(thread_data *d, common_data *cd, FILE *solutionsFile,
 \item Finally, line 39 backtracks the current sum of square columns with a balancing call to Listing~\ref{minus}, similarly to what Listing~\ref{allSquaresRecursive} does in its line 24.
 \end{enumerate}
 
-% TODO: If $m \nmid n$ and $n > 2$, then consider the square where all entries in all rows but the bottommost row are equal to $x = \lfloor n / m \rfloor$, and all entries in the bottommost row are equal to $x + 1$.
-
 %--------------------------------------------------------------------------
 \section{Creating work data for use in concurrent threads}
 
@@ -1247,7 +1245,7 @@ bool seen(const number *combo, common_data *cd) {
 \end{lstlisting}
 
 \begin{enumerate}
-\item The inputs are the memory addresses of a top row, and of a thread-common data structure.
+\item The inputs are the memory addresses of a top row, and of a thread-common data structure. The output is a boolean representing whether the top has already been seen.
 \item Line 2 stores in a variable the index of the last row in the top. Line 3 determines if the last top entry is inverted, that is, if it lies in the second or fourth quarters of the row class size. Line 4 determines if the last top entry's index of transposition. Line 5 declares three variables that will be needed in the for-loop in line 7.
 \addtocounter{enumi}{4}
 \item Line 7 iterates through all entries in the top, retrograding or retrograde inverting it. Line 8 checks if the top is inverted, and if so, line 9 calls Listing~\ref{getReverseInverse} and stores the result. Line 10 uses the index of transposition computed in line 4 to determine the transposition index of the top entry at hand, modulo the row size.
@@ -1263,11 +1261,7 @@ bool seen(const number *combo, common_data *cd) {
 \item If line 24 is reached, then every transformed top entry seen from right to left is equal to the corresponding non-transformed entry seen form left to right, which indicates that the top is retrograde or retrograde inverse-invariant. The algorithm then returns false. Since the first element of every top is always zero, line 24 can only be reached if the top at hand is being seen for the first time. Note that there are exceptions to the rule that every top's first element is zero, which shall be discussed in conjunction with Listing~\ref{writeSolutions}.
 \end{enumerate}
 
-% 1. Compute the R or RI-transform of the top.
-% 2. Transpose the above so it starts with zero.
-% 3. Go from left to right and return true if:
-%    3.1. There is an entry greater than the top or;
-%    3.2. There are no entries less than the top, implying the top is R or RI-invariant.
+The purpose of Listing~\ref{unseen} is also to filter out tops that can be achieved from a previously seen top through some transformation, only that Listing~\ref{unseen} handles the cases where the row is retrograde or retrograde inverse-invariant. The general idea is the same: compute the retrograde or retrograde inverse-invariant transform of the top, transposing it so it starts with zero. Then compare with the original top, read from left to right, and return true is there is an entry in the transformed top greater than the corresponding entry in the original top, or if there are no entries in the transformed top less than the corresponding entry in the original top, implying the top is retrograde or retrograde inverse-invariant. Listing~\ref{unseen} utilizes retrograde and retrograde inverse maps contained in the thread-common data structure, as filtering out tops may depend on the row at hand if the row is retrograde or retrograde inverse-invariant.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Determining whether a top has not yet been seen for retrograde or retrograde inverse-invariant rows.},label={unseen}]
@@ -1301,8 +1295,22 @@ bool unseen(const number *top, common_data *cd) {
 \end{lstlisting}
 
 \begin{enumerate}
+\item The inputs are the memory addresses of a top row, and of a thread-common data structure. Unlike Listing~\ref{unseen}, the output is a boolean representing whether the top has not yet been seen.
+\item Line 2 stores in a variable the index of the last row in the top. Line 3 uses the retrograde map to compute the transposition index of the top's last entry, assuming that the retrograde of the top is not inverted. Line 4 checks if the top's last entry is inverted and stores the result.
+\addtocounter{enumi}{3}
+\item Line 6 uses the result of the test computed in line 4, and if the retrograde of the top is indeed inverted, line 7 corrects the wrong assumption made in line 3, using this time the retrograde inverse map to update the transposition index of the top's last entry.
+\addtocounter{enumi}{2}
+\item Line 9 iterates through the entries in the top, skipping the comparison between its first and last entries. Since the row class does not contain any retrograde transforms, the result of the comparison between the first and last entries here would be trivial. Line 10 stores the current leftmost entry, and line 11 stores the current rightmost entry, using the value computed in line 4 to determine if the retrograde or the retrograde inverse map should be used to retrieve the rightmost entry.
+\addtocounter{enumi}{3}
+\item Line 13 tests if the current rightmost entry is not inverted, in which case line 14 transposes it using the previously computed transposition index.
+\addtocounter{enumi}{2}
+\item If the current rightmost entry is in fact inverted, lines 16 and 17 use the previously computed transposition index to transpose and invert the current rightmost entry.
+\addtocounter{enumi}{3}
+\item Line 20 simply tests if the current rightmost entry is greater than the current leftmost entry and, if so, line 21 returns true.
 \addtocounter{enumi}{1}
-\item 
+\item Line 22 tests the opposite scenario, and line 23 returns false if the current rightmost entry is less than the current leftmost entry.
+\addtocounter{enumi}{3}
+\item If line 26 is reached, then the top is is retrograde or retrograde inverse-invariant, so the algorithm returns true.
 \end{enumerate}
 
 %--------------------------------------------------------------------------
