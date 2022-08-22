@@ -1313,6 +1313,8 @@ bool unseen(const number *top, common_data *cd) {
 \item If line 26 is reached, then the top is is retrograde or retrograde inverse-invariant, so the algorithm returns true.
 \end{enumerate}
 
+Listing~\ref{fillTop} is used as a subroutine in Listing~\ref{writeSolutions} copy the top to be processed by Listing~\ref{allSolutionsRecursive} into the thread-specific data structure's scratch area for the top vector. A top, as computed in Listing~\ref{allTopRecursive}, is an array of indices into the row class array. Listing~\ref{fillTop} iterates through the problem size, and copies the appropriate row transform from the row class array into the current column offset of the top row scratch area.
+
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Refreshing the top row scratch area.},label={fillTop}]
 void fillTop(thread_data *d, common_data *cd, const number *combo) {
@@ -1323,16 +1325,24 @@ void fillTop(thread_data *d, common_data *cd, const number *combo) {
 }
 \end{lstlisting}
 
-\begin{enumerate}
-\addtocounter{enumi}{1}
-\item 
-\end{enumerate}
+Listing~\ref{writeSolutions} processes a range of tops and writes all solutions found into a text file. It relies on thread-specific data, so its execution should be constrained to a single thread. Multiple parallel calls to Listing~\ref{writeSolutions} can be made from different thread contexts, provided that each thread maitains their own thread-specific data structures. Listing~\ref{writeSolutions} also expands the provided range of tops when the row at hand is not retrograde or retrograde inverse-invariant. That is accomplished by processing the range of tops twice, the second time replacing the first entry in the top, which is always zero, with half the row class size, which is the index of the $RT_0$ transform. The reason is because some tops cannot be achieved by transforming the results of Listing~\ref{allTopsRecursive} alone. As a simple example, consider the case where $r$ is a row of size $n$ that is not retrograde or retrograde inverse-invariant, such that the size of its row class is $4n$. Let $T = \{0, 24\} = \{T_0, RT_0\}$ be a top. In particular, $T$ is one of the tops in the output of Listing~\ref{allTopsRecursive}. However, the retrograde of $T$ is the top
+
+\begin{equation}
+    R(T) = \{R(RT_0), R(T_0)\} = \{T_0, RT_0\} = \{0, 24\} = T \enspace.
+\end{equation}
+
+This shows that, in order to achieve some tops in which the first entry is a retrograde transform, such as $\tilde{T} = \{24, 0\}$, it is necessary that the top's first entry be a retrograde transform and not zero. It is sufficient that this first entry be $2n = RT_0$, since other tops in which the first entry is a retrograde transform can then be achieved by transformation under transposition, inversion or both. To see this, let $m$ be the problem size and let
+
+\begin{equation}
+    G = \underbrace{RT_xI \times \cdots \times RT_xI}_{m \text{times}} \enspace.
+\end{equation}
+
+The action of $RT_xI$ on $G$ by right multiplication induces orbits of two sizes, depending on whether $g \in G$, which is a top, is retrograde or retrograde inverse-invariant. If so, the orbit has size $2n$, otherwise the orbit has size $4n$. In the latter case, all orbits have a representative in which the first entry is zero. In the former case, all orbits have either a representative in which the first entry is zero, or one in which the first entry is $2n$.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Writing a text file with all solutions for a row class within a range of tops.},label={writeSolutions}]
 length writeSolutions(thread_data *d, common_data *cd, length startTop, length endTop) {
     length topCounter = 0;
-
     FILE *solutionsFile = createSolutionsFile(&cd->rowClass[0], cd->problemSize, cd->rowSize, startTop, endTop);
 
     for (range first = 0; first < cd->classSize; first += cd->classSize / 2) {
@@ -1340,10 +1350,13 @@ length writeSolutions(thread_data *d, common_data *cd, length startTop, length e
             number *combo = &cd->allTops[i * cd->problemSize];
             combo[0] = first;
 
-            if (!cd->isInvariant && seen(combo, cd))
-                continue;
+            if (cd->isInvariant && first >= cd->classSize / 2)
+                break;
 
             if (cd->isInvariant && !unseen(combo, cd))
+                continue;
+
+            if (!cd->isInvariant && seen(combo, cd))
                 continue;
 
             fillTop(d, cd, combo);
@@ -1355,15 +1368,26 @@ length writeSolutions(thread_data *d, common_data *cd, length startTop, length e
     }
 
     fclose(solutionsFile);
-
     return topCounter;
 }
 \end{lstlisting}
 
 \begin{enumerate}
-\addtocounter{enumi}{1}
-\item 
+\item The inputs are the memory addresses of a thread-common and a thread-specific data structures, as well as the start and end top indices to be covered. The output is the actual number of tops that were processed.
+\item Line 2 declares a variable to hold the total number of processed tops. Line 3 is a call to Listing~\ref{createSolutionsFile} to create and store the pointer to the C-style FILE where to which the computed solutions will be written.
+\addtocounter{enumi}{2}
+\item Line 5 iterates twice over the row class size to change the top's first entry from zero to half the row size in the second iteration, as discussed above. Line 6 iterates over the provided range of tops. Line 7 stores the memory address of the current top being processed, and line 8 changes the top's first entry.
+\addtocounter{enumi}{4}
+\item Line 10 checks if the row is retrograde or retrograde inverse-invariant and the current top's first entry is not zero, in which case line 11 breaks the for-loop.
+\addtocounter{enumi}{2}
+\item Line 13 checks if the row is retrograde or retrograde inverse-invariant and the current top can be achieved by transforming another top already seen by calling Listing~\ref{unseen}, in which case line 14 skips this iteration.
+\addtocounter{enumi}{2}
+\item Line 16 checks if the row is not retrograde or retrograde inverse-invariant and the current top can be achieved by transforming another top already seen by calling Listing~\ref{seen}, in which case line 17 skips this iteration.
+\addtocounter{enumi}{2}
+\item Line 19 is a call to Listing~\ref{fillTop} to refresh the top row's scratch area. Line 20 copies the current top into the bottom of the top stack, and line 21 sets all entries in the scratch area for square column sums to zero. Line 22 then calls Listing~\ref{allSolutionsRecursive} to compute and output solutions, and line 23 increases the top counter.
+\addtocounter{enumi}{7}
+\item Line 27 closes the solutions file and line 28 retuns the number of tops actually processed.
 \end{enumerate}
 
 %--------------------------------------------------------------------------
-\section{Defining a single and multi-threaded command line tools for computing all solutions for a given row and problem size}
+%\section{Defining a single and multi-threaded command line tools for computing all solutions for a given row and problem size}
