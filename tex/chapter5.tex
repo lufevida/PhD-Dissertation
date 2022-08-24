@@ -1,3 +1,130 @@
+%--------------------------------------------------------------------------
+\chapter{APPLICATIONS AND CONCLUSION}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={}]
+int main(int argc, char *argv[]) {
+    if (argc < 3) {
+        printf("Enter a problem size and a row!\n");
+        return -1;
+    }
+
+    common_data commonData;
+    createCommonData(&commonData, argc, argv);
+
+    thread_data data;
+    createThreadData(&data, &commonData);
+
+    clock_t start = clock();
+    writeSolutions(&data, &commonData, 0, commonData.numTops);
+
+    printf("%f seconds elapsed.\n", ((double) (clock() - start)) / CLOCKS_PER_SEC);
+    printf("%lu solutions found!\n", data.counter);
+
+    destroyThreadData(&data);
+    destroyCommonData(&commonData);
+
+    return 0;
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\item
+\addtocounter{enumi}{1}
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={}]
+class thread_manager {
+public:
+    thread_manager(int argc, char *argv[]) : threadData(std::thread::hardware_concurrency()) {
+        createCommonData(&commonData, argc, argv);
+
+        for (auto &data: threadData)
+            createThreadData(&data, &commonData);
+    }
+
+    ~thread_manager() {
+        for (auto &data: threadData)
+            destroyThreadData(&data);
+
+        destroyCommonData(&commonData);
+    }
+
+    long long runThreads() {
+        auto numThreads = threadData.size();
+
+        auto doWork = [this, &numThreads](int i, length startTop, length endTop) {
+            writeSolutions(&threadData[i], &commonData, startTop, endTop);
+            std::lock_guard<std::mutex> lock(mutex);
+            numThreads--;
+            condition.notify_one();
+        };
+
+        length startTop = 0;
+        length offset = commonData.numTops / numThreads;
+        auto maxThreads = numThreads - 1;
+        auto startTime = std::chrono::high_resolution_clock::now();
+
+        for (auto i = 0; i < maxThreads; ++i) {
+            std::thread(doWork, i, startTop, startTop + offset).detach();
+            startTop += offset;
+        }
+
+        doWork(maxThreads, startTop, commonData.numTops);
+
+        std::unique_lock<std::mutex> lock(mutex);
+        condition.wait(lock, [&numThreads] { return numThreads == 0; });
+
+        auto stopTime = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stopTime - startTime);
+
+        return duration.count();
+    }
+
+    length getNumSolutions() const {
+        length numSolutions = 0;
+
+        for (auto &data: threadData)
+            numSolutions += data.counter;
+
+        return numSolutions;
+    }
+
+private:
+    std::vector<thread_data> threadData;
+    common_data commonData;
+    std::mutex mutex;
+    std::condition_variable condition;
+};
+\end{lstlisting}
+
+\begin{enumerate}
+\item
+\addtocounter{enumi}{1}
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={},label={}]
+int main(int argc, char *argv[]) {
+    if (argc < 3) {
+        printf("Enter a problem size and a row!\n");
+        return -1;
+    }
+
+    thread_manager threadManager(argc, argv);
+    std::cout << threadManager.runThreads() << " milliseconds elapsed." << std::endl;
+    std::cout << threadManager.getNumSolutions() << " solutions found!" << std::endl;
+
+    return 0;
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\item
+\addtocounter{enumi}{1}
+\end{enumerate}
+
 \subsection{Directions for the future}
 
 Vectorize vector addition and subtraction.
