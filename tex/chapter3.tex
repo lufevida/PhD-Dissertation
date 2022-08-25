@@ -4,7 +4,7 @@
 %--------------------------------------------------------------------------
 \section{Single and multi-threaded command line tools}
 
-This section exemplifies the use of the framework developed in the previous chapter by defining two command line tools for computing all solutions for a given row and problem size. The first 
+This section exemplifies the use of the framework developed in the previous chapter by defining two command line tools for computing combination matrices of self-derivation. The first of them computes all solutions for a given row and problem size using a single thread of execution, while the second utilizes several threads. The single-threaded application is reasonably fast for small row and problem sizes. As input sizes grow, the number of solutions grows dramatically, and a single thread of excution becomes insufficient.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={A single-threaded command line tool.},label={singleMain}]
@@ -34,9 +34,25 @@ int main(int argc, char *argv[]) {
 \end{lstlisting}
 
 \begin{enumerate}
-\item
-\addtocounter{enumi}{1}
+\item The inputs are the standard command line inputs, that is, the number of arguments, and the array of strings containing them.
+\item Line 2 checks that at least three arguments were passed and, if not, line 3 prints usage instructions to the console and line 4 returns an error.
+\addtocounter{enumi}{4}
+\item Line 7 creates an empty thread-common data structure and line 8 calls Listing~\ref{createCommonData} to fill it.
+\addtocounter{enumi}{2}
+\item Line 10 creates an empty thread-specific data structure and line 11 calls Listing~\ref{createThreadData} to fill it.
+\addtocounter{enumi}{2}
+\item Line 13 computes the current time and stores it in a variable. Line 14 calls Listing~\ref{writeSolutions} to write solutions for all tops to a single text file.
+\addtocounter{enumi}{2}
+\item Line 16 computes the time after the call to Listing~\ref{writeSolutions} in line 14, subtracts from it the start time computed in line 13, converts the result to seconds and prints it to the console. Line 17 prints to the console the number of solutions found.
+\addtocounter{enumi}{2}
+\item Lines 19 and 20 free all allocated memory by calling respectively Listing~\ref{destroyThreadData} and Listing~\ref{destroyCommonData}.
+\addtocounter{enumi}{2}
+\item Line 22 simply exits the program normally.
 \end{enumerate}
+
+%TODO: add table with execution times
+
+Listing~\ref{thread_manager} below describes a data structure that is used in Listing~\ref{multiMain} to manage multiple threads of execution. The framework described in the previous chapter was designed using only platform-independent components of the C programming language. For multi-threaded applications, the C programming language does not provide such platform-independent components. Listing~\ref{multiMain} therefore is written in C++, which provides a standard library for managing threads in a platform-independent way, as well as an object-oriented paradigm which the creation, dispatching, and destruction of threads, thus greatly simplifying their use.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={A class to manage concurrency.},label={thread_manager}]
@@ -105,9 +121,11 @@ private:
 \end{lstlisting}
 
 \begin{enumerate}
-\item
-\addtocounter{enumi}{1}
+\addtocounter{enumi}{2}
+\item The constructor of a thread manager in line 3 takes as inputs the same arguments passed on the command line, initializing the vector of threads-specific data structures declared in line 57 with the number of hardware cores in the CPU. Using more threads than the number of CPU cores does not necessarily improve performance. Line 4 then creates the thread-common data, storing it to the member variable declared in line 58.
 \end{enumerate}
+
+Even with several threads running concurrenty, however, computing all $4 \times 4$ combination matrices for a 12-tone row takes a significant amount of time.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={A multi-threaded command line tool.},label={multiMain}]
@@ -129,6 +147,14 @@ int main(int argc, char *argv[]) {
 \item
 \addtocounter{enumi}{1}
 \end{enumerate}
+
+% D:\Developer\MONF\cmake-build-release\MONF_CPP.exe 4 0 4 7 3 11 2 10 1 6 8 9 5
+% Writing partitions file...
+% Writing top combos file...
+% 1718801 milliseconds elapsed.
+% 23232 solutions found!
+
+% Process finished with exit code 0
 
 %--------------------------------------------------------------------------
 \section{Musical applications}
@@ -194,9 +220,10 @@ We conclude this section with a musical example of how self-derivation may be ac
 
 \section{Future research}
 
-Vectorize vector addition and subtraction.
-Use CUDA and other GPU frameworks
+Output solutions in order
+Vectorize vector addition and subtraction
 Add parameters to restrict results
+Use CUDA and other GPU frameworks
 Understand how folding works
 Use semi-stochastic matrices for syntax
 Ammortize the computation of tops
