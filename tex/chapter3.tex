@@ -2,7 +2,12 @@
 \chapter{APPLICATIONS AND CONCLUSION}
 
 %--------------------------------------------------------------------------
-\begin{lstlisting}[caption={},label={}]
+\section{Single and multi-threaded command line tools}
+
+This section exemplifies the use of the framework developed in the previous chapter by defining two command line tools for computing all solutions for a given row and problem size. The first 
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={A single-threaded command line tool.},label={singleMain}]
 int main(int argc, char *argv[]) {
     if (argc < 3) {
         printf("Enter a problem size and a row!\n");
@@ -34,7 +39,7 @@ int main(int argc, char *argv[]) {
 \end{enumerate}
 
 %--------------------------------------------------------------------------
-\begin{lstlisting}[caption={},label={}]
+\begin{lstlisting}[caption={A class to manage concurrency.},label={thread_manager}]
 class thread_manager {
 public:
     thread_manager(int argc, char *argv[]) : threadData(std::thread::hardware_concurrency()) {
@@ -105,7 +110,7 @@ private:
 \end{enumerate}
 
 %--------------------------------------------------------------------------
-\begin{lstlisting}[caption={},label={}]
+\begin{lstlisting}[caption={A multi-threaded command line tool.},label={multiMain}]
 int main(int argc, char *argv[]) {
     if (argc < 3) {
         printf("Enter a problem size and a row!\n");
@@ -124,6 +129,9 @@ int main(int argc, char *argv[]) {
 \item
 \addtocounter{enumi}{1}
 \end{enumerate}
+
+%--------------------------------------------------------------------------
+\section{Musical applications}
 
 We conclude this section with a musical example of how self-derivation may be achieved in a $6 \times 144$ matrix by exploring the symmetries of an aggregate realization.
 
@@ -184,6 +192,12 @@ We conclude this section with a musical example of how self-derivation may be ac
     \end{figure}
 \end{example}
 
-\subsection{Directions for the future}
+\section{Future research}
 
 Vectorize vector addition and subtraction.
+Use CUDA and other GPU frameworks
+Add parameters to restrict results
+Understand how folding works
+Use semi-stochastic matrices for syntax
+Ammortize the computation of tops
+Understand the algebraic structure and reduce the set of solutions into equivalence classes
