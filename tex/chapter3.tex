@@ -122,8 +122,38 @@ private:
 
 \begin{enumerate}
 \addtocounter{enumi}{2}
-\item The constructor of a thread manager in line 3 takes as inputs the same arguments passed on the command line, initializing the vector of threads-specific data structures declared in line 57 with the number of hardware cores in the CPU. Using more threads than the number of CPU cores does not necessarily improve performance. Line 4 then creates the thread-common data, storing it to the member variable declared in line 58.
+\item The constructor of a thread manager in line 3 takes as inputs the same arguments passed on the command line, initializing the vector of thread-specific data structures declared in line 57 with the number of hardware cores in the CPU. Using more threads than the number of CPU cores does not necessarily improve performance. Line 4 then creates the thread-common data with a call to Listing~\ref{createCommonData}, storing it to the member variable declared in line 58.
+\addtocounter{enumi}{2}
+\item The for loop in line 6 iterates through the vector of thread-specific data structures and allocates memory for each one of them in line 7 with calls to Listing~\ref{createThreadData}.
+\addtocounter{enumi}{4}
+\item The destructor of a thread manager iterates through the vector of thread-specific data structures and freeing allocated memory in line 12 for each one of them with calls to Listing~\ref{destroyThreadData}.
+\addtocounter{enumi}{2}
+\item Line 14 frees the allocated thread-specific data in the destructor of a thread manager with a call to Listing~\ref{destroyCommonData}.
+\addtocounter{enumi}{2}
+\item Line 17 declares the\emph{runThreads} method, which takes no inputs and outputs a big number. Line 18 stores in a variable the number of threads that will be used to compute the solutions.
+\addtocounter{enumi}{2}
+\item Line 20 declares a lambda that will be executed by each thread. The lambda captures the instance of the thread manager, as well as a reference to the variable declared in line 18. Its inputs are the thread index, the top start index, and the top end index. Line 21 calls Listing~\ref{writeSolutions} from each thread, using the thread index to provide each thread with a pointer to a thread-specific data structure. When the call returns, line 22 locks the mutex declared in line 59 to protect access to the \emph{numThreads} variable. Line 23 decreases \emph{numThreads}, and line 24 notifies the condition variable declared in line 60.
+\addtocounter{enumi}{6}
+\item Line 27 creates a local variable inside \emph{runThreads} to store the start top that will be given to each thread, and line 28 computes how many tops each thread will be asked to compute. Line 29 stores the maximum number of threads minus one, and line 30 stores the current time.
+\addtocounter{enumi}{4}
+\item Line 32 iterates over the number of threads minus one, creating and detatching a new thread in line 33. Line 34 then updates the start top index for each thread.
+\addtocounter{enumi}{4}
+\item Line 37 calls the lambda declared in line 20 in the current thread, without dispatching a new one, thus utilizing all CPU cores available.
+\addtocounter{enumi}{1}
+\item Line 39 uses the mutex declared in line 59 to lock the current thread. Line 40 then uses the lock and the condition variable declared in line 60 to block the current thread until \emph{numThreads}, which is decreased by every thread, reaches zero, indicating that no more threads are running.
+\addtocounter{enumi}{2}
+\item Line 42 computes the current time, and line 43 computes the execution time for all threads in milliseconds.
+\addtocounter{enumi}{2}
+\item Line 45 simply returns the execution time computed in line 43 as a number.
+\addtocounter{enumi}{2}
+\item Line 48 declares the\emph{getNumSolutions} method, which returns a number. Line 49 initializes a local variable to zero, which will be used to return the total number of solutions for all threads.
+\addtocounter{enumi}{2}
+\item Line 51 iterates through all thread-specific data structures and accumulates in line 52 the number of thread-specific solutions.
+\addtocounter{enumi}{2}
+\item Line 54 simply retuns the value of the variable declared in line 49.
 \end{enumerate}
+
+%TODO: add table with execution times
 
 Even with several threads running concurrenty, however, computing all $4 \times 4$ combination matrices for a 12-tone row takes a significant amount of time.
 
