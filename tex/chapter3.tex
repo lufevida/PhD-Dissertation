@@ -249,7 +249,10 @@ We conclude this section with a musical example of how self-derivation may be ac
 
 \section{Conclusion}
 
-The algorithms, applications and exaple presented in this paper represent a major advancement in the study of combination matrices of self-derivation. Arguably the most notable contribution is an algorithm that is simple enough to allow computations by hand, while at the same time fast enough to generate thousands of solutions per second when run by a computer.
+The algorithms, applications and example presented in this paper represent a major advancement in the study of combination matrices of self-derivation. Arguably the most notable contribution is an algorithm that is simple enough to allow computations by hand, while at the same time fast enough to generate thousands of solutions per second when run by a computer, and general enough to compute solutions for arbitrary problem and row sizes. The ideas in \cite{Starr1984} are invaluable for an understanding and classification of various derivation techniques from a set-theoretic perspective. It also contributes enormously to understanding how a particular class of solutions for the self-derivation problem can be constructed by exploring the permutation cycles of $RT_nI$ operations. What is missing in \cite{Starr1984} is an efficient way to compute combination matrices of self-derivation in a general setting. This shortcoming is addressed in \cite{Kowalski1987b}, which introduces an efficient algorithm to 
+
+
+Devising this algorithm required understanding the problem of self-derivation from from a new point of view, namely that of a structure that can be broken down into three basic constituent parts: a linearized top, a semi-magic square, and an array of derived row transforms. Such analysis of the problem paves the way for a much deeper understanding of self-derivation, especially when combined with a simple and fast algorithm capable of unveiling solutions within reasonable time.
 
 Output solutions in order
 Vectorize vector addition and subtraction
@@ -257,5 +260,5 @@ Add parameters to restrict results
 Use CUDA and other GPU frameworks
 Understand how folding works
 Use semi-stochastic matrices for syntax
-Ammortize the computation of tops
+Amortize the computation of tops
 Understand the algebraic structure and reduce the set of solutions into equivalence classes
