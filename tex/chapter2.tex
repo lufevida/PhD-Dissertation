@@ -79,7 +79,7 @@ bool isRetrograded(const number *row, number rowSize, bool isInvariant) {
 
     number front, back;
 
-    for (number i = 0; i < rowSize; ++i) {
+    for (number i = 0; i < rowSize / 2; ++i) {
         front = intervalClass(row[i + 1], row[i], rowSize);
         back = intervalClass(row[rowSize - i - 1], row[rowSize - i - 2], rowSize);
 
@@ -97,7 +97,7 @@ bool isRetrograded(const number *row, number rowSize, bool isInvariant) {
 \addtocounter{enumi}{2}
 \item Line 5 declares the variables that will represent interval classes seen from left to right, and from right to left, respectively.
 \addtocounter{enumi}{2}
-\item Lines 8 and 9 simply update the variables front and back using Listing~\ref{intervalClass} defined above. As $i$ increases, front traverses all interval classes in the row from left to right, whereas back does the same from right to left, that is, back looks at the row as if it were retrograded.
+\item Lines 8 and 9 simply update the variables front and back using Listing~\ref{intervalClass} defined above. As $i$ increases, front traverses half of interval classes in the row from left to right, whereas back does the same from right to left, that is, back looks at the row as if it were retrograded.
 \addtocounter{enumi}{2}
 \item Line 11 compares the front and back interval classes and line 12 returns true if any interval class seen from right to left is strictly less than the corresponding interval class seen from left to right, which would indicate that retrograding the row would produce a lexicographically lower-positioned row than the one given as input.
 \addtocounter{enumi}{3}
