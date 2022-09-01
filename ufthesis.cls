@@ -92,7 +92,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %\renewcommand{\sfdefault}{phv} %Defines Helvetica - uncomment these 2 lines to change to Helvetica
-\renewcommand{\familydefault}{\sfdefault}
+%\renewcommand{\familydefault}{\sfdefault}
+\renewcommand{\familydefault}{\rmdefault}
 %\renewcommand{\sfdefault}{pag}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -221,7 +222,7 @@
       \typeout{***************************}%
       \typeout{\@chapapp\space\thechapter.}%
       \typeout{***************************}%
-      \addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}{#1}}%\uppercase
+      \addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}\uppercase{#1}}
     }{%
       \addcontentsline{toc}{chapter}{\uppercase{#1} }}%
     \setcounter{footnote}{0}%
@@ -524,10 +525,13 @@
       \pagestyle{empty}%
       \GoSingle%
       \vspace*{\fill}%
-      \vspace{-12 cm}%%Adjust this length depending upon the length of your dedication
+      %\vspace{-12 cm}%%Adjust this length depending upon the length of your dedication
       %\BigMargin\par%
-      \GoDouble%
+      \begin{center}
       #1%
+      \end{center}
+      \GoDouble%
+
     \vfill%
     \end{simpleenv}%
     \setboolean{SetDSpace}{true}}%
@@ -682,7 +686,7 @@
 %%  Figures and Tables and Equations               %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \renewcommand{\theequation}{%
-  {\ifnum \c@chapter>\z@ \thechapter--\fi \@arabic\c@equation}}%
+  {\ifnum \c@chapter>\z@ \thechapter-\fi \@arabic\c@equation}}% changed to hyphed instead of em dash per editorial office 2018
 \renewcommand{\thefigure}{%
   {\ifnum \c@chapter>\z@ \thechapter-\fi \@arabic\c@figure}}%
 \renewcommand{\thetable}{%
