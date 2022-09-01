@@ -15,7 +15,8 @@
 		\setlength{\rightmargin}{0in}
 		\settowidth{\widthOfItem}{\labelitemi}
 		\setlength{\labelsep}{\leftmargin-\widthOfItem}
-		\renewcommand{\labelitemii}{--}
+		\renewcommand{\labelitemi}{$-$}
+		\renewcommand{\labelitemii}{+}
 		\singlespacing}{%
 	\end{Itemize}
 }
@@ -27,6 +28,13 @@
 \newcommand{\red}{\textcolor[rgb]{1.00,0.00,0.00}}
 \newcommand{\green}{\textcolor[rgb]{0.00,1.00,0.00}}
 \newcommand{\blue}{\textcolor[rgb]{0.00,0.00,1.00}}
+
+\let\oldbibliography\thebibliography
+\renewcommand{\thebibliography}[1]{%
+  \oldbibliography{#1}%
+  \singlespacing%
+  \setlength{\itemsep}{18pt}%
+}
 
 % Shorcut commands for mathmatical formulas
 \newcommand{\latex}{\LaTeX 2\ensuremath{\epsilon}}
