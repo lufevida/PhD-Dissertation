@@ -2,16 +2,16 @@
 % UF Sample ETD Main Document Fall 2014
 
 % Use this line for Windows OS
-\documentclass[12pt,final,CPage]{ufthesis}
+%\documentclass[12pt,final,CPage]{ufthesis}
 % Use this line for Macintosh/Linux
-%\documentclass[12pt,dvipdfmx,final,CPage]{ufthesis}
+\documentclass[12pt,dvipdfmx,final,CPage]{ufthesis}
 
 % Macintosh and Linux users - If you get a dvipdfm file not found error
 % change dvipdfm to dvipdfmx here and in the packages.tex file graphicx and hyperref packages
 
 \include{tex/packages}
-%\def\UrlFont{\rmfamily} % use this line for Times New Roman
-\def\UrlFont{\sffamily} % use this line for CMSS
+\def\UrlFont{\rmfamily} % use this line for Times New Roman
+%\def\UrlFont{\sffamily} % use this line for CMSS
 
 % This command allows equation arrays and similar environments
 % to break across pages to improve text flow - use only if needed.
@@ -35,7 +35,7 @@
 \SetGradMonth{December}
 \SetGradYear{2022}
 \SetDepartment{Music Composition}
-\SetChair{Dr.~James P. Sain}
+\SetChair{James P. Sain} %Dr.~
 
 % Uncomment this line and enter the name of your cochair inside the braces if you have one.
 % If you have a cochair there two places in the ufthesis.cls file that will need to be
@@ -46,7 +46,7 @@
 %\SetCochair{John W. Carver III}
 
 % Type your title here in all CAPS %
-\SetTitle{GENERALIZED MULTIPLE ORDER-NUMBER FUNCTION ARRAYS}
+\SetTitle{GENERALIZED COMBINATION MATRICES OF SELF-DERIVATION}
 
 % Define student-specific info
 %\include{userinfo}
@@ -55,8 +55,9 @@
 
 \begin{document}
 
-\maketitle
+\bibliographystyle{bst/ecology_web}
 
+\maketitle
 \makecopyright
 
 \dedication{
@@ -84,33 +85,34 @@
 %symbols defined in this work. For each symbol, the page number corresponds
 %to the place where the symbol is first used.} %
 
-\addtocontents{toc}{\protect\addvspace{10pt}\noindent{CHAPTER}\protect\hfill\par}{}
-\phantomsection
-
 %\include{tex/abbreviations} % optional
 
+\phantomsection
 \begin{abstract}
-	The purpose of the present study is the application of self-derivation matrices to the algorithmic composition of acoustic and electroacoustic music. It departs from the seminal work of Daniel Starr in the field of twelve-tone theory, published by Perspectives of New Music in 1984, generalizing it to arbitrary equal-temperament systems. A solid mathematical foundation that describes the derivation of multiple order-number function arrays is a major contribution to the fields of music composition and music theory, as well as a requirement for the implementation of non-brute-force algorithms. We confront our findings with those of David Kowalski, and verify the latter for accuracy. The results of this research include a complete classification of rows that support self-derivation in matrices of all sizes, as well as a complete classification of the algebraic operations that afford such procedures. In addition, several general-purpose and non-brute-force algorithms are provided that implement our findings in the programming languages that pertain to musicians the most. A myriad of musical compositions are specially devised with the intent of illustrating the real-life use of such algorithms, and to provide criticism as to where such compositional practices situate within the realm of 21\textsuperscript{st}-century music composition.  
+The purpose of the present study is the application of self-derivation matrices to the algorithmic composition of acoustic and electroacoustic music. It departs from the seminal work of Daniel Starr in the field of twelve-tone theory, published by Perspectives of New Music in 1984, generalizing it to arbitrary equal-temperament systems. A solid mathematical foundation that describes the derivation of multiple order-number function arrays is a major contribution to the fields of music composition and music theory, as well as a requirement for the implementation of non-brute-force algorithms. We confront our findings with those of David Kowalski, and verify the latter for accuracy. The results of this research include a complete classification of rows that support self-derivation in matrices of all sizes, as well as a complete classification of the algebraic operations that afford such procedures. In addition, several general-purpose and non-brute-force algorithms are provided that implement our findings in the programming languages that pertain to musicians the most. A myriad of musical compositions are specially devised with the intent of illustrating the real-life use of such algorithms, and to provide criticism as to where such compositional practices situate within the realm of 21\textsuperscript{st}-century music composition.
+\addtocontents{toc}{\protect\addvspace{10pt}\noindent{CHAPTER}\protect\hfill\par}{}
 \end{abstract}
 
 \include{tex/chapter1}
 \include{tex/chapter2}
 \include{tex/chapter3}
 
-\appendix
-\clearpage
-\addtocontents{toc}{\protect\addvspace{10pt}\noindent{APPENDIX}\protect\hfill\par}{}
+%\appendix
+%\clearpage
+%\addtocontents{toc}{\protect\addvspace{10pt}\noindent{APPENDIX}\protect\hfill\par}{}
 
-\input{tex/appendixA}
-\input{tex/appendixB}
+%\input{tex/appendixA}
+%\input{tex/appendixB}
 
-\bibliographystyle{bst/Science_Web}
+%\bibliographystyle{bst/Science_Web}
 %\bibliographystyle{bst/apa-good}
 %\bibliographystyle{bst/Chicago_Web}
 %\bibliographystyle{bst/ecology_web}
 %\bibliographystyle{bst/IEEEtran}
 %\bibliographystyle{bst/mla-good}
 
+\phantomsection
+\addcontentsline{toc}{chapter}{REFERENCES}
 \bibliography{references}
 
 \biography{
