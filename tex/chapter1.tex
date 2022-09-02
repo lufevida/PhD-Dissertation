@@ -20,7 +20,7 @@
 %--------------------------------------------------------------------------
 \section{Basic Derivation Theory}
 
-Derivation is the process of extracting ordered segments from rows in order to generate new compositional materials. It is a technique that dates back to the Second Viennese School. In its most incipient form, a composer may simply extract these segments from a row, and combine them to form another, as we see in Berg's \emph{Lulu}. The basic row used by Berg is $S = \{ 10, 2, 3, 0, 5, 7, 4, 6, 9, 8, 1, 11 \}$. In the Prologue, however, one is greeted with the row $\{ 10, 3, 4, 9, 2, 7, 8, 1, 0, 5, 6, 11 \}$, as depicted in Fig.~\ref{fig:berg-prologue}. It is clear that the segments that constitute the Prologue's row are ordered segments in the basic row form, and the fact that one row cannot obtained from another via row operations is here irrelevant.
+Derivation is the process of extracting ordered segments from rows in order to generate new compositional materials. It is a technique that dates back to the Second Viennese School. In its most incipient form, a composer may simply extract these segments from a row, and combine them to form another, as seen in Berg's \emph{Lulu}. The basic row used by Berg is $S = \{ 10, 2, 3, 0, 5, 7, 4, 6, 9, 8, 1, 11 \}$. In the Prologue, however, one is greeted with the row $\{ 10, 3, 4, 9, 2, 7, 8, 1, 0, 5, 6, 11 \}$, as depicted in Fig.~\ref{fig:berg-prologue}. It is clear that the segments that constitute the Prologue's row are ordered segments in the basic row form, and that there is no concern for the fact that one row cannot obtained from the other via row operations.
 
 \begin{figure}[htbp]
     \centering
@@ -29,11 +29,13 @@ Derivation is the process of extracting ordered segments from rows in order to g
 	\label{fig:berg-prologue}
 \end{figure}
 
-Less naive approaches to derivation often involve a derived row that will have more structure. In them, one will usually see a combination matrix where derived and original rows are matched with some twelve-tone or order operation of themselves, or both. This is illustrated in Ex.~\ref{ex:derivation}.
+More structured approaches to derivation often involve deriving a row from a combination matrix of rows. The rows combined in the matrix are usually twelve-tone transforms of the same basic row. The rows that are derived from the segments of these transforms may or may not be themselves transforms of the basic row. Ex.~\ref{ex:derivation} illustrates a very simple procedure for combining rows in a matrix to generate another.
+
+%TODO: cite Morris here
 
 \begin{example}
 	\label{ex:derivation}
-	We may use the basic row in \emph{Lulu} as motivation for a basic derivation procedure. The first step is to create a $2 \times 24$ array where the first row is $S$ followed by $\R(S)$, and the second row is initially undefined.
+	The basic row in \emph{Lulu} may be used as motivation for a basic derivation procedure. The first step is to create a $2 \times 24$ array where the first row is $S$ followed by $\R(S)$, and the second row is initially undefined.
 	\begin{equation}
     	\left[
     	\begin{array}{cccccccccccc|cccccccccccc}
@@ -42,7 +44,7 @@ Less naive approaches to derivation often involve a derived row that will have m
     	\end{array}
     	\right] \enspace.
 	\end{equation}
-	Next, one chooses an arbitrary segment, and separates it from the the top row by placing in in the bottom row:
+	Next, an arbitrary segment is chosen, separated from the the top row, and placed in in the bottom row:
 	\begin{equation}
     	\left[
     	\begin{array}{cccccccccccc|cccccccccccc}
@@ -54,9 +56,12 @@ Less naive approaches to derivation often involve a derived row that will have m
 	Let $V = \{ 2, 3, 4, 6, 9, 8, 1, 11, 7, 5, 0, 10 \}$. Then $V$ is a row derived from $S$. In particular, the ordered segment $\{ 10, 0, 5, 7 \}$ in $S$ is preserved by $\R(V)$, and a counterpoint that combines $S$ vertically with $V$ horizontally is possible by construction.
 \end{example}
 
-It is of interest to note at this point that, in this kind of construction, the choice of a particular segment is already an important compositional decision. This choice bears relevance in that it establishes motivic material, that is, the segment itself. It also potentially introduces complementary harmonic regions, one given by the segment, the other given by its set complement. Moreover, and perhaps more importantly, it presents an opportunity for exploring syntax. There are a multitude of ways in which a composer may obtain syntax from a simple derivation procedure such as the one given in the example above. One way would be to find an operation that makes the chosen segment invariant. In particular, it is easily checked that $S_1 = \{ 10, 0, 5, 7 \} = \R\T_5\I(S_1)$. One can then extend Ex.~\ref{ex:derivation} into the combination array $[S \; | \; \R(S) \; | \; \R\T_5\I(S) \; | \; \T_5\I(S_1)]$. In the extended array, the segment $S_1$ would be preserved, but the row derived from $\R\T_5\I(S)$ would not be a transform of $V$. If the set complement of $S_1$ in $V$ were parsed to produce more than one harmonic region, then the complement of $S_1$ under this new derived row would produce different harmonic regions. This can be very pertinent compositionally, as one would be capable of producing contrasting harmonic regions while maintaining motivic coherence under the $S_1$ segment.
+It is of interest to note at this point that, in this kind of construction, the choice of a particular segment is already an important compositional decision. This choice bears relevance in that it establishes motivic material, that is, the segment itself. It also potentially introduces complementary harmonic regions, one given by the segment, the other given by its set complement. Moreover, and perhaps more importantly, it presents an opportunity for exploring syntax. There are a multitude of ways in which a composer may obtain syntax from a simple derivation procedure such as the one given in Ex.~\ref{ex:derivation}. One way would be to find an operation that makes the chosen segment invariant. In particular, it is easily checked that $S_1 = \{ 10, 0, 5, 7 \} = \R\T_5\I(S_1)$. Ex.~\ref{ex:derivation} can then be extend into the combination array $[S \; | \; \R(S) \; | \; \R\T_5\I(S) \; | \; \T_5\I(S_1)]$. In the extended array, the segment $S_1$ would be preserved, but the row derived from $\R\T_5\I(S)$ would not be a transform of $V$. If the set complement of $S_1$ in $V$ were parsed to produce more than one harmonic region, then the complement of $S_1$ under this newly derived row would produce different harmonic regions. This procedure can be very pertinent compositionally, as it would be capable of producing contrasting harmonic regions while maintaining motivic coherence under the $S_1$ segment.
 
-Yet another way of generating syntax from derivation would be to follow $S$ with $V$ itself. One would then derive a new row from $V$, say $Q$, and eventually follow $V$ with $Q$. Repeating this procedure \emph{ad libitum} could generate many contrasting harmonic regions. In particular, this type of derivation is seen in Donald Martino's \emph{Notturno} of 1974, a composition that won the Pulitzer Prize in the following year \cite[181]{Starr1984}. If, by compositional choice, the chain of derived rows picked always the same order numbers, then a potential for rhythmic and agogic coherence could also be explored.
+Yet another way of generating syntax from derivation would be to follow $S$ with $V$ itself. A new row would then be derived from $V$, say $Q$, and eventually $V$ would be follow with $Q$. Repeating this procedure \emph{ad libitum} could generate many contrasting harmonic regions. In particular, this type of derivation is seen in Donald Martino's \emph{Notturno} of 1974, a composition that won the Pulitzer Prize in the following year \cite[181]{Starr1984}. If, by compositional choice, the chain of derived rows picked always the same order numbers, then a potential for rhythmic and agogic coherence could also be explored.
+
+%--------------------------------------------------------------------------
+\section{The early work of Donald Martino}
 
 The beginnings of derivation techniques can be traced back to Donald Martino's \emph{The Source Set and Its Aggregate Formations} \cite{Martino1961}, a paper whose main purpose is another, namely to generalize the construction of columnar realizations, although this latter term appears to have been coined by \cite{Starr1984}. The techniques employed by Martino are heavily influenced by Babbitt's ideas on combinatoriality \cite[224]{Martino1961}, and make extensive use of tables. Below is a fragment of the source hexachords table given in \cite[229]{Martino1961}. The author, in the interest of generalizing the procedure, provides also trichordal, tetrachordal, and even pentachordal combinatoriality tables, as well as a somewhat brief discussion on uneven partitions of a row and their combinatoriality implications \cite[267]{Martino1961}.
 
