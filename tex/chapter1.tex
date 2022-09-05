@@ -141,7 +141,7 @@ Martino acknowledges the aggregates formed by combinatoriality are not necessari
 
 It is easy to understand why Martino was so motivated by creating as much diversity as possible from a single row in a structured manner. If not because creating variation upon some fixed foundation has been a constant in music composition since Bach, serialism up to that point had seen countless pieces in which the very same series was presented over and over again, frequently in the same $\R\T_n\I$ form for entire passages. As innovative as it is, not even the first movement of Schoenberg's fourth string quartet escapes this paradigm. The idea of having a systematic approach to syntactically moving from one row class to another, although latent in late Schoenberg, ultimately defines one of the most remarkable trends in the next chapter of serialism. Martino actually manages to solve both problems at once with derivation, as it gives the composer the opportunity to focus on the derived rows, while using a somewhat more abstract row to generate syntax, even though this potential is only explored in his later pieces, and not quite yet in \cite{Martino1961}. For now, what is most important is to derive as much harmonic diversity as possible from the rigidity of an omnipresent series.
 
-What \cite{Starr1984} terms \emph{skewed polyphonization}, and what this paper refers to as shifted derivation in Sec.~\ref{shifted-derivation}, has too an origin in what Martino calls, in turn, \emph{oblique combination}. Ex.~\ref{ex:oblique} deals with the tetrachordal case, although other cases, including those where the overlap occurs at unequal partitionings of the row are considered. Similarly to how Sec.~\ref{shifted-derivation} regards the procedure, oblique combinations are seen as special, yet straightforward cases of other types of combinatoriality \cite[267]{Martino1961}.
+Ex.~\ref{ex:oblique} illustrates the tetrachordal case of a technique described in \cite[241]{Martino1961} as \emph{oblique combination}, although other cases, including those where the overlap occurs at unequal partitionings of the row are considered. Oblique combinations are seen as special, yet straightforward cases of other types of combinatoriality \cite[267]{Martino1961} than hexachordal.
 
 \begin{example}
 	\cite[241]{Martino1961}
@@ -381,33 +381,31 @@ As a consequence of $F$ and the retrograde operation, combination matrices of th
     Consider a 2-row combination matrix $C$ where a row is derived via the retrograde and some operation $F$. Denote the derived row by $V = V_1 | V_2$. Then the first column is the partial order $C_1 = V_1 \cup \R \circ \F(V_2)$, and similarly the second column is the partial order $C_2 = V_2 \cup \R \circ \F(V_1)$, such that $C_2 = \R \circ F(C_1)$. If $D$ is a partial order that covers $C_1$, then $\R \circ F(D)$ will cover $C_2$, and if $D$ is in the total order class of $C_1$, that is, $D$ is a row that can be linearized from $C_1$, then $\R \circ F(D)$ is in the total order class of $C_2$. Finally, 2-row derivations of this type exist for arbitrary rows.
 \end{proposition}
 
-A distinction is made in \cite[211, 214]{Starr1984} between derivation and \emph{polyphonyzation}. The former departs from a combination matrix of rows to infer a concatenation of rows that constitute the linearized result of flattening the combination matrix. The latter is the opposite concept, that is, given a concatenation of rows, a combination matrix is constructed such that each column breaks down the row at the top into disjoint ordered segments. Although differentiating between derivation and polyphonization is an important concept in the set-theoretic view of the problem, this paper shall not make that distinction. The term derivation will be used indiscriminately to both the flattening and the breaking down of rows into contrapuntal combination matrices. 
+A distinction is made in \cite[211, 214]{Starr1984} between derivation and \emph{polyphonyzation}. The former departs from a combination matrix of rows to infer a concatenation of rows that constitute the linearized result of flattening the combination matrix. The latter is the opposite concept, that is, given a concatenation of rows, a combination matrix is constructed such that each column breaks down the row at the top into disjoint ordered segments. Although differentiating between derivation and polyphonization is an important concept in the set-theoretic view of the problem, this paper shall not make that distinction. The term derivation will be used indiscriminately to both the breaking down of rows into contrapuntal combination matrices, and the flattening thereof.
 
-%--------------------------------------------------------------------------
-\subsection{Folded Derivation}
-
-A related technique involving greater than 2-row counterpoint is achieved by \emph{folding} a derivation matrix. The process is equivalent to first constructing a matrix of hexachordal combinatoriality in the traditional sense, that is, where hexachords are seen as tropes rather than as row segments, then deriving rows from this matrix using the techniques above. Let $S$ be a row whose first hexachord is invariant under the operation $G$. Consider a row $V = V_1 | V_2$ and an operation $F$ such that $S$ is in the total order order class of $V_1 \cup \R \circ \F(V_2)$. Then putting $S$ in counterpoint with $G(S)$, as well as deriving $V$ from $S | \R\circ F(S)$ yields the schematic representation in Table~\ref{derivation-folded}:
+A related technique involving greater than 2-row counterpoint is achieved by \emph{folding} a combination matrix \cite[215]{Starr1984}. The process is similar to first constructing a matrix of hexachordal combinatoriality in the traditional sense, that is, where hexachords are seen as tropes rather than as row segments, then deriving rows from this matrix using the techniques above. Let $S$ be a row whose first hexachord is invariant under the operation $G$. Consider a row $V = V_1 | V_2$ and an operation $F$ such that $S$ is in the total order order class of $V_1 \cup \R \circ \F(V_2)$. Then putting $S$ in counterpoint with $G(S)$, as well as deriving $V$ from $S | \R\circ F(S)$ yields the schematic representation in Table~\ref{derivation-folded}:
 
 \begin{table}[htbp]
+	\cite[215]{Starr1984}
     \caption[Folded Derivation Involving the Retrograde]{Schematics of a folded derivation procedure involving the retrograde.}
     \label{derivation-folded}
     \centering
     \vspace{12pt}
     \begin{tabular}{c|cc}
         \hline\\
-        & $S$ & $\R \circ F(S)$\\\\
+        & $S$ & $\R \circ F(S)$\\
         \hline\\
-        $V$ & $V_1$ & $V_2$ \\\\
-        $\R \circ F(V)$ & $\R \circ F(V_2)$ & $\R \circ F(V_1)$ \\\\
-        $\R \circ GF(V)$ & $\R \circ GF(V_2)$ & $\R \circ GF(V_1)$ \\\\
-        $G(V)$ & $G(V_1)$ & $G(V_2)$ \\\\
+        $V$ & $V_1$ & $V_2$ \\
+        $\R \circ F(V)$ & $\R \circ F(V_2)$ & $\R \circ F(V_1)$ \\
+        $\R \circ GF(V)$ & $\R \circ GF(V_2)$ & $\R \circ GF(V_1)$ \\
+        $G(V)$ & $G(V_1)$ & $G(V_2)$ \\
         \hline\\
-        & $G(S)$ & $\R \circ GF(S) = \R \circ FG(S)$ \\\\
+        & $G(S)$ & $\R \circ GF(S) = \R \circ FG(S)$ \\
         \hline
     \end{tabular}
 \end{table}
 
-It is argued without proof in \cite[215]{Starr1984} that, for a derivation procedure such as the one in Table~\ref{derivation-folded}, the folded derivation has to vertically satisfy $G$, while satisfying $F$ horizontally. Thus $F$ and $G$ would have to commute in this case. The caveat that the operation chosen for the hexachordal combinatoriality part must commute with the operation chosen for the derivation part still needs to be confirmed, however, as other derivation matrices that have similar constraints do not require commutativity. Ex.~\ref{derivation-folded} shows a musical application of folded derivations.
+It is argued without proof in \cite[215]{Starr1984} that, in the derivation procedure described in Table~\ref{derivation-folded}, vertically satisfying $G$ while horizontally satisfying $F$ implies $F$ and $G$ must commute. Ex.~\ref{derivation-folded} shows a musical application of folded derivation.
 
 \begin{example}
     \cite[215]{Starr1984}
@@ -416,7 +414,7 @@ It is argued without proof in \cite[215]{Starr1984} that, for a derivation proce
     \begin{equation}
         \T_6 = (0 \; 6) (1 \; 7) (2 \; 8) (3 \; 9) (4 \; 10) (5 \; 11) \enspace.
     \end{equation}
-    Let $V_1 = \{ 1, 3, 8, 9, 7, 2 \}$. In particular, since the unordered set $V_1$ is $T_6$-invariant, we get $V_2 = \{ 11, 0, 10, 4, 5, 6 \}$ and the following combination matrix:
+    Let $V_1 = \{ 1, 3, 8, 9, 7, 2 \}$. Since the unordered set $V_1$ is $T_6$-invariant, it follows $V_2 = \{ 11, 0, 10, 4, 5, 6 \}$ and the following combination matrix is obtained:
     \begin{equation}
         \left[
         \begin{array}{cccccccccccc|cccccccccccc}
@@ -429,7 +427,7 @@ It is argued without proof in \cite[215]{Starr1984} that, for a derivation proce
     \begin{equation}
         \T_5\I = (0 \; 5) (1 \; 4) (2 \; 3) (6 \; 11) (7 \; 10) (8 \; 9) \enspace.
     \end{equation}
-    Then $S_1 = \{ 0, 1, 11, 3, 8, 10 \}$ maps to its complement under $\T_5\I$, so we can use $S$ in a combination matrix where we match $S$ with its transform under $\T_5\I$ in the usual way, that is, in a matrix of hexachordal combinatoriality. We can then derive from $\T_5\I(S)$ the row $\T_5\I(V)$. Since $\T_5\I$ commutes with $T_6$, as any pitch-class operation does, we get the following folded derivation:
+    Then $S_1 = \{ 0, 1, 11, 3, 8, 10 \}$ maps to its complement under $\T_5\I$, so $S$ can be used in a combination matrix where $S$ is matched with its transform under $\T_5\I$ in the usual way, that is, in a matrix of hexachordal combinatoriality. Then the row $\T_5\I(V)$ can be derived from $\T_5\I(S)$. Since $\T_5\I$ commutes with $T_6$, as any pitch-class operation does, the following folded derivation is possible:
     \begin{equation}
         \left[
         \begin{array}{cccccccccccc|cccccccccccc}
@@ -443,31 +441,29 @@ It is argued without proof in \cite[215]{Starr1984} that, for a derivation proce
     \end{equation}
 \end{example}
 
-%--------------------------------------------------------------------------
-\subsection{Shifted Derivation} \label{shifted-derivation}
-
-There is a different flavor to folded derivations that arises from shifting horizontally one of the two rows of the derivation matrix. Shifted derivations may be equivalent to folding combinatoriality matrices that involve the retrograde, and there is no requirement here that the combinatoriality be hexachordal. In fact, one can choose segments to formulate a combination matrix, then fold the result. One may even match altogether different foldings of a row, as to bridge different derivations of the same generative material \cite[216]{Starr1984}.
+\cite[216]{Starr1984} provides an analogue to the technique of oblique combination described in \cite[241, 267]{Martino1961} in the context of folded derivation, denoted \emph{skewed polyphonization}. The procedure consists of shifting horizontally one of the two rows of the derivation matrix. Skewed polyphonizations may be equivalent to folding combination matrices that involve the retrograde, and there is no requirement that the combinatoriality be hexachordal. An interesting compositional application consists of matching altogether different foldings of a row, thus effectively bridging different derivations of the same generative material.
 
 \begin{table}[htbp]
-    \caption[Shifted Derivation Involving the Retrograde]{Schematics of a shifted derivation procedure involving the retrograde. The asterisk indicates there is no requirement we derive the same row class in both foldings, in which case $V$ would be replaced by some other row $V^*$ and $G$ could be the identity.}
+	\cite[216]{Starr1984}
+    \caption[Skewed Polyphonization Involving the Retrograde]{Schematics of a skewed polyphonization procedure involving the retrograde. The asterisk indicates there is no requirement that the same row class be derived in both foldings, in which case $V$ would be replaced by some other row $V^*$ and $G$ could be the identity.}
     \label{derivation-shifted}
     \centering
     \vspace{12pt}
     \begin{tabular}{ c | c c c }
         \hline\\
-        & $S$ & $\R \circ F(S)$ & \\\\
+        & $S$ & $\R \circ F(S)$ & \\
         \hline\\
-        $V$ & $V_1$ & $V_2$ & \\\\
-        $\R \circ F(V)$ & $\R \circ F(V_2)$ & $\R \circ F(V_1)$ & \\\\
-        $\R \circ G(V)^*$ && $\R \circ G(V_2)^*$ & $\R \circ G(V_1)^*$ \\\\
-        $GF(V)^*$ && $GF(V_1)^*$ & $GF(V_2)^*$ \\\\
+        $V$ & $V_1$ & $V_2$ & \\
+        $\R \circ F(V)$ & $\R \circ F(V_2)$ & $\R \circ F(V_1)$ & \\
+        $\R \circ G(V)^*$ && $\R \circ G(V_2)^*$ & $\R \circ G(V_1)^*$ \\
+        $GF(V)^*$ && $GF(V_1)^*$ & $GF(V_2)^*$ \\
         \hline\\
-        && $GF(S)$ & $\R \circ G(S)$ \\\\
+        && $GF(S)$ & $\R \circ G(S)$ \\
         \hline
     \end{tabular}
 \end{table}
 
-Ex.~\ref{ex:derivation-shifted} shows an application of shifted derivation where combinatoriality is not hexachordal, but both foldings derive different transforms of the same row:
+Ex.~\ref{ex:derivation-shifted} shows an application of skewed polyphonization where combinatoriality is not hexachordal, but both foldings derive different transforms of the same row \cite[216]{Starr1984}:
 
 \begin{example}
     \cite[216]{Starr1984}
@@ -501,8 +497,6 @@ Ex.~\ref{ex:derivation-shifted} shows an application of shifted derivation where
         \end{array} \right] \enspace.
     \end{multline}
 \end{example}
-
-Since the constraints to formulating matrices that feature shifted derivations are more flexible, it seems plausible to conjecture that there are far more combination matrices of this type per row, than there are of the non-shifted type. This question is not at all addressed in the literature, much less how well constructs like these, shifted and not, support combination matrices without the retrograde, or even against rotations of a row. Accounting for the exact number of such constructs in a more general setting than that of twelve tones will constitute one or this paper's goals.
 
 %--------------------------------------------------------------------------
 \subsection{Self-Derivation}
