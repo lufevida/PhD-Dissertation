@@ -498,12 +498,10 @@ Ex.~\ref{ex:derivation-shifted} shows an application of skewed polyphonization w
     \end{multline}
 \end{example}
 
-%--------------------------------------------------------------------------
-\subsection{Self-Derivation}
-
-The next derivation technique to be discussed is similar to the ones above, with the additional requirement that the derived or folded rows be transforms of the original row. This is called self-derivation and is arguably the most difficult type of derivation to achieve, as not every row will lend itself to self-derivation. It is also the technique that requires the biggest theoretical machinery to understand. Self-derivation has many interesting applications, including the whole class of Mallalieu-type rows, which will be discussed in Sec.~\ref{mallalieu-section}. We shall come back to a summary of our goals after exposing self-derivation and other derivation techniques that, to this day, still lack a deeper theoretical formulation and generalization. The general scheme for a two-row combination matrix of self-derivation involving the retrograde is given in Table~\ref{derivation-self}:
+Self-derivation is discussed in \cite[217, 226]{Starr1984} and is seen from both the set-theoretic perspective, and from the standpoint of aggregate realizations. The only difference between self-derivation and the general case is that in combination matrices of self-derivation all row forms belong to the same row class, that is, all rows are $RT_nI$-transforms of the original row. The same applies to folded and skewed combination matrices of self-derivation. The general scheme for a two-row combination matrix of self-derivation involving the retrograde is given in Table~\ref{derivation-self}:
 
 \begin{table}[htbp]
+	\cite[219]{Starr1984}
     \caption[Self-Derivation Involving the Retrograde]{Schematics of a self-derivation procedure involving the retrograde.}
     \label{derivation-self}
     \centering
@@ -518,7 +516,7 @@ The next derivation technique to be discussed is similar to the ones above, with
     \end{tabular}
 \end{table}
 
-It is stated without proof in \cite[217]{Starr1984} that the operations $F$ and $G$ in Table \ref{derivation-self} must commute, as well. For this self-derivation on two-row counterpoint case, however, simple inspection of the examples that follow such statement already affords a counter-proof.
+It is stated without proof in \cite[217]{Starr1984} that the operations $F$ and $G$ in Table \ref{derivation-self} must commute. For this self-derivation on two-row counterpoint case, however, simple inspection of the examples that follow such statement already affords a counter-proof.
 
 \begin{example}
 	\label{topSquareSideExample}
@@ -527,7 +525,7 @@ It is stated without proof in \cite[217]{Starr1984} that the operations $F$ and 
     \begin{equation}
         \T_9\I = (0 \; 9) (1 \; 8) (2 \; 7) (3 \; 6) (4 \; 5) (10 \; 11) \enspace.
     \end{equation}
-    In particular, both $S_1$ and $S_2$ are invariant under $\T_9\I$. What is certainly not obvious, is that we can derive $S$ and $\T_9\I(S)$ from a combination matrix where the first column is $\T_7(S)$ and the second is $\T_9\I \circ \R\T_7(S) = \R\T_2\I(S)$, as shown in the following self-derivation matrix:
+    In particular, both $S_1$ and $S_2$ are invariant under $\T_9\I$. What is certainly not obvious, is that $S$ and $\T_9\I(S)$ can be derived from a combination matrix where the first column is $\T_7(S)$ and the second is $\T_9\I \circ \R\T_7(S) = \R\T_2\I(S)$, as shown in the following self-derivation matrix:
     \begin{equation}
     	\label{topSquareSideEquation}
         \left[
@@ -537,7 +535,7 @@ It is stated without proof in \cite[217]{Starr1984} that the operations $F$ and 
         \end{array}
         \right] \enspace.
     \end{equation}
-    Here we have $F = \T_9\I$ and $G = \T_7$. It is certainly not the case that $F$ and $G$ commute, as $\T_2\I = F \circ G \ne G \circ F = \T_4\I$.
+    Here $F = \T_9\I$ and $G = \T_7$. It is not the case that $F$ and $G$ commute, as $\T_2\I = F \circ G \ne G \circ F = \T_4\I$.
 \end{example}
 
 Similarly to general derivation, two-row self-derivations can be folded. What is unique to self-derivation, however, is that the \emph{same} pattern of order numbers that give the self-derived transform of a row can be used to fold each row of a combination matrix, as seen in Ex.~\ref{self-folded}. The folded rows can subsequently be folded, and this procedure can generate many levels of self-derivation.
@@ -565,7 +563,7 @@ Similarly to general derivation, two-row self-derivations can be folded. What is
         \end{array}
         \right] \enspace.
     \end{equation}
-    We can then pull the entire matrix in Eq.~\ref{eq:self-first} from the first row of Eq.~\ref{eq:self-second}:
+    The entire matrix in Eq.~\ref{eq:self-first} can then be pulled from the first row of Eq.~\ref{eq:self-second}:
     \begin{equation}
         \left[
         \begin{array}{cccccccccccc|cccccccccccc|c}
@@ -591,7 +589,7 @@ The next example provides a musical application of folded self-derivation matric
     	\label{fig:scotto-array}
 	\end{figure}
 	
-	\noindent Similarly to Ex.~\ref{self-folded}, we can fold the above matrix in order to obtain subsequent levels of derivation. Unlike Ex.~\ref{self-folded}, however, Scotto derives a rotated transform of $S$ from $\R\T_7(S)$. The rows in Fig.~\ref{fig:scotto-folded} are thus $\T_2(S), \R\T_2(S), \rho_6\R\T_2(S)$ and $\rho_6\T_2(S)$, where $\rho$ is the cyclical rotation operator.
+	\noindent Similarly to Ex.~\ref{self-folded}, the above matrix can be folded in order to obtain subsequent levels of derivation. Unlike Ex.~\ref{self-folded}, however, Scotto derives a rotated transform of $S$ from $\R\T_7(S)$. The rows in Fig.~\ref{fig:scotto-folded} are thus $\T_2(S), \R\T_2(S), \rho_6\R\T_2(S)$ and $\rho_6\T_2(S)$, where $\rho$ is the cyclical rotation operator.
 	
 	\begin{figure}[htbp]
     	\centering
@@ -616,13 +614,6 @@ The next example provides a musical application of folded self-derivation matric
     	\label{fig:scotto-music1}
 	\end{figure}
 	
-	\begin{figure}[htbp]
-    	\centering
-    	\includegraphics[width=6.5in]{figures/scotto-music1.pdf}
-		\caption[Musical realization of the middle-ground in Scotto's \emph{Tetralogy}]{Musical realization of the middle-ground in Scotto's \emph{Tetralogy}.}
-    	\label{fig:scotto-music1}
-	\end{figure}
-	
 	\noindent The idea of prolongation in \emph{Tetralogy} extends beyond the foreground musical surface, and is applied as well to the middle-ground structure itself, effectively pushing it further into the background of the piece. The prolongation of the first bar in Fig.~\ref{fig:scotto-schenker1} is depicted in Fig.~\ref{fig:scotto-schenker2}, and a musical realization thereof is displayed in Fig.~\ref{fig:scotto-music2}. 
 	
 	\begin{figure}[htbp]
@@ -638,19 +629,14 @@ The next example provides a musical application of folded self-derivation matric
     	\caption[Musical realization of the prolonged middle-ground in Scotto's \emph{Tetralogy}]{Musical realization of the prolonged middle-ground in Scotto's \emph{Tetralogy}.}
     	\label{fig:scotto-music2}
 	\end{figure}
-
 \end{example}
 
-The only algorithm that currently exists to find self-derivation matrices is brute force, that is, by trial and error. One must often compose the row while trying to derive a transform of the row itself in a matrix. Self-derivation is the absolute primary concern of this paper, especially because there is so little we know about it. Self-derivation is what makes an order number in a row have multiple functions. Other types of derivation are also important as compositional tools, but they are ultimately special cases of the more constrained type, which is that of self-derivation matrices. In other words, we shall make our priority to investigate the existence of a self-derived matrix for any given row in all generality, that is, for arbitrary $n$-tone equal temperament systems. We shall then devise a general algorithm to obtain such matrices if they exist, as well as investigate how many such matrices do exist for any particular choice of equal temperament system. We shall finally confront our findings with the results in \cite{Kowalski1987b}, which uses a brute force algorithm to compute self-derived rows of a few particular types in the 12-TET. For generalized results, there will be nothing with which to compare, as this territory remains, to this day, mostly uncharted.
-
-%--------------------------------------------------------------------------
-\subsection{Derivation from Aggregate Realizations}
-
-The remainder of this chapter will be devoted to exposing derivation matrices that do not necessarily involve the retrograde, then exploring the concept of Mallalieu-type rows, which represent a very peculiar class of self-deriving rows. Mallalieu rows are somewhat better understood in the 12-TET than general derivation, and have many beautiful compositional applications.
+\cite[217]{Starr1984} presents an algorithm for computing $2 \times 24$ combination matrices of self-derivation that consists of finding an segment at the beginning of an ordered set that can become an embedded segment in some transform of the set, then construct a combination matrix involving the retrograde by resolving any symmetries. There is no prior knowledge of the entire row, thus the row is actually composed by adding order constraints. Another procedure is introduced in \cite[222]{Starr1984} that utilizes Th.~\ref{starr-theorem} to construct self-derivation from general combinatoriality matrices by finding operations that resolve symmetries between the columns of the matrix. Although there is no requirement that the matrix be retrograde-invariant, the retrograde makes it arguably easier to work out the algorithm by hand. Ex.~\ref{ex:starr-algorithm-2} illustrates the latter procedure in which, similarly to the former, the entire row is discovered as a result of the procedure.
 
 \begin{example}
+	\label{ex:starr-algorithm-2}
     \cite[224]{Starr1984}
-    Let $S = \{ 0, 1, 7, 2 \} | \{ 10, 9 \} | \{ 11, 4, 8, 5 \} | \{ 3, 6 \}$. Given that we always obtain the complement of a row's first hexachord from its second hexachord, we get the trivial case of hexachordal combinatoriality when we match a row with its retrograde. Such combination matrix will have four columns, because of the way we chose to partition $S$:
+    Let $S = \{ 0, 1, 7, 2 \} | \{ 10, 9 \} | \{ 11, 4, 8, 5 \} | \{ 3, 6 \}$. Given that the complement of a row's first hexachord is always obtained from its second hexachord, a trivial case of hexachordal combinatoriality results when a row is matched with its retrograde. It is then possible to partition $S$ such that the combination matrix will have four columns:
     \begin{equation}
         A = \left[
         \begin{array}{c|c|c|c}
@@ -659,7 +645,7 @@ The remainder of this chapter will be devoted to exposing derivation matrices th
         \end{array}
         \right] \enspace.
     \end{equation}
-    Now consider the cycles of $\T_{11}\I = (0 \; 11) (1 \; 10) (2 \; 9) (3 \; 8) (4 \; 7) (5 \; 6)$. In particular, the first column of $A$ will comprise the partial order $S_1 \cup \R(S_4)$, and this union will, in turn, map onto its hexachordal complement under $\T_{11}\I$, as it takes precisely one element from each of the operation's cycles, all of which have length two. Since the second column above is the complement of the first, it will also map onto its complement under $\T_{11}\I$. Because the third and fourth columns are mirrors of the first two, we do get hexachordal combinatoriality under $\T_{11}\I$ in every column, that is, for the partial orders $S_1 \cup \R(S_4)$ and $S_2 \cup \R(S_3)$, as well as their retrogrades. We do not get the same result between $S$ and $\T_{11}\I(S)$, that is, the first hexachord of $\T_{11}\I(S)$ is \emph{not} the complement of the first hexachord of $S$. This procedure gives us the matrix $\hat{A}$.
+    Now consider the cycles of $\T_{11}\I = (0 \; 11) (1 \; 10) (2 \; 9) (3 \; 8) (4 \; 7) (5 \; 6)$. In particular, the first column of $A$ will comprise the partial order $S_1 \cup \R(S_4)$, and this union will, in turn, map onto its hexachordal complement under $\T_{11}\I$, as it takes precisely one element from each of the operation's cycles, all of which have length two. Since the second column above is the complement of the first, it will also map onto its complement under $\T_{11}\I$. Because the third and fourth columns are mirrors of the first two, hexachordal combinatoriality under $\T_{11}\I$ is obtained in every column, that is, for the partial orders $S_1 \cup \R(S_4)$ and $S_2 \cup \R(S_3)$, as well as their retrogrades. The same result is not obtained between $S$ and $\T_{11}\I(S)$, that is, the first hexachord of $\T_{11}\I(S)$ is \emph{not} the complement of the first hexachord of $S$. This procedure yields the matrix $\hat{A}$.
     \begin{equation}
         \hat{A} = \left[
         \begin{array}{c|c|c|c}
@@ -670,7 +656,7 @@ The remainder of this chapter will be devoted to exposing derivation matrices th
         \end{array}
         \right] \enspace.
     \end{equation}
-    What we basically have above is a sequence of four columnar realizations. We are interested in deriving members of the same row class from each column. As aforementioned, there is no algorithm to accomplish this but brute force, and there is no \emph{a priori} way of knowing whether we will succeed at this moment. So far the best we can do is take the intersection of all columns, or transforms thereof and, if the total order class of the intersection is not empty, that is, if it contains the free aggregate and does not contain any symmetry, then Th.~\ref{starr-theorem} guarantees we will be able to derive representatives of this row class from each column. Let $C_1, C_2, C_3, C_4$ be the four columns of the matrix $\hat{A}$. It follows the row $V = \{ 11, 0, 1, 6, 10, 4, 7, 2, 9, 5, 3, 8 \}$ has the property that $T \in \Toc \{ \Ext[ C_1 \cup \R\T_1\I(C_2) \cup \T_1\I(C_3) \cup \R(C_4) ] \}$. We can therefore derive $[V | \R\T_1\I(V) | \T_1\I(V) | \R(V)]$ from the columns of $\hat{A}$.
+    The above can be construed as a sequence of four columnar realizations. It may be possible to derive members of the same row class from each column. If the total order class of the intersection of all columns is not empty, that is, if it contains the free aggregate and does not contain any symmetry, then Th.~\ref{starr-theorem} guarantees representatives of this row class can derived from each column. Let $C_1, C_2, C_3, C_4$ be the four columns of the matrix $\hat{A}$. It follows the row $V = \{ 11, 0, 1, 6, 10, 4, 7, 2, 9, 5, 3, 8 \}$ has the property that $T \in \Toc \{ \Ext[ C_1 \cup \R\T_1\I(C_2) \cup \T_1\I(C_3) \cup \R(C_4) ] \}$. Therefore $[V | \R\T_1\I(V) | \T_1\I(V) | \R(V)]$ can be derived from the columns of $\hat{A}$.
     \begin{equation*}
         \left[
         \begin{array}{cccccccccccc|cccccccccccc|c}
@@ -694,10 +680,10 @@ The remainder of this chapter will be devoted to exposing derivation matrices th
     \end{equation}
 \end{example}
 
-One of the problems that come with the brute force approach is that, not only is it expensive, but it is ultimately counter-intuitive. It is the same as betting on random numbers on a lottery ticket and asking ourselves whether we have won. We can look in the newspaper after the draw, but that does not increase our odds of winning at all. However, that is exactly what happens when we come up with a series out of sheer guesswork, then ask ourselves whether that series would produce some interesting derivation array. What we want is to be able to increase our odds, to somehow figure out what the winning numbers are. Luckily, this is not the lottery, and the process is certainly not random, so there must be a way to tell exactly how to put together arrays like these without any guessing whatsoever. A partial solution to this problem exists when we use some operation's cycles as building blocks for the columnar aggregates in a derivation matrix.
+Using columnar aggregates to compose combination matrices of self-derivation is further elaborated in \cite[226]{Starr1984} from the standpoint of explicitly building the columnar aggregates in the matrix from the cycles of some operation.
 
 \begin{example}
-    \cite[224]{Starr1984}
+    \cite[226, 227]{Starr1984}
     Let $S = \{ 0, 1, 7, 2 \} | \{ 10, 9, 11, 4 \} | \{ 8, 5, 3, 6 \} = S_1 | S_2 | S_3$ and consider the matrix $A = [S | \T_4(S) | \T_8(S)]^T$.
     \begin{equation}
         A = \left[
@@ -716,11 +702,11 @@ One of the problems that come with the brute force approach is that, not only is
             & 8 \arrow[ur] && 9 \arrow[ur] && 3 \arrow[ur] && 10 \arrow[ur] &
         \end{tikzcd}
     \end{equation}
-    When we see the first column of $A$ as an aggregate realization, it becomes clearer that any $V \in \Toc(A_1)$ must be a succession of augmented triads, say, $V = \{ 4, 8, 0, 9, 1, 5, 11, 7, 3, 2, 10, 6 \}$. We know we are able to linearize $V$ from $A_1$, but the question we should be asking at this point is whether we can linearize some transform of $V$ from the other columns of $A$. The answer depends on the chosen operation, $\T_4$ in this case, and on the chosen $S$. To verify that $A_2$ is a transform of $A_1$, it suffices to check whether there is a base-four $\R\T_n\M\I$ operation that maps $S_1 \pmod 4$ onto $S_2 \pmod 4$. This is easily verified, as indeed
+    When the first column of $A$ is regarded as an aggregate realization, it becomes clearer that any $V \in \Toc(A_1)$ must be a succession of augmented triads, say, $V = \{ 4, 8, 0, 9, 1, 5, 11, 7, 3, 2, 10, 6 \}$. It is easy to see that linearizing $V$ from $A_1$ is possible, but it is not obvious whether some transform of $V$ can be linearized from the other columns of $A$. The answer depends on the chosen operation, $\T_4$ in this case, and on the chosen $S$. To verify that $A_2$ is a transform of $A_1$, it suffices to check whether there is a base-four $\R\T_n\M\I$ operation that maps $S_1 \pmod 4$ onto $S_2 \pmod 4$. This is easily verified, as indeed
     \begin{equation}
         S_1 \pmod 4 = \{ 0, 1, 3, 2 \} = \T_2\I(\{ 2, 1, 3, 0 \}) = \T_2\I \circ S_2 \pmod 4 \enspace.
     \end{equation}
-    The above method works because the elements in each of $A_1$'s columns are incomparable, so we pick from within each column in any order we want. In other words, we could flip $A_1$ horizontally, say, and still have the same aggregate realization. Since we can reduce all of $A$'s columns $\mod 4$ by construction, it becomes enough to only consider each column's residue modulo four, and four-tone operations. Since $S_1 \pmod 4 = S_3 \pmod 4$, we can derive $V$ itself from $A_3$, and thus obtain the following derivation matrix, where the second column is $\T_2\I(V)$:
+    The above method works because the elements in each of $A_1$'s columns are incomparable, thus may be picked from each column in any order. In other words, $A_1$ could be flipped horizontally, say, and still have the same aggregate realization. Since all of $A$'s columns can be reduced $\mod 4$ by construction, it becomes enough to only consider each column's residue modulo four, and four-tone operations. Since $S_1 \pmod 4 = S_3 \pmod 4$, $V$ itself can be derived from $A_3$, and thus yielding the following derivation matrix, where the second column is $\T_2\I(V)$:
     \begin{multline}
         \left[
         \begin{array}{cccccccccccc|cccccc}
@@ -737,7 +723,7 @@ One of the problems that come with the brute force approach is that, not only is
         \end{array}
         \right] \enspace.
     \end{multline}
-    It would be rather undesirable, however, that we should be restricted to rows that are merely the concatenation of cycles from an operation. We can certainly use the machinery hitherto developed to evaluate what other rows can be derived from $A$. Knowing that the columns of $A$ are related as aggregate realizations by the operation tuple $\mathcal{A} = [\T_0 \; \T_2\I \; \T_0]$, we can regard the $A_i$ as columnar aggregates, then take $\hat{A} = \Ext[\bigcup_i(\mathcal{A}_i \circ A_i)]$. By Th.~\ref{starr-theorem}, any row we are able to linearize from $\hat{A}$, will be in $\bigcap_i \Toc(A_i)$, and thus we can derive its $\mathcal{A}_i$-transform from each $i$-column of $A$. Below is the columnar aggregate $\hat{A}$.
+    It may be possible to derive other rows from $A$ that are not based on the concatenation of cycles from an operation. Knowing that the columns of $A$ are related as aggregate realizations by the operation tuple $\mathcal{A} = [\T_0 \; \T_2\I \; \T_0]$, and regarding the $A_i$ as columnar aggregates, take $\hat{A} = \Ext[\bigcup_i(\mathcal{A}_i \circ A_i)]$. By Th.~\ref{starr-theorem}, any row that can be linearized from $\hat{A}$, will be in $\bigcap_i \Toc(A_i)$, and thus its $\mathcal{A}_i$-transform can be derive from each $i$-column of $A$. Below is the columnar aggregate $\hat{A}$.
     \begin{equation}
         \hat{A} = \begin{tikzcd}
             & 0 \arrow[r] \arrow[ddr] & 1 \arrow[r] \arrow[dr] & 7 \arrow[r] \arrow[ddr] & 2 \arrow[dr] & \\
@@ -764,7 +750,7 @@ One of the problems that come with the brute force approach is that, not only is
     \end{multline}
 \end{example}
 
-We conclude this section with a musical example of how self-derivation may be achieved in a $6 \times 144$ matrix by exploring the symmetries of an aggregate realization.
+Ex.~\ref{ex:stingray} illustrates how self-derivation may be achieved in a $6 \times 144$ matrix by exploring the symmetries of an aggregate realization, and how such matrix may be used in an actual musical composition.
 
 \begin{example}
     \label{ex:stingray}
@@ -793,7 +779,7 @@ We conclude this section with a musical example of how self-derivation may be ac
         \end{array}
         \right] \enspace.
     \end{equation}
-    By construction, every row of $\mathcal{A}$ is an $\Omega$-transform of $S$. Also by construction, every $\mathcal{A}_i$ is an instance of either $A$ or $\R(A)$, seen as a columnar aggregate, and thus $\Omega$-invariant. It follows we can derive a transform of $S$ from every $\mathcal{A}_i$. Since $\T_7(S) \in \Toc(\mathcal{A}_1)$ and $\R\T_0\I(S) \in \Toc(\mathcal{A}_2)$, we get the self-derivation matrix $X$.
+    By construction, every row of $\mathcal{A}$ is an $\Omega$-transform of $S$. Also by construction, every $\mathcal{A}_i$ is an instance of either $A$ or $\R(A)$, seen as a columnar aggregate, and thus $\Omega$-invariant. It follows a transform of $S$ can be derived from every $\mathcal{A}_i$. Since $\T_7(S) \in \Toc(\mathcal{A}_1)$ and $\R\T_0\I(S) \in \Toc(\mathcal{A}_2)$, self-derivation matrix $X$ is obtained.
     \begin{equation}
         X = \left[
         \begin{array}{cccccccccccc|cccccccccccc}
@@ -806,15 +792,15 @@ We conclude this section with a musical example of how self-derivation may be ac
         \end{array}
         \right] \enspace.
     \end{equation}
-    It is important to point out that, although we could extend the matrix $X$ to a $6 \times 144$ derivation matrix wherein all columns of $\mathcal{A}$ are presented, we could not do so with arbitrary transforms of $S$. Upon inspection, we see that the transforms of $S$ we can derive from $\mathcal{A}_1$ and $\mathcal{A}_5$ are in
+    It is important to point out that, although the matrix $X$ could be extended to a $6 \times 144$ derivation matrix wherein all columns of $\mathcal{A}$ are presented, this could not be done using arbitrary transforms of $S$. Upon inspection, it follows that the transforms of $S$ that can be derived from $\mathcal{A}_1$ and $\mathcal{A}_5$ are in
     \begin{equation}
         \{ \T_3, \T_7, \T_{11}, \R\T_1, \R\T_5, \R\T_9, \T_0\I, \T_4\I, \T_8\I, \R\T_2\I, \R\T_6\I, \R\T_{10}\I \} \enspace.
     \end{equation}
-    For the columns $\mathcal{A}_2, \mathcal{A}_3, \mathcal{A}_4$ and $\mathcal{A}_6$, we can derive transforms of $S$ that are in
+    For the columns $\mathcal{A}_2, \mathcal{A}_3, \mathcal{A}_4$ and $\mathcal{A}_6$, the transforms of $S$ that can be derived are in
     \begin{equation}
         \{ \T_1, \T_5, \T_9, \R\T_3, \R\T_7, \R\T_{11}, \T_2\I, \T_6\I, \T_{10}\I, \R\T_0\I, \R\T_4\I, \R\T_8\I \} \enspace.
     \end{equation}
-    Rather than a hinderance, one could take advantage of this fact by exploring contrasting harmonic regions. Fig.~\ref{fig:stingray} shows a musical realization of $X$:
+    Rather than a hinderance, this fact can be leveraged to explore contrasting harmonic regions. Fig.~\ref{fig:stingray} shows a musical realization of $X$:
     \begin{figure}[htbp]
         \centering
         \includegraphics[width=6.5in]{figures/stingray-example.pdf}
