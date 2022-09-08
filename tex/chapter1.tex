@@ -169,7 +169,74 @@ Ex.~\ref{ex:oblique} illustrates the tetrachordal case of a technique described 
 
 %TODO: finish Martino
 
-By 1966, \cite{Westergaard1966} introduces a much more mature conception of the problems involved with derivation, even though the term derivation is not quite present yet. \cite[95]{Westergaard1966} proposes two basic strategies for achieving polyphony from an essentialy linear construct, namely partitioning and combining. The former consists of splitting a row into separate lines in a very Schenkerian fashion, whereas the latter departs from combination matrices similarly to \cite{Martino1961}.
+By 1966, \cite{Westergaard1966} introduces a much more mature conception of the problems involved with derivation, even though the term derivation is not quite present yet. \cite[95]{Westergaard1966} proposes two basic strategies for achieving polyphony from an essentially linear construct, namely partitioning and combining. The former consists of splitting a row into separate lines in a very Schenkerian fashion, whereas the latter departs from combination matrices similarly to \cite{Martino1961}. Although \cite[100]{Westergaard1966} suggests a bias toward partitioning the row in ways that preserve some of its intervallic structure, the arguably quintessential example of this technique, the first movement of Schoenberg's fourth string quartet, does not share that bias.
+
+\begin{figure}[htbp]
+    \centering
+	\includegraphics[width=6.5in]{figures/schoenberg4.png}
+	\caption[Derived Row in Schoenberg's fourth string quartet]{Derived row in Schoenberg's fourth string quartet \cite[100]{Westergaard1966}.}
+	\label{fig:schoenberg-quartet}
+\end{figure}
+
+The second strategy for creating polyphony from rows introduced in \cite[101]{Westergaard1966} is truly remarkable in the sense that it already represents a technique for self-derivation.
+
+\begin{example}
+	\label{ex:westergaard}
+	\cite[102]{Westergaard1966}
+	Let $S = \{ 2, 1, 9, 10, 5, 3, 4, 0, 8, 7, 6, 11 \}$ be a 12-tone row and consider the $12 \times 12$ matrix
+	\begin{equation}
+    	A = \left[
+    	\begin{array}{cccccccccccc}
+        	2 & 1 & 9 & 10 & 5 & 3 & 4 & 0 & 8 & 7 & 6 & 11 \\
+        	1 & 0 & 8 & 9 & 4 & 2 & 3 & 11 & 7 & 6 & 5 & 10 \\
+        	\vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\
+        	3 & 2 & 10 & 11 & 6 & 4 & 5 & 1 & 9 & 8 & 7 & 0
+    	\end{array}
+    	\right] \enspace.
+	\end{equation}
+	Then the following $12 \times 144$ combination matrix of self-derivation is possible by simply rearranging the contents of each column of $A$ to form a transform of $S$:
+	\begin{equation}
+    	\tilde{A} = \left[
+    	\begin{array}{cccccccccccc|cccccccccccc|}
+        	2 &&&&&&&&&&&    &  &&&&&&&& 1 &&& \\
+        	& 1 &&&&&&&&&&   &  && 0 &&&&&&&&& \\
+        	&&&&&&& 0 &&&&   &  &&& 11 &&&&&&&& \\
+        	&&&&&&&&&&& 11   &  &&&&&&&&&&& 10 \\
+        	&&& 10 &&&&&&&&  &  &&&&&&& 9 &&&& \\
+        	&& 9 &&&&&&&&&   &  & 8 &&&&&&&&&& \\
+        	&&&&&&&& 8 &&&   &  7 &&&&&&&&&&& \\
+        	&&&&&&&&& 7 &&   &  &&&&& 6 &&&&&& \\
+        	&&&&&&&&&& 6 &   &  &&&&&& 5 &&&&& \\
+        	&&&& 5 &&&&&&&   &  &&&& 4 &&&&&&& \\
+        	&&&&&& 4 &&&&&   &  &&&&&&&&&& 3 & \\
+        	&&&&& 3 &&&&&&   &  &&&&&&&&& 2 &&
+    	\end{array}
+    	\cdots \right. \enspace.
+	\end{equation}
+	In particular, $\tilde{A} = [T_0(S) \; | \; T_5I(S) \; | \; \cdots$. Observing that 5 precedes 4 in the 10\textsuperscript{th} row of $\tilde{A}$, and that similarly 4 precedes 3 in the 11\textsuperscript{th} row of $\tilde{A}$, for example, many alternative rearrangements of $\tilde{A}$ are possible, such as the one below:
+	\begin{equation}
+    	\left[
+    	\begin{array}{cccccccccccc|cccccccccccc|}
+        	2 &&&&&&&&&&&      &  &&&&&&&& 1 &&& \\
+        	& 1 &&&&&&&&&&     &  && 0 &&&&&&&&& \\
+        	&& \ddots &&&&&&&&&        &  &&&&&&&&&&& \\
+        	&&&& 5 && 4 &&&&&  &  &&&&&&&&&&& \\
+        	&&&&&&&&&&&        &  &&&& 4 &&&&&& 3 & \\
+        	&&&&& 3 &&&&&&     &  &&&&&&&&& 2 &&
+    	\end{array}
+    	\cdots \right. \enspace.
+	\end{equation}
+\end{example}
+
+\cite[102]{Westergaard1966} observes that combination matrices such as $A = [T_0(S) \; | \; \cdots \; | \; T_1(S)]$ in Ex.~\ref{ex:westergaard} may be constructed in alternative ways where inverse and retrograde transforms of the row $S$ can be present. One possible sequence of transforms is
+\begin{equation}
+	\{ T_0, T_{10}, T_{8}, T_{6}, T_{4}, T_{2}, T_{5}I, T_{3}I, T_{1}I, T_{11}I, T_{9}I, T_{7}I \} \enspace .
+\end{equation}
+\noindent Another is
+\begin{equation}
+	\{ T_0, T_{8}, T_{4}, T_{11}I, T_{7}I, T_{3}I, RT_{9}, RT_{5}, RT_{1}, RT_{10}I, RT_{6}I, RT_{2}I \} \enspace .
+\end{equation}
+\noindent Although \cite{Westergaard1966} does not address combinatoriality techniques, these are now well understood. Finally, \cite[108]{Westergaard1966} remarks that self-derivation in combination matrices of four rows or less is more difficultly achieved. Even though \cite{Westergaard1966} does not propose a systematic way to understand self-derivation in smaller combination matrices, the advancements in the field are extremely substantial and arguably one strong motivating force for the studies in self-derivation that follow in the subsequent decades.
 
 %--------------------------------------------------------------------------
 \section{The set-theoretic view of Daniel Starr}
