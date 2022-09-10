@@ -218,6 +218,72 @@ Solution 40:
 0  | 0  2  3  1     | 4              |                | 17
 \end{lstlisting}
 
+\begin{figure}[htbp]
+\label{fig:percussion}
+\centering
+\includegraphics[width=6.5in]{figures/Example_Percussion.pdf}
+\caption[Using self-derivation in a percussion setup.]{Using self-derivation to change instruments in a percussion setup.}
+\end{figure}
+
+Ex.~\ref{ex:stingray} illustrates how self-derivation may be achieved in a $6 \times 144$ matrix by exploring the symmetries of an aggregate realization, and how such matrix may be used in an actual musical composition.
+
+\begin{example}
+    \label{ex:stingray}
+    Consider the aggregate realization A.
+    \begin{equation}
+        A = \begin{tikzcd}
+            & 0 \arrow[dddr] && 1 \arrow[dddr] & \\
+            & 4 \arrow[ddr] && 5 \arrow[ddr] & \\
+            & 8 \arrow[dr] && 9 \arrow[dr] & \\
+            * \arrow[ur] \arrow[uur] \arrow[uuur] \arrow[dr] \arrow[ddr] \arrow[dddr] && * \arrow[ur] \arrow[uur] \arrow[uuur] \arrow[dr] \arrow[ddr] \arrow[dddr] && * \\
+            & 11 \arrow[ur] && 10 \arrow[ur] & \\
+            & 7 \arrow[uur] && 6 \arrow[uur] & \\
+            & 3 \arrow[uuur] && 2 \arrow[uuur] &
+        \end{tikzcd} \enspace.
+    \end{equation}
+    It is easily seen that $A$ is invariant under the set of operations $\Omega = \{ \T_0, \T_4, \T_8, \T_3\I, \T_7\I, \T_{11}\I \}$. Thus if $\rho \in \Toc(A)$, then also $\Omega_i(\rho) \in \Toc(A)$. It is also easy to see that $\R(\rho) \in \Toc(\R \circ \Omega_i(A))$. Now let $S = \{ 0, 1, 5, 8, 9, 4, 10, 3, 7, 6, 2, 11 \}$, and consider the combination matrix $\mathcal{A} = [\mathcal{A}_1 | \cdots | \mathcal{A}_6]$.
+    \begin{equation}
+        \mathcal{A} = \left[
+        \begin{array}{cc|cc|cc|cc|cc|cc}
+            0 & 1 & 5 & 8 & 9 & 4 & 10 & 3 & 7 & 6 & 2 & 11 \\
+            4 & 5 & 9 & 0 & 1 & 8 & 2 & 7 & 11 & 10 & 6 & 3 \\
+            8 & 9 & 1 & 4 & 5 & 0 & 6 & 11 & 3 & 2 & 10 & 7 \\
+            11 & 10 & 6 & 3 & 2 & 7 & 1 & 8 & 4 & 5 & 9 & 0 \\
+            7 & 6 & 2 & 11 & 10 & 3 & 9 & 4 & 0 & 1 & 5 & 8 \\
+            3 & 2 & 10 & 7 & 6 & 11 & 5 & 0 & 8 & 9 & 1 & 4
+        \end{array}
+        \right] \enspace.
+    \end{equation}
+    By construction, every row of $\mathcal{A}$ is an $\Omega$-transform of $S$. Also by construction, every $\mathcal{A}_i$ is an instance of either $A$ or $\R(A)$, seen as a columnar aggregate, and thus $\Omega$-invariant. It follows a transform of $S$ can be derived from every $\mathcal{A}_i$. Since $\T_7(S) \in \Toc(\mathcal{A}_1)$ and $\R\T_0\I(S) \in \Toc(\mathcal{A}_2)$, self-derivation matrix $X$ is obtained.
+    \begin{equation}
+        X = \left[
+        \begin{array}{cccccccccccc|cccccccccccc}
+            &&&&& 11 && 10 &&&&&&& 6 &&&&& 3 &&&& \\
+            &&&& 4 && 5 &&&&&&&&&& 9 &&&&&&& 0 \\
+            &&& 3 &&&&& 2 &&&&& 10 &&&&&&&& 7 && \\
+            && 0 &&&&&&& 1 &&&&&& 5 &&& 8 &&&&& \\
+            & 8 &&&&&&&&& 9 && 1 &&&&&&&& 4 &&& \\
+            7 &&&&&&&&&&& 6 &&&&&& 2 &&&&& 11 &
+        \end{array}
+        \right] \enspace.
+    \end{equation}
+    It is important to point out that, although the matrix $X$ could be extended to a $6 \times 144$ derivation matrix wherein all columns of $\mathcal{A}$ are presented, this could not be done using arbitrary transforms of $S$. Upon inspection, it follows that the transforms of $S$ that can be derived from $\mathcal{A}_1$ and $\mathcal{A}_5$ are in
+    \begin{equation}
+        \{ \T_3, \T_7, \T_{11}, \R\T_1, \R\T_5, \R\T_9, \T_0\I, \T_4\I, \T_8\I, \R\T_2\I, \R\T_6\I, \R\T_{10}\I \} \enspace.
+    \end{equation}
+    For the columns $\mathcal{A}_2, \mathcal{A}_3, \mathcal{A}_4$ and $\mathcal{A}_6$, the transforms of $S$ that can be derived are in
+    \begin{equation}
+        \{ \T_1, \T_5, \T_9, \R\T_3, \R\T_7, \R\T_{11}, \T_2\I, \T_6\I, \T_{10}\I, \R\T_0\I, \R\T_4\I, \R\T_8\I \} \enspace.
+    \end{equation}
+    Rather than a hinderance, this fact can be leveraged to explore contrasting harmonic regions. Fig.~\ref{fig:stingray} shows a musical realization of $X$:
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=6.5in]{figures/stingray-example.pdf}
+        \caption[Self-derivation in Damiani's \emph{Stingray}.]{Self-derivation in Damiani's \emph{Stingray}.}
+        \label{fig:stingray}
+    \end{figure}
+\end{example}
+
 \section{Conclusion}
 
 The algorithms, applications and example presented in this paper represent a major advancement in the study of combination matrices of self-derivation. Arguably the most notable contribution is an algorithm that is simple enough to allow computations by hand, while at the same time fast enough to generate thousands of solutions per second when run by a computer, and general enough to compute solutions for arbitrary problem and row sizes. The ideas in \cite{Starr1984} are invaluable for an understanding and classification of various derivation techniques from a set-theoretic perspective. It also contributes enormously to understanding how a particular class of solutions for the self-derivation problem can be constructed by exploring the permutation cycles of $RT_nI$ operations. What is missing in \cite{Starr1984} is an efficient way to compute combination matrices of self-derivation in a general setting. This shortcoming is addressed in \cite{Kowalski1987b}, which restricts its focus to the self-derivation problem and introduces an efficient algorithm to compute solutions for the 12-tone case. Even though the algorithm devised in \cite{Kowalski1987b} can be generalized to other row sizes, it is not a simple algorithm to understand or apply. More importantly, it intentionally avoids computing all possible solutions, sacrificing the less interesting ones for speed. The void that Listing~\ref{allSolutionsRecursive} intends to fill is exactly that of an algorithm that can produce a complete set of solutions given a row and a combination matrix size. The achieved result is straightforward to understand and implement. Devising this algorithm required understanding the problem of self-derivation from from a new point of view, namely that of a structure that can be broken down into three basic constituent parts: a linearized top, a semi-magic square, and an array of derived row transforms. In this formulation, a top, a square and a side are necessary and sufficient to characterize a solution, that is, every solution is uniquely determined by them according to Th.~\ref{topSquareSideTheorem}. Such analysis of the problem paves the way for a much deeper understanding of self-derivation, especially when combined with a simple and fast algorithm capable of unveiling a large amount of solutions within reasonable time. Once the self-derivation problem was broken into parts, each part had to be studied and understood in detail. This study resulted in reducing the body of solutions into equivalence classes under the action of $RTn_I$, the number and size of which depending on retrograde or retrograde inverse-invariance of the row. This body of solutions also groups into classes solutions which are equivalent under permutations of the side vector, leading to Cor.~\ref{topSquareSideCorollary}, and further into permutations of repeated semi-magic square rows. Although a significant advance, this paper is still a small toward a more complete understanding of self-derivation, falling short in many aspects. Some of theses aspects will be the subject of the rest of this chapter.
