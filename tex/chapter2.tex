@@ -1,9 +1,21 @@
 %--------------------------------------------------------------------------
 \chapter{THEORETICAL FRAMEWORK}
 
-This section proposes a model to describe derivation in a general setting. After writing the chapter, Luis will come back here and summarize what he wrote.
+%This section proposes a model to describe derivation in a general setting. After writing the chapter, Luis will come back here and summarize what he wrote.
 
 %TODO: This problem is NP-hard and is a satisfiability problem similar to Sudoku and the 8-Queens.
+
+%--------------------------------------------------------------------------
+\section{Defining an algorithm to compute a row class}
+
+In a traditional setting, a composer will usually define a class of transforms of a basic row by computing by hand what is commonly termed as a 12-tone matrix. The general procedure is usually to fill the top row of the matrix with a transform of the row beginning with zero. The second step is to fill the leftmost column of the matrix with the inverse transform of the top row. The subsequent steps comprise going row-by-row and filling them with a transposition of the top row. The particular transposition for each row is the first pitch-class of the row. So if a row begins with, say, pitch-class $5$, then the entire row will be the $T_5$ transform of the top row. Then 12-tone matrix will hold all 48 transforms of a row: reading every row from left to right gives all transpositions, reading them from right to left gives all retrogrades, reading all columns from top to bottom gives all inversions, and reading them from bottom to top gives all retrograde inversions.
+
+Although somewhat tedious, computing 12-tone matrices by hand is a well-established procedure. The 48 transforms that can be inferred from the matrix are not necessarily unique, given that a 12-tone may be retrograde, or retrograde-inverse invariant. It is straightforward to generalize the procedure to $n$-tone matrices. However, the graphical idea of reading the matrix from right to left, or bottom to top, is not ideal for computing self-deriving combination matrices, as it is faster to read a transform of a row that is written contiguously in memory. Another caveat is that the procedure does not necessarily define a canonical form for the top row. Every row in a matrix is a representative of an equivalence class of rows under the action of $RT_NI$. The size of each orbit is $4n$ if the row is not retrograde or retrograde-inverse invariant, and $2n$ otherwise. Defining a canonical form for the first row in a data structure that holds a row class is desirable in any algorithm that iterates through row classes in lexicographic order.
+
+%--------------------------------------------------------------------------
+\subsection{The canonical form of a row}
+
+This section describes an algorithm to obtain a canonical form for a row. The canonical form defined here is simply the least element in a lexicographic ordering of a row class. Given an arbitrary representative of a row class, that representative will be considered retrograded if any interval class between two consecutive elements of the row, counted from right to left, is strictly less than the corresponding interval class counted from left to right. Finding the interval class between two pitch-classes is illustrated in Listing~\ref{intervalClass}, which takes as input two pitch-classes $a$ and $b$, and the base $n$, returning the interval class between the two. The interval class between $a \pmod n$ and $b \pmod n$ is expressed mathematically as $\min\{(a - b) \pmod n, (b - a) \pmod n\}$.
 
 \begin{definition}
     Let $x$ and $y$ be arbitrary pitches. The \textbf{ordered pitch interval} between
@@ -42,18 +54,6 @@ This section proposes a model to describe derivation in a general setting. After
 \end{example}
 
 % TODO Interval classes are equivalence relations
-
-%--------------------------------------------------------------------------
-\section{Defining an algorithm to compute a row class}
-
-In a traditional setting, a composer will usually define a class of transforms of a basic row by computing by hand what is commonly termed as a 12-tone matrix. The general procedure is usually to fill the top row of the matrix with a transform of the row beginning with zero. The second step is to fill the leftmost column of the matrix with the inverse transform of the top row. The subsequent steps comprise going row-by-row and filling them with a transposition of the top row. The particular transposition for each row is the first pitch-class of the row. So if a row begins with, say, pitch-class $5$, then the entire row will be the $T_5$ transform of the top row. Then 12-tone matrix will hold all 48 transforms of a row: reading every row from left to right gives all transpositions, reading them from right to left gives all retrogrades, reading all columns from top to bottom gives all inversions, and reading them from bottom to top gives all retrograde inversions.
-
-Although somewhat tedious, computing 12-tone matrices by hand is a well-established procedure. The 48 transforms that can be inferred from the matrix are not necessarily unique, given that a 12-tone may be retrograde, or retrograde-inverse invariant. It is straightforward to generalize the procedure to $n$-tone matrices. However, the graphical idea of reading the matrix from right to left, or bottom to top, is not ideal for computing self-deriving combination matrices, as it is faster to read a transform of a row that is written contiguously in memory. Another caveat is that the procedure does not necessarily define a canonical form for the top row. Every row in a matrix is a representative of an equivalence class of rows under the action of $RT_NI$. The size of each orbit is $4n$ if the row is not retrograde or retrograde-inverse invariant, and $2n$ otherwise. Defining a canonical form for the first row in a data structure that holds a row class is desirable in any algorithm that iterates through row classes in lexicographic order.
-
-%--------------------------------------------------------------------------
-\subsection{The canonical form of a row}
-
-This section describes an algorithm to obtain a canonical form for a row. The canonical form defined here is simply the least element in a lexicographic ordering of a row class. Given an arbitrary representative of a row class, that representative will be considered retrograded if any interval class between two consecutive elements of the row, counted from right to left, is strictly less than the corresponding interval class counted from left to right. Finding the interval class between two pitch-classes is illustrated in Listing~\ref{intervalClass}, which takes as input two pitch-classes $a$ and $b$, and the base $n$, returning the interval class between the two. The interval class between $a \pmod n$ and $b \pmod n$ is expressed mathematically as $\min\{(a - b) \pmod n, (b - a) \pmod n\}$.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Computing the interval class between two pitch-classes.},label={intervalClass}]
