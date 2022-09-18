@@ -175,7 +175,7 @@ int main(int argc, char *argv[]) {
 }
 \end{lstlisting}
 
-Even with several threads running concurrently, however, computing all $4 \times 4$ combination matrices for a 12-tone row takes a significant amount of time.
+%Even with several threads running concurrently, however, computing all $4 \times 4$ combination matrices for a 12-tone row takes a significant amount of time.
 
 % D:\Developer\MONF\cmake-build-release\MONF_CPP.exe 4 0 4 7 3 11 2 10 1 6 8 9 5
 % Writing partitions file...
@@ -188,16 +188,10 @@ Even with several threads running concurrently, however, computing all $4 \times
 %--------------------------------------------------------------------------
 \section{Musical applications}
 
-%--------------------------------------------------------------------------
-\begin{figure}[H]
-\label{fig:percussion}
-\centering
-\includegraphics[width=6.5in]{figures/Example_Percussion.pdf}
-\caption[Using self-derivation in a percussion setup.]{Using self-derivation to change instruments in a percussion setup.}
-\end{figure}
+This section shows how various outputs of Listing~\ref{writeSolutions} may be used to compose music. Most of the musical examples in literature around self-derivation approach it from the standpoint of 12-tone practice. There is, however, no requirement that theses constructs be focused on the pitch domain, nor that they be restricted to base 12. For this reason, the examples presented here attempt to explore the practical use of self-derivation with sizes different than 12, as well as to dimensions other than pitch. The first musical application below describes the use of self-derivation in a composition for solo percussion. The instrument setup consists five tom-toms, five cowbells, and five woodblocks, all of different sizes. The tom-toms are placed at the lowest height, and the woodblocks at the highest, with the cowbells in the middle. All three rows of instruments are assembled from left to right according to pitch. Alternatively, tom-toms may be replaced with rototoms, cowbells with Almglocken, and woodblocks with temple blocks. The point of departure for the musical passage shown in Fig.~\ref{fig:percussion} is a freely-composed, four-bar rhythmic phrase, repeated three times. The four $3 \times 15$ combination matrices of self-derivation described in Listing~\ref{list:percussion} are used to dictate instrument changes in this passage. Each matrix row corresponds to a row in the instrument setup, that is, the bottom matrix row corresponds to the tom-toms, the top row to the woodblocks, and the center row to the cowbells.
 
 %--------------------------------------------------------------------------
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize,numbers=none]
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize,numbers=none,caption={Output of Listing~\ref{writeSolutions} for problem size three and row $\{0, 2, 3, 1, 4\}$.},label={list:percussion}]
 Solution 37:
 
      0  2  3  1  4  | 4  2  1  3  0  | 0  3  1  2  4  
@@ -231,12 +225,16 @@ Solution 40:
 \begin{figure}[H]
 \label{fig:percussion}
 \centering
-\includegraphics[width=6.5in]{figures/Example_Quartet_1.pdf}
-\caption[]{}
+\includegraphics[width=6.5in]{figures/Example_Percussion.pdf}
+\caption[Using self-derivation in a percussion setup.]{Using self-derivation to change instruments in a percussion setup.}
 \end{figure}
 
+Each of the five instruments from each family is notated in Fig.~\ref{fig:percussion} in one of the staff lines, from bottom to top, according to ascending pitch. To discern between the instrument families, tom-toms are notated with a normal note head, cowbells with a diamond, and woodblocks with a cross. The base row $\{0, 2, 3, 1, 4\}$ in Listing~\ref{list:percussion} was chosen specifically not to be retrograde invariant. The set of solutions $\{37, 38, 39, 40\}$, on the other hand, was chosen to fit a particular musical structure. The semi-magic squares in solutions 37 and 38 are the same, and so are the semi-magic squares in solutions 39 and 40. The side vectors in solutions 37 and 38 differ by one row, whereas the side vectors in solutions 39 and 40 differ by two. Moreover, the side vectors in solutions 37 and 38 contain no representatives of the row class contained in the side vectors in solutions 39 and 40, and vice-versa. Therefore the entire passage can be broken into two statements. The motivation for this choice is to make the three repetitions of the basic rhythmic phrase as diverse as possible, avoiding any alignment between the repetitions and the solutions. This is accomplished by the fact that three is relatively prime to four and to two. Dynamics and tempo makings, nevertheless, are aligned with each repeated statement of the rhythmic phrase, since these two musical dimensions belong to the intuitive sphere of this musical composition.
+
+The next musical example application is a passage for string quartet where four $4 \times 32$ combination matrices of self-derivation are used to determine pitch. The four instruments are associated with the four rows of the combination matrix in the canonical score order. An 8-tone row is used as the indices of an octatonic scale. The basic index row is $S = \{0, 2, 5, 6, 3, 1, 7, 4\}$. Listing~\ref{list:quartet} displays the output of a modified version of Listing~\ref{writeSolutions} where the base row is $RT_4(S) = \{0, 3, 5, 7, 2, 1, 6, 4\}$.
+
 %--------------------------------------------------------------------------
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize,numbers=none]
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize,numbers=none,caption={Output of Listing~\ref{writeSolutions} for problem size four and row $\{0, 3, 5, 7, 2, 1, 6, 4\}$.},label={list:quartet}]
 Solution 86:
 
      0  3  5  7  2  1  6  4  | 0  3  5  7  2  1  6  4  |
@@ -264,18 +262,7 @@ Solution 116:
    |    7  1  3  6           |                         | 67
    |                5  2  0  | 6  3                    | 109
    | 4                       |                         | 125
-\end{lstlisting}
 
-%--------------------------------------------------------------------------
-\begin{figure}[H]
-\label{fig:percussion}
-\centering
-\includegraphics[width=6.5in]{figures/Example_Quartet_2.pdf}
-\caption[]{}
-\end{figure}
-
-%--------------------------------------------------------------------------
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize,numbers=none]
 Solution 161:
 
      0  3  5  7  2  1  6  4  | 0  3  5  7  2  1  6  4  |
@@ -304,6 +291,22 @@ Solution 175:
    | 0  5  3  1  6           |                         | 90
    |                      4  |                         | 140
 \end{lstlisting}
+
+%--------------------------------------------------------------------------
+\begin{figure}[H]
+\label{fig:quartet_1}
+\centering
+\includegraphics[width=6.5in]{figures/Example_Quartet_1.pdf}
+\caption[Using self-derivation with an octatonic scale.]{Using self-derivation to map an octatonic scale to an 8-tone row.}
+\end{figure}
+
+%--------------------------------------------------------------------------
+\begin{figure}[H]
+\label{fig:quartet_2}
+\centering
+\includegraphics[width=6.5in]{figures/Example_Quartet_2.pdf}
+\caption[Using self-derivation with an octatonic scale. (Continued.)]{Using self-derivation to map an octatonic scale to an 8-tone row. (Continued.)}
+\end{figure}
 
 %--------------------------------------------------------------------------
 \section{Conclusion}
