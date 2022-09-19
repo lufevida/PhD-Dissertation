@@ -223,10 +223,10 @@ Solution 40:
 
 %--------------------------------------------------------------------------
 \begin{figure}[H]
-\label{fig:percussion}
 \centering
 \includegraphics[width=6.5in]{figures/Example_Percussion.pdf}
 \caption[Using self-derivation in a percussion setup.]{Using self-derivation to change instruments in a percussion setup.}
+\label{fig:percussion}
 \end{figure}
 
 Each of the five instruments from each family is notated in Fig.~\ref{fig:percussion} in one of the staff lines, from bottom to top, according to ascending pitch. To discern between the instrument families, tom-toms are notated with a normal note head, cowbells with a diamond, and woodblocks with a cross. The base row $\{0, 2, 3, 1, 4\}$ in Listing~\ref{list:percussion} was chosen specifically not to be retrograde invariant. The set of solutions $\{37, 38, 39, 40\}$, on the other hand, was chosen to fit a particular musical structure. The semi-magic squares in solutions 37 and 38 are the same, and so are the semi-magic squares in solutions 39 and 40. The side vectors in solutions 37 and 38 differ by one row, whereas the side vectors in solutions 39 and 40 differ by two. Moreover, the side vectors in solutions 37 and 38 contain no representatives of the row class contained in the side vectors in solutions 39 and 40, and vice-versa. Therefore the entire passage can be broken into two statements. The motivation for this choice is to make the three repetitions of the basic rhythmic phrase as diverse as possible, avoiding any alignment between the repetitions and the solutions. This is accomplished by the fact that three is relatively prime to four and to two. Dynamics and tempo makings, nevertheless, are aligned with each repeated statement of the rhythmic phrase, since these two musical dimensions belong to the intuitive sphere of this musical composition.
@@ -304,10 +304,10 @@ Solution 175:
 
 %--------------------------------------------------------------------------
 \begin{figure}[H]
-\label{fig:quartet}
 \centering
 \includegraphics[width=6.5in]{figures/Example_Quartet_2.pdf}
 \caption[Using self-derivation with an octatonic scale.]{Using self-derivation to map an octatonic scale to an 8-tone row.}
+\label{fig:quartet}
 \end{figure}
 
 The output of Listing~\ref{writeSolutions} presented in Listing~\ref{list:quartet} is shown as a musical score in Fig.~\ref{fig:quartet}. The chosen set of solutions is $\{86, 116, 161, 175\}$, and these choices were based mostly on how each semi-magic square explored all instruments. The musical realization is straightforward in regards to how the rows of the combination matrices are mapped to the four instruments. Rhythmically, the contents of the combination matrices are realized depending on the contents of each semi-magic square. Square cells equal to one, two or zero are realized as 8\textsuperscript{th}-notes or rests. Square cells equal to three are realized as 16\textsuperscript{th}-note triplets, cells equal to four are realized as 32\textsuperscript{th}-notes, and cells equal to five and six are realized as 32\textsuperscript{th}-note quintuplets and sextuplets, respectively. Cells equal to two are struck simultaneously as double-stops and prolonged as 32\textsuperscript{th}-note sextuplet tremolos. The tremolo order is the same as the square cell order, and the tremolos have a left and right spacing of one 8\textsuperscript{th}-note, that is, tremolos begin one 8\textsuperscript{th}-note after the double-stop, and end one 8\textsuperscript{th}-note before the next non-empty square cell for that instrument. Tremolos are altogether omitted when there is not enough time for them, hence there needs to be at least three 8\textsuperscript{th}-note rests between a double-stop and the next non-empty cell, so that the tremolo may be surrounded by rests. Besides the tremolos, the remainder of the passage is mostly pointillistic. To emphasize this characteristic, single and double-stop 8\textsuperscript{th}-notes are marked with pizzicati. The time signature changes in this realization are also influenced by the combination matrices. Given the aforementioned durations for each square cell size, every combination matrix column corresponds in Fig.~\ref{fig:quartet} to a bar, such that the time signature of every bar is the sum of the durations of the column cell in the corresponding combination matrix.
