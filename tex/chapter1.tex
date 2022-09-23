@@ -20,7 +20,7 @@
 %--------------------------------------------------------------------------
 \section{Basic Derivation Techniques}
 
-Derivation is the process of extracting ordered segments from rows in order to generate new compositional materials. It is a technique that dates back to the Second Viennese School. In its most incipient form, a composer may simply extract these segments from a row, and combine them to form another, as seen in Berg's \emph{Lulu}. The basic row used by Berg is $S = \{ 10, 2, 3, 0, 5, 7, 4, 6, 9, 8, 1, 11 \}$. In the Prologue, however, one is greeted with the row $\{ 10, 3, 4, 9, 2, 7, 8, 1, 0, 5, 6, 11 \}$, as depicted in Fig.~\ref{fig:berg-prologue}. It is clear that the segments that constitute the Prologue's row are ordered segments in the basic row form, and that there is no concern for the fact that one row cannot obtained from the other via row operations.
+Derivation is the process of extracting ordered segments from rows in order to generate new compositional materials. It is a technique that dates back to the Second Viennese School. In its most incipient form, a composer may simply extract these segments from a row, and combine them to form another, as seen in Berg's \emph{Lulu} \cite[182]{Starr1984}. The basic row used by Berg is $S = \{ 10, 2, 3, 0, 5, 7, 4, 6, 9, 8, 1, 11 \}$. In the Prologue, however, one is greeted with the row $\{ 10, 3, 4, 9, 2, 7, 8, 1, 0, 5, 6, 11 \}$, as depicted in Fig.~\ref{fig:berg-prologue}. It is clear that the segments that constitute the Prologue's row are ordered segments in the basic row form, and that there is no concern for the fact that one row cannot obtained from the other via twelve-tone operations.
 
 \begin{figure}[htbp]
     \centering
@@ -29,7 +29,14 @@ Derivation is the process of extracting ordered segments from rows in order to g
 	\label{fig:berg-prologue}
 \end{figure}
 
-More structured approaches to derivation often involve deriving a row from a combination matrix of rows. The rows combined in the matrix are usually twelve-tone transforms of the same basic row. The rows that are derived from the segments of these transforms may or may not be themselves transforms of the basic row. Ex.~\ref{ex:derivation} illustrates a very simple procedure for combining rows in a matrix to generate another.
+More structured approaches to derivation often involve deriving a row from a combination matrix of rows. The rows combined in the matrix are usually twelve-tone transforms of the same basic row. The rows that are derived from the segments of these transforms may or may not be themselves transforms of the basic row. Fig.~\ref{fig:schoenberg-quartet} shows an early example of this technique in Schoenberg's fourth string quartet \cite[100]{Westergaard1966}. Ex.~\ref{ex:derivation} illustrates a very simple procedure for combining rows in a matrix to generate another using the basic row in \emph{Lulu}. %TODO: cite Morris here
+
+\begin{figure}[htbp]
+    \centering
+	\includegraphics[width=6.5in]{figures/schoenberg4.png}
+	\caption[Derived Row in Schoenberg's fourth string quartet]{Derived row in Schoenberg's fourth string quartet \cite[100]{Westergaard1966}.}
+	\label{fig:schoenberg-quartet}
+\end{figure}
 
 %TODO: cite Morris here
 
@@ -56,11 +63,11 @@ More structured approaches to derivation often involve deriving a row from a com
 	Let $V = \{ 2, 3, 4, 6, 9, 8, 1, 11, 7, 5, 0, 10 \}$. Then $V$ is a row derived from $S$. In particular, the ordered segment $\{ 10, 0, 5, 7 \}$ in $S$ is preserved by $\R(V)$, and a counterpoint that combines $S$ vertically with $V$ horizontally is possible by construction.
 \end{example}
 
-It is of interest to note at this point that, in this kind of construction, the choice of a particular segment is already an important compositional decision. This choice bears relevance in that it establishes motivic material, that is, the segment itself. It also potentially introduces complementary harmonic regions, one given by the segment, the other given by its set complement. Moreover, and perhaps more importantly, it presents an opportunity for exploring syntax. There are a multitude of ways in which a composer may obtain syntax from a simple derivation procedure such as the one given in Ex.~\ref{ex:derivation}. One way would be to find an operation that makes the chosen segment invariant. In particular, it is easily checked that $S_1 = \{ 10, 0, 5, 7 \} = \R\T_5\I(S_1)$. Ex.~\ref{ex:derivation} can then be extend into the combination array $[S \; | \; \R(S) \; | \; \R\T_5\I(S) \; | \; \T_5\I(S_1)]$. In the extended array, the segment $S_1$ would be preserved, but the row derived from $\R\T_5\I(S)$ would not be a transform of $V$. If the set complement of $S_1$ in $V$ were parsed to produce more than one harmonic region, then the complement of $S_1$ under this newly derived row would produce different harmonic regions. This procedure can be very pertinent compositionally, as it would be capable of producing contrasting harmonic regions while maintaining motivic coherence under the $S_1$ segment.
+%TODO: make a distinction here between polyphonization and derivation
 
-Yet another way of generating syntax from derivation would be to follow $S$ with $V$ itself. A new row would then be derived from $V$, say $Q$, and eventually $V$ would be follow with $Q$. Repeating this procedure \emph{ad libitum} could generate many contrasting harmonic regions. In particular, this type of derivation is seen in Donald Martino's \emph{Notturno} of 1974, a composition that won the Pulitzer Prize in the following year \cite[181]{Starr1984}. If, by compositional choice, the chain of derived rows picked always the same order numbers, then a potential for rhythmic and agogic coherence could also be explored.
+It is of interest to note at this point that, in this kind of construction, the choice of a particular segment is already an important compositional decision. This choice bears relevance in that it establishes motivic material, that is, the segment itself. It also potentially introduces complementary harmonic regions, one given by the segment, the other given by its set complement. Moreover, and perhaps more importantly, it presents an opportunity for exploring syntax. There are a multitude of ways in which a composer may obtain syntax from a simple derivation procedure such as the one given in Ex.~\ref{ex:derivation}. One way would be to find an operation that makes the chosen segment invariant. In particular, it is easily checked that $S_1 = \{ 10, 0, 5, 7 \} = \R\T_5\I(S_1)$. Ex.~\ref{ex:derivation} can then be followed by the combination matrix $[\R\T_5\I(S) \; | \; \T_5\I(S_1)]$. In this second matrix, the segment $S_1$ could be preserved, but the row derived from $\R\T_5\I(S)$ by preserving the segment $S_1$ would not be a transform of $V$. If the set complement of $S_1$ in $V$ were parsed to produce more than one harmonic region, then the complement of $S_1$ under this newly derived row would produce different harmonic regions under the same parsing. This procedure can be very pertinent compositionally, as it would be capable of producing contrasting harmonic regions while maintaining motivic coherence under the $S_1$ segment. Yet another way of generating syntax from derivation would be to follow $S$ with $V$ itself. A new row would then be derived from $V$, say $Q$, and eventually $V$ would be followed by $Q$. Repeating this procedure \emph{ad libitum} could generate many contrasting harmonic regions. In particular, this type of procedure is seen in Donald Martino's \emph{Notturno} of 1974, a composition that won the Pulitzer Prize in the following year \cite[181]{Starr1984}. If, by compositional choice, the chain of derived rows picked always the same order numbers, then a potential for rhythmic and agogic coherence could also be explored.
 
-%TODO: add Schoenberg Quartet 4 example here
+%TODO: make a distinction here between MOF and derivation
 
 %--------------------------------------------------------------------------
 \section{The early work of Donald Martino}
@@ -169,16 +176,7 @@ Ex.~\ref{ex:oblique} illustrates the tetrachordal case of a technique described 
 
 %TODO: finish Martino
 
-By 1966, \cite{Westergaard1966} introduces a much more mature conception of the problems involved with derivation, even though the term derivation is not quite present yet. \cite[95]{Westergaard1966} proposes two basic strategies for achieving polyphony from an essentially linear construct, namely partitioning and combining. The former consists of splitting a row into separate lines in a very Schenkerian fashion, whereas the latter departs from combination matrices similarly to \cite{Martino1961}. Although \cite[100]{Westergaard1966} suggests a bias toward partitioning the row in ways that preserve some of its intervallic structure, the arguably quintessential example of this technique, the first movement of Schoenberg's fourth string quartet, does not share that bias.
-
-\begin{figure}[htbp]
-    \centering
-	\includegraphics[width=6.5in]{figures/schoenberg4.png}
-	\caption[Derived Row in Schoenberg's fourth string quartet]{Derived row in Schoenberg's fourth string quartet \cite[100]{Westergaard1966}.}
-	\label{fig:schoenberg-quartet}
-\end{figure}
-
-The second strategy for creating polyphony from rows introduced in \cite[101]{Westergaard1966} is truly remarkable in the sense that it already represents a technique for self-derivation.
+By 1966, \cite{Westergaard1966} introduces a much more mature conception of the problems involved with derivation, even though the term derivation is not quite present yet. \cite[95]{Westergaard1966} proposes two basic strategies for achieving polyphony from an essentially linear construct, namely partitioning and combining. The former consists of splitting a row into separate lines in a very Schenkerian fashion, whereas the latter departs from combination matrices similarly to \cite{Martino1961}. Although \cite[100]{Westergaard1966} suggests a bias toward partitioning the row in ways that preserve some of its intervallic structure, the arguably quintessential example of this technique, the first movement of Schoenberg's fourth string quartet shown in Fig.~\ref{fig:schoenberg-quartet}, does not share that bias. The second strategy for creating polyphony from rows introduced in \cite[101]{Westergaard1966} is truly remarkable in the sense that it already represents a technique for self-derivation.
 
 \begin{example}
 	\label{ex:westergaard}
