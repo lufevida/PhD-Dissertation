@@ -1,7 +1,7 @@
-
 %--------------------------------------------------------------------------
 \chapter{INTRODUCTION}
 
+%--------------------------------------------------------------------------
 \vspace{3em}
 \setlength{\epigraphwidth}{0.86\textwidth}
 \setlength{\epigraphrule}{0pt}
@@ -10,6 +10,7 @@
 }{\vspace{2em}-- Johann Joseph Fux}
 \vspace{1em}
 
+%--------------------------------------------------------------------------
 \begin{figure}[htbp]
     \centering
 	\includegraphics[width=6.5in]{figures/berg1.pdf}
@@ -20,17 +21,10 @@
 %--------------------------------------------------------------------------
 \section{Basic Derivation Techniques}
 
-Derivation is the process of extracting ordered segments from rows in order to generate new compositional materials. It is a technique that dates back to the Second Viennese School. In its most incipient form, a composer may simply extract these segments from a row, and combine them to form another, as seen in Berg's \emph{Lulu} \cite[182]{Starr1984}. The basic row used by Berg is $S = \{ 10, 2, 3, 0, 5, 7, 4, 6, 9, 8, 1, 11 \}$. In the Prologue, however, one is greeted with the row $\{ 10, 3, 4, 9, 2, 7, 8, 1, 0, 5, 6, 11 \}$, as depicted in Fig.~\ref{fig:berg-prologue}. It is clear that the segments that constitute the Prologue's row are ordered segments in the basic row form, and that there is no concern for the fact that one row cannot obtained from the other via twelve-tone operations.
+%--------------------------------------------------------------------------
+Derivation is the process of extracting ordered segments from rows in order to generate new compositional materials. It is a technique that dates back to the Second Viennese School. Fig.~\ref{fig:schoenberg-quartet} shows an early example of this technique in Schoenberg's fourth string quartet \cite[100]{Westergaard1966}. In this example, the basic row is stated by the violins in the first bar shown, while combined with its $T_5I$ transform, which is presented by the viola and violoncello. In the second bar, this situation is reversed, and the violins present the $T_5I$ transform, while viola and violoncello state the $T_0$ transform.
 
-\begin{figure}[htbp]
-    \centering
-	\includegraphics[width=6.5in]{figures/berg2.png}
-	\caption[Derived Row in Berg's \emph{Lulu}]{Derived row in the \emph{Prologue} of Alban Berg's \emph{Lulu} \cite[182]{Starr1984}.}
-	\label{fig:berg-prologue}
-\end{figure}
-
-More structured approaches to derivation often involve deriving a row from a combination matrix of rows. The rows combined in the matrix are usually twelve-tone transforms of the same basic row. The rows that are derived from the segments of these transforms may or may not be themselves transforms of the basic row. Fig.~\ref{fig:schoenberg-quartet} shows an early example of this technique in Schoenberg's fourth string quartet \cite[100]{Westergaard1966}. Ex.~\ref{ex:derivation} illustrates a very simple procedure for combining rows in a matrix to generate another using the basic row in \emph{Lulu}. %TODO: cite Morris here
-
+%--------------------------------------------------------------------------
 \begin{figure}[htbp]
     \centering
 	\includegraphics[width=6.5in]{figures/schoenberg4.png}
@@ -38,74 +32,78 @@ More structured approaches to derivation often involve deriving a row from a com
 	\label{fig:schoenberg-quartet}
 \end{figure}
 
+%TODO: see if this is an example of skewed derivation
+
+%--------------------------------------------------------------------------
+\noindent While separating the row between the two violins, two other rows are constructed, namely the row that is stated by the first violin between the two bars shown, and similarly the row that is stated by the second violin. These two rows are constructed from ordered segments extracted from the basic row, and so are said to be derived from it. Neither the first violin row, nor the second violin row are twelve-tone transforms of the original row or of eachother. The same procedure of picking a fixed pattern of order numbers to separate the $[T_0 \; | \; T_5I]$ statement of the row between the two violins is used to split the $[T_5I \; | \; T_0]$ combined statement between viola and violoncello. While picking a fixed pattern of order numbers between the two lower instruments, however, the resulting linear statements for these instruments do not result in derived rows.
+
+%--------------------------------------------------------------------------
+Many structured approaches to derivation exist that guarantee that the extracted segments, when combined, will produce derived rows. These approaches often involve constructing a combination matrix of rows. The rows combined in the matrix are usually twelve-tone transforms of the same basic row. The rows that are derived from the segments of these transforms, on the other hand, may or may not be themselves transforms of the basic row.
+
 %TODO: cite Morris here
 
+%--------------------------------------------------------------------------
 \begin{example}
-	\label{ex:derivation}
-	The basic row in \emph{Lulu} may be used as motivation for a basic derivation procedure. The first step is to create a $2 \times 24$ array where the first row is $S$ followed by $\R(S)$, and the second row is initially undefined.
-	\begin{equation}
-    	\left[
-    	\begin{array}{cccccccccccc|cccccccccccc}
-        	10 & 2 & 3 & 0 & 5 & 7 & 4 & 6 & 9 & 8 & 1 & 11 & 11 & 1 & 8 & 9 & 6 & 4 & 7 & 5 & 0 & 3 & 2 & 10 \\
-        	. & . & . & . & . & . & . & . & . & . & . & . & . & . & . & . & . & . & . & . & . & . & . & .
-    	\end{array}
-    	\right] \enspace.
-	\end{equation}
-	Next, an arbitrary segment is chosen, separated from the the top row, and placed in in the bottom row:
-	\begin{equation}
-    	\left[
-    	\begin{array}{cccccccccccc|cccccccccccc}
-        	. & 2 & 3 & . & . & . & 4 & 6 & 9 & 8 & 1 & 11 & . & . & . & . & . & . & 7 & 5 & 0 & . & . & 10 \\
-        	10 & . & . & 0 & 5 & 7 & . & . & . & . & . & . & 11 & 1 & 8 & 9 & 6 & 4 & . & . & . & 3 & 2 & .
-    	\end{array}
-    	\right] \enspace.
-	\end{equation}
-	Let $V = \{ 2, 3, 4, 6, 9, 8, 1, 11, 7, 5, 0, 10 \}$. Then $V$ is a row derived from $S$. In particular, the ordered segment $\{ 10, 0, 5, 7 \}$ in $S$ is preserved by $\R(V)$, and a counterpoint that combines $S$ vertically with $V$ horizontally is possible by construction.
+The basic row in Berg's \emph{Lulu} \cite[182]{Starr1984} may be used as motivation for a basic derivation procedure. The first step is to create a $2 \times 24$ array where the first row $S$ is followed by $\R(S)$, and the second row is initially undefined.
+
+%--------------------------------------------------------------------------
+\begin{equation}
+    \left[
+    \begin{array}{cccccccccccc|cccccccccccc}
+    10 & 2 & 3 & 0 & 5 & 7 & 4 & 6 & 9 & 8 & 1 & 11 & 11 & 1 & 8 & 9 & 6 & 4 & 7 & 5 & 0 & 3 & 2 & 10 \\
+    . & . & . & . & . & . & . & . & . & . & . & . & . & . & . & . & . & . & . & . & . & . & . & .
+    \end{array}
+    \right] \enspace.
+\end{equation}
+Next, an arbitrary segment is chosen, separated from the the top row, and placed in in the bottom row.
+\begin{equation}
+    \left[
+    \begin{array}{cccccccccccc|cccccccccccc}
+    . & 2 & 3 & . & . & . & 4 & 6 & 9 & 8 & 1 & 11 & . & . & . & . & . & . & 7 & 5 & 0 & . & . & 10 \\
+    10 & . & . & 0 & 5 & 7 & . & . & . & . & . & . & 11 & 1 & 8 & 9 & 6 & 4 & . & . & . & 3 & 2 & .
+    \end{array}
+    \right] \enspace.
+\end{equation}
+Let $V = \{ 2, 3, 4, 6, 9, 8, 1, 11, 7, 5, 0, 10 \}$. Then $V$ is a row derived from $S$. In particular, the ordered segment $\{ 10, 0, 5, 7 \}$ in $S$ is preserved by $\R(V)$, and a counterpoint that combines $S$ vertically with $V$ horizontally is possible by construction.
+\label{ex:derivation}
 \end{example}
+
+%--------------------------------------------------------------------------
+It is of interest to note at this point that, in this kind of construction, the choice of a particular segment is already an important compositional decision. This choice bears relevance in that it establishes motivic material, that is, the segment itself. It also potentially introduces complementary harmonic regions, one given by the segment, the other given by its set complement. Moreover, and perhaps more importantly, it presents an opportunity for exploring syntax. There are a multitude of ways in which a composer may obtain syntax from a simple derivation procedure such as the one given in Ex.~\ref{ex:derivation}. One way would be to find an operation that makes the chosen segment invariant. In particular, it is easily checked that $S_1 = \{ 10, 0, 5, 7 \} = \R\T_5\I(S_1)$. Ex.~\ref{ex:derivation} can then be followed by the combination matrix $[\R\T_5\I(S) \; | \; \T_5\I(S_1)]$. In this second matrix, the segment $S_1$ could be preserved, but the row derived from $\R\T_5\I(S)$ by preserving the segment $S_1$ would not be a transform of $V$. If the set complement of $S_1$ in $V$ were parsed to produce more than one harmonic region, then the complement of $S_1$ under this newly derived row would produce different harmonic regions under the same parsing. This procedure can be very pertinent compositionally, as it would be capable of producing contrasting harmonic regions while maintaining motivic coherence under the $S_1$ segment. Yet another way of generating syntax from derivation would be to follow $S$ with $V$ itself. A new row would then be derived from $V$, say $Q$, and eventually $V$ would be followed by $Q$. Repeating this procedure \emph{ad libitum} could generate many contrasting harmonic regions. In particular, this type of procedure is seen in Donald Martino's \emph{Notturno} of 1974, a composition that won the Pulitzer Prize in the following year \cite[181]{Starr1984}. If, by compositional choice, the chain of derived rows picked always the same order numbers, then a potential for rhythmic and agogic coherence could also be explored.
 
 %TODO: make a distinction here between polyphonization and derivation
 
-It is of interest to note at this point that, in this kind of construction, the choice of a particular segment is already an important compositional decision. This choice bears relevance in that it establishes motivic material, that is, the segment itself. It also potentially introduces complementary harmonic regions, one given by the segment, the other given by its set complement. Moreover, and perhaps more importantly, it presents an opportunity for exploring syntax. There are a multitude of ways in which a composer may obtain syntax from a simple derivation procedure such as the one given in Ex.~\ref{ex:derivation}. One way would be to find an operation that makes the chosen segment invariant. In particular, it is easily checked that $S_1 = \{ 10, 0, 5, 7 \} = \R\T_5\I(S_1)$. Ex.~\ref{ex:derivation} can then be followed by the combination matrix $[\R\T_5\I(S) \; | \; \T_5\I(S_1)]$. In this second matrix, the segment $S_1$ could be preserved, but the row derived from $\R\T_5\I(S)$ by preserving the segment $S_1$ would not be a transform of $V$. If the set complement of $S_1$ in $V$ were parsed to produce more than one harmonic region, then the complement of $S_1$ under this newly derived row would produce different harmonic regions under the same parsing. This procedure can be very pertinent compositionally, as it would be capable of producing contrasting harmonic regions while maintaining motivic coherence under the $S_1$ segment. Yet another way of generating syntax from derivation would be to follow $S$ with $V$ itself. A new row would then be derived from $V$, say $Q$, and eventually $V$ would be followed by $Q$. Repeating this procedure \emph{ad libitum} could generate many contrasting harmonic regions. In particular, this type of procedure is seen in Donald Martino's \emph{Notturno} of 1974, a composition that won the Pulitzer Prize in the following year \cite[181]{Starr1984}. If, by compositional choice, the chain of derived rows picked always the same order numbers, then a potential for rhythmic and agogic coherence could also be explored.
+%In its most incipient form, a composer may simply extract these segments from a row, and combine them to form another, as seen in Berg's \emph{Lulu} \cite[182]{Starr1984}. The basic row used by Berg is $S = \{ 10, 2, 3, 0, 5, 7, 4, 6, 9, 8, 1, 11 \}$. In the Prologue, however, one is greeted with the row $\{ 10, 3, 4, 9, 2, 7, 8, 1, 0, 5, 6, 11 \}$, as depicted in Fig.~\ref{fig:berg-prologue}. It is clear that the segments that constitute the Prologue's row are ordered segments in the basic row form, and that there is no concern for the fact that one row cannot obtained from the other via twelve-tone operations.
+%
+%\begin{figure}[htbp]
+%    \centering
+%	\includegraphics[width=6.5in]{figures/berg2.png}
+%	\caption[Derived Row in Berg's \emph{Lulu}]{Derived row in the \emph{Prologue} of Alban Berg's \emph{Lulu} \cite[182]{Starr1984}.}
+%	\label{fig:berg-prologue}
+%\end{figure}
 
 %TODO: make a distinction here between MOF and derivation
 
 %--------------------------------------------------------------------------
-\section{The early work of Donald Martino}
+\section{Literature Review}
 
-The beginnings of derivation techniques can be traced back to Donald Martino's \emph{The Source Set and Its Aggregate Formations} \cite{Martino1961}, a paper whose main purpose is another, namely to generalize the construction of columnar realizations, although this latter term appears to have been coined by \cite{Starr1984}. The techniques employed by Martino are heavily influenced by Babbitt's ideas on combinatoriality \cite[224]{Martino1961}, and make extensive use of tables. Below is a fragment of the source hexachords table given in \cite[229]{Martino1961}. The author, in the interest of generalizing the procedure, provides also trichordal, tetrachordal, and even pentachordal combinatoriality tables, as well as a somewhat brief discussion on uneven partitions of a row and their combinatoriality implications \cite[267]{Martino1961}.
+%--------------------------------------------------------------------------
+One of the earliest references in the academic literature of a procedure that may be construed as a derivation technique, illustrated below in Ex.~\ref{ex:martino-derivation}, is seen in \cite{Martino1961}, a paper whose main purpose is another, namely to generalize the construction of aggregate formations. The techniques described by Martino are influenced by Babbitt's ideas on combinatoriality \cite[224]{Martino1961}, and make extensive use of tables. In the interest of generalizing the construction of aggregate formations, Martino provides, in addition to hexachordal, also trichordal, tetrachordal, and even pentachordal combinatoriality tables, as well as somewhat brief discussions on oblique combinations \cite[241]{Martino1961}, which are further discussed in the context of derivation in \cite[216]{Starr1984}, and on uneven partitions of a row and their combinatoriality implications \cite[267]{Martino1961}. Martino acknowledges the aggregates formed by combinatoriality are not necessarily ordered, rather seeing this characteristic as capable of bringing harmonic diversity \cite[228, 230]{Martino1961}. In mentioning the derivation of new harmonic sets, this process is juxtaposed to another, namely the fragmentation of the original series. Both procedures are deemed as essentially the same, since set derivation via aggregate formations can be seen as a fragmentation of the set obtained vertically \cite[230, 231]{Martino1961}.
 
-\begin{table}[htbp]
-    \caption[Martino's Source Hexachords]{Fragment of a table for consulting source hexachords in \cite[229]{Martino1961}.}
-    \centering
-    \vspace{12pt}
-    \begin{tabular}{c|cccccc}
-        \hline\\
-        No. & Set & Interval Vector & TTO's \\\\
-        \hline\\
-        A1 & $\{0,1,2,3,4,5\}$ & $\langle 5,4,3,2,1,0 \rangle$ & $\{\T_6,\T_{11}\I,\R\T_{11},\R\T_6\I\}$ \\\\
-        B2 & $\{0,2,3,4,5,7\}$ & $\langle 3,4,3,2,3,0 \rangle$ & $\{\T_6,\T_{1}\I,\R\T_{1},\R\T_6\I\}$ \\\\
-        3 & $\{0,1,3,4,5,8\}$ & $\langle 3,2,3,4,3,0 \rangle$ & $\{\T_6,\R\T_2\}$ \\\\
-        E4 & $\{0,1,4,5,8,9\}$ & $\langle 3,0,3,6,3,0 \rangle$ & $\{\T_{2,6,10},\T_{3,7,11}\I,\R\T_{3,7,11},\R\T_{2,6,10}\I\}$ \\\\
-        C5 & $\{0,2,4,5,7,9\}$ & $\langle 1,4,3,2,5,0 \rangle$ & $\{\T_6,\T_{3}\I,\R\T_{3},\R\T_6\I\}$ \\\\
-        \hline
-    \end{tabular}
-\end{table}
-
-Martino acknowledges the aggregates formed by combinatoriality are not necessarily ordered \cite[228]{Martino1961}, rather seeing it from the bright side of diversity, in which the set union of a columnar aggregate being capable of \emph{deriving} a different row class is actually more appealing than self-similarity, which is not at all considered. The same passage brings, to our knowledge, the first \emph{explicit} mention in the literature of a technique for deriving new rows from columnar aggregates in more generality than what what is seen in Schoenberg's fourth string quartet. This technique is reproduced below in \ref{ex:martino-derivation}. In mentioning derivation, Martino juxtaposes it to another way, in his view, of progressing through hexachords, namely the \emph{fragmentation} or partitioning of the original series, ultimately deeming both procedures essentially the same, as derivation via aggregate realizations can surely be seen as the fragmentation of the (new) series obtained vertically.
-
+%--------------------------------------------------------------------------
 \begin{example}
 	\label{ex:martino-derivation}
 	\cite[231]{Martino1961}
-	Let $S = \{ 0, 4, 11, 3, 1, 2, 5, 6, 9, 8, 10, 7 \}$ and consider the trivial combination matrix given below.
+	Let $S = \{ 0, 4, 11, 3, 1, 2, 5, 6, 9, 8, 10, 7 \}$ and consider the combination matrix $\hat{A}$.
 	\begin{equation}
-    	\hat{A} = [\hat{A}_1 | \hat{A}_2 | \hat{A}_3 | \hat{A}_4] = \left[
-    	\begin{array}{ccc|ccc|ccc|ccc}
+    	\hat{A} = [\hat{A}_1 | \hat{A}_2] = \left[
+    	\begin{array}{cccccc|cccccc}
         	0 & 4 & 11 & 3 & 1 & 2 & 5 & 6 & 9 & 8 & 10 & 7 \\
         	7 & 10 & 8 & 9 & 6 & 5 & 2 & 1 & 3 & 11 & 4 & 0
     	\end{array}
     	\right] \enspace.
 	\end{equation}
-	In particular, the hexachords given by $\hat{A}_i$ can be combined with their transforms under $\T_1\I$, yielding the following matrix:
+	In particular, the hexachords given by the $\hat{A}_i$ can be combined with their transforms under $T_1I$, yielding the combination matrix $A$.
 	\begin{equation}
     	A = [A_1 | A_2 | A_3 | A_4] = \left[
     	\begin{array}{ccc|ccc|ccc|ccc}
@@ -117,7 +115,7 @@ Martino acknowledges the aggregates formed by combinatoriality are not necessari
     	\end{array}
     	\right] \enspace.
 	\end{equation}
-	Transforms of the row $Q = \{ 7, 0, 10, 6, 4, 1, 3, 5, 8, 9, 2, 11 \}$ can then \emph{almost} be derived from the columns of $A$, except for a single symmetry between pitch-classes 6 and 5, as seen below.
+	The row $Q = \{ 7, 0, 10, 6, 4, 1, 3, 5, 8, 9, 2, 11 \}$ can then be derived from the first column of $A$, but $T_9(Q)$ can only partially be derived from the second column of $A$, as pitch-classes 6 and 5 get swapped.
 	\begin{equation}
         \left[
         \begin{array}{cccccccccccc|cccccccccccc}
@@ -129,59 +127,16 @@ Martino acknowledges the aggregates formed by combinatoriality are not necessari
         \end{array}
         \right. \cdots
     \end{equation}
-    This apparent failure did not seem to bother Martino at all, as his focus remained in establishing a concrete foundation for combinatoriality. In order to extend the above procedure to eight rows of counterpoint, some adjustments must be made, namely columnar aggregates are needed whose rows are allowed to have different numbers of elements, as shown below. This second folding is otherwise accomplished much the same way, by choosing a hexachord from $A_1$, and determining its combinatoriality properties via table lookup.
-    \begin{equation}
-    	\left[
-    	\begin{array}{cc|cc|cc|cc|}
-        	0 & 4 & 11 && 3 & 1 & 2 & \\
-        	7 & 10 & 8 && 9 && 6 & 5 \\
-        	1 && 9 & 2 & 10 && 0 & 11 \\
-        	6 && 3 & 5 & 4 & 7 & 8 & \\
-        	2 && 6 & 1 & 5 && 3 & 4 \\
-        	9 && 0 & 10 & 11 & 8 & 7 & \\
-        	3 & 11 & 4 && 0 & 2 & 1 & \\
-        	8 & 5 & 7 && 6 && 9 & 10
-    	\end{array}
-    	\right. \cdots
-	\end{equation}
 \end{example}
 
-It is easy to understand why Martino was so motivated by creating as much diversity as possible from a single row in a structured manner. If not because creating variation upon some fixed foundation has been a constant in music composition since Bach, serialism up to that point had seen countless pieces in which the very same series was presented over and over again, frequently in the same $\R\T_n\I$ form for entire passages. As innovative as it is, not even the first movement of Schoenberg's fourth string quartet escapes this paradigm. The idea of having a systematic approach to syntactically moving from one row class to another, although latent in late Schoenberg, ultimately defines one of the most remarkable trends in the next chapter of serialism. Martino actually manages to solve both problems at once with derivation, as it gives the composer the opportunity to focus on the derived rows, while using a somewhat more abstract row to generate syntax, even though this potential is only explored in his later pieces, and not quite yet in \cite{Martino1961}. For now, what is most important is to derive as much harmonic diversity as possible from the rigidity of an omnipresent series.
+%--------------------------------------------------------------------------
+Even though the term derivation is not itself quite present in it, \cite{Westergaard1966} introduces a mature conception of the problems involved with the technique of derivation. Two basic strategies for achieving polyphony from an essentially linear construct, namely partitioning and combining, are proposed in \cite[95]{Westergaard1966}. Partitioning, which is illustrated in Fig.~\ref{fig:schoenberg-quartet}, consists of splitting a row into separate lines in a very Schenkerian fashion, with a bias toward partitioning the row in ways that preserve some of its intervallic structure \cite[100]{Westergaard1966}. Combining, on the other hand, departs from combination matrices, similarly to the technique demonstrated in Ex.~\ref{ex:martino-derivation}, and is truly remarkable in the sense that it already represents a technique for self-derivation \cite[101]{Westergaard1966}. Ex.~\ref{ex:westergaard} demonstrates the technique of combining.
 
-Ex.~\ref{ex:oblique} illustrates the tetrachordal case of a technique described in \cite[241]{Martino1961} as \emph{oblique combination}, although other cases, including those where the overlap occurs at unequal partitionings of the row are considered. Oblique combinations are seen as special, yet straightforward cases of other types of combinatoriality \cite[267]{Martino1961} than hexachordal.
-
-\begin{example}
-	\cite[241]{Martino1961}
-	\label{ex:oblique}
-	Let $S = S_1 | S_2 | S_3$ be a twelve-tone row, partitioned into tetrachords. Let $f$ and $g$ be TTO's, and considered the following oblique combination matrix:
-	\begin{equation}
-    	\left[
-    	\begin{array}{c|c|c|c|c}
-        	S_1 & S_2 & S_3 & . & . \\
-        	. & f(S_3) & f(S_2) & f(S_1) & . \\
-        	. & . & g(S_1) & g(S_2) & g(S_3)
-    	\end{array}
-    	\right] \enspace.
-	\end{equation}
-	It follows:
-	\begin{enumerate}[i.]
-		\item If $S_1 = \T_i\I(S_1)$ \emph{only} for some $i$, then $f = \R\T_j$ for some $j$, and $g = \T_k\I$ for some $k$;
-		\item If $S_3 = \T_i\I(S_3)$ \emph{only} for some $i$, then $f = \R\T_j\I$ for some $j$, and $g = \T_k$ for some $k$;
-		\item If $S_1 = \T_i\I(S_1)$ \emph{only} for some $i$ and $S_3 = \T_j\I(S_3)$ for some $j$, then $f = \R\T_k\I$ for some $k$, and $g = \T_\ell\I$ for some $\ell$;
-		\item If $S_1 = \T_i\I(S_1)$ \emph{only} for some $i$, $S_3 = \T_j\I(S_3)$ for some $j$, and $S_1 = \T_k(S_3)$ for some $k$, then $f = \T_\ell\I$ or $f = \R\T_\ell\I$ for some $\ell$, and $g = \T_m\I$ or $g = \R\T_m\I$ for some $m$;
-		\item If $S_1 = \T_i(S_3)$ \emph{only} for some $i$, then $f = \T_j$ or $f = \R\T_j$ for some $j$, and $g = \T_k$ or $g = \R\T_k$ for some $k$;
-		\item If $S_3 = \T_i\I(S_1)$ \emph{only} for some $i$, then $f = \T_j\I$ or $f = \R\T_j$ for some $j$, and $g = \T_k$ or $g = \R\T_k\I$ for some $k$.
-	\end{enumerate}
-\end{example}
-
-%TODO: finish Martino
-
-By 1966, \cite{Westergaard1966} introduces a much more mature conception of the problems involved with derivation, even though the term derivation is not quite present yet. \cite[95]{Westergaard1966} proposes two basic strategies for achieving polyphony from an essentially linear construct, namely partitioning and combining. The former consists of splitting a row into separate lines in a very Schenkerian fashion, whereas the latter departs from combination matrices similarly to \cite{Martino1961}. Although \cite[100]{Westergaard1966} suggests a bias toward partitioning the row in ways that preserve some of its intervallic structure, the arguably quintessential example of this technique, the first movement of Schoenberg's fourth string quartet shown in Fig.~\ref{fig:schoenberg-quartet}, does not share that bias. The second strategy for creating polyphony from rows introduced in \cite[101]{Westergaard1966} is truly remarkable in the sense that it already represents a technique for self-derivation.
-
+%--------------------------------------------------------------------------
 \begin{example}
 	\label{ex:westergaard}
 	\cite[102]{Westergaard1966}
-	Let $S = \{ 2, 1, 9, 10, 5, 3, 4, 0, 8, 7, 6, 11 \}$ be a 12-tone row and consider the $12 \times 12$ matrix
+	Let $S = \{ 2, 1, 9, 10, 5, 3, 4, 0, 8, 7, 6, 11 \}$ be a 12-tone row and consider the $12 \times 12$ matrix $A$.
 	\begin{equation}
     	A = \left[
     	\begin{array}{cccccccccccc}
@@ -192,7 +147,7 @@ By 1966, \cite{Westergaard1966} introduces a much more mature conception of the 
     	\end{array}
     	\right] \enspace.
 	\end{equation}
-	Then the following $12 \times 144$ combination matrix of self-derivation is possible by simply rearranging the contents of each column of $A$ to form a transform of $S$:
+	Then $\tilde{A}$ is a $12 \times 144$ combination matrix of self-derivation in which every column is a transform of $S$.
 	\begin{equation}
     	\tilde{A} = \left[
     	\begin{array}{cccccccccccc|cccccccccccc|}
@@ -209,36 +164,35 @@ By 1966, \cite{Westergaard1966} introduces a much more mature conception of the 
         	&&&&&& 4 &&&&&   &  &&&&&&&&&& 3 & \\
         	&&&&& 3 &&&&&&   &  &&&&&&&&& 2 &&
     	\end{array}
-    	\cdots \right. \enspace.
+    	\; \cdots \right. \enspace.
 	\end{equation}
-	In particular, $\tilde{A} = [T_0(S) \; | \; T_5I(S) \; | \; \cdots$. Observing that 5 precedes 4 in the 10\textsuperscript{th} row of $\tilde{A}$, and that similarly 4 precedes 3 in the 11\textsuperscript{th} row of $\tilde{A}$, for example, many alternative rearrangements of $\tilde{A}$ are possible, such as the one below:
+	The columns of $\tilde{A}$ are obtained by simply arranging the contents of each corresponding column of $A$. In particular, $\tilde{A} = [T_0(S) \; | \; T_5I(S) \; | \; \cdots$. Observing that 5 precedes 4 in the 10\textsuperscript{th} row of $\tilde{A}$, and similarly that 4 precedes 3 in the 11\textsuperscript{th} row of $\tilde{A}$, many alternative rearrangements of $\tilde{A}$ are possible, such as $\tilde{B}$.
 	\begin{equation}
-    	\left[
+    	\tilde{B} = \left[
     	\begin{array}{cccccccccccc|cccccccccccc|}
-        	2 &&&&&&&&&&&      &  &&&&&&&& 1 &&& \\
-        	& 1 &&&&&&&&&&     &  && 0 &&&&&&&&& \\
-        	&& \ddots &&&&&&&&&        &  &&&&&&&&&&& \\
-        	&&&& 5 && 4 &&&&&  &  &&&&&&&&&&& \\
-        	&&&&&&&&&&&        &  &&&& 4 &&&&&& 3 & \\
-        	&&&&& 3 &&&&&&     &  &&&&&&&&& 2 &&
+        	2 &&&&&&&&&&&&&&&&&&&& 1 &&& \\
+        	& 1 &&&&&&&&&&&&& 0 &&&&&&&&& \\
+        	&& \vdots & \vdots &&&& \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots && \vdots && \vdots & \vdots & \vdots &&&& \vdots \\
+        	&&&& 5 && \boxed{4} &&&&&&&&&&&&&&&&& \\
+        	&&&&&&&&&&&&&&&& \boxed{4} &&&&&& 3 & \\
+        	&&&&& 3 &&&&&&&&&&&&&&&& 2 &&
     	\end{array}
-    	\cdots \right. \enspace.
+    	\; \cdots \right. \enspace.
+    \end{equation}
+    Combination matrices such as $A = [T_0 \; | \; \cdots \; | \; T_1]^T$ may be constructed in alternative ways where inverse and retrograde transforms of the row $S$ can be present. One possible sequence of transforms is
+	\begin{equation}
+		\{ T_0, T_{10}, T_{8}, T_{6}, T_{4}, T_{2}, T_{5}I, T_{3}I, T_{1}I, T_{11}I, T_{9}I, T_{7}I \} \enspace .
+	\end{equation}
+	Another is
+	\begin{equation}
+		\{ T_0, T_{8}, T_{4}, T_{11}I, T_{7}I, T_{3}I, RT_{9}, RT_{5}, RT_{1}, RT_{10}I, RT_{6}I, RT_{2}I \} \enspace .
 	\end{equation}
 \end{example}
 
-\cite[102]{Westergaard1966} observes that combination matrices such as $A = [T_0(S) \; | \; \cdots \; | \; T_1(S)]$ in Ex.~\ref{ex:westergaard} may be constructed in alternative ways where inverse and retrograde transforms of the row $S$ can be present. One possible sequence of transforms is
-\begin{equation}
-	\{ T_0, T_{10}, T_{8}, T_{6}, T_{4}, T_{2}, T_{5}I, T_{3}I, T_{1}I, T_{11}I, T_{9}I, T_{7}I \} \enspace .
-\end{equation}
-\noindent Another is
-\begin{equation}
-	\{ T_0, T_{8}, T_{4}, T_{11}I, T_{7}I, T_{3}I, RT_{9}, RT_{5}, RT_{1}, RT_{10}I, RT_{6}I, RT_{2}I \} \enspace .
-\end{equation}
-\noindent Although \cite{Westergaard1966} does not address combinatoriality techniques, these are now well understood. Finally, \cite[108]{Westergaard1966} remarks that self-derivation in combination matrices of four rows or less is more difficultly achieved. Even though \cite{Westergaard1966} does not propose a systematic way to understand self-derivation in smaller combination matrices, the advancements in the field are extremely substantial and arguably one strong motivating force for the studies in self-derivation that follow in the subsequent decades.
+%--------------------------------------------------------------------------
+Self-derivation in $12 \times 144$ combination matrices is straightforward, since every column is capable of producing arbitrary transforms of any row. However, self-derivation in combination matrices of four rows or less is deemed more difficult to achieved in \cite[108]{Westergaard1966}. Although a systematic way to understand self-derivation in smaller combination matrices is not proposed in \cite{Westergaard1966}, the advancements in the field are extremely substantial and arguably one strong motivating force for the studies in self-derivation that follow in the subsequent decades.
 
 %--------------------------------------------------------------------------
-\section{The set-theoretic view of Daniel Starr}
-
 In one of the seminal academic works in the field of twelve-tone theory, \cite{Starr1984} utilizes a mostly set-theoretic framework to understand and categorize rows and procedures involved in producing derivation, polyphony, and self-derived combination matrices. This set-theoretic approach revolves around the idea of looking at collections from the standpoint of their order constraints: a totally constrained set with no precedence contradictions is a twelve-tone row; a completely unconstrained set of twelve tones represents the free aggregate; a maximally constrained one is what the author calls the simultaneous aggregate, that is, a twelve-tone cluster. Sets that live in-between can often be projected in the middle and background of a composition, fact that amounts to a Schenkerian-flavored view of the whole process.
 
 Mathematically, the ideas in \cite{Starr1984} translate into considering the set $U$ of all ordered pairs of pitch classes. There are twelve choices for the first position, and twelve choices for the second position. As both choices are independent, this set has cardinality $12^2 = 144$. An element of $U$ is called an order constraint, and a subset $C$ of $U$ is called a pitch-class relation. The latter can be viewed as a $12 \times 12$ matrix where the entry $c_{ij}$ is equal to one whenever $\{ i, j \} \in C$, and zero otherwise. One can then apply bitwise operations to these matrices in a very computationally efficient manner: bitwise \emph{and} and \emph{or} correspond respectively to set intersection and union. For any pair of pitch classes $x$ and $y$, define a relation $x \sim y$ on the power set of $U$ by the set inclusion of the element $\{ x, y \}$. A subset $C$ will then be reflexive if, whenever an element of $C$ (which is a set) contains the pitch class $x$, then $\{ x, x \} \in C$. In words, reflexivity means that if a reflexive collection $C$ of notes contains an element $x$, then $x$ precedes (and follows) itself in $C$. The free aggregate is a minimal reflexive subset of $U$ that contains all twelve tones. The relation $\sim$ will be symmetric if $\{ x, y \} \in C$ implies $\{ y, x \} \in C$, and antisymmetric whenever $\{ x, y \} \in C$ implies $\{ y, x \} \notin C$, for $x \ne y \in \mathbb{Z}/ 12 \mathbb{Z}$. Similarly, transitivity is defined as $\{ x, y \} \in C$ and $\{ y, z \} \in C$, then $\{ x, z\} \in C$; and trichotomy is defined as either $\{ x, y \} \in C$ or $\{ y, x \} \in C$ for any $x \ne y \in \mathbb{Z}/ 12 \mathbb{Z}$. The relation $\sim$ is, of course, an order relation on the set of twelve tones by definition. A partial order is one that is reflexive, transitive, and antisymmetric, while a total order (a row), is a partial order that satisfies trichotomy.
