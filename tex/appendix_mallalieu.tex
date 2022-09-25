@@ -75,3 +75,40 @@ We conclude this section by exposing some well-known isomorphisms between groups
 		\langle \T, \I, \M, \R \rangle \cong \Aff_1(C_{12}) \oplus \mathbb{F}_2
 	\end{gather}
 \end{proposition}
+
+\begin{theorem}
+	\label{rahn-common-tone}
+	\cite[10]{Rahn1975}
+	The number of common tones between a set $S$ and some transposition of itself is given by
+	\begin{equation}
+		|S \cap \T_n(S)| = |\{x - y = n : x, y \in S\}| \enspace.
+	\end{equation}
+	The number of common tones between a set $S$ and some inversion of itself is given by
+	\begin{equation}
+		|S \cap \T_n\I(S)| = 2 \cdot |\{x + y = n : x, y \in S\}| + |\{a \in S : 2a = n\}| \enspace.
+	\end{equation}
+	Moreover, the cardinality of the set $\{a \in S : 2a = n\}$ is at most 2.
+	\begin{proof}
+		The occurrences of pairs of pitch classes that are interchanged by the operation at hand must be counted and doubled, for if $x$ maps onto $y$ under some $\T_n\I$, then certainly $y$ maps onto $x$ under the same operation, given that every inversion operation has order two. In addition to that, the occurrences of pitch classes that may map onto themselves under the aforementioned operation must be accounted for. For any pair $a \ne b \in S$, it follows $a$ and $b$ are exchanged by some operation $\T_n\I$ whenever both $\T_n\I(a) = b$ and $\T_n\I(b) = a$ hold. Since $\T_n\I(a) = -a + n$, and similarly $\T_n\I(b) = -b + n$, if the pair is exchanged, then both $-a + n = b$ and $-b + n = a$ must be true. Adding the last two expressions and solving for $n$ yields $a + b = n$, which is the first set in the right-hand side of the formula. As discussed above, the cardinality of this set must be doubled. For any $a$, it follows that $\T_n\I(a) = a + n$, hence $a = \T_n\I(a) \iff a = -a + n$, that is, whenever $2a = n$. That is the second set in the formula. Finally, for any pair $(a, n)$ such that $a = \T_n\I(a)$, it also follows that $a + 6 = -(a + 6) + n \iff 2a = n$, so that $a + 6 = \T_n\I(a + 6)$ by the above. Thus the set $\{a \in S : 2a = n\}$ has cardinality at most 2, proving the last assertion.
+	\end{proof}
+\end{theorem}
+
+\begin{example}
+    \label{rahn-example}
+    \cite[11]{Rahn1975}
+    Write $S = \{ 0, 1, 4, 5, 8, 9 \}$ and consider some inversion operation. An application of Th.~\ref{rahn-common-tone} yields the table below.
+    \begin{table}[htbp]
+    \caption[Rahn's Common Tones Under Inversion]{Common tones under inversion between $S = \{ 0, 1, 4, 5, 8, 9 \}$ and itself.}
+    \centering
+    \vspace{12pt}
+    \begin{tabular}{ c | *{12}{c} }
+        \hline\\
+        $n$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 \\
+        $2 \cdot |\{x + y = n : x, y \in S\}|$ & 2 & 6 & 2 & 0 & 2 & 6 & 2 & 0 & 2 & 6 & 2 & 0 \\
+        $|\{a \in S : 2a = n\}|$ & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 \\
+        \hline\\
+        Total & 3 & 6 & 3 & 0 & 3 & 6 & 3 & 0 & 3 & 6 & 3 & 0 \\
+        \hline
+    \end{tabular}
+    \end{table}
+\end{example}
