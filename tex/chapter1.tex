@@ -239,93 +239,11 @@ In one of the seminal academic works in the field of twelve-tone theory, \cite{S
 \end{theorem}
 
 %--------------------------------------------------------------------------
-\emph{Aggregate realizations} are an important concept defined in \cite[197]{Starr1984}, which lead to a classification of partial orders, as well as to many musical applications. An aggregate realization is a particular type of partial order $C$ in which, for any pair of pitch classes $a, b$, if $a$ and $b$ are incomparable in $C$, then the set of pitch classes that precede $a$ in $C$ is equal to the set of pitch classes that precede $b$ in $C$, and also the set of pitch classes that follow $a$ in $C$ is equal to the set of pitch classes that follow $b$ in $C$. Aggregate realizations arise naturally from a total order in the sense that they belong to the set of all partial orders that are covered by said total order. An interesting compositional application of aggregate realizations is that of projecting a total order as a middle-ground entity.
+An aggregate realization is a particular type of partial order $C$ in which, for any pair of pitch classes $a, b$, if $a$ and $b$ are incomparable in $C$, then the set of pitch classes that precede $a$ in $C$ is equal to the set of pitch classes that precede $b$ in $C$, and also the set of pitch classes that follow $a$ in $C$ is equal to the set of pitch classes that follow $b$ in $C$. Aggregate realizations arise naturally from a total order in the sense that they belong to the set of all partial orders that are covered by this total order, and lead to a classification of partial orders, as well as to many musical applications. One interesting compositional application of aggregate realizations is that of projecting a total order as a middle-ground entity. Given a sequence $S$ of partial orders, all of which covered by the same total order, say $X$, if both $X$ is never stated in the foreground and $S$ contains all order constraints in $X$, then a musical passage in which $S$ is stated in the foreground will bear $X$ as a middle-ground entity. In the case where $S$ does not comprise all the order constraints in $X$, some other partial order that covers $S$ will be projected in the middle-ground. In the particular case where a composer is dealing with pitch classes, projecting a partial order is equivalent to inducing the listener to infer its order constraints. If, in this case, two pitch classes are incomparable, then they are bound to be struck together \cite[197]{Starr1984}. A row segment is a pitch-class relation that is reflexive, transitive, and antisymmetric, with the additional requirement that some subset of its order constraints also satisfy trichotomy. Any partial order that covers some row segment is said to be an embedded segment of that partial order. By transitivity of covering, any other partial order covering the former partial order will have the aforementioned row segment embedded in it, including naturally any total order in its total order class. In this sense, a partial order may be seen as the union of its various embedded segments \cite[198]{Starr1984}. Row segments may be concatenated in a natural way. Let $X = \{ 0, 1, 2 \}$ and $Y = \{ 3, 4, 5 \}$ be row segments such that $X \cap Y = \emptyset$ when seeing $X$ and $Y$ as partial orders. The concatenation $X | Y$ will then be the partial order $X \cup Y \cup \{ \{ a, b \} : a \in X, b \in Y \}$. It follows both $X$ and $Y$ are embedded row segments of $X | Y$. The use of concatenation here is sequential, that is, the entire row segment $X$ precedes the entire row segment $Y$ in $X | Y$. In other words, intercalation of segments is not allowed when concatenating. Finding embedded segments that are common to different partial orders is straightforward. Let $X = \{ 0, 1, 7, 2, 10, 9, 11, 4, 8, 5, 3, 6 \}$ and $Y = \{ 1, 2, 8, 3, 11, 10, 0, 5, 9, 6, 4, 7 \}$ be total orders. In particular, $Y = \T_1(X)$. Pruning the intersection $X \cap Y$ yields a graph whose longest row segments are $\{ 1, 2, 10, 9, 4 \}$, $\{ 1, 2, 10, 5, 6 \}$, $\{ 1, 2, 11, 5, 6 \}$, $\{ 1, 2, 8, 5, 6 \}$, and $\{ 1, 2, 8, 3, 6 \}$. These row segments are then the longest embedded segments of both $X$ and $Y$ \cite[200]{Starr1984}.
 
-\begin{example}
-    \cite[197]{Starr1984}
-    Given a sequence $S$ of partial orders, all of which covered by the same total order, say $X$, if both $X$ is never stated in the foreground and $S$ contains all order constraints in $X$, then a musical passage in which $S$ is stated in the foreground will bear $X$ as a middle-ground entity. In the case where $S$ does not comprise all the order constraints in $X$, some other partial order that covers $S$ will be projected in the middle-ground. In the particular case where a composer is dealing with pitch classes, projecting a partial order is equivalent to inducing the listener to infer its order constraints. If, in this case, two pitch classes are incomparable, then they are bound to be struck together.
-\end{example}
+Pruning an intersection of partial orders is also a method for computing common tones between sets that not only produces embedded segments, but can also be applied to the intersection of an arbitrary number of sets. When the sets are related to one another by a twelve-tone operation, finding common tones between them can be accomplished by expressing the operation as a permutation. Let $S = \{ 0, 1, 4, 5, 8, 9 \}$ and consider the cycle decomposition of $T_3I = (0 \; 3) \; (1 \; 2) \; (4 \; 11) \; (5 \; 10) \; (6 \; 9) \; (7 \; 8)$. It follows every pitch-class in $S$ maps to the twelve-tone complement of $S$ under $\T_3\I$. If the operation is $\T_9 = (0 \; 9 \; 6 \; 3) (1 \; 10 \; 7 \; 4) (2 \; 11 \; 8 \; 5)$, then $S$ shares three common tones with $\T_9(S)$, namely $0 \mapsto 9$, $4 \mapsto 1$, and $8 \mapsto 5$. Yet another technique for finding common tones between two sets consists of writing the sets as a table or matrix. This procedure has the advantage of not only giving all indices of transposition under which a set shares common tones with another, but of making it possible to determine whether these common tones will preserve their ordering after the transform by examining the table's diagonals. Let $X$ be an $n$-tone row seen as a column vector, and consider the $n \times n$ matrix $A = [X, \cdots, X]$. In particular, the matrix $B = A - A^T$ will have a main diagonal of zeros, which indicates that $X$ shares with itself $n$ common tones under $T_0$. If there are $k$ threes in the matrix, then $X$ will share with itself $k$ tones under $T_3$. There is no requirement that a row be compared with itself. If, for instance, $A$ is given as above, and $\bar{A}$ is the matrix for the row $\bar{X}$, then counting the number $k$ of, say, threes in $B = A - \bar{A}^T$, will mean in turn that $X$ and $\T_3(\bar{X})$ share $k$ tones under $\T_3$. Naturally, the main diagonal of $B$ will not comprise only zeros if $A \ne \bar{A}$. To find common tones under inversion, let $B = A + A^T$ and, similarly, $\M$ and $\M \circ \I$ become $B = A - \M(A)^T$ and $B = A + \M(A)^T$. Finally, if the indices being counted are disposed in any of the matrix's diagonals, then they will preserve ordering after the transform, thus becoming embedded segments; if, in addition, they are adjacent, then they will in fact be row segments shared by $X$ and the transform of $\bar{X}$ \cite[49]{Morris1987}. This matrix for finding common tones under transposition has the interesting property that it becomes a symmetric matrix when $A = \bar{A}$ and its elements are taken as interval classes. This reflects the fact that, if $X$ shares $k$ tones with $T_i(X)$, then surely $T_i(X)$ will share exactly $k$ tones with $T_{12 - i}(X)$. If $i$ is an interval class, then $i = 12 - i$, showing why the matrix will be symmetric. The matrix of common tones under inversion is always symmetric, regardless whether its elements are taken as interval classes. For multiplicative operations, however, will often lack multiplicative inverses in twelve tones. For $p$-TET systems where $p$ is prime, multiplicative operations yield symmetric matrices as well, but those will sometimes require a proper definition of multiplicative interval classes.
 
-The concept of a \emph{row segment}, which is fairly straightforward in twelve-tone theory, has an analogue in \cite[198]{Starr1984}, where it is defined as a pitch-class relation that is reflexive, transitive, and antisymmetric, with the additional requirement that some subset of its order constraints also satisfy trichotomy. Arguably more important is the concept of an \emph{embedded segment}. For any partial order that covers some row segment, that segment is said to be an embedded segment of the partial order. By transitivity of covering, any other partial order covering the former partial order will have the aforementioned row segment embedded in it, including naturally any total order in its total order class. In this sense, a partial order may be seen as the union (possibly the extension) of its various embedded segments:
-
-\begin{example}
-    \label{starr-common-tones}
-    \cite[200]{Starr1984}
-    Consider two total orders $X = \{ 0, 1, 7, 2, 10, 9, 11, 4, 8, 5, 3, 6 \}$ and $Y = \{ 1, 2, 8, 3, 11, 10, 0, 5, 9, 6, 4, 7 \}$ where, in particular, $Y = \T_1(X)$. Seen as total orders, take the intersection $X \cap Y$, then prune it. This process yields a graph whose longest row segments are $\{ 1, 2, 10, 9, 4 \}$, $\{ 1, 2, 10, 5, 6 \}$, $\{ 1, 2, 11, 5, 6 \}$, $\{ 1, 2, 8, 5, 6 \}$, and $\{ 1, 2, 8, 3, 6 \}$. These row segments are, in turn, the longest that are embedded segments of both $X$ and $Y$.
-\end{example}
-
-It is interesting to point out that the procedure described in Ex.~\ref{starr-common-tones} is in fact an algorithm to find common tones under transposition, and can be extended to any other pitch-class operation. Th.~\ref{rahn-common-tone} describes a well-known technique of simply \emph{counting} common tones.
-
-\begin{theorem}
-	\label{rahn-common-tone}
-	\cite[10]{Rahn1975}
-	The number of common tones between a set $S$ and some transposition of itself is given by
-	\begin{equation}
-		|S \cap \T_n(S)| = |\{x - y = n : x, y \in S\}| \enspace.
-	\end{equation}
-	The number of common tones between a set $S$ and some inversion of itself is given by
-	\begin{equation}
-		|S \cap \T_n\I(S)| = 2 \cdot |\{x + y = n : x, y \in S\}| + |\{a \in S : 2a = n\}| \enspace.
-	\end{equation}
-	Moreover, the cardinality of the set $\{a \in S : 2a = n\}$ is at most 2.
-	\begin{proof}
-		The occurrences of pairs of pitch classes that are interchanged by the operation at hand must be counted and doubled, for if $x$ maps onto $y$ under some $\T_n\I$, then certainly $y$ maps onto $x$ under the same operation, given that every inversion operation has order two. In addition to that, the occurrences of pitch classes that may map onto themselves under the aforementioned operation must be accounted for. For any pair $a \ne b \in S$, it follows $a$ and $b$ are exchanged by some operation $\T_n\I$ whenever both $\T_n\I(a) = b$ and $\T_n\I(b) = a$ hold. Since $\T_n\I(a) = -a + n$, and similarly $\T_n\I(b) = -b + n$, if the pair is exchanged, then both $-a + n = b$ and $-b + n = a$ must be true. Adding the last two expressions and solving for $n$ yields $a + b = n$, which is the first set in the right-hand side of the formula. As discussed above, the cardinality of this set must be doubled. For any $a$, it follows that $\T_n\I(a) = a + n$, hence $a = \T_n\I(a) \iff a = -a + n$, that is, whenever $2a = n$. That is the second set in the formula. Finally, for any pair $(a, n)$ such that $a = \T_n\I(a)$, it also follows that $a + 6 = -(a + 6) + n \iff 2a = n$, so that $a + 6 = \T_n\I(a + 6)$ by the above. Thus the set $\{a \in S : 2a = n\}$ has cardinality at most 2, proving the last assertion.
-	\end{proof}
-\end{theorem}
-
-\begin{example}
-    \label{rahn-example}
-    \cite[11]{Rahn1975}
-    Write $S = \{ 0, 1, 4, 5, 8, 9 \}$ and consider some inversion operation. An application of Th.~\ref{rahn-common-tone} yields the table below.
-    \begin{table}[htbp]
-    \caption[Rahn's Common Tones Under Inversion]{Common tones under inversion between $S = \{ 0, 1, 4, 5, 8, 9 \}$ and itself.}
-    \centering
-    \vspace{12pt}
-    \begin{tabular}{ c | *{12}{c} }
-        \hline\\
-        $n$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 \\
-        $2 \cdot |\{x + y = n : x, y \in S\}|$ & 2 & 6 & 2 & 0 & 2 & 6 & 2 & 0 & 2 & 6 & 2 & 0 \\
-        $|\{a \in S : 2a = n\}|$ & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 \\
-        \hline\\
-        Total & 3 & 6 & 3 & 0 & 3 & 6 & 3 & 0 & 3 & 6 & 3 & 0 \\
-        \hline
-    \end{tabular}
-    \end{table}
-\end{example}
-
-\begin{example}
-	Ex.~\ref{rahn-example} and the omitted proof of \ref{rahn-common-tone} under transposition can be demonstrated in a much simpler way by observing the cycle decomposition of each operation at hand. If $n = 3$, then
-	\begin{equation}
-		\T_3\I = (0 \; 3) (1 \; 2) (4 \; 11) (5 \; 10) (6 \; 9) (7 \; 8) \enspace.
-	\end{equation}
-	Hence, under $\T_3\I$, every pitch-class in $S = \{ 0, 1, 4, 5, 8, 9 \}$ maps to the complement of $S$. If the operation is, for instance, $\T_9$, then since
-	\begin{equation}
-		\T_9 = (0 \; 9 \; 6 \; 3) (1 \; 10 \; 7 \; 4) (2 \; 11 \; 8 \; 5) \enspace,
-	\end{equation}
-	it follows $S = \{ 0, 1, 4, 5, 8, 9 \}$ shares three common tones with $\T_9(S)$, namely $0 \mapsto 9$, $4 \mapsto 1$, and $8 \mapsto 5$.
-\end{example}
-
-In practice, however, many composers choose to compute common tones by writing down an entire matrix. This procedure has the advantage of, not only giving all indices of transposition under which a set shares common tones with itself or other set, but it is also possible to determine whether these common tones will preserve their ordering after the transform by examining the matrices' diagonals.
-
-\begin{example}
-	\cite[49]{Morris1987}
-    \label{morris-common-tones}
-    Let $X$ be an $n$-tone row seen as a column vector, and consider the $n \times n$ matrix $A = [X, \cdots, X]$. In particular, the matrix $B = A - A^T$ will have a main diagonal of zeros, which indicates that $X$ shares with itself $n$ common tones under $T_0$. If there are $k$ threes in the matrix, then $X$ will share with itself $k$ tones under $T_3$. There is no requirement that a row be compared with itself. If, for instance, $A$ is given as above, and $\bar{A}$ is the matrix for the row $\bar{X}$, then counting the number $k$ of, say, threes in $B = A - \bar{A}^T$, will mean in turn that $X$ and $\T_3(\bar{X})$ share $k$ tones under $\T_3$. Naturally, the main diagonal of $B$ will not comprise only zeros if $A \ne \bar{A}$. To find common tones under inversion, let $B = A + A^T$ and, similarly, $\M$ and $\M \circ \I$ become $B = A - \M(A)^T$ and $B = A + \M(A)^T$. Finally, if the indices being counted are disposed in any of the matrix's diagonals, then they will preserve ordering after the transform, thus becoming embedded segments; if, in addition, they are adjacent, then they will in fact be row segments shared by $X$ and the transform of $\bar{X}$.
-\end{example}
-
-The matrix for finding common tones under transposition that is described in Ex.~\ref{morris-common-tones} has the interesting property that it becomes a symmetric matrix when $A = \bar{A}$ and its elements are taken as interval classes. This reflects the fact that, if $X$ shares $k$ tones with $T_i(X)$, then surely $T_i(X)$ will share exactly $k$ tones with $T_{12 - i}(X)$. If $i$ is an interval class, then $i = 12 - i$, showing why the matrix will be symmetric. The matrix of common tones under inversion is always symmetric, regardless whether its elements are taken as interval classes. For multiplicative operations, however, will often lack multiplicative inverses in twelve tones. For $p$-TET systems where $p$ is prime, multiplicative operations yield symmetric matrices as well, but those will sometimes require a proper definition of multiplicative interval classes.
-
-The importance of the procedure described in Ex.~\ref{starr-common-tones} is due to the fact that the technique in Ex.~\ref{morris-common-tones} can only go as far as counting the number of common tones, whereas the former procedure can actually tell \emph{what} these common tones are in a more straightforward manner. In addition, it can be very computationally effective if the rows being compared are written as binary square matrices describing their order constraints. Taking then their intersection is easy, since binary operations can be used efficiently for this type of matrix. Pruning, if expressing the result as a graph, is also fast and simple \cite[200]{Starr1984}. In a completely analogous manner to the principle of pulling row segments from a series, row segments can be concatenate in order to formulate a new series. 
-
-\begin{example}
-    \cite[200]{Starr1984}
-    Let $X = \{ 0, 1, 2 \}$ and $Y = \{ 3, 4, 5 \}$ be row segments such that $X \cap Y = \emptyset$ when seeing $X$ and $Y$ as partial orders. The concatenation $X | Y$ will then be the partial order:
-    \begin{equation}
-        X \cup Y \cup \{ \{ a, b \} : a \in X, b \in Y \} \enspace.
-    \end{equation}
-    It follows immediately that both $X$ and $Y$ are embedded row segments of $X | Y$. Note that the use of concatenation here is sequential, that is, the entire row segment $X$ precedes the entire row segment $Y$ in $X | Y$. In other words, intercalation of segments are not allowed when concatenating.
-\end{example}
-
+%--------------------------------------------------------------------------
 Whereas aggregate realizations correspond to a totally ordered sequence of disjoint subsets of the free aggregate, a \emph{columnar aggregate} is, on the other hand, a set of disjoint row segments where, even though the internal order of each segment is total, all segments are pairwise incomparable \cite[201]{Starr1984}. In addition, a columnar aggregate must contain the free aggregate as a subset, so that all pitch classes belonging to a given base are included in every column. This is essentially a combination matrix in twelve-tone theory.
 
 \begin{example}
