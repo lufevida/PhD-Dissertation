@@ -245,7 +245,14 @@ An aggregate realization is a particular type of partial order $C$ in which, for
 Pruning an intersection of partial orders is also a method for computing common tones between sets that not only produces embedded segments, but can also be applied to the intersection of an arbitrary number of sets. When the sets are related to one another by a twelve-tone operation, finding common tones between them can be accomplished by expressing the operation as a permutation. Let $S = \{ 0, 1, 4, 5, 8, 9 \}$ and consider the cycle decomposition of $T_3I = (0 \; 3) \; (1 \; 2) \; (4 \; 11) \; (5 \; 10) \; (6 \; 9) \; (7 \; 8)$. It follows every pitch-class in $S$ maps to the twelve-tone complement of $S$ under $\T_3\I$. If the operation is $\T_9 = (0 \; 9 \; 6 \; 3) \; (1 \; 10 \; 7 \; 4) \; (2 \; 11 \; 8 \; 5)$, then $S$ shares three common tones with $\T_9(S)$, namely $0 \mapsto 9$, $4 \mapsto 1$, and $8 \mapsto 5$. Yet another technique for finding common tones between two sets consists of computing a table or matrix. This procedure has the advantage of not only giving all indices of transposition under which a set shares common tones with another, but of making it possible to determine whether these common tones will preserve their ordering after the transformation by examining the table's diagonals. It has the disadvantage of only being able to produce common tones between two sets at a time. Let $X$ be an $n$-tone row seen as a column vector, and consider the $n \times n$ matrix $A = [X, \cdots, X]$. In particular, the matrix $B = A - A^T$ will have a main diagonal of zeros, which indicates that $X$ shares with itself $n$ common tones under $T_0$. If there are $k$ threes in the matrix, then $X$ will share with itself $k$ tones under $T_3$. There is no requirement that a row be compared with itself. If, for instance, $A$ is given as above, and $\bar{A}$ is the matrix for the row $\bar{X}$, then counting the number $k$ of, say, threes in $B = A - \bar{A}^T$, will mean in turn that $X$ and $\T_3(\bar{X})$ share $k$ tones under $\T_3$. Naturally, the main diagonal of $B$ will not comprise only zeros if $A \ne \bar{A}$. To find common tones under inversion, let $B = A + A^T$ and, similarly, $\M$ and $\M \circ \I$ become $B = A - \M(A)^T$ and $B = A + \M(A)^T$. Finally, if the indices being counted are disposed in any of the matrix's diagonals, then they will preserve ordering after the transform, thus becoming embedded segments; if, in addition, they are adjacent, then they will in fact be row segments shared by $X$ and the transform of $\bar{X}$ \cite[49]{Morris1987}. This matrix for finding common tones under transposition has the interesting property that it becomes a symmetric matrix when $A = \bar{A}$ and its elements are taken as interval classes. This reflects the fact that, if $X$ shares $k$ tones with $T_i(X)$, then surely $T_i(X)$ will share exactly $k$ tones with $T_{12 - i}(X)$. If $i$ is an interval class, then $i = 12 - i$, showing why the matrix will be symmetric. The matrix of common tones under inversion is always symmetric, regardless whether its elements are taken as interval classes. Multiplicative operations, however, will often lack multiplicative inverses in twelve tones. For $p$-TET systems where $p$ is prime, multiplicative operations yield symmetric matrices as well, but those will sometimes require a proper definition of multiplicative interval classes.
 
 %--------------------------------------------------------------------------
-The procedure described in Ex.~\ref{ex:derivation} represents a type of derivation in which the series being displayed vertically is unrelated to the series being derived horizontally, except for the fact that both share a row segment when one of the rows is retrograded. The construction is part of a more general procedure, detailed in in \cite[211]{Starr1984}, in which a row is always matched with a retrograded transform of itself. In the particular case of Ex.~\ref{ex:derivation}, the transform was $F = \T_0$ for simplicity, but arbitrary twelve-tone operations may be used. Denote the given series by $S$ and define the derived row as $V = V_1 | V_2$, that is, $V$ is a concatenation of two row segments. The only requirement is that $V_1$, the segment that is singled out, remain invariant under $F$, which will force $V_2$ to also be invariant under $F$. In Ex.~\ref{ex:derivation} this requirement is satisfied trivially. It is usually the case in this type of derivation procedure that the invariance of $V$ under $F$, or under $\R \circ F$ for that matter, does not preserve any ordering, as illustrated in Ex.~\ref{ex:derivation-unordered}. On the other hand, Ex.~\ref{ex:derivation-ordered} illustrates a derivation procedure similar to that in Ex.~\ref{ex:derivation} where the operation $F$ is not trivial and the singled-out segments are preserved as partial orders. That is accomplished by applying the technique described in \cite[49]{Morris1987} for finding common row segments. As a consequence of $F$ and the retrograde operation, combination matrices of this type feature two columns that are upside-down, $F$-mirrors of each other \cite[211]{Starr1984}. More can be said about such combination matrices. Prop.~\ref{derivation-polyphony-proposition} summarizes the general procedure under set-theoretic terms, and Eq.~\ref{derivation-retrograde} provides the schematic representation of a derivation procedure involving the retrograde and an arbitrary operation $F$ \cite[212]{Starr1984}.
+The procedure described in Ex.~\ref{ex:derivation} represents a type of derivation in which the series being displayed vertically is unrelated to the series being derived horizontally, except for the fact that both share a row segment when one of the rows is retrograded. The construction is part of a more general procedure, detailed in in \cite[211]{Starr1984}, in which a row is always matched with a retrograded transform of itself. In the particular case of Ex.~\ref{ex:derivation}, the transform was $F = \T_0$ for simplicity, but arbitrary twelve-tone operations may be used. Denote the given series by $S$ and define the derived row as $V = V_1 | V_2$, that is, $V$ is a concatenation of two row segments. The only requirement is that $V_1$, the segment that is singled out, remain invariant under $F$, which will force $V_2$ to also be invariant under $F$. In Ex.~\ref{ex:derivation} this requirement is satisfied trivially. It is usually the case in this type of derivation procedure that the invariance of $V$ under $F$, or under $\R \circ F$ for that matter, does not preserve any ordering, as illustrated in Ex.~\ref{ex:derivation-unordered}. On the other hand, Ex.~\ref{ex:derivation-ordered} illustrates a derivation procedure similar to that in Ex.~\ref{ex:derivation} where the operation $F$ is not trivial and the singled-out segments are preserved as partial orders. That is accomplished by applying the technique described in \cite[49]{Morris1987} for finding common row segments. As a consequence of $F$ and the retrograde operation, combination matrices of this type feature two columns that are upside-down, $F$-mirrors of each other \cite[211]{Starr1984}. More can be said about such combination matrices. Prop.~\ref{derivation-polyphony-proposition} summarizes the general procedure under set-theoretic terms, and Eq.~\ref{eq:derivation-retrograde} provides the schematic representation of a derivation procedure involving the retrograde and an arbitrary operation $F$ \cite[212]{Starr1984}.
+
+%--------------------------------------------------------------------------
+\begin{proposition}
+	\label{derivation-polyphony-proposition}
+    \cite[211, 214]{Starr1984}
+    Consider a 2-row combination matrix $C$ where a row is derived via the retrograde and some operation $F$. Denote the derived row by $V = V_1 | V_2$. Then the first column is the partial order $C_1 = V_1 \cup \R \circ \F(V_2)$, and similarly the second column is the partial order $C_2 = V_2 \cup \R \circ \F(V_1)$, such that $C_2 = \R \circ F(C_1)$. If $D$ is a partial order that covers $C_1$, then $\R \circ F(D)$ will cover $C_2$, and if $D$ is in the total order class of $C_1$, that is, $D$ is a row that can be linearized from $C_1$, then $\R \circ F(D)$ is in the total order class of $C_2$. Finally, 2-row derivations of this type exist for arbitrary rows.
+\end{proposition}
 
 %--------------------------------------------------------------------------
 \begin{equation}
@@ -257,17 +264,10 @@ The procedure described in Ex.~\ref{ex:derivation} represents a type of derivati
     \R \circ F(V) & \R \circ F(V_2) & \R \circ F(V_1) \\
     \hline
 \end{array}
-\label{derivation-retrograde}
+\label{eq:derivation-retrograde}
 \end{equation}
 
 \vspace{12pt}
-
-%--------------------------------------------------------------------------
-\begin{proposition}
-	\label{derivation-polyphony-proposition}
-    \cite[211, 214]{Starr1984}
-    Consider a 2-row combination matrix $C$ where a row is derived via the retrograde and some operation $F$. Denote the derived row by $V = V_1 | V_2$. Then the first column is the partial order $C_1 = V_1 \cup \R \circ \F(V_2)$, and similarly the second column is the partial order $C_2 = V_2 \cup \R \circ \F(V_1)$, such that $C_2 = \R \circ F(C_1)$. If $D$ is a partial order that covers $C_1$, then $\R \circ F(D)$ will cover $C_2$, and if $D$ is in the total order class of $C_1$, that is, $D$ is a row that can be linearized from $C_1$, then $\R \circ F(D)$ is in the total order class of $C_2$. Finally, 2-row derivations of this type exist for arbitrary rows.
-\end{proposition}
 
 %--------------------------------------------------------------------------
 \begin{example}
@@ -311,7 +311,7 @@ The procedure described in Ex.~\ref{ex:derivation} represents a type of derivati
 A distinction is made in \cite[211, 214]{Starr1984} between derivation and polyphonyzation. The former departs from a combination matrix of rows to infer a concatenation of rows that constitute the linearized result of flattening the combination matrix. The latter is the opposite concept, that is, given a concatenation of rows, a combination matrix is constructed such that each column breaks down the row at the top into disjoint ordered segments. Although differentiating between derivation and polyphonization is an important concept in the set-theoretic view of the problem, this paper shall not make that distinction. The term derivation will be used indiscriminately to both the breaking down of rows into contrapuntal combination matrices, and the flattening thereof.
 
 %--------------------------------------------------------------------------
-A related technique involving greater than 2-row counterpoint is achieved by folding a combination matrix. The process is similar to first constructing a matrix of hexachordal combinatoriality in the traditional sense, then deriving rows from this matrix using the techniques above. Let $S$ be a row whose first hexachord is invariant under the operation $G$. Consider a row $V = V_1 | V_2$ and an operation $F$ such that $S$ is in the total order order class of $V_1 \cup \R \circ \F(V_2)$. Then putting $S$ in counterpoint with $G(S)$, as well as deriving $V$ from $S | \R\circ F(S)$, yields the schematic representation in Eq.~\ref{derivation-folded}. It is argued without proof that vertically satisfying $G$ while horizontally satisfying $F$ implies $F$ and $G$ must commute \cite[215]{Starr1984}. Ex.~\ref{derivation-folded} shows an application of folded derivation.
+A related technique involving greater than 2-row counterpoint is achieved by folding a combination matrix. The process is similar to first constructing a matrix of hexachordal combinatoriality in the traditional sense, then deriving rows from this matrix using the techniques above. Let $S$ be a row whose first hexachord is invariant under the operation $G$. Consider a row $V = V_1 | V_2$ and an operation $F$ such that $S$ is in the total order order class of $V_1 \cup \R \circ \F(V_2)$. Then putting $S$ in counterpoint with $G(S)$, as well as deriving $V$ from $S | \R\circ F(S)$, yields the schematic representation in Eq.~\ref{eq:derivation-folded}. It is argued without proof that vertically satisfying $G$ while horizontally satisfying $F$ implies $F$ and $G$ must commute \cite[215]{Starr1984}. Ex.~\ref{derivation-folded} shows an application of folded derivation.
 
 %--------------------------------------------------------------------------
 \begin{equation}
@@ -327,7 +327,7 @@ A related technique involving greater than 2-row counterpoint is achieved by fol
 	& G(S) & \R \circ GF(S) = \R \circ FG(S) \\
 	\hline 
 \end{array}
-\label{derivation-folded}
+\label{eq:derivation-folded}
 \end{equation}
 
 \vspace{12pt}
@@ -360,30 +360,28 @@ A related technique involving greater than 2-row counterpoint is achieved by fol
 \end{example}
 
 %--------------------------------------------------------------------------
-\cite[216]{Starr1984} provides an analogue to the technique of oblique combination described in \cite[241, 267]{Martino1961} in the context of folded derivation, denoted \emph{skewed polyphonization}. The procedure consists of shifting horizontally one of the two rows of the derivation matrix. Skewed polyphonizations may be equivalent to folding combination matrices that involve the retrograde, and there is no requirement that the combinatoriality be hexachordal. An interesting compositional application consists of matching altogether different foldings of a row, thus effectively bridging different derivations of the same generative material.
+An analogue to the technique of oblique combination described in \cite[241, 267]{Martino1961} is given in \cite{Starr1984} in the context of folded derivation, and denoted skewed polyphonization. The procedure consists of shifting horizontally one of the two rows of the derivation matrix. Skewed polyphonization may be equivalent to folding combination matrices that involve the retrograde, and there is no requirement that the combinatoriality be hexachordal. Eq.~\ref{eq:derivation-shifted} provides a schematics description of a skewed polyphonization procedure involving the retrograde. The asterisk indicates there is no requirement that the same row class be derived in both foldings, in which case $V$ would be replaced by some other row $V^*$ and $G$ could be the identity. An interesting compositional application consists of matching altogether different foldings of a row, thus effectively bridging different derivations of the same generative material. Ex.~\ref{ex:derivation-shifted} shows an application of skewed polyphonization where combinatoriality is not hexachordal, but both foldings derive different transforms of the same row \cite[216]{Starr1984}.
 
-\begin{table}[htbp]
-	\cite[216]{Starr1984}
-    \caption[Skewed Polyphonization Involving the Retrograde]{Schematics of a skewed polyphonization procedure involving the retrograde. The asterisk indicates there is no requirement that the same row class be derived in both foldings, in which case $V$ would be replaced by some other row $V^*$ and $G$ could be the identity.}
-    \label{derivation-shifted}
-    \centering
-    \vspace{12pt}
-    \begin{tabular}{ c | c c c }
-        \hline\\
-        & $S$ & $\R \circ F(S)$ & \\
-        \hline\\
-        $V$ & $V_1$ & $V_2$ & \\
-        $\R \circ F(V)$ & $\R \circ F(V_2)$ & $\R \circ F(V_1)$ & \\
-        $\R \circ G(V)^*$ && $\R \circ G(V_2)^*$ & $\R \circ G(V_1)^*$ \\
-        $GF(V)^*$ && $GF(V_1)^*$ & $GF(V_2)^*$ \\
-        \hline\\
-        && $GF(S)$ & $\R \circ G(S)$ \\
-        \hline
-    \end{tabular}
-\end{table}
+%--------------------------------------------------------------------------
+\begin{equation}
+\begin{array}{c|ccc}
+	\hline
+    & S & \R \circ F(S) & \\
+    \hline
+    V & V_1 & V_2 & \\
+    \R \circ F(V) & \R \circ F(V_2) & \R \circ F(V_1) & \\
+    \R \circ G(V)^* && \R \circ G(V_2)^* & \R \circ G(V_1)^* \\
+    GF(V)^* && GF(V_1)^* & GF(V_2)^* \\
+    \hline
+    && GF(S) & \R \circ G(S) \\
+    \hline
+\end{array}
+\label{eq:derivation-shifted}
+\end{equation}
 
-Ex.~\ref{ex:derivation-shifted} shows an application of skewed polyphonization where combinatoriality is not hexachordal, but both foldings derive different transforms of the same row \cite[216]{Starr1984}:
+\vspace{12pt}
 
+%--------------------------------------------------------------------------
 \begin{example}
     \cite[216]{Starr1984}
     \label{ex:derivation-shifted}
@@ -396,7 +394,7 @@ Ex.~\ref{ex:derivation-shifted} shows an application of skewed polyphonization w
         \end{array}
         \right]
     \end{equation}
-    Deriving the row $V = V_1 | V_2 = \{ 1, 7, 2, 9, 8, 3 \} | \{ 4, 5, 6, 11, 0, 10 \}$ from $S | \R\T_{10}\I(S)$, and following the scheme in Table~\ref{derivation-shifted}, yields the following shifted derivation:
+    Deriving the row $V = V_1 | V_2 = \{ 1, 7, 2, 9, 8, 3 \} | \{ 4, 5, 6, 11, 0, 10 \}$ from $S | \R\T_{10}\I(S)$, and following the scheme given in Eq.~\ref{eq:derivation-shifted}, yields the following shifted derivation:
     \begin{multline}
         \left[
         \begin{array}{cccccccccccc|cccccccc|c}
@@ -417,48 +415,43 @@ Ex.~\ref{ex:derivation-shifted} shows an application of skewed polyphonization w
     \end{multline}
 \end{example}
 
-Self-derivation is discussed in \cite[217, 226]{Starr1984} and is seen from both the set-theoretic perspective, and from the standpoint of aggregate realizations. The only difference between self-derivation and the general case is that in combination matrices of self-derivation all row forms belong to the same row class, that is, all rows are $RT_nI$-transforms of the original row. The same applies to folded and skewed combination matrices of self-derivation. The general scheme for a two-row combination matrix of self-derivation involving the retrograde is given in Table~\ref{derivation-self}:
+\vspace{12pt}
 
-\begin{table}[htbp]
-	\cite[219]{Starr1984}
-    \caption[Self-Derivation Involving the Retrograde]{Schematics of a self-derivation procedure involving the retrograde.}
-    \label{derivation-self}
-    \centering
-    \vspace{12pt}
-    \begin{tabular}{c|cc}
-        \hline\\
-        & $G(S)$ & $\R \circ FG(S)$ \\\\
-        \hline\\
-        $S$ & $S_1$ & $S_2$ \\\\
-        $\R \circ F(S)$ & $\R \circ F(S_2)$ & $\R \circ F(S_1)$ \\\\
-        \hline
-    \end{tabular}
-\end{table}
+%--------------------------------------------------------------------------
+Self-derivation may be seen from both the set-theoretic perspective, and from the standpoint of aggregate realizations is discussed in \cite[217, 226]{Starr1984}. The only difference between self-derivation and the general case is that in combination matrices of self-derivation all row forms belong to the same row class, that is, all rows are $RT_nI$-transforms of the original row. The same applies to folded and skewed combination matrices of self-derivation. The general scheme for a two-row combination matrix of self-derivation involving the retrograde is given in Eq.~\ref{eq:derivation-self} \cite[219]{Starr1984}. It is stated without proof in \cite[217]{Starr1984} that the operations $F$ and $G$ in Eq.~\ref{eq:derivation-self} must commute. For this type of self-derivation on two-row counterpoint, however, simple inspection of the examples that follow such statement already affords a counter-proof, as described in Ex.~\ref{topSquareSideExample}. Similarly to the general derivation case, two-row self-derivations can also be folded. What is unique to self-derivation, however, is that the same pattern of order numbers that give the self-derived transform of a row can be used to fold each row of a combination matrix, as seen in Ex.~\ref{self-folded}. The folded rows can subsequently be folded, and this procedure can generate many levels of self-derivation \cite[221]{Starr1984}. Ex.~\ref{ex:scotto} provides a musical application of folded self-derivation matrices that constitute the main compositional procedure in Ciro Scotto's \emph{Tetralogy}.
 
-It is stated without proof in \cite[217]{Starr1984} that the operations $F$ and $G$ in Table \ref{derivation-self} must commute. For this self-derivation on two-row counterpoint case, however, simple inspection of the examples that follow such statement already affords a counter-proof.
+%--------------------------------------------------------------------------
+\begin{equation}
+\begin{array}{c|cc}
+	\hline
+    & G(S) & \R \circ FG(S) \\
+    \hline
+    S & S_1 & S_2 \\
+    \R \circ F(S) & \R \circ F(S_2) & \R \circ F(S_1) \\
+    \hline
+\end{array}
+\label{eq:derivation-self}
+\end{equation}
 
+\vspace{12pt}
+
+%--------------------------------------------------------------------------
 \begin{example}
 	\label{topSquareSideExample}
     \cite[218]{Starr1984}
-    Let $S = S_1 | S_2 = \{ 3, 8, 1, 0, 9, 6 \} | \{ 4, 7, 10, 5, 2, 11 \}$ and consider the operation $\T_9\I$:
-    \begin{equation}
-        \T_9\I = (0 \; 9) (1 \; 8) (2 \; 7) (3 \; 6) (4 \; 5) (10 \; 11) \enspace.
-    \end{equation}
-    In particular, both $S_1$ and $S_2$ are invariant under $\T_9\I$. What is certainly not obvious, is that $S$ and $\T_9\I(S)$ can be derived from a combination matrix where the first column is $\T_7(S)$ and the second is $\T_9\I \circ \R\T_7(S) = \R\T_2\I(S)$, as shown in the following self-derivation matrix:
+    Let $S = S_1 | S_2 = \{ 3, 8, 1, 0, 9, 6 \} | \{ 4, 7, 10, 5, 2, 11 \}$ and consider the cycle decomposition of $\T_9\I = (0 \; 9) \; (1 \; 8) \; (2 \; 7) \; (3 \; 6) \; (4 \; 5) \; (10 \; 11)$. In particular, both $S_1$ and $S_2$ are invariant under $\T_9\I$. It is not obvious, however, that $S$ and $\R\T_9\I(S)$ can be derived from a combination matrix $A$ where the first column is $\T_7(S)$ and the second is $\R\T_2\I(S) = \R\T_9\I \circ \T_7(S)$. Here $F = \T_9\I$ and $G = \T_7$. It is not the case that $F$ and $G$ commute, as $\T_2\I = F \circ G \ne G \circ F = \T_4\I$.
     \begin{equation}
     	\label{topSquareSideEquation}
-        \left[
+        A = \left[
         \begin{array}{cccccccccccc|cccccccccccc}
             & 3 & 8 &&& 1 &&&& 0 & 9 & 6 &&&& 4 & 7 & 10 && 5 & 2 &&& 11 \\
             10 &&& 7 & 4 && 11 & 2 & 5 &&&& 3 & 0 & 9 &&&& 8 &&& 1 & 6 &
         \end{array}
         \right] \enspace.
     \end{equation}
-    Here $F = \T_9\I$ and $G = \T_7$. It is not the case that $F$ and $G$ commute, as $\T_2\I = F \circ G \ne G \circ F = \T_4\I$.
 \end{example}
 
-Similarly to general derivation, two-row self-derivations can be folded. What is unique to self-derivation, however, is that the \emph{same} pattern of order numbers that give the self-derived transform of a row can be used to fold each row of a combination matrix, as seen in Ex.~\ref{self-folded}. The folded rows can subsequently be folded, and this procedure can generate many levels of self-derivation.
-
+%--------------------------------------------------------------------------
 \begin{example}
     \cite[221]{Starr1984}
     \label{self-folded}
@@ -494,55 +487,45 @@ Similarly to general derivation, two-row self-derivations can be folded. What is
     \end{equation}
 \end{example}
 
-The next example provides a musical application of folded self-derivation matrices that constitute the main compositional procedure in Ciro Scotto's \emph{Tetralogy}.
-
+%--------------------------------------------------------------------------
 \begin{example}
     \cite[180]{Scotto2000}
     \label{ex:scotto}
     Let $S = \{ 0, 4, 7, 3, 11, 2, 10, 1, 6, 8, 9, 5 \}$ and consider the self-derivation array in Fig.~\ref{fig:scotto-array}.
-    
-    \begin{figure}[htbp]
+    \begin{figure}[H]
     	\centering
     	\includegraphics[width=5in]{figures/scotto-array.pdf}
 		\caption[Self-derived row in Scotto's \emph{Tetralogy}]{Self-derived row in Scotto's \emph{Tetralogy}.}
     	\label{fig:scotto-array}
 	\end{figure}
-	
 	\noindent Similarly to Ex.~\ref{self-folded}, the above matrix can be folded in order to obtain subsequent levels of derivation. Unlike Ex.~\ref{self-folded}, however, Scotto derives a rotated transform of $S$ from $\R\T_7(S)$. The rows in Fig.~\ref{fig:scotto-folded} are thus $\T_2(S), \R\T_2(S), \rho_6\R\T_2(S)$ and $\rho_6\T_2(S)$, where $\rho$ is the cyclical rotation operator.
-	
-	\begin{figure}[htbp]
+	\begin{figure}[H]
     	\centering
 		\includegraphics[width=6.5in]{figures/scotto-folded.pdf}
 		\caption[Folded derivation in Scotto's \emph{Tetralogy}]{Folded derivation in Scotto's \emph{Tetralogy}.}
     	\label{fig:scotto-folded}
 	\end{figure}
-	
-	\noindent In an entirely Schenkerian fashion, Scotto utilizes the folded array as the source material for the middle-ground structure of \emph{Tetralogy}. The only difference between the derivation array and the Schenkerian graph is that the $\T_2(S)$ now corresponds to the alto register, as seen in Fig.~\ref{fig:scotto-schenker1}. One of the foreground realizations of the Schenkerian graph in Fig.~\ref{fig:scotto-schenker1} is given in Fig.~\ref{fig:scotto-music1}. Rather than a strict serial composition, \emph{Tetralogy} employs a variety of prolongation procedures which are in line with its Schenkerian orientation, but unfortunately beyond the scope of this discussion.
-	
-	\begin{figure}[htbp]
+	\noindent In an entirely Schenkerian fashion, Scotto utilizes the folded array as the source material for the middle-ground structure of \emph{Tetralogy}. The only difference between the derivation array and the Schenkerian graph is that $\T_2(S)$ now corresponds to the alto register, as seen in Fig.~\ref{fig:scotto-schenker1}. One of the foreground realizations of the Schenkerian graph in Fig.~\ref{fig:scotto-schenker1} is given in Fig.~\ref{fig:scotto-music1}. Rather than a strict serial composition, \emph{Tetralogy} employs a variety of prolongation procedures which are in line with its Schenkerian orientation.
+	\begin{figure}[H]
     	\centering
 		\includegraphics[width=6.5in]{figures/scotto-schenker1.pdf}
 		\caption[Schenkerian middle-ground structure in Scotto's \emph{Tetralogy}]{Schenkerian middle-ground structure in Scotto's \emph{Tetralogy}.}
     	\label{fig:scotto-schenker1}
 	\end{figure}
-	
-	\begin{figure}[htbp]
+	\begin{figure}[H]
     	\centering
     	\includegraphics[width=6.5in]{figures/scotto-music1.pdf}
 		\caption[Musical realization of the middle-ground in Scotto's \emph{Tetralogy}]{Musical realization of the middle-ground in Scotto's \emph{Tetralogy}.}
     	\label{fig:scotto-music1}
 	\end{figure}
-	
 	\noindent The idea of prolongation in \emph{Tetralogy} extends beyond the foreground musical surface, and is applied as well to the middle-ground structure itself, effectively pushing it further into the background of the piece. The prolongation of the first bar in Fig.~\ref{fig:scotto-schenker1} is depicted in Fig.~\ref{fig:scotto-schenker2}, and a musical realization thereof is displayed in Fig.~\ref{fig:scotto-music2}. 
-	
-	\begin{figure}[htbp]
+	\begin{figure}[H]
     	\centering
     	\includegraphics[width=2.2in]{figures/scotto-schenker2.pdf}
     	\caption[Prolongation of the middle-ground structure in Scotto's \emph{Tetralogy}]{Prolongation of the middle-ground structure in Scotto's \emph{Tetralogy}.}
     	\label{fig:scotto-schenker2}
 	\end{figure}
-	
-	\begin{figure}[htbp]
+	\begin{figure}[H]
     	\centering
     	\includegraphics[width=6.5in]{figures/scotto-music2.pdf}
     	\caption[Musical realization of the prolonged middle-ground in Scotto's \emph{Tetralogy}]{Musical realization of the prolonged middle-ground in Scotto's \emph{Tetralogy}.}
@@ -550,6 +533,7 @@ The next example provides a musical application of folded self-derivation matric
 	\end{figure}
 \end{example}
 
+%--------------------------------------------------------------------------
 \cite[217]{Starr1984} presents an algorithm for computing $2 \times 24$ combination matrices of self-derivation that consists of finding an segment at the beginning of an ordered set that can become an embedded segment in some transform of the set, then construct a combination matrix involving the retrograde by resolving any symmetries. There is no prior knowledge of the entire row, thus the row is actually composed by adding order constraints. Another procedure is introduced in \cite[222]{Starr1984} that utilizes Th.~\ref{starr-theorem} to construct self-derivation from general combinatoriality matrices by finding operations that resolve symmetries between the columns of the matrix. Although there is no requirement that the matrix be retrograde-invariant, the retrograde makes it arguably easier to work out the algorithm by hand. Ex.~\ref{ex:starr-algorithm-2} illustrates the latter procedure in which, similarly to the former, the entire row is discovered as a result of the procedure.
 
 \begin{example}
