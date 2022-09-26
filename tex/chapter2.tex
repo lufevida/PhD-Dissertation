@@ -1,8 +1,6 @@
 %--------------------------------------------------------------------------
 \chapter{THEORETICAL FRAMEWORK}
 
-%This chapter proposes a model to describe derivation in a general setting.
-
 %TODO: This problem is NP-hard and is a satisfiability problem similar to Sudoku and the 8-Queens.
 
 %--------------------------------------------------------------------------
@@ -16,44 +14,6 @@ Although somewhat tedious, computing 12-tone matrices by hand is a well-establis
 \subsection{The canonical form of a row}
 
 This section describes an algorithm to obtain a canonical form for a row. The canonical form defined here is simply the least element in a lexicographic ordering of a row class. Given an arbitrary representative of a row class, that representative will be considered retrograded if any interval class between two consecutive elements of the row, counted from right to left, is strictly less than the corresponding interval class counted from left to right. Finding the interval class between two pitch-classes is illustrated in Listing~\ref{intervalClass}, which takes as input two pitch-classes $a$ and $b$, and the base $n$, returning the interval class between the two. The interval class between $a \pmod n$ and $b \pmod n$ is expressed mathematically as $\min\{(a - b) \pmod n, (b - a) \pmod n\}$.
-
-\begin{definition}
-    Let $x$ and $y$ be arbitrary pitches. The \textbf{ordered pitch interval} between
-    $x$ and $y$ is given by
-    \begin{equation}
-        i(x, y) = y - x \enspace.
-    \end{equation}
-    The \textbf{ordered pitch-class interval} between $x$ and $y$ is given by
-    \begin{equation}
-        i(\bar{x}, \bar{y}) = \bar{y} - \bar{x} \enspace.
-    \end{equation}
-    The \textbf{unordered pitch interval} between $x$ and $y$ is given by
-    \begin{equation}
-        \bar{i}(x, y) = |x - y| \enspace.
-    \end{equation}
-    The \textbf{unordered pitch-class interval}, or simply interval class, between
-    $x$ and $y$ is given by
-    \begin{equation}
-        \bar{i}(\bar{x}, \bar{y}) = \min\{i(\bar{x}, \bar{y}), i(\bar{y}, \bar{x})\} \enspace.
-    \end{equation}
-\end{definition}
-
-\begin{example}
-    Put $x = 43$ and $y = -13$. Then
-    \begin{gather}
-        i(x, y) = -56 \\
-        i(\bar{x}, \bar{y}) = \overline{11} - \bar{7} = \bar{4} \\
-        \bar{i}(x, y) = 56 \\
-        \bar{i}(\bar{x}, \bar{y}) = \bar{4}
-    \end{gather}
-    Whenever the context is clear, we shall drop quotient notation and subscripts.
-    In most situations, we are interested in the interval class between $x$ and $y$,
-    in which case we will simply write $i(7, -1) = 4$. Interval classes can also be
-    seen graph-theoretically as the edge connecting two members of a pitch-class set,
-    displayed clockwise.
-\end{example}
-
-% TODO Interval classes are equivalence relations
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Computing the interval class between two pitch-classes.},label={intervalClass}]
@@ -1171,7 +1131,7 @@ void destroyThreadData(thread_data *d) {
 \end{lstlisting}
 
 %--------------------------------------------------------------------------
-\section{Defining a top-level procedure for computing all solutions for a given row class}
+\section{Computing all solutions for a given row class}
 
 This section outlines Listing~\ref{writeSolutions}, a procedure that wraps Listing~\ref{allSolutionsRecursive}, providing it with the necessary scaffolding to output all solutions computed to a text file. In a single-threaded context, Listing~\ref{writeSolutions} will be furnished with all possible tops for a given problem size. In a multi-threaded context, however, Listing~\ref{writeSolutions} will be given a range of tops to be processed by each thread. Listing~\ref{allTopsRecursive} above computes the minimal subset of tops necessary for the operation of Listing~\ref{writeSolutions}. As previously discussed, the number of possible tops becomes impractically large as the problem size grows. Many algorithms described in this section deal with skipping tops that can be achieved by retrograding a top that has already been seen. Listing~\ref{writeSolutions} itself handles computing tops that cannot be achieved from the results of Listing~\ref{allTopsRecursive}. Listing~\ref{createSolutionsFile} creates a file to which solutions will be written.
 
