@@ -2,41 +2,41 @@
 \chapter{The Mallalieu Property}
 \label{mallalieu-section}
 
-We now consider the $\T_n\M\I$ class of 12-tone rows with representative
+Consider the $\T_n\M\I$ class of 12-tone rows with representative
 \begin{equation}
 	S = \{ 0, 1, 4, 2, 9, 5, 11, 3, 8, 10, 7, 6 \} \enspace.
 \end{equation}
-This series has the remarkable property that, if we include a dummy $13^\text{th}$ element, usually represented by an asterisk, then taking every $n^\text{th}$ element of $S$ produces a transposition of it, so that deriving transforms of a $S$ becomes a mechanical process.
+This series has the remarkable property that, appending it with a dummy $13^\text{th}$ element, usually represented by an asterisk, then taking every $n^\text{th}$ element of $S$ produces a transposition of it, so that deriving transforms of a $S$ becomes a mechanical process.
 
 \begin{example}
-	Put $S^* = \{ 0, 1, 4, 2, 9, 5, 11, 3, 8, 10, 7, 6, * \}$. Then taking every zeroth order number of $S^* \mod 13$ yields trivially $S^*$ itself. Taking every first order number yields the row $\{ 1, 2, 5, 3, 10, 6, 0, 4, 9, 11, 8, 7, * \}$ which, upon removing the dummy symbol, becomes $\T_1(S)$. Repeating this procedure for every $n^\text{th}$ order number gives the sequence of $\T_i$-transforms of $S$ where the indices of transposition are totally-ordered, and correspond to the elements of $S$.
+	Let $S^* = \{ 0, 1, 4, 2, 9, 5, 11, 3, 8, 10, 7, 6, * \}$. Then taking every zeroth order number of $S^* \mod 13$ yields trivially $S^*$ itself. Taking every first order number yields the row $\{ 1, 2, 5, 3, 10, 6, 0, 4, 9, 11, 8, 7, * \}$ which, upon removing the dummy symbol, becomes $\T_1(S)$. Repeating this procedure for every $n^\text{th}$ order number gives the sequence of $\T_i$-transforms of $S$ where the indices of transposition are totally-ordered, and correspond to the elements of $S$.
 \end{example}
 
-This most peculiar property, commonly known as the \emph{mallalieu} property, was first discovered by Pohlman Mallalieu \cite[285]{Lewin1966}. It is natural to ask at this point how many different 12-tone rows are there sharing this property. Unfortunately, there is only one such 12-tone row class under $\T_n\M\I$. We phrase below a little differently an argument given in \cite[17]{Morris1976}.
+This most peculiar property, commonly known as the mallalieu property, was first discovered by Pohlman Mallalieu \cite[285]{Lewin1966}. It is natural to ask at this point how many different 12-tone rows are there sharing this property. Unfortunately, there is only one such 12-tone row class under $\T_n\M\I$.
 
 \begin{proposition}
 	\cite[17]{Morris1976}
 	\label{morris-mallalieu}
 	A 12-tone row has the mallalieu property if and only if it is related by $\T_n\M\I$ to the row $S = \{ 0, 1, 4, 2, 9, 5, 11, 3, 8, 10, 7, 6 \}$.
 	\begin{proof}
-		One direction is just the straightforward check that every $\T_n\M\I$ transform of $S$ possesses the mallalieu property and is left to the reader. Conversely, if a row $R$ in its untransposed prime form has the mallalieu property, then there is a transposition that takes its order numbers in zeroth rotation, that is, the set $\{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 \}$ to its order numbers in, say, first rotation, id est, the set $\{ 1, 3, 5, 7, 9, 11, 0, 2, 4, 6, 8, 10 \}$. We can write this transposition as a permutation $0 \mapsto 1, 1 \mapsto 3, 2 \mapsto 5, \cdots, 11 \mapsto 10 $, or in cycle notation as $\hat{\T}_k = ( 0 \; 1 \; 3 \; 7 \; 2 \; 5 \; 11 \; 10 \; 8 \; 4 \; 9 \; 6 )$. Note that $\hat{\T}_k$ is an operation on order numbers. Since $\hat{\T}_k$ corresponds to a transposition, there are only four candidates for $T_k$, its pitch-class domain counterpart, namely $k \in \{ 1, 5, 7, 11 \}$, because these are the only indices for which a transposition of pitch classes in cycle notation is a 12-cycle. Moreover, we do not need to consider the cases where $k \in \{5, 7, 11\}$, as $\T_5 = \M \circ \T_1$, $\T_7 = \M \I \circ \T_1$, and $\T_{11} = \I \circ \T_1$. Hence, without loss, we can set $k = 1$. But then $S$ is the only row in untransposed prime form where $\T_1$ induces the permutation $\hat{\T}_k$ from its order numbers in zeroth rotation to its order numbers in first rotation. To see that, one needs to equate the cycles of $\hat{\T}_k$ with those of $\T_1$.
+		One direction is just the straightforward check that every $\T_n\M\I$ transform of $S$ possesses the mallalieu property and is left to the reader. Conversely, if a row $R$ in its untransposed prime form has the mallalieu property, then there is a transposition that takes its order numbers in zeroth rotation, that is, the set $\{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 \}$ to its order numbers in, say, first rotation, id est, the set $\{ 1, 3, 5, 7, 9, 11, 0, 2, 4, 6, 8, 10 \}$. We can write this transposition as a permutation $0 \mapsto 1, 1 \mapsto 3, 2 \mapsto 5, \cdots, 11 \mapsto 10 $, or in cycle notation as $\hat{\T}_k = ( 0 \; 1 \; 3 \; 7 \; 2 \; 5 \; 11 \; 10 \; 8 \; 4 \; 9 \; 6 )$. Note that $\hat{\T}_k$ is an operation on order numbers. Since $\hat{\T}_k$ corresponds to a transposition, there are only four candidates for $T_k$, its pitch-class domain counterpart, namely $k \in \{ 1, 5, 7, 11 \}$, because these are the only indices for which a transposition of pitch classes in cycle notation is a 12-cycle. Moreover, the cases where $k \in \{5, 7, 11\}$ do not need to be considered, as $\T_5 = \M \circ \T_1$, $\T_7 = \M \I \circ \T_1$, and $\T_{11} = \I \circ \T_1$. Hence, without loss, set $k = 1$. But then $S$ is the only row in untransposed prime form where $\T_1$ induces the permutation $\hat{\T}_k$ from its order numbers in zeroth rotation to its order numbers in first rotation. To see that, equate the cycles of $\hat{\T}_k$ with those of $\T_1$.
 	\end{proof}
 \end{proposition}
 
-A way of looking at the mallalieu property from the standpoint of replacing, for any 12-tone row, its order-number row by the array of integers $\{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 \}$ modulo 13 is provided in \cite[278]{Lewin1966}. It is easy to see that such an array has the same structure as the array $S^*$ constructed above, if we consider multiplication as the group operation. This is easily seen to be an isomorphism between the integers modulo 12 and the group of units modulo 13. One of the advantages of this approach is that we can dispense with the extra symbol altogether, and just use the indices from 1 to $p - 1$. We shall, however, still refer to the row of order numbers as $S^*$, the context making it clear whether we are constructing it with an asterisk or not. The process of taking every $n^\text{th}$ element of a 12-tone row becomes then just the aforementioned multiplicative group operation on order numbers, that is, multiplying order numbers by $k \pmod{13}$ is the same as taking every $k^\text{th}$ element of a row.
+A way of looking at the mallalieu property from the standpoint of replacing, for any 12-tone row, its order-number row by the array of integers $\{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 \}$ modulo 13 is provided in \cite[278]{Lewin1966}. It is easy to see that such an array has the same structure as the array $S^*$ constructed above, if multiplication is considered as the group operation. This is easily seen to be an isomorphism between the integers modulo 12 and the group of units modulo 13. One of the advantages of this approach is that the extra symbol can be dropped by simply operating on the indices from 1 to $p - 1$. The row of order numbers shall still be referred to as $S^*$, however, the context making it clear whether it is being constructed with an asterisk or not. The process of taking every $n^\text{th}$ element of a 12-tone row becomes then just the aforementioned multiplicative group operation on order numbers, that is, multiplying order numbers by $k \pmod{13}$ is the same as taking every $k^\text{th}$ element of a row.
 
 \begin{example}
 	Let $S = \{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 \}$ and $S^*$ be as above. Then $\M_3(S^*) = \{ 3, 6, 9, 12, 2, 5, 8, 11, 1, 4, 7, 10 \}$, which corresponds to the row $V = \{ 2, 5, 8, 11, 1, 4, 7, 10, 0, 3, 6, 9 \}$. The row $V$ can be equivalently constructed by placing an asterisk at the $13^\text{th}$ order number of $S$, then taking every third element. However being able to express the process through multiplication, rather than mechanically, greatly facilitates its theoretical description, as well as any algorithmic implementation thereof. The fact that $V$ and $S$ are not related by $\T_n\M\I$ reflects the fact that neither $S$ nor $V$ have the mallalieu property.
 \end{example}
 
-It should be of interest to many composers whether other $n$-TET systems are capable of producing mallalieu rows, and if so, how many. Unfortunately, answering this question is not as straightforward as the above discussion, since we cannot in general rely on the isomorphism that constitutes the proof of \ref{lewin-mallalieu}. Whenever we can, however, the existence of mallalieu rows is easily verified.
+It should be of interest to many composers whether other $n$-TET systems are capable of producing mallalieu rows, and if so, how many. Unfortunately, answering this question is not as straightforward as the above discussion, since relying on the isomorphism that constitutes the proof of \ref{lewin-mallalieu} is not possible in general. Whenever possible, however, the existence of mallalieu rows is easily verified.
 
 \begin{proposition}
 	\label{lewin-mallalieu}
 	\cite[285]{Lewin1966}
 	For $p$ a prime, every $(p - 1)$-TET system is capable of producing a mallalieu row.
 	\begin{proof}
-		For every prime $p$, the group of units modulo $p$ is isomorphic to $\mathbb{Z} / (p - 1) \mathbb{Z}$. The mallalieu property in these cases can be seen as the aforementioned isomorphism, where $\mathbb{Z} / (p - 1) \mathbb{Z}$ is the group of transpositions of a row, and $(\mathbb{Z} / p \mathbb{Z})^\times$ is its multiplicative group on order numbers. The number of mallalieu rows in each $(p - 1)$-TET system is then the number of isomorphisms $\mathbb{Z} / (p - 1) \mathbb{Z} \to (\mathbb{Z} / p \mathbb{Z})^\times$, that is, the order of the group of automorphisms of $\mathbb{Z} / (p - 1) \mathbb{Z}$. Since for every prime $p$ we have $|\Aut(\mathbb{Z} / (p - 1) \mathbb{Z})| \geq 1$, every $(p - 1)$-TET system is capable of producing a mallalieu row, as desired.
+		For every prime $p$, the group of units modulo $p$ is isomorphic to $\mathbb{Z} / (p - 1) \mathbb{Z}$. The mallalieu property in these cases can be seen as the aforementioned isomorphism, where $\mathbb{Z} / (p - 1) \mathbb{Z}$ is the group of transpositions of a row, and $(\mathbb{Z} / p \mathbb{Z})^\times$ is its multiplicative group on order numbers. The number of mallalieu rows in each $(p - 1)$-TET system is then the number of isomorphisms $\mathbb{Z} / (p - 1) \mathbb{Z} \to (\mathbb{Z} / p \mathbb{Z})^\times$, that is, the order of the group of automorphisms of $\mathbb{Z} / (p - 1) \mathbb{Z}$. Since $|\Aut(\mathbb{Z} / (p - 1) \mathbb{Z})| \geq 1$ for every prime $p$, every $(p - 1)$-TET system is capable of producing a mallalieu row, as desired.
 	\end{proof}
 \end{proposition}
 
@@ -49,66 +49,13 @@ In face of \ref{lewin-mallalieu}, \ref{morris-mallalieu} becomes just the specia
 	\begin{equation}
 		|\Aut\big((\mathbb{Z} / 12 \mathbb{Z})^\times\big)| = 4 \enspace.
 	\end{equation}
-	We can construct these isomorphisms by mapping a generator of $\mathbb{Z} / 12 \mathbb{Z}$, say $\bar{1}$, to the generators of $(\mathbb{Z} / 13 \mathbb{Z})^\times$, namely $\bar{2}, \bar{6}, \bar{7}$ and $\overline{11}$. Explicitly, we get the four maps $i \pmod{12} \mapsto 2^i \pmod{13}$, $i \pmod{12} \mapsto 6^i \pmod{13}$, $i \pmod{12} \mapsto 7^i \pmod{13}$, and $i \pmod{12} \mapsto 11^i \pmod{13}$. We leave the verification that these maps are well defined and bijective to the reader. Denote the first map by $\varphi$. Then
+	These isomorphisms can be constructed by mapping a generator of $\mathbb{Z} / 12 \mathbb{Z}$, say $\bar{1}$, to the generators of $(\mathbb{Z} / 13 \mathbb{Z})^\times$, namely $\bar{2}, \bar{6}, \bar{7}$ and $\overline{11}$. Explicitly, the four maps $i \pmod{12} \mapsto 2^i \pmod{13}$, $i \pmod{12} \mapsto 6^i \pmod{13}$, $i \pmod{12} \mapsto 7^i \pmod{13}$ are obtained, and $i \pmod{12} \mapsto 11^i \pmod{13}$. The verification that these maps are well defined and bijective is left to the reader. Denote the first map by $\varphi$. Then
 	\begin{equation}
 		\varphi(a + b) = 2^{a + b} = 2^a \cdot 2^b = \varphi(a) \cdot \varphi(b) \enspace,
 	\end{equation}
 	so $\varphi$ is an isomorphism. The verification that the other three maps are isomorphisms is identical. Define $\varphi^{-1} : (\mathbb{Z} / 13 \mathbb{Z})^\times \to \mathbb{Z} / 12 \mathbb{Z}$ by $\varphi^{-1}(\log i \pmod{13}) = i \pmod{12}$. Then $\varphi^{-1}$ is easily seen to be the inverse of $\varphi$. Let $S^* = \{ 1, 2, \dots, 11, 12 \}$ be a series of order numbers written multiplicatively. Then
 	\begin{equation}
-		\varphi^{-1}(S^*) = \{ \log 1, \log 2, \dots, \log 12 \} \pmod{13} =
-		\{ 0, 1, 4, \dots, 7, 6 \} \enspace,
+		\varphi^{-1}(S^*) = \{ \log 1, \log 2, \dots, \log 12 \} \pmod{13} = \{ 0, 1, 4, \dots, 7, 6 \} \enspace,
 	\end{equation}
 	which by \ref{morris-mallalieu} is one of the untransposed 12-tone rows that have the mallalieu property.
-\end{example}
-
-We conclude this section by exposing some well-known isomorphisms between groups of pitch-class operations and abstract groups.
-
-\begin{proposition}
-	\cite[127]{FripertingerLackner2015}
-	We have the following isomorphisms:
-	\begin{gather}
-		\langle \T \rangle \cong C_{12} \\
-		\langle \T, \I \rangle \cong D_{24} \\
-		\langle \I, \R \rangle \cong V_4 \\
-		\langle \T, \I, \R \rangle \cong D_{24} \oplus \mathbb{F}_2 \\
-		\langle \T, \I, \M \rangle \cong \Aff_1(C_{12}) \\
-		\langle \T, \I, \M, \R \rangle \cong \Aff_1(C_{12}) \oplus \mathbb{F}_2
-	\end{gather}
-\end{proposition}
-
-\begin{theorem}
-	\label{rahn-common-tone}
-	\cite[10]{Rahn1975}
-	The number of common tones between a set $S$ and some transposition of itself is given by
-	\begin{equation}
-		|S \cap \T_n(S)| = |\{x - y = n : x, y \in S\}| \enspace.
-	\end{equation}
-	The number of common tones between a set $S$ and some inversion of itself is given by
-	\begin{equation}
-		|S \cap \T_n\I(S)| = 2 \cdot |\{x + y = n : x, y \in S\}| + |\{a \in S : 2a = n\}| \enspace.
-	\end{equation}
-	Moreover, the cardinality of the set $\{a \in S : 2a = n\}$ is at most 2.
-	\begin{proof}
-		The occurrences of pairs of pitch classes that are interchanged by the operation at hand must be counted and doubled, for if $x$ maps onto $y$ under some $\T_n\I$, then certainly $y$ maps onto $x$ under the same operation, given that every inversion operation has order two. In addition to that, the occurrences of pitch classes that may map onto themselves under the aforementioned operation must be accounted for. For any pair $a \ne b \in S$, it follows $a$ and $b$ are exchanged by some operation $\T_n\I$ whenever both $\T_n\I(a) = b$ and $\T_n\I(b) = a$ hold. Since $\T_n\I(a) = -a + n$, and similarly $\T_n\I(b) = -b + n$, if the pair is exchanged, then both $-a + n = b$ and $-b + n = a$ must be true. Adding the last two expressions and solving for $n$ yields $a + b = n$, which is the first set in the right-hand side of the formula. As discussed above, the cardinality of this set must be doubled. For any $a$, it follows that $\T_n\I(a) = a + n$, hence $a = \T_n\I(a) \iff a = -a + n$, that is, whenever $2a = n$. That is the second set in the formula. Finally, for any pair $(a, n)$ such that $a = \T_n\I(a)$, it also follows that $a + 6 = -(a + 6) + n \iff 2a = n$, so that $a + 6 = \T_n\I(a + 6)$ by the above. Thus the set $\{a \in S : 2a = n\}$ has cardinality at most 2, proving the last assertion.
-	\end{proof}
-\end{theorem}
-
-\begin{example}
-    \label{rahn-example}
-    \cite[11]{Rahn1975}
-    Write $S = \{ 0, 1, 4, 5, 8, 9 \}$ and consider some inversion operation. An application of Th.~\ref{rahn-common-tone} yields the table below.
-    \begin{table}[htbp]
-    \caption[Rahn's Common Tones Under Inversion]{Common tones under inversion between $S = \{ 0, 1, 4, 5, 8, 9 \}$ and itself.}
-    \centering
-    \vspace{12pt}
-    \begin{tabular}{ c | *{12}{c} }
-        \hline\\
-        $n$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 \\
-        $2 \cdot |\{x + y = n : x, y \in S\}|$ & 2 & 6 & 2 & 0 & 2 & 6 & 2 & 0 & 2 & 6 & 2 & 0 \\
-        $|\{a \in S : 2a = n\}|$ & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 \\
-        \hline\\
-        Total & 3 & 6 & 3 & 0 & 3 & 6 & 3 & 0 & 3 & 6 & 3 & 0 \\
-        \hline
-    \end{tabular}
-    \end{table}
 \end{example}
