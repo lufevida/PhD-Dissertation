@@ -6,14 +6,11 @@
 %--------------------------------------------------------------------------
 \section{Defining an algorithm to compute a row class}
 
-In a traditional setting, a composer will usually define a class of transforms of a basic row by computing by hand what is commonly termed as a 12-tone matrix. The general procedure is usually to fill the top row of the matrix with a transform of the row beginning with zero. The second step is to fill the leftmost column of the matrix with the inverse transform of the top row. The subsequent steps comprise going row-by-row and filling them with a transposition of the top row. The particular transposition for each row is the first pitch-class of the row. So if a row begins with, say, pitch-class $5$, then the entire row will be the $T_5$ transform of the top row. Then 12-tone matrix will hold all 48 transforms of a row: reading every row from left to right gives all transpositions, reading them from right to left gives all retrogrades, reading all columns from top to bottom gives all inversions, and reading them from bottom to top gives all retrograde inversions.
-
-Although somewhat tedious, computing 12-tone matrices by hand is a well-established procedure. The 48 transforms that can be inferred from the matrix are not necessarily unique, given that a 12-tone may be retrograde, or retrograde-inverse invariant. It is straightforward to generalize the procedure to $n$-tone matrices. However, the graphical idea of reading the matrix from right to left, or bottom to top, is not ideal for computing self-deriving combination matrices, as it is faster to read a transform of a row that is written contiguously in memory. Another caveat is that the procedure does not necessarily define a canonical form for the top row. Every row in a matrix is a representative of an equivalence class of rows under the action of $RT_NI$. The size of each orbit is $4n$ if the row is not retrograde or retrograde-inverse invariant, and $2n$ otherwise. Defining a canonical form for the first row in a data structure that holds a row class is desirable in any algorithm that iterates through row classes in lexicographic order.
+%--------------------------------------------------------------------------
+In a traditional setting, a composer will usually define a class of transforms of a basic row by computing by hand what is commonly termed as a 12-tone matrix. The general procedure is usually to fill the top row of the matrix with a transform of the row beginning with zero. The second step is to fill the leftmost column of the matrix with the inverse transform of the top row. The subsequent steps comprise going row-by-row and filling them with a transposition of the top row. The particular transposition for each row is the first pitch-class of the row. So if a row begins with, say, pitch-class $5$, then the entire row will be the $T_5$ transform of the top row. The 12-tone matrix will hold all 48 transforms of a row: reading every row from left to right gives all transpositions, reading them from right to left gives all retrogrades, reading all columns from top to bottom gives all inversions, and reading them from bottom to top gives all retrograde inversions. Although somewhat tedious, computing 12-tone matrices by hand is a well-established procedure. The 48 transforms that can be inferred from the matrix are not necessarily unique, given that a 12-tone may be retrograde, or retrograde-inverse invariant. It is straightforward to generalize the procedure to $n$-tone matrices. However, the graphical idea of reading the matrix from right to left, or bottom to top, is not ideal for computing self-deriving combination matrices, as it is faster to read a transform of a row that is written contiguously in memory. Another caveat is that the procedure does not necessarily define a canonical form for the top row. Every row in a matrix is a representative of an equivalence class of rows under the action of $RT_nI \cong D_{24} \oplus \mathbb{F}_2$ \cite[127]{FripertingerLackner2015}. The size of each orbit is $4n$ if the row is not retrograde or retrograde-inverse invariant, and $2n$ otherwise. Defining a canonical form for the first row in a data structure that holds a row class is desirable in any algorithm that iterates through row classes in lexicographic order.
 
 %--------------------------------------------------------------------------
-\subsection{The canonical form of a row}
-
-This section describes an algorithm to obtain a canonical form for a row. The canonical form defined here is simply the least element in a lexicographic ordering of a row class. Given an arbitrary representative of a row class, that representative will be considered retrograded if any interval class between two consecutive elements of the row, counted from right to left, is strictly less than the corresponding interval class counted from left to right. Finding the interval class between two pitch-classes is illustrated in Listing~\ref{intervalClass}, which takes as input two pitch-classes $a$ and $b$, and the base $n$, returning the interval class between the two. The interval class between $a \pmod n$ and $b \pmod n$ is expressed mathematically as $\min\{(a - b) \pmod n, (b - a) \pmod n\}$.
+Listing~\ref{getCanonicalForm} describes an algorithm to obtain a canonical form for a row. The canonical form defined here is simply the least element in a lexicographic ordering of a row class. Given an arbitrary representative of a row class, that representative will be considered retrograded if any interval class between two consecutive elements of the row, counted from right to left, is strictly less than the corresponding interval class counted from left to right. Finding the interval class between two pitch-classes is illustrated in Listing~\ref{intervalClass}, which takes as input two pitch-classes $a$ and $b$, and the base $n$, returning the interval class between the two. The interval class between $a \pmod n$ and $b \pmod n$ is expressed mathematically as $\min\{(a - b) \pmod n, (b - a) \pmod n\}$.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Computing the interval class between two pitch-classes.},label={intervalClass}]
@@ -23,12 +20,14 @@ number intervalClass(number a, number b, number rowSize) {
 }
 \end{lstlisting}
 
+%--------------------------------------------------------------------------
 \begin{enumerate}
-\item \emph{intervalClass} takes as input two pitch-classes $a$ and $b$, as well as the base $n$ so that $a, b \in \mathbb{Z} / n \mathbb{Z}$.
+\item Listing~\ref{intervalClass} takes as input two pitch-classes $a$ and $b$, as well as the base $n$ such that $a, b \in \mathbb{Z} / n \mathbb{Z}$.
 \item Line 2 simply computes the distance between $a$ and $b$.
-\item Line 3 returns the least between the above interval and its complement, that is, the interval class between the two given pitch-classes.
+\item Line 3 returns the least between the interval computed in line 2 and its complement, that is, the interval class between the two given pitch-classes.
 \end{enumerate}
 
+%--------------------------------------------------------------------------
 The procedure for determining whether a row is retrograded utilizes Listing~\ref{intervalClass} as a subroutine, and is outlined in Listing~\ref{isRetrograded}. The sole parameter to Listing~\ref{isRetrograded} is the row at hand, which can be any of the representatives of its row class, and the returned value is a boolean indicating whether the row is retrograded or not.
 
 %--------------------------------------------------------------------------
@@ -53,7 +52,7 @@ bool isRetrograded(const number *row, number rowSize, bool isInvariant) {
 
 \begin{enumerate}
 \item \emph{isRetrograded} has three parameters, namely a pointer to a row, its size, and a boolean representing whether the row is retrograde or retrograde inverse-invariant.
-\item Lines 2 and 3 perform a straightforward sanity check. It will be shown below that all rows of size 4 or less are necessarily retrograde or retrograde-invariant. If a row with 5 or more elements is known to be invariant, we skip the test.
+\item Lines 2 and 3 perform a straightforward sanity check. It will be shown below that all rows of size 4 or less are necessarily retrograde or retrograde inverse-invariant. If a row with 5 or more elements is known to be invariant, the test is skipped.
 \addtocounter{enumi}{2}
 \item Line 5 declares the variables that will represent interval classes seen from left to right, and from right to left, respectively.
 \addtocounter{enumi}{2}
@@ -193,24 +192,25 @@ void getCanonicalForm(number *row, number rowSize, bool isInvariant) {
 \item Line 5 is a call to Listing~\ref{getTransformInPlace}. The third argument is the additive inverse of the row's start element. It varies, naturally, if the row is inverted.
 \end{enumerate}
 
-%--------------------------------------------------------------------------
-\subsection{Storing a row class in memory}
-
-The purpose of the procedures described in this section is to store an entire row class contiguously in memory. That consists of creating an array large enough to hold all transforms of a row, and copying sequentially into this array said transforms. Even for rows whose base are considered large, a row class under $RTN_I$ is still very small. Thus holding these transforms in memory makes sense for execution speed purposes. The size of the row class array depends on whether the row is reverse or reverse inverse-invariant. The row class array begins with the canonical for of the row, followed by all its transpositions, in ascending order, followed by all transpositions of the inversion of the canonical for, also in ascending order. If the row is not reverse or reverse inverse-invariant, the row class array is appended by all transpositions of the reverse of the canonical order, followed by all transpositions of the retrograde inverse of the canonical order. Therefore, the overall size of the row class array is $2n^2$ if the row is retrograde or retrograde inverse-invariant, or $4n^2$ otherwise, where $n$ is the row size. The main routine for creating the row class array is described below in Listing~\ref{getRowClass}. It depends on two subroutines, namely Listing~\ref{isRetrogradeInvariant} and Listing~\ref{isRetrogradeInverseInvariant} that are described below.
+The purpose of the procedure described in Listing~\ref{getRowClass} is to store an entire row class contiguously in memory. That consists of creating an array large enough to hold all transforms of a row, and copying sequentially into this array said transforms. Even for rows whose base are considered large, a row class under $RTn_I$ is still very small. Thus holding these transforms in memory makes sense for execution speed purposes. The size of the row class array depends on whether the row is reverse or reverse inverse-invariant. The row class array begins with the canonical for of the row, followed by all its transpositions, in ascending order, followed by all transpositions of the inversion of the canonical for, also in ascending order. If the row is not reverse or reverse inverse-invariant, the row class array is appended by all transpositions of the reverse of the canonical order, followed by all transpositions of the retrograde inverse of the canonical order. Therefore, the overall size of the row class array is $2n^2$ if the row is retrograde or retrograde inverse-invariant, or $4n^2$ otherwise, where $n$ is the row size. The main routine for creating the row class array is described below in Listing~\ref{getRowClass}. It depends on two subroutines, namely Listing~\ref{isRetrogradeInvariant} and Listing~\ref{isRetrogradeInverseInvariant} that are described below.
 
 %--------------------------------------------------------------------------
 \begin{lemma}
 	\label{retrograde-invariance}
 	In a retrograde-invariant row, the interval between every entry seen from left to right, and the corresponding entry seen from right to left, must equal half the size of the row.
 	\begin{proof}
+	Omitted. %TODO: prove this
 	\end{proof}
 \end{lemma}
+
+%TODO: when row size is odd, and all pairs sum to x, will the single element plus itself sum to x?
 
 %--------------------------------------------------------------------------
 \begin{corollary}
 	\label{odd-retrograde-invariance}
 	A row with odd size greater than $3$ cannot be retrograde-invariant.
 	\begin{proof}
+	Omitted. %TODO: prove this
 	\end{proof}
 \end{corollary}
 
@@ -244,13 +244,12 @@ bool isRetrogradeInvariant(const number *row, number rowSize) {
 
 Unlike retrograde-invariance, every row size can produce retrograde inverse-invariance. A simple example is the lowest lexicographically-order row of any size, that is, a chromatic scale. Retrograding, inverting, and transposing by $-1$ always yields back the initial row. Listing~\ref{isRetrogradeInverseInvariant} outlines the procedure in all generality.
 
-%TODO: when row size is odd, and all pairs sum to x, will the single element plus itself sum to x?
-
 %--------------------------------------------------------------------------
 \begin{lemma}
 	\label{retrograde-inverse-invariance}
 	In a retrograde inverse-invariant row $r$, the interval between every entry seen from left to right, and the corresponding entry seen from right to left, must be equal to $r_0 + r_{n - 1} \pmod{n}$, where $n$ is the base of the row.
 	\begin{proof}
+	Omitted. %TODO: prove this
 	\end{proof}
 \end{lemma}
 
@@ -342,14 +341,9 @@ number *getRowClass(range *classSize, number *row, number rowSize, bool isInvari
 \end{enumerate}
 
 %--------------------------------------------------------------------------
-\section{Defining an algorithm to compute semi-magical squares}
+\section{Defining an algorithm to compute semi-magic squares}
 
-A key component in the definition of a combination matrix of self-derivation is a semi-magic square. By definition, a semi-magic square is a square matrix where the sum of all elements, for each row and column, is a constant. For our purposes, that constant will be the base $n$ of the row. Seeing each entry in a semi-magic square as a real number and dividing each entry in the matrix by $n$ produces a doubly stochastic matrix, in which every row and every column sum to one. A magic square is a semi-magic square where, in addition, both main diagonals add up to the same constant as the rows and columns.
-
-%--------------------------------------------------------------------------
-\subsection{Computing the partitions of an integer}
-
-By the definition above of a semi-magic square, every row therein is a permutation of an integer partition of $n$. In fact, every column is also a permutation of an integer partition of $n$, but the algorithm described below in Listing~\ref{allPartitionsRecursive} shall concentrate on computing all integer partitions of $n$ and their permutations as rows that will ultimately become the rows of a semi-magic square. Since these integer partitions of $n$ are completely independent of the row at hand, they can be computed only once for each $n$ and stored as a file, speeding up the process of computing combination matrices for other rows. Before describing Listing~\ref{allPartitionsRecursive}, a couple subroutines for reading and writing files are outlined.
+A key component in the definition of a combination matrix of self-derivation is a semi-magic square. By definition, a semi-magic square is a square matrix where the sum of all elements, for each row and column, is a constant. For our purposes, that constant will be the base $n$ of the row. Seeing each entry in a semi-magic square as a real number and dividing each entry in the matrix by $n$ produces a doubly stochastic matrix, in which every row and every column sum to one. A magic square is a semi-magic square where, in addition, both main diagonals add up to the same constant as the rows and columns. By the definition above of a semi-magic square, every row therein is a permutation of an integer partition of $n$. In fact, every column is also a permutation of an integer partition of $n$, but the algorithm described below in Listing~\ref{allPartitionsRecursive} shall concentrate on computing all integer partitions of $n$ and their permutations as rows that will ultimately become the rows of a semi-magic square. Since these integer partitions of $n$ are completely independent of the row at hand, they can be computed only once for each $n$ and stored as a file, speeding up the process of computing combination matrices for other rows. Before describing Listing~\ref{allPartitionsRecursive}, a couple subroutines for reading and writing files are outlined.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Retrieving the size of a file.},label={getFileSize}]
@@ -483,10 +477,7 @@ number *readAllPartitions(length *numPartitions, number problemSize, number rowS
 \item Line 13 simply returns the memory address with the contents of the file, or NULL if creating the file failed.
 \end{enumerate}
 
-%--------------------------------------------------------------------------
-\subsection{Combining partition rows into squares}
-
-This section describes an algorithm to combine integer partition rows into semi-magic squares. The overall procedure consists of appending integer partition rows to the square and adding the the rows as vectors. It is a backtracking recursive algorithm similar to Listing~\ref{allPartitionsRecursive}, the main difference being that the backtracking step consists of subtracting from the vector sum the previously added row after pushing onto the stack another recursive call. Adding two integer partition rows, seen as vectors, is described next in Listing~\ref{plus}.
+Listing~\ref{allSquaresRecursive} describes an algorithm to combine integer partition rows into semi-magic squares. The overall procedure consists of appending integer partition rows to the square and adding the the rows as vectors. It is a backtracking recursive algorithm similar to Listing~\ref{allPartitionsRecursive}, the main difference being that the backtracking step consists of subtracting from the vector sum the previously added row after pushing onto the stack another recursive call. Adding two integer partition rows, seen as vectors, is described next in Listing~\ref{plus}.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Adding two vectors.},label={plus}]
@@ -532,7 +523,7 @@ bool validate(const number *currentSum, number problemSize, number rowSize) {
 \item If all entries in the current sum vector are less than or equal to $n$, this is still a viable semi-magic square, so line 7 returns true.
 \end{enumerate}
 
-Listing~\ref{allSquaresRecursive} utilizes the previously computed integer partition rows to form all possible semi-magic squares of size $n$, with entries in the range $[0, n - 1]$. It is described here because it facilitates understanding of Listing~\ref{allSolutionsRecursive}, but it is not used in computing combination matrices of self-derivation. For the latter purpose, computing \emph{all} possible semi-magical squares would be impractical, but this discussion is deferred to the next sections. Although Listing~\ref{allSquaresRecursive} takes as input a pointer to a FILE data structure, a procedure to save all semi-magic squares is omitted, as the number of such squares is overwhelmingly large and grows with both the problem size and $n$.
+Listing~\ref{allSquaresRecursive} utilizes the previously computed integer partition rows to form all possible semi-magic squares of size $n$, with entries in the range $[0, n - 1]$. It is described here because it facilitates understanding of Listing~\ref{allSolutionsRecursive}, but it is not used in computing combination matrices of self-derivation. For the latter purpose, computing \emph{all} possible semi-magic squares would be impractical, but this discussion is deferred to the next sections. Although Listing~\ref{allSquaresRecursive} takes as input a pointer to a FILE data structure, a procedure to save all semi-magic squares is omitted, as the number of such squares is overwhelmingly large and grows with both the problem size and $n$.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Recursively computing all semi-magic squares of a certain size.},label={allSquaresRecursive}]
@@ -565,10 +556,10 @@ void allSquaresRecursive(number *tmp, number *currentSum, number currentSize, nu
 \end{lstlisting}
 
 \begin{enumerate}
-\item The inputs are the memory address for some scratch memory where the semi-magical square will be stored as a sequence of indices into the integer partitions array. The size of this allocated memory must this be equal to the problem size. The memory address of another scratch memory space to hold the current sum of integer partition rows, with size equal to the problem size, the current number of rows already appended to the square, the problem size, the row size $n$, a pointer to the contents of a partitions file, previously computed using Listing~\ref{allPartitionsRecursive}, the total number of integer partition rows, and a pointer to a FILE data structure.
+\item The inputs are the memory address for some scratch memory where the semi-magic square will be stored as a sequence of indices into the integer partitions array. The size of this allocated memory must this be equal to the problem size. The memory address of another scratch memory space to hold the current sum of integer partition rows, with size equal to the problem size, the current number of rows already appended to the square, the problem size, the row size $n$, a pointer to the contents of a partitions file, previously computed using Listing~\ref{allPartitionsRecursive}, the total number of integer partition rows, and a pointer to a FILE data structure.
 \item Line 2 deals with the base case of the recursion, that is, when all rows have been appended to the square. When that is the case, the algorithm writes the square to the file and returns.
 \addtocounter{enumi}{4}
-\item Line 7 defines a variable for where iteration of integer partition rows should start. This is a mechanism to avoid permutations of integer partition rows within a semi-magic square by enforcing that the rows of the constructed semi-magic square, seen as indices in the range between zero and the total number of integer partitions, be a nondecreasing sequence. The next section shall expand on the discussion of avoiding permutations of rows in semi-magical squares.
+\item Line 7 defines a variable for where iteration of integer partition rows should start. This is a mechanism to avoid permutations of integer partition rows within a semi-magic square by enforcing that the rows of the constructed semi-magic square, seen as indices in the range between zero and the total number of integer partitions, be a nondecreasing sequence. The next section shall expand on the discussion of avoiding permutations of rows in semi-magic squares.
 \addtocounter{enumi}{1}
 \item Even though the current size is normally set to zero on a very first call to Listing~\ref{allSquaresRecursive}, the backtracking nature of the algorithm will push onto the call stack many other calls to Listing~\ref{allSquaresRecursive} where the current sum scratch memory might have been previously used, thus containing left over data. Line 9 then checks if the current size is zero, and line 10 sets all entries in the current sum scratch space to zero, to clear any left over data. If, on the other hand, the current size is greater than zero, then line 12 sets the start of the iteration to the very last index into the integer partition rows seen so far, guaranteeing that the sequence of indices in each square is nondecreasing.
 \addtocounter{enumi}{4}
@@ -621,9 +612,6 @@ The row $S$ is not in its canonical form. An application of Listing~\ref{getCano
     \begin{proof}
     \end{proof}
 \end{corollary}
-
-%--------------------------------------------------------------------------
-\subsection{Computing the side and top rows of a combination matrix}
 
 As described above, the side and top vectors are key components in this implementation. Even though the side and the top are both vectors of length equal to the problem size, and they are both vectors of $RT_nI$ transforms of a row, there are some important distinctions between them. The most relevant distinction is that the top vector is used to define the input of a problem, whereas the side vector is used to compute a solution. In derivation theory words, the top vector is the linearization of the combination matrix, and each element in the side vector is a transform of the row $r$ that can be derived from from the top. Another fundamental distinction is that the contents of a side are permutable by Corollary~\ref{topSquareSideCorollary}, whereas the contents of the top are usually not. Even though there are permutations of the top vector that yield equivalent solutions, those are special cases and will be discussed in more detail in the next section. Lastly, like Listing~\ref{allSquaresRecursive}, the algorithm presented in Listing~\ref{allSidesRecursive} below also facilitates understanding of Listing~\ref{allSolutionsRecursive}, but it is not used in computing combination matrices of self-derivation. The algorithm described in Listing~\ref{allTopsRecursive}, on the other hand, is not only used in this implementation, but will also be the subject of future research.
 
@@ -721,9 +709,6 @@ number *readAllTops(length *numTops, number problemSize, range classSize) {
     return allTops;
 }
 \end{lstlisting}
-
-%--------------------------------------------------------------------------
-\subsection{Writing a solution as text}
 
 The main algorithm in this implementation writes to a file the combination matrices of self-derivation computed from a provided set of tops. It writes them to a provided file in a format that is readily useable for music composition, unless otherwise specified. It takes as input a significant amount of pre-computed data which can be shared between several threads of execution, as well many pointers to scratch memory addresses that must be allocated for each thread. Both common and thread-specific data are organized into data structures to reduce the number of parameters necessary for each call. These data structures, as well as the text formatting of the output will be discussed in this section.
 
@@ -872,8 +857,7 @@ Solution 610:
 19 |       4  2  5     |                3  | 0           1     | 17
 \end{lstlisting}
 
-%--------------------------------------------------------------------------
-\subsection{Computing all possible solutions for a given combination matrix}
+\vspace{12pt}
 
 The algorithm presented in Listing~\ref{allSolutionsRecursive} is the main procedure in this implementation for computing solutions to the problem of self-derivation. Like other algorithms described in the previous sections, it is a recursive backtracking algorithm. It utilizes Listing~\ref{matchRowWithTop} as a subroutine to test if the a given representative of a row class can be matched with the top row. Listing~\ref{matchRowWithTop} is very similar to the first inner for-loop in Listing~\ref{writeSolution} in that it tries to match a transform of the row $r$ against a top vector, and that matching is done column-by-column, using the partition scheme given by the current square row. The main difference between Listing~\ref{writeSolution} and Listing~\ref{matchRowWithTop} lies in the fact that the top row is not immutable. Rather, it is some scratch memory space that gets changed every time Listing~\ref{matchRowWithTop} is called. Another key difference is the fact that Listing~\ref{matchRowWithTop} can fail to produce a match, whereas Listing~\ref{writeSolution} is only called once a solution already exists for all derived rows.
 
@@ -1131,7 +1115,7 @@ void destroyThreadData(thread_data *d) {
 \end{lstlisting}
 
 %--------------------------------------------------------------------------
-\section{Computing all solutions for a given row class}
+\section{Computing all possible solutions for a row class}
 
 This section outlines Listing~\ref{writeSolutions}, a procedure that wraps Listing~\ref{allSolutionsRecursive}, providing it with the necessary scaffolding to output all solutions computed to a text file. In a single-threaded context, Listing~\ref{writeSolutions} will be furnished with all possible tops for a given problem size. In a multi-threaded context, however, Listing~\ref{writeSolutions} will be given a range of tops to be processed by each thread. Listing~\ref{allTopsRecursive} above computes the minimal subset of tops necessary for the operation of Listing~\ref{writeSolutions}. As previously discussed, the number of possible tops becomes impractically large as the problem size grows. Many algorithms described in this section deal with skipping tops that can be achieved by retrograding a top that has already been seen. Listing~\ref{writeSolutions} itself handles computing tops that cannot be achieved from the results of Listing~\ref{allTopsRecursive}. Listing~\ref{createSolutionsFile} creates a file to which solutions will be written.
 
