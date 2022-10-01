@@ -7,10 +7,22 @@
 \section{Defining an algorithm to compute a row class}
 
 %--------------------------------------------------------------------------
-In a traditional setting, a composer will usually define a class of transforms of a basic row by computing by hand what is commonly termed as a 12-tone matrix. The general procedure is usually to fill the top row of the matrix with a transform of the row beginning with zero. The second step is to fill the leftmost column of the matrix with the inverse transform of the top row. The subsequent steps comprise going row-by-row and filling them with a transposition of the top row. The particular transposition for each row is the first pitch-class of the row. So if a row begins with, say, pitch-class $5$, then the entire row will be the $T_5$ transform of the top row. The 12-tone matrix will hold all 48 transforms of a row: reading every row from left to right gives all transpositions, reading them from right to left gives all retrogrades, reading all columns from top to bottom gives all inversions, and reading them from bottom to top gives all retrograde inversions. Although somewhat tedious, computing 12-tone matrices by hand is a well-established procedure. The 48 transforms that can be inferred from the matrix are not necessarily unique, given that a 12-tone may be retrograde, or retrograde-inverse invariant. It is straightforward to generalize the procedure to $n$-tone matrices. However, the graphical idea of reading the matrix from right to left, or bottom to top, is not ideal for computing self-deriving combination matrices, as it is faster to read a transform of a row that is written contiguously in memory. Another caveat is that the procedure does not necessarily define a canonical form for the top row. Every row in a matrix is a representative of an equivalence class of rows under the action of $RT_nI \cong D_{24} \oplus \mathbb{F}_2$ \cite[127]{FripertingerLackner2015}. The size of each orbit is $4n$ if the row is not retrograde or retrograde-inverse invariant, and $2n$ otherwise. Defining a canonical form for the first row in a data structure that holds a row class is desirable in any algorithm that iterates through row classes in lexicographic order.
+In a traditional setting, a composer will usually define a class of transforms of a basic row by computing by hand what is commonly denoted a 12-tone matrix. The general procedure usually consists of filling the top row of the matrix with a transform of the 12-tone row beginning with zero. The second step is to fill the leftmost column of the matrix with the inverse transform of the top row. The subsequent steps comprise going row-by-row, filling them with a transposition of the top row. The particular transposition for each 12-tone row is given by the first element of the matrix row at hand, which in turn corresponds to an element in the leftmost column. The 12-tone matrix will hold all 48 transforms of a row: reading every row from left to right gives all transpositions, reading them from right to left gives all retrogrades, reading all columns from top to bottom gives all inversions, and reading them from bottom to top gives all retrograde inversions. Although somewhat tedious, computing 12-tone matrices by hand is a well-established procedure. The 48 transforms that can be inferred from the matrix are not necessarily unique, given that a 12-tone may be retrograde, or retrograde-inverse invariant. It is straightforward to generalize the procedure to $n$-tone matrices. However, the graphical idea of reading the matrix from right to left, or bottom to top, is not ideal for computing self-deriving combination matrices, as it is faster to read a transform of a row that is written contiguously in memory. Another caveat is that the procedure does not necessarily define a canonical form for the top row. Every row in a matrix is a representative of an equivalence class of rows under the action of $RT_nI \cong D_{24} \oplus \mathbb{F}_2$ \cite[127]{FripertingerLackner2015}. The size of each orbit is $4n$ if the row is not retrograde or retrograde-inverse invariant, and $2n$ otherwise. Defining a canonical form for the first row in a data structure that holds a row class is desirable in any algorithm that iterates through row classes in lexicographic order.
 
 %--------------------------------------------------------------------------
-Listing~\ref{getCanonicalForm} describes an algorithm to obtain a canonical form for a row. The canonical form defined here is simply the least element in a lexicographic ordering of a row class. Given an arbitrary representative of a row class, that representative will be considered retrograded if any interval class between two consecutive elements of the row, counted from right to left, is strictly less than the corresponding interval class counted from left to right. Finding the interval class between two pitch-classes is illustrated in Listing~\ref{intervalClass}, which takes as input two pitch-classes $a$ and $b$, and the base $n$, returning the interval class between the two. The interval class between $a \pmod n$ and $b \pmod n$ is expressed mathematically as $\min\{(a - b) \pmod n, (b - a) \pmod n\}$.
+Listing~\ref{getCanonicalForm} describes an algorithm that produces a canonical form for a row. The canonical form defined in this implementation is simply the least element in a lexicographic ordering of a row class. Given an arbitrary representative of a row class, that representative will be considered retrograded if any interval class between two consecutive elements of the row, counted from right to left, is strictly less than the corresponding interval class counted from left to right. Most procedures described in this chapter and the next rely on aliases for certain primitive data types, which are given Listing~\ref{typedefs}.
+
+%--------------------------------------------------------------------------
+\begin{lstlisting}[caption={Defining aliases for common primitive data types.},label={typedefs}]
+typedef signed char number;
+typedef unsigned short range;
+typedef unsigned long length;
+\end{lstlisting}
+
+%TODO: explain how these primitives were chosen
+
+%--------------------------------------------------------------------------
+Finding the interval class between two pitch-classes is illustrated in Listing~\ref{intervalClass}, which takes as input two pitch-classes $a$ and $b$, and the base $n$, returning the interval class between the two. The interval class between $a \pmod n$ and $b \pmod n$ is expressed mathematically as $\min\{(a - b) \pmod n, (b - a) \pmod n\}$.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Computing the interval class between two pitch-classes.},label={intervalClass}]
@@ -22,13 +34,13 @@ number intervalClass(number a, number b, number rowSize) {
 
 %--------------------------------------------------------------------------
 \begin{enumerate}
-\item Listing~\ref{intervalClass} takes as input two pitch-classes $a$ and $b$, as well as the base $n$ such that $a, b \in \mathbb{Z} / n \mathbb{Z}$.
+\item Listing~\ref{intervalClass} takes as input two pitch-classes $a$ and $b$, as well as a base $n$ such that $a, b \in \mathbb{Z} / n \mathbb{Z}$.
 \item Line 2 simply computes the distance between $a$ and $b$.
 \item Line 3 returns the least between the interval computed in line 2 and its complement, that is, the interval class between the two given pitch-classes.
 \end{enumerate}
 
 %--------------------------------------------------------------------------
-The procedure for determining whether a row is retrograded utilizes Listing~\ref{intervalClass} as a subroutine, and is outlined in Listing~\ref{isRetrograded}. The sole parameter to Listing~\ref{isRetrograded} is the row at hand, which can be any of the representatives of its row class, and the returned value is a boolean indicating whether the row is retrograded or not.
+The procedure for determining whether a row is retrograded utilizes Listing~\ref{intervalClass} as a subroutine and is outlined in Listing~\ref{isRetrograded}. The first parameter taken by Listing~\ref{isRetrograded} is the row at hand, which can be any representative of its row class.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Determining whether a representative of a row class is retrograded.},label={isRetrograded}]
@@ -50,20 +62,22 @@ bool isRetrograded(const number *row, number rowSize, bool isInvariant) {
 }
 \end{lstlisting}
 
+%--------------------------------------------------------------------------
 \begin{enumerate}
-\item \emph{isRetrograded} has three parameters, namely a pointer to a row, its size, and a boolean representing whether the row is retrograde or retrograde inverse-invariant.
-\item Lines 2 and 3 perform a straightforward sanity check. It will be shown below that all rows of size 4 or less are necessarily retrograde or retrograde inverse-invariant. If a row with 5 or more elements is known to be invariant, the test is skipped.
+\item Listing~\ref{isRetrograded} has three parameters, namely a pointer to a row, its size, and a boolean representing whether the row is retrograde or retrograde inverse-invariant. The returned value is another boolean indicating whether the row is retrograded or not.
+\item Lines 2 and 3 perform a sanity check. It is straightforward to see that all rows of size 4 or less are necessarily retrograde or retrograde inverse-invariant. If, on the other hand, a row with 5 or more elements is known to be invariant, the test is also skipped.
 \addtocounter{enumi}{2}
-\item Line 5 declares the variables that will represent interval classes seen from left to right, and from right to left, respectively.
+\item Line 5 declares the variables that will represent the row's interval classes seen from left to right, and from right to left, respectively.
 \addtocounter{enumi}{2}
-\item Lines 8 and 9 simply update the variables front and back using Listing~\ref{intervalClass} defined above. As $i$ increases, front traverses half of interval classes in the row from left to right, whereas back does the same from right to left, that is, back looks at the row as if it were retrograded.
+\item Lines 8 and 9 simply update the variables \emph{front} and \emph{back} using Listing~\ref{intervalClass} defined above. As $i$ increases, \emph{front} traverses half of the interval classes in the row from left to right, whereas \emph{back} does the same from right to left, that is, \emph{back} looks at the row as if it were retrograded.
 \addtocounter{enumi}{2}
-\item Line 11 compares the front and back interval classes and line 12 returns true if any interval class seen from right to left is strictly less than the corresponding interval class seen from left to right, which would indicate that retrograding the row would produce a lexicographically lower-positioned row than the one given as input.
+\item Line 11 compares the front and back interval classes and line 12 returns true if any interval class seen from right to left is strictly less than the corresponding interval class seen from left to right, which would indicate that retrograding the row would produce a row with a lower lexicographic position than the one given as input.
 \addtocounter{enumi}{3}
 \item If all interval classes seen from both directions are equal, then the row is retrograde or retrograde inverse-invariant. Line 15 then returns false to avoid unnecessarily reversing a row that is invariant.
 \end{enumerate}
 
-The next step in determining the canonical form of a row consists of finding whether its inverse has a lower lexicographic position within the row class. The procedure is described in Listing~\ref{isInverted}, which in turn depends on two small subroutines, namely Listing~\ref{modulo} and Listing~\ref{isOwnInverse}. The former simply computes $modulo(x, n) = x \pmod{n}$. However, it needs to be defined in a subroutine this way because the result of C-language built-in modulo operator is signed, and for practical reasons that will be elaborated below, it is best that all pitch-classes be represented as unsigned integers ranging from $0$ to $n - 1$.
+%--------------------------------------------------------------------------
+The next step in determining the canonical form of a row consists of finding whether its inverse has a lower lexicographic position within the row class. The procedure is described in Listing~\ref{isInverted}, which in turn depends on two small subroutines, namely Listing~\ref{modulo} and Listing~\ref{isOwnInverse}. The former simply computes $modulo(x, n) = x \pmod{n}$. However, it needs to be defined as a subroutine this way because the result of the C-language built-in modulo operator is signed, and for practical reasons that will be elaborated in the next sections, it is best that all pitch-classes be represented as unsigned integers ranging from $0$ to $n - 1$.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={A subroutine to compute $x \pmod{n}$ such that the result is non-negative.},label={modulo}]
@@ -73,13 +87,15 @@ number modulo(number x, number base) {
 }
 \end{lstlisting}
 
+%--------------------------------------------------------------------------
 \begin{enumerate}
-\addtocounter{enumi}{1}
-\item Line 2 simply computes $x \pmod{n}$ using the C-language built operator.
-\item Line 3 then returns then same congruence class but in the range $[0, n - 1]$.
+\item The inputs to Listing~\ref{modulo} are a number $x$ and a base $n$.
+\item Line 2 simply computes $x \pmod{n}$ using the C-language built-in modulo operator.
+\item Line 3 then returns the congruence class in the range $[0, n - 1]$.
 \end{enumerate}
 
-Listing~\ref{isOwnInverse} is a simple convenience method that is used to check whether $x \equiv X \pmod{n}$, which is also needed in Listing~\ref{isInverted}.
+%--------------------------------------------------------------------------
+Listing~\ref{isOwnInverse} is a simple convenience method that is used to check whether $x \equiv x \pmod{n}$, which is also needed in Listing~\ref{isInverted}.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={A subroutine that returns true if a pitch-class is its own inverse.},label={isOwnInverse}]
@@ -88,12 +104,14 @@ bool isOwnInverse(number x, number base) {
 }
 \end{lstlisting}
 
+%--------------------------------------------------------------------------
 \begin{enumerate}
 \item The input $x$ is assumed to be in the range $[0, n - 1]$.
-\item Since $x$ is non-negative, it can only be its own inverse if it is the identity, or if $x \equiv -x \pmod{n}$. It is also possible to check that if $n$ is even and $x$ is equal to $n / 2$, then $x$ is its own inverse. But this alternative method is far more computationally expensive that the one in Listing~\ref{isOwnInverse}.
+\item Since $x$ is non-negative, it can only be its own inverse if it is the identity, or if $x \equiv -x \pmod{n}$. It is also possible to check that if $n$ is even and $x$ is equal to $n / 2$, then $x$ is its own inverse. But this alternative method is more expensive that the computation performed in line 2.
 \end{enumerate}
 
-In order to determine whether the inverse transform of a row has a lower lexicographical position than itself, it is necessary in this implementation to consider if its retrograde transform also sits in a lower lexicographical position. The reason for that is because the input row has not been transformed at all up to this point. A prerequisite to calling Listing~\ref{isInverted} is to have previously called Listing~\ref{isRetrograded}, the result thereof being used as one of the inputs to Listing~\ref{isInverted}.
+%--------------------------------------------------------------------------
+In order to determine whether the inverse transform of a row has a lower lexicographic position than itself, it is necessary in this implementation to consider if its retrograde transform also sits in a lower lexicographic position. Therefore a call to Listing~\ref{isInverted} requires a previous call to Listing~\ref{isRetrograded}, since the result of the latter is used as the last argument passed to Listing~\ref{isInverted}.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Determining whether a representative of a row class is inverted.},label={isInverted}]
@@ -118,20 +136,22 @@ bool isInverted(const number *r, number rowSize, bool R) {
 }
 \end{lstlisting}
 
+%--------------------------------------------------------------------------
 \begin{enumerate}
 \item The inputs are a row, its size, and a boolean representing whether the row is retrograded.
 \addtocounter{enumi}{1}
 \item If $r$ is retrograded, line 3 begins iteration in reverse order, that is, starting with the last element of the row.
 \item Line 4 computes the ordered interval between the pitch-class at hand, and the first pitch-class of the row, which in this case is the last because the row is retrograded.
 \addtocounter{enumi}{1}
-\item Line 6 checks if the interval is not its own inverse and, if not, line 7 checks if the interval is greater than its inverse. If so, an inverted form of the row would sit in a lower lexicographical position within the entire row class, and the row is inverted.
+\item Line 6 checks if the interval is not its own inverse and, if not, line 7 checks if the interval is greater than its inverse. If so, an inverted form of the row would sit in a lower lexicographic position within the entire row class, and the row is inverted.
 \addtocounter{enumi}{3}
 \item If the input row is not retrograded, then lines 10 to 14 perform essentially the same check as the previous branch, only traversing the row from left to right, instead of the right to left traversal done for a retrograded row. In both branches, it is important to note that the loops iterate at most twice. If the row size is odd, then the very first iteration will decide if the row is inverted. If, on the other hand, the row size is even, then there is the possibility that the very first interval will be its own inverse, in which case the next iteration will invariably be able to tell if the row is inverted.
 \addtocounter{enumi}{7}
 \item Line 18 should never be reached for well-defined inputs, and is included for correctness.
 \end{enumerate}
 
-Determining that an arbitrary representative of a row class is retrograded or inverted are essential subroutines used in Listing~\ref{getCanonicalForm}, which in turn does transform the input row into its canonical form. This transformation happens in Listing~\ref{getTransformInPlace}, and the latter relies on a straightforward method to in-place swap row entries, described below in Listing~\ref{swapInPlace}.
+%--------------------------------------------------------------------------
+Determining that an arbitrary representative of a row class is retrograded or inverted are essential subroutines used in Listing~\ref{getCanonicalForm}, which in turn does transform the input row into its canonical form. This transformation happens in Listing~\ref{getTransformInPlace}, and the latter relies on a straightforward method to swap row entries in place, which is described below in Listing~\ref{swapInPlace}.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Swapping two entries in a row.},label={swapInPlace}]
@@ -142,6 +162,7 @@ void swapInPlace(number *row, number i, number j) {
 }
 \end{lstlisting}
 
+%--------------------------------------------------------------------------
 The procedure in Listing~\ref{swapInPlace} is very common-place, so the details are omitted. Listing~\ref{getTransformInPlace} is also straightforward and represents the main subroutine in Listing~\ref{getCanonicalForm}.
 
 %--------------------------------------------------------------------------
@@ -162,6 +183,7 @@ void getTransformInPlace(number *row, number rowSize, number T, bool I, bool R) 
 }
 \end{lstlisting}
 
+%--------------------------------------------------------------------------
 \begin{enumerate}
 \item The inputs are a row, its size, a non-negative integer representing an offset to be added to the entire row, a boolean representing whether the row is inverted, and another boolean representing whether the row is retrograded.
 \addtocounter{enumi}{1}
@@ -172,7 +194,8 @@ void getTransformInPlace(number *row, number rowSize, number T, bool I, bool R) 
 \item Otherwise, if the row is not inverted, lines 11 and 12 only add the offset to the entire row.
 \end{enumerate}
 
-The procedure illustrated in Listing~\ref{getTransformInPlace} is used below in Listing~\ref{getCanonicalForm}, but it will also be used many times over to construct a row class in memory. In the particular case where the canonical form of the row is desired, that is, the lowest element in a lexicographical ordering of the row class, the offset used will be the additive inverse of the row's first element. It is important to observe that Listing~\ref{getCanonicalForm} requires prior knowledge as to whether the row is retrograde or retrograde inverse-invariant. In the grand scheme of things, that knowledge will already be available when calling Listing~\ref{getCanonicalForm}.
+%--------------------------------------------------------------------------
+The procedure illustrated in Listing~\ref{getTransformInPlace} is used below in Listing~\ref{getCanonicalForm}, but it will also be used many times over to construct a row class in memory. In the particular case where the canonical form of the row is desired, that is, the lowest element in a lexicographic ordering of the row class, the offset used will be the additive inverse of the row's first element. It is important to observe that Listing~\ref{getCanonicalForm} requires prior knowledge as to whether the row is retrograde or retrograde inverse-invariant. In the grand scheme of things, that knowledge will already be available when calling Listing~\ref{getCanonicalForm}.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Transforming a row into its canonical form.},label={getCanonicalForm}]
@@ -184,6 +207,7 @@ void getCanonicalForm(number *row, number rowSize, bool isInvariant) {
 }
 \end{lstlisting}
 
+%--------------------------------------------------------------------------
 \begin{enumerate}
 \item The inputs are a row, its size, and whether the row is retrograde or retrograde inverse-invariant.
 \item Lines 2 and 3 simply call Listing~\ref{isRetrograded} and Listing~\ref{isInverted} respectively, storing the results.
@@ -192,32 +216,30 @@ void getCanonicalForm(number *row, number rowSize, bool isInvariant) {
 \item Line 5 is a call to Listing~\ref{getTransformInPlace}. The third argument is the additive inverse of the row's start element. It varies, naturally, if the row is inverted.
 \end{enumerate}
 
-The purpose of the procedure described in Listing~\ref{getRowClass} is to store an entire row class contiguously in memory. That consists of creating an array large enough to hold all transforms of a row, and copying sequentially into this array said transforms. Even for rows whose base are considered large, a row class under $RTn_I$ is still very small. Thus holding these transforms in memory makes sense for execution speed purposes. The size of the row class array depends on whether the row is reverse or reverse inverse-invariant. The row class array begins with the canonical for of the row, followed by all its transpositions, in ascending order, followed by all transpositions of the inversion of the canonical for, also in ascending order. If the row is not reverse or reverse inverse-invariant, the row class array is appended by all transpositions of the reverse of the canonical order, followed by all transpositions of the retrograde inverse of the canonical order. Therefore, the overall size of the row class array is $2n^2$ if the row is retrograde or retrograde inverse-invariant, or $4n^2$ otherwise, where $n$ is the row size. The main routine for creating the row class array is described below in Listing~\ref{getRowClass}. It depends on two subroutines, namely Listing~\ref{isRetrogradeInvariant} and Listing~\ref{isRetrogradeInverseInvariant} that are described below.
+%--------------------------------------------------------------------------
+The purpose of the procedure described in Listing~\ref{getRowClass} is to store an entire row class contiguously in memory. That consists of creating an array large enough to hold all transforms of a row, and sequentially copying said transforms into this array. Even for rows whose bases are considered large, a row class under $RTn_I$ is still very small. Thus holding these transforms in memory makes sense for execution speed purposes. The size of the row class array depends on whether the row is reverse or reverse inverse-invariant. The row class array begins with the canonical form of the row, followed by all its transpositions, in ascending order, followed by all transpositions of the inversion of the canonical form, also in ascending order. If the row is not reverse or reverse inverse-invariant, the row class array is appended by all transpositions of the reverse of the canonical order, followed by all transpositions of the retrograde inverse of the canonical order. Therefore, the overall size of the row class array is $2n^2$ if the row is retrograde or retrograde inverse-invariant, or $4n^2$ otherwise, where $n$ is the row size. The main routine for creating the row class array is described in Listing~\ref{getRowClass}. It depends on two subroutines, namely Listing~\ref{isRetrogradeInvariant} and Listing~\ref{isRetrogradeInverseInvariant} that are described below.
 
 %--------------------------------------------------------------------------
 \begin{lemma}
 	\label{retrograde-invariance}
-	In a retrograde-invariant row, the interval between every entry seen from left to right, and the corresponding entry seen from right to left, must equal half the size of the row.
+	In a retrograde-invariant row, the interval between every entry seen from left to right, and the corresponding entry seen from right to left, must equal half the size of the row. In particular, a row with odd size greater than $3$ cannot be retrograde-invariant.
 	\begin{proof}
-	Omitted. %TODO: prove this
+	Regard the row as a sequence of order numbers $\{0, 1, \cdots, n - 1\}$. If $n$ is even, the retrograde operation induces the permutation of order numbers
+	\begin{equation}
+		P = (0 \; n - 1) \; (1 \; n - 2) \; \cdots \; (\tfrac{n}{2} - 1 \; \tfrac{n}{2}) \enspace .
+	\end{equation}
+	If $n$ is odd, the retrograde operation induces the permutation of order numbers
+	\begin{equation}
+		P = (0 \; n - 1) \; (1 \; n - 2) \; \cdots \; (\lfloor \tfrac{n}{2} \rfloor) \enspace .
+	\end{equation}
+	Since $P$ is a transposition, the only possibility is $P = T_{\frac{n}{2}}$ with $n$ even.
 	\end{proof}
 \end{lemma}
-
-%TODO: when row size is odd, and all pairs sum to x, will the single element plus itself sum to x?
-
-%--------------------------------------------------------------------------
-\begin{corollary}
-	\label{odd-retrograde-invariance}
-	A row with odd size greater than $3$ cannot be retrograde-invariant.
-	\begin{proof}
-	Omitted. %TODO: prove this
-	\end{proof}
-\end{corollary}
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Determining whether a row is retrograde-invariant.},label={isRetrogradeInvariant}]
 bool isRetrogradeInvariant(const number *row, number rowSize) {
-    if (rowSize > 3 rowSize % 2 == 1)
+    if (rowSize > 4 && rowSize % 2 == 1)
         return false;
 
     number half = rowSize / 2;
@@ -231,25 +253,32 @@ bool isRetrogradeInvariant(const number *row, number rowSize) {
 }
 \end{lstlisting}
 
+%--------------------------------------------------------------------------
 \begin{enumerate}
 \item The only inputs are a row and its size.
-\item Line 2 utilizes Th.~\ref{odd-retrograde-invariance} as a sanity check. If the test in line 2 succeeds, line 3 returns false.
+\item Line 2 utilizes Lem.~\ref{retrograde-invariance} as a sanity check. If the test in line 2 succeeds, line 3 returns false.
 \addtocounter{enumi}{2}
 \item Line 5 just computes half the row size for convenience. Retrograde-invariance can be determined by iterating through at most half the size of the row.
 \addtocounter{enumi}{1}
-\item Line 7 iterates through the row from left to right, and line 8 applies Th.~\ref{retrograde-invariance}. Line 9 then returns false if any of the intervals is not equal to half the row size.
+\item Line 7 iterates through the row from left to right, and line 8 applies Lem.~\ref{retrograde-invariance}. Line 9 then returns false if any of the intervals is not equal to half the row size.
 \addtocounter{enumi}{4}
 \item If all pairs coming from both directions are equal to half the row size, then the row is retrograde-invariant and line 12 returns true.
 \end{enumerate}
 
-Unlike retrograde-invariance, every row size can produce retrograde inverse-invariance. A simple example is the lowest lexicographically-order row of any size, that is, a chromatic scale. Retrograding, inverting, and transposing by $-1$ always yields back the initial row. Listing~\ref{isRetrogradeInverseInvariant} outlines the procedure in all generality.
+%--------------------------------------------------------------------------
+Unlike retrograde invariance, every row size can produce retrograde inverse-invariant rows. A simple example is the row of any size with the lowest lexicographic order. If $n = 12$, this is a chromatic scale. Retrograding, inverting, and transposing by $-1$ always yields back the initial row. Listing~\ref{isRetrogradeInverseInvariant} outlines the procedure in all generality.
 
 %--------------------------------------------------------------------------
 \begin{lemma}
 	\label{retrograde-inverse-invariance}
-	In a retrograde inverse-invariant row $r$, the interval between every entry seen from left to right, and the corresponding entry seen from right to left, must be equal to $r_0 + r_{n - 1} \pmod{n}$, where $n$ is the base of the row.
+	In a retrograde inverse-invariant row $r$, the sum of every entry seen from left to right, and the corresponding entry seen from right to left, must be equal to $x = r_0 + r_{n - 1} \pmod{n}$, where $n$ is the base of the row. In particular, if $n$ is odd, the element at the center of the row plus itself must also be equal to $x$. 
 	\begin{proof}
-	Omitted. %TODO: prove this
+	The index of inversion between two pitch-classes is their sum. To see that, let $a$ and $b$ be pitch-classes. It follows
+	\begin{equation}
+		a = T_xI(b) \iff a = T_x(-b) \iff a = x - b \iff a + b = x \enspace .
+	\label{eq:retrograde-inverse-invariance}
+	\end{equation}
+	If $x = r_0 + r_{n - 1} \pmod{n}$, then $x$ is the index of inversion between the first and last elements of $r$. Since $r$ is retrograde inverse-invariant, this forces every pair of corresponding elements in $r$ from both directions to have the same index of inversion. If $n$ is odd, the element $c$ at the center must be invariant under $T_xI$, since it is a fixed point under $R$. By Eq.~\ref{eq:retrograde-inverse-invariance}, $c = T_xI(c) \iff c + c = x$, as desired.
 	\end{proof}
 \end{lemma}
 
@@ -268,9 +297,10 @@ bool isRetrogradeInverseInvariant(const number *row, number rowSize) {
 }
 \end{lstlisting}
 
+%--------------------------------------------------------------------------
 \begin{enumerate}
 \item The inputs are a row and its size.
-\item Line 2 computes half the row size for convenience. Like Listing~\ref{isRetrogradeInvariant}, retrograde inverse-invariance can be determined by traversing only half the row size.
+\item Line 2 computes half the row size for convenience. Like Listing~\ref{isRetrogradeInvariant}, retrograde inverse invariance can be determined by traversing at most half the row size.
 \item Line 3 computes $r_0 + r_{n - 1} \pmod{n}$ for later use.
 \addtocounter{enumi}{1}
 \item Line 5 begins iteration from the second entry onward, since the first pair was already computed in line 3. Line 6 then compares the subsequent corresponding pairs, and line 7 returns false if any of them is not equal to the first pair.
@@ -278,6 +308,7 @@ bool isRetrogradeInverseInvariant(const number *row, number rowSize) {
 \item If line 10 is reached, it means the row is retrograde inverse-invariant, so the algorithm returns true.
 \end{enumerate}
 
+%--------------------------------------------------------------------------
 The procedure to compute and store an entire row class in memory is outlined below in Listing~\ref{getRowClass}. It returns a memory address that must be freed by the caller. While computing combination matrices of self-derivation, this memory location will be held for the duration of the program, and possibly also be shared by many different threads of execution. The procedure makes heavy use of Listing~\ref{getTransformInPlace} to sequentially store in memory all transforms of the canonical form of the row. It also takes the input row and transforms it in-place into its canonical form. Any representative of a row class can therefore be used to construct a row class with Listing~\ref{getRowClass}.
 
 %--------------------------------------------------------------------------
@@ -320,16 +351,17 @@ number *getRowClass(range *classSize, number *row, number rowSize, bool isInvari
 }
 \end{lstlisting}
 
+%--------------------------------------------------------------------------
 \begin{enumerate}
-\item The inputs are a pointer to the size of the row class, which will be computed by Listing~\ref{getRowClass} and stored in the address provided, a row, its size, and a boolean representing whether the row is retrograde or retrograde inverse-invariant. This boolean will be computed by the caller before calling Listing~\ref{getRowClass}, utilizing the aforementioned procedures Listing~\ref{isRetrogradeInvariant} and Listing~\ref{isRetrogradeInverseInvariant}. The output is a memory location containing the entire row class.
+\item The inputs are a pointer to the size of the row class, which will be computed by Listing~\ref{getRowClass} and stored in the address provided, a row, its size, and a boolean representing whether the row is retrograde or retrograde inverse-invariant. This boolean will be computed by the caller before calling Listing~\ref{getRowClass}, utilizing the procedures described in Listing~\ref{isRetrogradeInvariant} and Listing~\ref{isRetrogradeInverseInvariant}. The output is a memory location containing the entire row class.
 \item As mentioned above, line 2 simply computes the canonical form of the given row in place.
 \item Line 3 computes the class size based on whether the row is retrograde or retrograde inverse-invariant. It is important to notice here that the row class size is not the length of the row class array, but the number of transforms of the canonical form that the row class array contains. This number is stored in the address provided by the caller.
 \addtocounter{enumi}{1}
 \item Line 5 allocates in the heap the memory space that will be used to store the entire row class, and line 6 copies the canonical form of the row to the beginning of this allocated space.
 \addtocounter{enumi}{2}
-\item Line 8 starts from the second row in the row class, which is the first transposition of the canonical form, and the block adds all subsequent transpositions to the row class. Line 9 computes the address where the current transposition should start, line 10 copies the canonical for of the row into this address, and line 11 transforms the canonical for into the desired transposition in place. 
+\item Line 8 starts from the second row in the row class, which is the first transposition of the canonical form, and the block adds all subsequent transpositions to the row class. Line 9 computes the address where the current transposition should start, line 10 copies the canonical form of the row into this address, and line 11 transforms the canonical form into the desired transposition in place. 
 \addtocounter{enumi}{5}
-\item Line 14 starts from the thirteenth row in the row class, that is, the $T_0I$ transform of the row. Lines 15 to 17 add the subsequent $T_nI$ transforms of the canonical for of the row in the same way the $T_n$ transforms were added above, only specifying in the call to Listing~\ref{getTransformInPlace} that the transforms now need to be inverted.
+\item Line 14 starts from the $n$\textsuperscript{th} row in the row class, that is, the $T_0I$ transform of the row. Lines 15 to 17 add the subsequent $T_nI$ transforms of the canonical form of the row in the same way the $T_n$ transforms were added above, only specifying in the call to Listing~\ref{getTransformInPlace} that the transforms now need to be inverted.
 \addtocounter{enumi}{5}
 \item Line 20 checks if the row is retrograde or retrograde inverse-invariant and, if so, halts the process and returns the memory location allocated in line 5.
 \addtocounter{enumi}{2}
