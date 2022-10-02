@@ -653,7 +653,7 @@ Let $S = \{ 3, 8, 1, 0, 9, 6, 4, 7, 10, 5, 2, 11 \}$ as in Ex.~\ref{topSquareSid
 %--------------------------------------------------------------------------
 \begin{corollary}
 	\label{topSquareSideCorollary}
-	Let $r$ be a row. If a  solution exists for a combination of top, side and square, then the set of permutations of the side vector form an equivalence class of solutions.
+	Let $r$ be a row. If a solution exists for a combination of top, side and square, then the set of permutations of the side vector forms an equivalence class of solutions.
 	\begin{proof}
 		The identity permutation of the side is essentially the same combination matrix, hence a solution. Reordering the entries of the side and applying the same reasoning in the proof of Th.~\ref{topSquareSideTheorem}, that is, the fact that a derived row fits uniquely under the top, shows that a permutation of the side is also a solution. Let the problem size be $m$ and regard the side as a vector of indices with entries in $\mathbb{Z} / m \mathbb{Z}$. Then transitivity comes from the fact that $\mathbb{Z} / m \mathbb{Z}$ is a subgroup of $S_m$, that is, the composition of permutations of the side vector is also a solution.
 	\end{proof}
@@ -661,9 +661,9 @@ Let $S = \{ 3, 8, 1, 0, 9, 6, 4, 7, 10, 5, 2, 11 \}$ as in Ex.~\ref{topSquareSid
 
 %--------------------------------------------------------------------------
 \begin{corollary}
-    Let $r$ be a row, let the problem size be equal to $m$, and regard the top vector as the direct product of $m$ copies of $G$, the group of $RT_nI$-transforms of $r$. If a solution exists for a combination of top, side and square, then right-multiplying the solution by an element of $G$ represents a group action that induces an equivalence class of solutions. In particular, this equivalence class preserves the structure of the semi-magic square.
+	Let $r$ be a row. If a solution exists for a combination of top, side and square, then the set or $RT_nI$-transforms of the solution forms an equivalence class of solutions. In particular, this equivalence class preserves the structure of the semi-magic square and the alignment between the top and the derived rows, up to retrogrades.
     \begin{proof}
-    The action of $G$ on itself by right multiplication is a permutation of $G$. Similarly, if $G_m$ is the direct product of $m$ copies of $G$, the action of $G$ on $G_m$ induces a permutation in each component of $G_m$. An element of $G_m$ is a top, and each component of a top is a column. If $S$ is a solution, that is, a combination matrix of self-derivation, then the action of $G$ on the top may be extended to each component of the side vector as well, since the side vector may also be construed as an element of $G_m$. By the proof of Th.~\ref{topSquareSideTheorem}, each derived row in the side vector fits uniquely under the top, since $S$ is a solution. For every column of the top, the permutation induced by the action of $G$ is the same permutation induced on the partition of the side row that fits under that top column. In particular, the semi-magic square and the alignment between the top column entries and the side partition entries are unchanged by this permutation. The same reasoning applies to every other side row, yielding the result.
+    Let $m$ be the problem size and regard the solution as an $m \times n \cdot m$ matrix $M$ with entries in $\mathbb{Z} / n \mathbb{Z}$, such that every empty $M_{ij}$ is filled with a dummy symbol $*$. Then the set of $RT_nI$-transforms of $M$ is just an orbit in the action of $RT_nI$ on the set $\mathcal{M}$ of all $m \times n \cdot m$ matrices with entries in $\mathbb{Z} / n \mathbb{Z} \cup *$. The fact that this action induces an equivalence relation on $\mathcal{M}$ is straightforward \cite[102]{Rotman1967} \cite[114]{DummitFoote2004} \cite[250]{Tucker1974}. The structure of the semi-magic square and the alignment between the top and the derived rows is preserved up to retrogrades because $RT_nI$ does not act on the dummy symbol or change the square, except by perhaps retrograding it. If $g \in RT_nI$, then $g(M)$ is still a solution because the action of $RT_nI$ on itself by right-multiplication is a permutation of $RT_nI$. In other words, since every derived row and every linearized top column is an $RT_nI$-transform of the row $r$, multiplying the entire solution by an element $g \in RT_nI$ produces derived rows and linearized columns that are still members of the row class of $r$.
     \end{proof}
 \end{corollary}
 
@@ -977,8 +977,6 @@ bool matchRowWithTop(number *top, const number *row, const number *partitions, n
 %--------------------------------------------------------------------------
 Listing~\ref{allSolutionsRecursive} combines Listing~\ref{allSidesRecursive} and Listing~\ref{allSquaresRecursive} to compute all possible solutions for a given top. The general idea is, for each potential row of a semi-magic square, to try to match a transform of the row $r$ with the current top using Listing~\ref{matchRowWithTop}. If that succeeds, Listing~\ref{allSolutionsRecursive} recurses then backtracks, thus covering all of the row class and all of the partitions. Side vectors are not computed directly, but rather as a side effect of matching transforms of $r$ with the top. The side vector is still maintained as the algorithm recurses, as it is crucial for avoiding permutations of the rows, as previously discussed, and is also used in Listing~\ref{writeSolution} to label each derived row in the text output of a solution.
 
-\newpage
-
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Recursively computing all solutions for a top vector of a certain size.},label={allSolutionsRecursive}]
 void allSolutionsRecursive(thread_data *d, common_data *cd, FILE *solutionsFile, number currentSize) {
@@ -1196,8 +1194,6 @@ void destroyThreadData(thread_data *d) {
 
 %--------------------------------------------------------------------------
 This section outlines Listing~\ref{writeSolutions}, a procedure that wraps Listing~\ref{allSolutionsRecursive}, providing it with the necessary scaffolding to output all solutions computed to a text file. In a single-threaded context, Listing~\ref{writeSolutions} will be furnished with all possible tops for a given problem size. In a multi-threaded context, however, Listing~\ref{writeSolutions} will be given a range of tops to be processed by each thread. Listing~\ref{allTopsRecursive} above computes the minimal subset of tops necessary for the operation of Listing~\ref{writeSolutions}. As previously discussed, the number of possible tops becomes impractically large as the problem size grows. Many algorithms described in this section deal with skipping tops that can be achieved by retrograding a top that has already been seen. Listing~\ref{writeSolutions} itself handles computing tops that cannot be achieved from the results of Listing~\ref{allTopsRecursive}. Listing~\ref{createSolutionsFile} creates a file to which solutions will be written.
-
-\newpage
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Creating a text file to hold all thread-specific solutions.},label={createSolutionsFile}]
