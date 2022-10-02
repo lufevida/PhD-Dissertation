@@ -1051,7 +1051,8 @@ void allSolutionsRecursive(thread_data *d, common_data *cd, FILE *solutionsFile,
 %--------------------------------------------------------------------------
 \section{Creating work data for use in concurrent threads}
 
-This section outlines the procedures used for allocating the data structures to be used as inputs to Listing~\ref{allSolutionsRecursive}. Pre-allocating and reusing scratch memory locations is absolutely critical for the performance of all algorithms described above. Unnecessary calls to allocate and deallocate memory can significantly increase the time it takes for Listing~\ref{allSolutionsRecursive} to execute as row size and problem size grow. Listing~\ref{createCommonData} describes how thread-common data is allocated, and every call to Listing~\ref{createCommonData} should be balanced with a call to Listing~\ref{destroyCommonData} when resources are no longer needed. Listing~\ref{createCommonData} allocates two arrays with size equal to the row class size. These are namely the retrograde and the retrograde inverse maps. As the name suggests, theses are mappings between indices within the row class. The retrograde map takes an element into its retrograde, and the retrograde inverse map takes an element into its retrograde inverse. These maps will be used in conjunction with Listing~\ref{unseen}, thus further details are deferred until the next section.
+%--------------------------------------------------------------------------
+This section outlines the procedures used for allocating the data structures to be used as inputs to Listing~\ref{allSolutionsRecursive}. Pre-allocating and reusing scratch memory locations is absolutely critical for the performance of all algorithms described above. Unnecessary calls to allocate and deallocate memory can significantly increase the time it takes for Listing~\ref{allSolutionsRecursive} to execute as row size and problem size grow. Listing~\ref{createCommonData} describes how thread-common data is allocated, and every call to Listing~\ref{createCommonData} should be balanced with a call to Listing~\ref{destroyCommonData} when resources are no longer needed. Listing~\ref{createCommonData} allocates two arrays with size equal to the row class size. These are namely the retrograde and the retrograde inverse maps. As the names suggest, theses are mappings between indices within the row class. The retrograde map takes an element into its retrograde, and the retrograde inverse map takes an element into its retrograde inverse. These maps will be used in conjunction with Listing~\ref{unseen}, thus further details are deferred until the next section.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Allocating thread-common data.},label={createCommonData}]
@@ -1100,17 +1101,18 @@ void createCommonData(common_data *cd, int argc, char *argv[]) {
 }
 \end{lstlisting}
 
+%--------------------------------------------------------------------------
 \begin{enumerate}
-\item The inputs are the memory address of a thread-common data structure, and the number of arguments provided in the command line, and the array of such arguments. Listing~\ref{createCommonData} allocates the internal pointers in a thread-common data structure, but also parses the command line inputs, which are a problem size and a row, separated by spaces. The row does not need to be in its canonical form.
-\item Line 2 retrieves the problem size from the first element in arguments array. Note that the zeroth element is the application name. Line 3 computes then the row size, which is just the number of arguments minus two, namely the row size and the application name. Line 4 allocates some memory space which will be used to parse the row provided in the remaining arguments.
+\item The inputs are the memory address of a thread-common data structure, the number of arguments provided in the command line, and the array of such arguments. Listing~\ref{createCommonData} allocates the internal pointers in a thread-common data structure, but also parses the command line inputs, which are a problem size and a row, separated by spaces. The row does not need to be in its canonical form.
+\item Line 2 retrieves the problem size from the first element in the arguments array. Note that the zeroth element is the application name. Line 3 then computes the row size, which is just the number of arguments minus two, namely the row size and the application name. Line 4 allocates some memory space which will be used to parse the row provided in the remaining arguments.
 \addtocounter{enumi}{3}
 \item Line 6 iterates through the row size and line 7 parses each row entry provided, storing them in the memory allocated in line 4.
 \addtocounter{enumi}{2}
 \item Line 9 updates the provided pointer to a thread-common data structure with the problem size, line 10 updates the row size, and line 11 computes and updates the top size.
 \addtocounter{enumi}{3}
-\item Line 13 is a call to Listing~\ref{isRetrogradeInvariant} to determine if the row is retrograde-invariant, and line 14 is similarly a call to Listing~\ref{isRetrogradeInverseInvariant} to determine if the row is retrograde inverse-invariant. Note that the row does not need to be in its canonical form when determining retrograde or retrograde inverse-invariance.
+\item Line 13 is a call to Listing~\ref{isRetrogradeInvariant} to determine if the row is retrograde-invariant, and line 14 is similarly a call to Listing~\ref{isRetrogradeInverseInvariant} to determine if the row is retrograde inverse-invariant. Note that the row does not need to be in its canonical form when determining retrograde or retrograde inverse invariance.
 \addtocounter{enumi}{2}
-\item Line 16 updates the data pointer with information whether the row is retrograde or retrograde inverse-invariance. The specific information whether retrograde invariance occurs under inversion or not will be needed to compute retrograde and retrograde inverse maps in Listing~\ref{createCommonData}, but will not be needed in the algorithms that depend on a thread-common data structure. Line 17 is a call to Listing~\ref{getRowClass}, which allocates and returns the memory address of the row class array. Line 18 allocates the memory that will hold the retrograde map, and line 19 allocates the memory that will hold the retrograde inverse map. Lines 20 and 21 are calls to respectively Listing~\ref{readAllPartitions} and Listing~\ref{readAllTops}, both returning allocated memory addresses.
+\item Line 16 updates the data pointer with information whether the row is retrograde or retrograde inverse-invariant. The specific information whether retrograde invariance occurs under inversion or not will be needed to compute retrograde and retrograde inverse maps in Listing~\ref{createCommonData}, but will not be needed in the algorithms that depend on a thread-common data structure. Line 17 is a call to Listing~\ref{getRowClass}, which allocates and returns the memory address of the row class array. Line 18 allocates the memory that will hold the retrograde map, and line 19 allocates the memory that will hold the retrograde inverse map. Lines 20 and 21 are calls to respectively Listing~\ref{readAllPartitions} and Listing~\ref{readAllTops}, both returning allocated memory addresses.
 \addtocounter{enumi}{6}
 \item Line 23 tests if the row is retrograde-invariant and, if so, line 24 iterates over the size of the row, filling the first half of the retrograde map in line 25. Note that, since the row is retrograde-invariant, the size of the row class is twice the size of the row.
 \addtocounter{enumi}{3}
@@ -1125,18 +1127,20 @@ void createCommonData(common_data *cd, int argc, char *argv[]) {
 \item Finally, line 42 deallocates the space created in line 4, as the original row can now be retrieved from the row class array.
 \end{enumerate}
 
+%--------------------------------------------------------------------------
 \begin{example}
 \label{rMapExample}
 Let $r$ be a retrograde-invariant row with size $n = 6$. Then the row class array computed by Listing~\ref{getRowClass} will contain a sequence of transforms of $r$ equal to $C = \{T_0, \cdots, T_5, T_0I, \cdots, T_5I\}$. The retrograde map of the row class of $r$ will be the sequence containing the last entry in each transform of $r$ in $C$. This sequence will always be equal to $C_R = \{3, 4, 5, 0, 1, 2, 9, 10, 11, 6, 7, 8\}$. Since $r$ is retrograde-invariant, the sequence $\{0, \cdots, 5\}$ of indices of $r$ maps to itself under the retrograde operator, that is, $R$ is the permutation $(0 \; 5) \; (1 \; 4) \; (2 \; 3)$ when seen as a permutation of indices. Since $r = RT_x(r)$ by assumption, $Tx$ must be a transposition that, seen as a permutation of pitch-classes, comprises solely 2-cycles. This is only possible if $x = 3$. Since $T_3 = (0 \; 3) \; (1 \; 4) \; (2 \; 5)$, the array given by $C_R$, when seen as a permutation of indices of the row class, is in fact the map
 \begin{equation}
 	T_0 \mapsto T_3, \cdots, T_5 \mapsto T_2, T_3I \mapsto T_0I, \cdots, T_5I \mapsto T_2I \enspace.
 \end{equation}
-Given an index in $C$, the retrograde map takes that index to another index in $C$ such that a transform of $r$ maps to itself under $RT_{n / 2}$. Let $C_I = \{6, 11, 10, 9, 8, 7, 0, 5, 4, 3, 2, 1\}$ be the array that maps a transform of $r$ in the row class array to its inverse. Seen as a permutation, $C_I = (0 \; 6) \; (1 \; 11) \; (2 \; 10) \; (3 \; 9) \; (4 \; 8) \; (5 \; 7)$. The retrograde inverse map is then the composition of $C_R$ with $C_I$, that is
+Given an index in $C$, the retrograde map takes that index to another index in $C$ such that a transform of $r$ maps to itself under $RT_\frac{n}{2}$. Let $C_I = \{6, 11, 10, 9, 8, 7, 0, 5, 4, 3, 2, 1\}$ be the array that maps a transform of $r$ in the row class array to its inverse. Seen as a permutation, $C_I = (0 \; 6) \; (1 \; 11) \; (2 \; 10) \; (3 \; 9) \; (4 \; 8) \; (5 \; 7)$. The retrograde inverse map is then the composition of $C_R$ with $C_I$, that is
 \begin{equation}
 	C_R \circ C_I = \{9, 8, 7, 6, 11, 10, 3, 2, 1, 0, 5, 4\} \enspace.
 \end{equation}
 \end{example}
 
+%--------------------------------------------------------------------------
 \begin{example}
 Let $r = \{0, 2, 3, 4, 5, 1\}$, with $n$, $C$ and $C_I$ as in Ex.~\ref{rMapExample}. Then $r$ is retrograde inverse-invariant. The sequence containing the last entry in each transform of $r$ in $C$ will depend on which $x$ satisfies $r = RT_xI(r)$. Since $T_xI$, seen as a permutation, must comprise only 2-cycles, $x$ is necessarily odd. In particular, $x = 1$ for this choice of $r$, but unlike retrograde maps, retrograde inverse maps depend on the row at hand. More precisely, on the transposition index in the operation that maps the row to itself. Here, $C_R = \{7, 8, 9, 10, 11, 6, 5, 0, 1, 2, 3, 4\}$ and thus
 \begin{equation}
@@ -1144,6 +1148,7 @@ Let $r = \{0, 2, 3, 4, 5, 1\}$, with $n$, $C$ and $C_I$ as in Ex.~\ref{rMapExamp
 \end{equation}
 \end{example}
 
+%--------------------------------------------------------------------------
 Listing~\ref{destroyCommonData} below describes how the data allocated in Listing~\ref{createCommonData} is deallocated. It simply frees all the memory that had been previously allocated in the heap. Due to their simplicity, further details are omitted in the next three routines.
 
 %--------------------------------------------------------------------------
@@ -1157,7 +1162,8 @@ void destroyCommonData(common_data *cd) {
 }
 \end{lstlisting}
 
-Listing~\ref{createThreadData} is a very simple procedure, as well. As it depends on a previous call to Listing~\ref{createCommonData}, all thread-common data has already been allocated, and sizes computes. Listing~\ref{createThreadData} then allocates the necessary scratch areas that cannot be shared between different thread contexts, and sets the thread-specific solution counter to zero.
+%--------------------------------------------------------------------------
+Listing~\ref{createThreadData} is a very simple procedure, as well. As it depends on a previous call to Listing~\ref{createCommonData}, all thread-common data has already been allocated, and sizes computed. Listing~\ref{createThreadData} then allocates the necessary scratch areas that cannot be shared between different thread contexts, and sets the thread-specific solution counter to zero.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Allocating thread-specific data.},label={createThreadData}]
@@ -1171,6 +1177,7 @@ void createThreadData(thread_data *d, common_data *cd) {
 }
 \end{lstlisting}
 
+%--------------------------------------------------------------------------
 Similarly to Listing~\ref{destroyCommonData}, Listing~\ref{destroyThreadData} deallocates the heap memory that was allocated in Listing~\ref{createThreadData}. Here too, every call to Listing~\ref{createThreadData} should be balanced with a call to Listing~\ref{destroyThreadData} when resources are no longer needed.
 
 %--------------------------------------------------------------------------
@@ -1187,7 +1194,10 @@ void destroyThreadData(thread_data *d) {
 %--------------------------------------------------------------------------
 \section{Computing all possible solutions for a row class}
 
+%--------------------------------------------------------------------------
 This section outlines Listing~\ref{writeSolutions}, a procedure that wraps Listing~\ref{allSolutionsRecursive}, providing it with the necessary scaffolding to output all solutions computed to a text file. In a single-threaded context, Listing~\ref{writeSolutions} will be furnished with all possible tops for a given problem size. In a multi-threaded context, however, Listing~\ref{writeSolutions} will be given a range of tops to be processed by each thread. Listing~\ref{allTopsRecursive} above computes the minimal subset of tops necessary for the operation of Listing~\ref{writeSolutions}. As previously discussed, the number of possible tops becomes impractically large as the problem size grows. Many algorithms described in this section deal with skipping tops that can be achieved by retrograding a top that has already been seen. Listing~\ref{writeSolutions} itself handles computing tops that cannot be achieved from the results of Listing~\ref{allTopsRecursive}. Listing~\ref{createSolutionsFile} creates a file to which solutions will be written.
+
+\newpage
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Creating a text file to hold all thread-specific solutions.},label={createSolutionsFile}]
@@ -1207,17 +1217,19 @@ FILE *createSolutionsFile(number *row, number problemSize, number rowSize, lengt
 }
 \end{lstlisting}
 
+%--------------------------------------------------------------------------
 \begin{enumerate}
-\item The inputs are the row in canonical form, the problem size, the row size, and the start and end indices into the all tops array. Since this file will contain solutions only for the tops between theses indices, the indices are used in the name of the file, to distinguish it from other files written by other threads.
+\item The inputs are the row in canonical form, the problem size, the row size, and the start and end indices into the all-tops array. Since this file will contain solutions only for the tops between theses indices, the indices are used in the name of the file, to distinguish it from other files written by other threads.
 \item Line 2 creates a buffer to store the file name, and line 3 writes the first part of the name into the buffer. Line 4 computes the current offset from which the rest of the name should start, which depends on the problem size.
 \addtocounter{enumi}{3}
 \item Line 6 iterates over the row size, appending in line 7 each row entry to the file name, and updating in line 8 the offset declared in line 4.
 \addtocounter{enumi}{4}
 \item Line 11 appends to the file name the start and end top indices.
 \addtocounter{enumi}{1}
-\item Line 13 returns a pointer to a C-style FILE.
+\item Line 13 returns a pointer to a FILE.
 \end{enumerate}
 
+%--------------------------------------------------------------------------
 The procedure for determining whether a top can be achieved from a previously processed top by some $RT_nI$ transform differs if the row is retrograde or retrograde inverse-invariant or not. Listing~\ref{unseen} outlines the procedure for retrograde or retrograde inverse-invariant rows, whereas Listing~\ref{seen} outlines the procedure for rows otherwise. The next three algorithms below are used as subroutines in Listing~\ref{seen}.
 
 %--------------------------------------------------------------------------
@@ -1236,6 +1248,7 @@ range getInverse(range num, number rowSize) {
 }
 \end{lstlisting}
 
+%--------------------------------------------------------------------------
 \begin{enumerate}
 \item The inputs are the index of the row within the row class, and the row size.
 \item Line 2 tests if the given transform is either $T_0$ or $RT_0$, in which case line 3 returns respectively $T_0I$ or $RT_0I$.
@@ -1247,6 +1260,7 @@ range getInverse(range num, number rowSize) {
 \item If line 11 is reached, then the given transform is retrograded, so the the index returned lies within the second half of the row class size.
 \end{enumerate}
 
+%--------------------------------------------------------------------------
 Listing~\ref{getReverse} is a lot simpler than Listing~\ref{getInverse}. It simply takes an index in the first half of the row class size and returns the corresponding index in the second half, and vice-versa.
 
 %--------------------------------------------------------------------------
@@ -1256,6 +1270,7 @@ range getReverse(range num, number rowSize) {
 }
 \end{lstlisting}
 
+%--------------------------------------------------------------------------
 Listing~\ref{getReverseInverse} is even simpler and just combines calls to Listing~\ref{getInverse} and Listing~\ref{getReverse} to return the retrograde inverse index of the provided input index.
 
 %--------------------------------------------------------------------------
@@ -1265,6 +1280,7 @@ range getReverseInverse(range num, number rowSize) {
 }
 \end{lstlisting}
 
+%--------------------------------------------------------------------------
 Listing~\ref{seen} is designed to filter tops that can be achieved by transforming some previously seen top. It relies on the order in which Listing~\ref{allTopsRecursive} outputs tops to filter out top invariances under the retrograde operation.
 
 %--------------------------------------------------------------------------
@@ -1296,13 +1312,14 @@ bool seen(const number *combo, common_data *cd) {
 }
 \end{lstlisting}
 
+%--------------------------------------------------------------------------
 \begin{enumerate}
-\item The inputs are the memory addresses of a top row, and of a thread-common data structure. The output is a boolean representing whether the top has already been seen.
-\item Line 2 stores in a variable the index of the last row in the top. Line 3 determines if the last top entry is inverted, that is, if it lies in the second or fourth quarters of the row class size. Line 4 determines if the last top entry's index of transposition. Line 5 declares three variables that will be needed in the for-loop in line 7.
+\item The inputs are the memory addresses of a top row and of a thread-common data structure. The output is a boolean representing whether the top has already been seen.
+\item Line 2 stores in a variable the index of the last row in the top. Line 3 determines if the last top entry is inverted, that is, if it lies in the second or fourth quarters of the row class size. Line 4 determines the last top entry's index of transposition. Line 5 declares three variables that will be needed in the for-loop in line 7.
 \addtocounter{enumi}{4}
-\item Line 7 iterates through all entries in the top, retrograding or retrograde inverting it. Line 8 checks if the top is inverted, and if so, line 9 calls Listing~\ref{getReverseInverse} and stores the result. Line 10 uses the index of transposition computed in line 4 to determine the transposition index of the top entry at hand, modulo the row size.
+\item Line 7 iterates through all entries in the top, retrograding or retrograde-inverting it. Line 8 checks if the top is inverted, and if so, line 9 calls Listing~\ref{getReverseInverse} and stores the result. Line 10 uses the index of transposition computed in line 4 to determine the transposition index of the top entry at hand, modulo the row size.
 \addtocounter{enumi}{4}
-\item Line 12 is the equivalent to line 9 when the top is not inverted, that is, it stores the result of a call to Listing~\ref{getReverse} instead. Line 13 is similarly the equivalent to line 10, and accordingly subtracts modulo the row size the value computed in line 4 instead of adding.
+\item Line 12 is the equivalent to line 9 when the top is not inverted, that is, it stores the result of a call to Listing~\ref{getReverse}. Line 13 is similarly the equivalent to line 10, and accordingly subtracts modulo the row size the value computed in line 4 instead of adding.
 \addtocounter{enumi}{3}
 \item Line 16 essentially computes in which quarter of the row class size the current retrograded or retrograde-inverted top entry lies. If the row size is $n$, it stores a value $k \in \{0, n, 2n, 3n\}$. These values correspond respectively to the start indices of the transpositions, inversions, retrogrades and retrograde inversions within the row class.
 \addtocounter{enumi}{1}
@@ -1313,7 +1330,8 @@ bool seen(const number *combo, common_data *cd) {
 \item If line 24 is reached, then every transformed top entry seen from right to left is equal to the corresponding non-transformed entry seen form left to right, which indicates that the top is retrograde or retrograde inverse-invariant. The algorithm then returns false. Since the first element of every top is always zero, line 24 can only be reached if the top at hand is being seen for the first time. Note that there are exceptions to the rule that every top's first element is zero, which shall be discussed in conjunction with Listing~\ref{writeSolutions}.
 \end{enumerate}
 
-The purpose of Listing~\ref{unseen} is also to filter out tops that can be achieved from a previously seen top through some transformation, only that Listing~\ref{unseen} handles the cases where the row is retrograde or retrograde inverse-invariant. The general idea is the same: compute the retrograde or retrograde inverse-invariant transform of the top, transposing it so it starts with zero. Then compare with the original top, read from left to right, and return true is there is an entry in the transformed top greater than the corresponding entry in the original top, or if there are no entries in the transformed top less than the corresponding entry in the original top, implying the top is retrograde or retrograde inverse-invariant. Listing~\ref{unseen} utilizes retrograde and retrograde inverse maps contained in the thread-common data structure, as filtering out tops may depend on the row at hand if the row is retrograde or retrograde inverse-invariant.
+%--------------------------------------------------------------------------
+The purpose of Listing~\ref{unseen} is also to filter out tops that can be achieved from a previously seen top through some transformation, only that Listing~\ref{unseen} handles the cases where the row is retrograde or retrograde inverse-invariant. The general idea is the same: compute the retrograde or retrograde inverse-invariant transform of the top, transposing it so it starts with zero. Then compare with the original top, read from left to right, and return true is there is an entry in the transformed top greater than the corresponding entry in the original top, or if there are no entries in the transformed top less than the corresponding entry in the original top, implying the top is retrograde or retrograde inverse-invariant. Listing~\ref{unseen} utilizes the retrograde and retrograde inverse maps contained in the thread-common data structure, as filtering out tops may depend on the row at hand if the row is retrograde or retrograde inverse-invariant.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Determining whether a top has not yet been seen for retrograde or retrograde inverse-invariant rows.},label={unseen}]
@@ -1346,11 +1364,12 @@ bool unseen(const number *top, common_data *cd) {
 }
 \end{lstlisting}
 
+%--------------------------------------------------------------------------
 \begin{enumerate}
-\item The inputs are the memory addresses of a top row, and of a thread-common data structure. Unlike Listing~\ref{unseen}, the output is a boolean representing whether the top has not yet been seen.
+\item The inputs are the memory addresses of a top row and of a thread-common data structure. Unlike Listing~\ref{unseen}, the output is a boolean representing whether the top has not yet been seen.
 \item Line 2 stores in a variable the index of the last row in the top. Line 3 uses the retrograde map to compute the transposition index of the top's last entry, assuming that the retrograde of the top is not inverted. Line 4 checks if the top's last entry is inverted and stores the result.
 \addtocounter{enumi}{3}
-\item Line 6 uses the result of the test computed in line 4, and if the retrograde of the top is indeed inverted, line 7 corrects the wrong assumption made in line 3, using this time the retrograde inverse map to update the transposition index of the top's last entry.
+\item Line 6 uses the result of the test computed in line 4 and, if the retrograde of the top is indeed inverted, line 7 corrects the wrong assumption made in line 3, using this time the retrograde inverse map to update the transposition index of the top's last entry.
 \addtocounter{enumi}{2}
 \item Line 9 iterates through the entries in the top, skipping the comparison between its first and last entries. Since the row class does not contain any retrograde transforms, the result of the comparison between the first and last entries here would be trivial. Line 10 stores the current leftmost entry, and line 11 stores the current rightmost entry, using the value computed in line 4 to determine if the retrograde or the retrograde inverse map should be used to retrieve the rightmost entry.
 \addtocounter{enumi}{3}
@@ -1365,7 +1384,8 @@ bool unseen(const number *top, common_data *cd) {
 \item If line 26 is reached, then the top is is retrograde or retrograde inverse-invariant, so the algorithm returns true.
 \end{enumerate}
 
-Listing~\ref{fillTop} is used as a subroutine in Listing~\ref{writeSolutions} copy the top to be processed by Listing~\ref{allSolutionsRecursive} into the thread-specific data structure's scratch area for the top vector. A top, as computed in Listing~\ref{allTopsRecursive}, is an array of indices into the row class array. Listing~\ref{fillTop} iterates through the problem size, and copies the appropriate row transform from the row class array into the current column offset of the top row scratch area.
+%--------------------------------------------------------------------------
+Listing~\ref{fillTop} is used as a subroutine in Listing~\ref{writeSolutions} to copy the top to be processed by Listing~\ref{allSolutionsRecursive} into the thread-specific data structure's scratch area for the top vector. A top, as computed in Listing~\ref{allTopsRecursive}, is an array of indices into the row class array. Listing~\ref{fillTop} iterates through the problem size, and copies the appropriate row transform from the row class array into the current column offset of the top row scratch area.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Refreshing the top row scratch area.},label={fillTop}]
@@ -1377,19 +1397,20 @@ void fillTop(thread_data *d, common_data *cd, const number *combo) {
 }
 \end{lstlisting}
 
+%--------------------------------------------------------------------------
 Listing~\ref{writeSolutions} processes a range of tops and writes all solutions found into a text file. It relies on thread-specific data, so its execution should be constrained to a single thread. Multiple parallel calls to Listing~\ref{writeSolutions} can be made from different thread contexts, provided that each thread maintains their own thread-specific data structures. Listing~\ref{writeSolutions} also expands the provided range of tops when the row at hand is not retrograde or retrograde inverse-invariant. That is accomplished by processing the range of tops twice, the second time replacing the first entry in the top, which is always zero, with half the row class size, which is the index of the $RT_0$ transform. The reason is because some tops cannot be achieved by transforming the results of Listing~\ref{allTopsRecursive} alone. As a simple example, consider the case where $r$ is a row of size $n$ that is not retrograde or retrograde inverse-invariant, such that the size of its row class is $4n$. Let $T = \{0, 24\} = \{T_0, RT_0\}$ be a top. In particular, $T$ is one of the tops in the output of Listing~\ref{allTopsRecursive}. However, the retrograde of $T$ is the top
 
 \begin{equation}
     R(T) = \{R(RT_0), R(T_0)\} = \{T_0, RT_0\} = \{0, 24\} = T \enspace.
 \end{equation}
 
-This shows that, in order to achieve some tops in which the first entry is a retrograde transform, such as $\tilde{T} = \{24, 0\}$, it is necessary that the top's first entry be a retrograde transform and not zero. It is sufficient that this first entry be $2n = RT_0$, since other tops in which the first entry is a retrograde transform can then be achieved by transformation under transposition, inversion or both. To see this, let $m$ be the problem size and let
+\noindent This shows that, in order to achieve some tops in which the first entry is a retrograde transform, such as $\tilde{T} = \{24, 0\}$, it is necessary that the top's first entry be a retrograde transform and not zero. It is sufficient that this first entry be $2n = RT_0$, since other tops in which the first entry is a retrograde transform can then be achieved by transformation under transposition, inversion or both. To see this, let $m$ be the problem size and let
 
 \begin{equation}
     G = \underbrace{RT_xI \times \cdots \times RT_xI}_{m \; \text{times}} \enspace.
 \end{equation}
 
-The action of $RT_xI$ on $G$ by right multiplication induces orbits of two sizes, depending on whether $g \in G$, which is a top, is retrograde or retrograde inverse-invariant. If so, the orbit has size $2n$, otherwise the orbit has size $4n$. In the latter case, all orbits have a representative in which the first entry is zero. In the former case, all orbits have either a representative in which the first entry is zero, or one in which the first entry is $2n$.
+\noindent The action of $RT_xI$ on $G$ by right multiplication induces orbits of two sizes, depending on whether $g \in G$, which is a top, is retrograde or retrograde inverse-invariant. If so, the orbit has size $2n$, otherwise the orbit has size $4n$. In the latter case, all orbits have a representative in which the first entry is zero. In the former case, all orbits have either a representative in which the first entry is zero, or one in which the first entry is $2n$.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Writing a text file with all solutions for a row class within a range of tops.},label={writeSolutions}]
@@ -1424,17 +1445,18 @@ length writeSolutions(thread_data *d, common_data *cd, length startTop, length e
 }
 \end{lstlisting}
 
+%--------------------------------------------------------------------------
 \begin{enumerate}
 \item The inputs are the memory addresses of a thread-common and a thread-specific data structures, as well as the start and end top indices to be covered. The output is the actual number of tops that were processed.
-\item Line 2 declares a variable to hold the total number of processed tops. Line 3 is a call to Listing~\ref{createSolutionsFile} to create and store the pointer to the C-style FILE where to which the computed solutions will be written.
+\item Line 2 declares a variable to hold the total number of processed tops. Line 3 is a call to Listing~\ref{createSolutionsFile} to create and store a FILE pointer to which the computed solutions will be written.
 \addtocounter{enumi}{2}
 \item Line 5 iterates twice over the row class size to change the top's first entry from zero to half the row size in the second iteration, as discussed above. Line 6 iterates over the provided range of tops. Line 7 stores the memory address of the current top being processed, and line 8 changes the top's first entry.
 \addtocounter{enumi}{4}
-\item Line 10 checks if the row is retrograde or retrograde inverse-invariant and the current top's first entry is not zero, in which case line 11 breaks the for-loop.
+\item Line 10 checks if the row is retrograde or retrograde inverse-invariant and if the current top's first entry is not zero, in which case line 11 breaks the for-loop.
 \addtocounter{enumi}{2}
-\item Line 13 checks if the row is retrograde or retrograde inverse-invariant and the current top can be achieved by transforming another top already seen by calling Listing~\ref{unseen}, in which case line 14 skips this iteration.
+\item Line 13 checks if the row is retrograde or retrograde inverse-invariant and if the current top can be achieved by transforming another top already seen by calling Listing~\ref{unseen}, in which case line 14 skips this iteration.
 \addtocounter{enumi}{2}
-\item Line 16 checks if the row is not retrograde or retrograde inverse-invariant and the current top can be achieved by transforming another top already seen by calling Listing~\ref{seen}, in which case line 17 skips this iteration.
+\item Line 16 checks if the row is not retrograde or retrograde inverse-invariant and if the current top can be achieved by transforming another top already seen by calling Listing~\ref{seen}, in which case line 17 skips this iteration.
 \addtocounter{enumi}{2}
 \item Line 19 is a call to Listing~\ref{fillTop} to refresh the top row's scratch area. Line 20 copies the current top into the bottom of the top stack, and line 21 sets all entries in the scratch area for square column sums to zero. Line 22 then calls Listing~\ref{allSolutionsRecursive} to compute and output solutions, and line 23 increases the top counter.
 \addtocounter{enumi}{7}
