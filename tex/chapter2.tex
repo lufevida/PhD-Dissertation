@@ -375,7 +375,8 @@ number *getRowClass(range *classSize, number *row, number rowSize, bool isInvari
 %--------------------------------------------------------------------------
 \section{Defining an algorithm to compute semi-magic squares}
 
-A key component in the definition of a combination matrix of self-derivation is a semi-magic square. By definition, a semi-magic square is a square matrix where the sum of all elements, for each row and column, is a constant. For our purposes, that constant will be the base $n$ of the row. Seeing each entry in a semi-magic square as a real number and dividing each entry in the matrix by $n$ produces a doubly stochastic matrix, in which every row and every column sum to one. A magic square is a semi-magic square where, in addition, both main diagonals add up to the same constant as the rows and columns. By the definition above of a semi-magic square, every row therein is a permutation of an integer partition of $n$. In fact, every column is also a permutation of an integer partition of $n$, but the algorithm described below in Listing~\ref{allPartitionsRecursive} shall concentrate on computing all integer partitions of $n$ and their permutations as rows that will ultimately become the rows of a semi-magic square. Since these integer partitions of $n$ are completely independent of the row at hand, they can be computed only once for each $n$ and stored as a file, speeding up the process of computing combination matrices for other rows. Before describing Listing~\ref{allPartitionsRecursive}, a couple subroutines for reading and writing files are outlined.
+%--------------------------------------------------------------------------
+A key component in the definition of a combination matrix of self-derivation is a semi-magic square. By definition, a semi-magic square is a square matrix where the sum of all elements, for each row and column, is a constant. For the purposes of this implementation, that constant will be the base $n$ of the row. Seeing each entry in a semi-magic square as a real number and dividing each entry in the matrix by $n$ produces a doubly stochastic matrix, in which every row and every column sum to one. A magic square is a semi-magic square where, in addition, both main diagonals add up to the same constant as the rows and columns. By the above definition of a semi-magic square, every row therein is a permutation of an integer partition of $n$. In fact, every column is also a permutation of an integer partition of $n$, but the algorithm described in Listing~\ref{allPartitionsRecursive} shall concentrate on computing all integer partitions of $n$ and their permutations as rows that will ultimately become the rows of a semi-magic square. Since these integer partitions of $n$ are completely independent of the row at hand, they can be computed only once for each $n$ and stored as a file, speeding up the process of computing combination matrices for other rows. Before describing Listing~\ref{allPartitionsRecursive}, a couple subroutines for reading and writing files are outlined.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Retrieving the size of a file.},label={getFileSize}]
@@ -387,6 +388,7 @@ long getFileSize(FILE *file) {
 }
 \end{lstlisting}
 
+%--------------------------------------------------------------------------
 Listing~\ref{getFileSize} is a completely common-place procedure in the C-language, and its details are omitted. It is used as a subroutine in Listing~\ref{readFile}, which is described next.
 
 %--------------------------------------------------------------------------
@@ -407,17 +409,19 @@ number *readFile(const char *fileName, length *numLines, number problemSize) {
 }
 \end{lstlisting}
 
+%--------------------------------------------------------------------------
 \begin{enumerate}
-\item The inputs are the file name, assuming both the main executable and the file are in the same folder, a memory address where the number of lines read will be stored, and the problem size, which is the size of the magic square. The output is a memory location with the contents of the file, or a NULL pointer if the operation fails.
-\item Line 2 simply opens the file at the given path for reading. Line 4 performs a sanity check and line 5 returns a NULL pointer if the file cannot be read.
+\item The inputs are the file name, assuming both the main executable and the file are in the same folder, a memory address where the number of lines read will be stored, and the problem size, which is the size of the magic square. The output is a memory location with the contents of the file, or a null pointer if the operation fails.
+\item Line 2 simply opens the file at the given path for reading. Line 4 performs a sanity check and line 5 returns a null pointer if the file cannot be read.
 \addtocounter{enumi}{4}
-\item Line 7 is a call to Listing~\ref{getFileSize} so that the correct amount of memory can be allocated. The value computed in line 7 is already in bytes. Line 8 then allocates the memory whose address will be returned.
+\item Line 7 is a call to Listing~\ref{getFileSize} so that the correct amount of memory can be allocated. The value computed in line 7 is already in bytes. Line 8 then allocates the memory space whose address will be returned.
 \addtocounter{enumi}{1}
 \item Line 9 computes the number of lines in the file, that is, the number of integer partitions of $n$ with length \emph{problemSize} that have been previously computed and stored in the file. The value is then stored in the memory address provided in the input list to store the number of lines in the file.
 \item Line 10 simply reads the entire contents of the file into the buffer allocated in line 8, line 11 frees the FILE data structure created in line 2, and line 13 returns the allocated memory. It is the responsibility of the caller to free this memory when no longer needed.
 \end{enumerate}
 
-The procedure described in Listing~\ref{writeAllPartitions} effectively writes all integer partitions of $n$ with a certain size to a file. It depends on Listing~\ref{allPartitionsRecursive} to compute all said partitions recursively, which is described next. One important feature of Listing~\ref{allPartitionsRecursive} is that it skips partitions whose all but one entries are zero. The reason for this is because the remaining entry would be forced to be equal to $n$. In any semi-magic square where there is an entry equal to $n$, both the row and column to which this entry belongs will necessarily contain only zeros except, of course, for the entry with value $n$. This means that the linearized top of the combination matrix at that semi-magic square's column will inevitably be trivially polyphonized, that is, the corresponding square cell would simply have the entire row at the top. Therefore any combination matrix can be extended by adding a column and a row at an arbitrary indices, and making that square entry contain $n$ elements, that is, a linearized statement of a row form. Since this procedure is completely general, the semi-magic squares computed below include entries only up to $n - 1$.
+%--------------------------------------------------------------------------
+The procedure described in Listing~\ref{writeAllPartitions} effectively writes all integer partitions of $n$ with a certain size to a file. It depends on Listing~\ref{allPartitionsRecursive} to compute all said partitions recursively, which is described next. One important feature of Listing~\ref{allPartitionsRecursive} is that it skips partitions whose all but one entries are zero. The reason for this is because the remaining entry would be forced to be equal to $n$. In any semi-magic square where there is an entry equal to $n$, both the row and column to which this entry belongs will necessarily contain only zeros except, of course, for the entry itself with value $n$. This means that the linearized top of the combination matrix at that semi-magic square's column will inevitably be trivially polyphonized, that is, the corresponding square cell would simply contain the entire row at the top. Therefore any combination matrix can be extended by adding a column and a row at arbitrary indices, and making the square entry at the intersection of the newly-added row and column contain $n$ elements, that is, a linearized statement of a row form. Since this procedure is completely general, the semi-magic squares computed below include entries only up to $n - 1$.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Recursively computing all partitions of a number $n$ and permutations thereof with a certain size.},label={allPartitionsRecursive}]
@@ -441,6 +445,7 @@ void allPartitionsRecursive(number *tmp, number currentSize, number problemSize,
 }
 \end{lstlisting}
 
+%--------------------------------------------------------------------------
 \begin{enumerate}
 \item The inputs are the address of some scratch memory previously allocated with the same length of the problem size, the current number of entries already placed in the scratch memory, the problem size, the current sum of the entries in the scratch memory, the base $n$, and a pointer to a FILE data structure where the partitions will be stored, line by line.
 \item Line 2 deals with the base case of the recursion, that is, when the current number of elements in the scratch memory is one less than the problem size. If that is the case, then the last element in the scratch memory array must be equal to $n$ minus the sum of all previous elements.
@@ -448,10 +453,11 @@ void allPartitionsRecursive(number *tmp, number currentSize, number problemSize,
 \item Line 4 sets the last element of the scratch memory array to $n$ minus the sum of its previous elements and line 5 writes the current partition to the given file. Having completed an entire partition, line 8 returns, so the function recurses no further.
 \addtocounter{enumi}{6}
 \item For the recursion cases where the scratch memory array has been filled with less than problem size minus one elements, the loop in line 11 iterates from zero to $n - 1$. Line 12 is a sanity check that the sum of the current element being appended to the scratch memory array with the current sum of all elements so far introduced is no greater than $n$. Line 13 then appends the current element to the end of the scratch memory array, increases the current size counter, and line 14 pushes to the call stack another recursive call to Listing~\ref{allPartitionsRecursive}.
-\addtocounter{enumi}{1}
+\addtocounter{enumi}{3}
 \item Line 15 backtracks the current size so that all combinations of integers in the range $[0, n - 1]$ are tried.
 \end{enumerate}
 
+%--------------------------------------------------------------------------
 Listing~\ref{writeAllPartitions} described below is essentially a wrapper around Listing~\ref{allPartitionsRecursive}. Partitions files are saved in the same location where the main executable is built, in order to facilitate dealing with file paths. In general, these files are very small even for large $n$, but the speed gains in precomputing them are worthwhile, given the recursive nature of Listing~\ref{allPartitionsRecursive}.
 
 %--------------------------------------------------------------------------
@@ -469,16 +475,18 @@ void writeAllPartitions(number problemSize, number rowSize) {
 }
 \end{lstlisting}
 
+%--------------------------------------------------------------------------
 \begin{enumerate}
 \item The inputs are a problem size, which is the size of the semi-magic square, and a row size, which is the row base $n$.
-\item Line 2 creates an array of 32 characters to hold the file name. This file name array length is large enough to accommodate all file names in this implementation. Line 3 writes the name of the file into the buffer defined in the previous line, and line 4 opens a C-type FILE for writing at the specified path.
+\item Line 2 creates an array of 32 characters to hold the file name. This file name array length is large enough to accommodate all file names in this implementation. Line 3 writes the name of the file into the buffer defined in the previous line, and line 4 opens a file for writing at the specified path.
 \addtocounter{enumi}{3}
 \item Line 6 allocates the scratch memory needed for the call to Listing~\ref{allPartitionsRecursive} in the following line. Being that Line 7 is the bottommost call on the call stack for Listing~\ref{allPartitionsRecursive}, the arguments given for the current size and current sum parameters are both zero.
 \addtocounter{enumi}{2}
 \item Line 9 frees the scratch memory used in the calls to Listing~\ref{allPartitionsRecursive}, and line 10 closes and releases the file created in line 4.
 \end{enumerate}
 
-The counterpart to Listing~\ref{writeAllPartitions} is Listing~\ref{readAllPartitions}, which is designed to not only read a partitions file, but to also generate one in case the particularly sought partitions file had not been previously created.
+%--------------------------------------------------------------------------
+The counterpart to Listing~\ref{writeAllPartitions} is Listing~\ref{readAllPartitions}, which is designed to not only read a partitions file, but to also generate one in case the particularly sought partitions file does not exist.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Reading all partitions from a file.},label={readAllPartitions}]
@@ -498,6 +506,7 @@ number *readAllPartitions(length *numPartitions, number problemSize, number rowS
 }
 \end{lstlisting}
 
+%--------------------------------------------------------------------------
 \begin{enumerate}
 \item The inputs are a memory address to store the number of lines in the partitions file to be read, the problem size and the row size. The output is a memory address with the contents of the partitions file. It is the responsibility of the caller to free the returned memory when no longer needed.
 \item Lines 2 and 3 store the file name in a buffer, similarly to Listing~\ref{writeAllPartitions}.
@@ -509,6 +518,7 @@ number *readAllPartitions(length *numPartitions, number problemSize, number rowS
 \item Line 13 simply returns the memory address with the contents of the file, or NULL if creating the file failed.
 \end{enumerate}
 
+%--------------------------------------------------------------------------
 Listing~\ref{allSquaresRecursive} describes an algorithm to combine integer partition rows into semi-magic squares. The overall procedure consists of appending integer partition rows to the square and adding the the rows as vectors. It is a backtracking recursive algorithm similar to Listing~\ref{allPartitionsRecursive}, the main difference being that the backtracking step consists of subtracting from the vector sum the previously added row after pushing onto the stack another recursive call. Adding two integer partition rows, seen as vectors, is described next in Listing~\ref{plus}.
 
 %--------------------------------------------------------------------------
@@ -519,12 +529,14 @@ void plus(number *a, const number *b, number problemSize) {
 }
 \end{lstlisting}
 
+%--------------------------------------------------------------------------
 \begin{enumerate}
-\item The inputs are the memory locations of two vectors and their size, which assumed to be the same.
+\item The inputs are the memory locations of two vectors and their size, which is assumed to be the same.
 \item Line 2 simply iterates through the length of the vectors and line 3 adds point-wise the second vector to the first.
 \end{enumerate}
 
-The counterpart to Listing~\ref{plus} is Listing~\ref{minus}. It is important to notice that vector addition and subtraction can be vectorized for speed, that is, SIMD instructions from the processor architecture at hand can replace much of the work the for-loops in Listing~\ref{plus} is Listing~\ref{minus} do to great effect. This option is not explored in this implementation, however. Details are omitted for Listing~\ref{minus}, as is essentially the same as Listing~\ref{plus}, only with the inverse operation.
+%--------------------------------------------------------------------------
+The counterpart to Listing~\ref{plus} is Listing~\ref{minus}. It is important to notice that vector addition and subtraction can be vectorized for speed, that is, SIMD instructions from the processor architecture at hand can replace much of the work the for-loops in Listing~\ref{plus} is Listing~\ref{minus} do to great effect. This option is not explored in this implementation, however. Details are omitted for Listing~\ref{minus}, as it is essentially the same as Listing~\ref{plus}, only with the inverse operation.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Subtracting one vector from another.},label={minus}]
@@ -534,7 +546,8 @@ void minus(number *a, const number *b, number problemSize) {
 }
 \end{lstlisting}
 
-Listing~\ref{validate} is also used as subroutine in Listing~\ref{allSquaresRecursive} to validate whether the integer partition row that had just been added to the sum of rows vector does not violate the semi-magic square constraints.
+%--------------------------------------------------------------------------
+Listing~\ref{validate} is also used as subroutine in Listing~\ref{allSquaresRecursive} to validate whether the integer partition row that has just been added to the sum-of-rows vector does not violate the semi-magic square constraints.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Validating a sum of integer partition rows.},label={validate}]
@@ -548,6 +561,7 @@ bool validate(const number *currentSum, number problemSize, number rowSize) {
 }
 \end{lstlisting}
 
+%--------------------------------------------------------------------------
 \begin{enumerate}
 \item The inputs are the memory location of the current sum of rows, the problem size, and the row size $n$.
 \item Line 2 iterates through the size of the magic square, checking in line 3 whether any entry in the current sum vector is already greater than $n$, fact that would violate the semi-magic square definition. If so, line 4 returns false.
@@ -555,7 +569,8 @@ bool validate(const number *currentSum, number problemSize, number rowSize) {
 \item If all entries in the current sum vector are less than or equal to $n$, this is still a viable semi-magic square, so line 7 returns true.
 \end{enumerate}
 
-Listing~\ref{allSquaresRecursive} utilizes the previously computed integer partition rows to form all possible semi-magic squares of size $n$, with entries in the range $[0, n - 1]$. It is described here because it facilitates understanding of Listing~\ref{allSolutionsRecursive}, but it is not used in computing combination matrices of self-derivation. For the latter purpose, computing \emph{all} possible semi-magic squares would be impractical, but this discussion is deferred to the next sections. Although Listing~\ref{allSquaresRecursive} takes as input a pointer to a FILE data structure, a procedure to save all semi-magic squares is omitted, as the number of such squares is overwhelmingly large and grows with both the problem size and $n$.
+%--------------------------------------------------------------------------
+Listing~\ref{allSquaresRecursive} utilizes the previously computed integer partition rows to form all possible semi-magic squares of size $n$, with entries in the range $[0, n - 1]$. It is described here because it facilitates understanding Listing~\ref{allSolutionsRecursive}, but it is not itself used in computing combination matrices of self-derivation. For the latter purpose, computing \emph{all} possible semi-magic squares would be impractical, but this discussion is deferred to the next sections. Although Listing~\ref{allSquaresRecursive} takes as input a pointer to a FILE data structure, a procedure to save all semi-magic squares is omitted, as the number of such squares is overwhelmingly large and grows with both the problem size and $n$.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Recursively computing all semi-magic squares of a certain size.},label={allSquaresRecursive}]
@@ -587,17 +602,18 @@ void allSquaresRecursive(number *tmp, number *currentSum, number currentSize, nu
 }
 \end{lstlisting}
 
+%--------------------------------------------------------------------------
 \begin{enumerate}
-\item The inputs are the memory address for some scratch memory where the semi-magic square will be stored as a sequence of indices into the integer partitions array. The size of this allocated memory must this be equal to the problem size. The memory address of another scratch memory space to hold the current sum of integer partition rows, with size equal to the problem size, the current number of rows already appended to the square, the problem size, the row size $n$, a pointer to the contents of a partitions file, previously computed using Listing~\ref{allPartitionsRecursive}, the total number of integer partition rows, and a pointer to a FILE data structure.
+\item The inputs are the memory address for some scratch memory where the semi-magic square will be stored as a sequence of indices into the integer partitions array. The size of this allocated memory must thus be equal to the problem size. The memory address of another scratch memory space to hold the current sum of integer partition rows, with size equal to the problem size, the current number of rows already appended to the square, the problem size, the row size $n$, a pointer to the contents of a partitions file, previously computed using Listing~\ref{allPartitionsRecursive}, the total number of integer partition rows, and a pointer to a FILE data structure.
 \item Line 2 deals with the base case of the recursion, that is, when all rows have been appended to the square. When that is the case, the algorithm writes the square to the file and returns.
 \addtocounter{enumi}{4}
-\item Line 7 defines a variable for where iteration of integer partition rows should start. This is a mechanism to avoid permutations of integer partition rows within a semi-magic square by enforcing that the rows of the constructed semi-magic square, seen as indices in the range between zero and the total number of integer partitions, be a nondecreasing sequence. The next section shall expand on the discussion of avoiding permutations of rows in semi-magic squares.
+\item Line 7 defines a variable representing where iteration of integer partition rows should start. This is a mechanism to avoid permutations of integer partition rows within a semi-magic square by enforcing that the rows of the constructed semi-magic square, seen as indices in the range between zero and the total number of integer partitions, be a nondecreasing sequence. The next section shall expand on the discussion of avoiding permutations of rows in semi-magic squares.
 \addtocounter{enumi}{1}
-\item Even though the current size is normally set to zero on a very first call to Listing~\ref{allSquaresRecursive}, the backtracking nature of the algorithm will push onto the call stack many other calls to Listing~\ref{allSquaresRecursive} where the current sum scratch memory might have been previously used, thus containing left over data. Line 9 then checks if the current size is zero, and line 10 sets all entries in the current sum scratch space to zero, to clear any left over data. If, on the other hand, the current size is greater than zero, then line 12 sets the start of the iteration to the very last index into the integer partition rows seen so far, guaranteeing that the sequence of indices in each square is nondecreasing.
+\item Even though the current size is normally set to zero on a very first call to Listing~\ref{allSquaresRecursive}, the backtracking nature of the algorithm will push onto the call stack many other calls to Listing~\ref{allSquaresRecursive} where the current sum scratch memory might have been previously used, thus containing left-over data. Line 9 then checks if the current size is zero, and line 10 sets all entries in the current sum scratch space to zero, to clear any left-over data. If, on the other hand, the current size is greater than zero, then line 12 sets the start of the iteration to the very last index into the integer partition rows seen so far, guaranteeing that the sequence of indices in each square is nondecreasing.
 \addtocounter{enumi}{4}
 \item Line 14 begins iteration from the last index already in the square. In line 15, the variable \emph{p} stores the memory location of the integer partition row at the current index of iteration, and line 16 utilizes Listing~\ref{plus} to add this integer partition row to the current sum scratch memory.
 \addtocounter{enumi}{3}
-\item Line 18 calls Listing~\ref{validate} to validate the current sum and, if the sum is valid, line 19 sets the next index in the current square scratch memory, here represented by the variable \emph{tmp} to the current iteration index and increases the current size. Line 20 then pushes another call to Listing~\ref{allSquaresRecursive} onto the stack, and line 21 backtracks the current size.
+\item Line 18 calls Listing~\ref{validate} to validate the current sum and, if the sum is valid, line 19 sets the next index in the current square scratch memory, here represented by the variable \emph{tmp}, to the current iteration index and increases the current size. Line 20 then pushes another call to Listing~\ref{allSquaresRecursive} onto the stack, and line 21 backtracks the current size.
 \addtocounter{enumi}{5}
 \item Regardless whether the validation test in line 18 succeeded, the current sum must be backtracked inside the same block where Listing~\ref{plus} was called. Line 24 accomplishes that with a balancing call to Listing~\ref{minus}.
 \end{enumerate}
@@ -605,8 +621,10 @@ void allSquaresRecursive(number *tmp, number *currentSum, number currentSize, nu
 %--------------------------------------------------------------------------
 \section{Computing all possible combination matrices for a row}
 
-This section outlines a procedure that produces all combination matrices of self-derivation of a certain size for a particular row. The main idea relies on departing from a top row, which is a concatenation of transforms of the canonical form of a row $r$. If the row size is $n$, and the problem size is $m$, then the size of the top row is $m \times n$. In terms of derivation theory, the top row is completely linearized, and each of its $m$ transforms of the row $r$ will constitute a column of the combination matrix, if a solution for the top exists. The top itself is not part of the combination matrix, but rather the linearization thereof. It is, nonetheless, the point of departure of the main algorithm in this implementation. The combination matrix per se consists of a semi-magic square of size $m$ by $m$, where each column in the square defines a partition of the transform of $r$ for the corresponding section of the top. The last component in this view of a combination matrix of self-derivation are the transforms of the row $r$ that can be derived from the top row as a whole from the integer partitions given by the rows of the semi-magic square. These derived rows are a column vector of size $m$ which are called the sides of the combination matrix.
+%--------------------------------------------------------------------------
+This section outlines a procedure that produces all combination matrices of self-derivation of a certain size for a particular row. The main idea relies on departing from a top row, which is a concatenation of transforms of the canonical form of a row $r$. If the row size is $n$, and the problem size is $m$, then the size of the top row is $m \times n$. In terms of derivation theory, the top row is completely linearized, and each of its $m$ transforms of the row $r$ will constitute a column of the combination matrix, if a solution for the top exists. The top itself is not part of the combination matrix, but rather the linearization thereof. It is, nonetheless, the point of departure for the main algorithm in this implementation. The combination matrix per se consists of a semi-magic square of size $m \times m$, where each column in the square defines a partition of the transform of $r$ for the corresponding section of the top. The last component in this view of a combination matrix of self-derivation are the transforms of the row $r$ that can be derived from the top row as a whole from the integer partitions given by the rows of the semi-magic square. These derived rows are a column vector of size $m$ which are called the sides of the combination matrix.
 
+%--------------------------------------------------------------------------
 \begin{example}
 Let $S = \{ 3, 8, 1, 0, 9, 6, 4, 7, 10, 5, 2, 11 \}$ as in Ex.~\ref{topSquareSideExample} and consider the combination matrix of self-derivation in Eq.~\ref{topSquareSideEquation}. In it, the top vector is $[\T_7(S) | \R\T_2\I(S)]$, the side vector is $[S | \T_9\I(S)]^T$, and the semi-magic square is
 
@@ -620,9 +638,10 @@ Let $S = \{ 3, 8, 1, 0, 9, 6, 4, 7, 10, 5, 2, 11 \}$ as in Ex.~\ref{topSquareSid
         \right] \enspace.
     \end{equation}
     
-The row $S$ is not in its canonical form. An application of Listing~\ref{getCanonicalForm} reveals that the canonical form of $S$ is in fact the row $r = \{0, 3, 6, 11, 8, 5, 7, 10, 1, 2, 9, 4\}$, so that $S = RT_{11}(r)$.
+\noindent The row $S$ is not in its canonical form. An application of Listing~\ref{getCanonicalForm} reveals that the canonical form of $S$ is in fact the row $r = \{0, 3, 6, 11, 8, 5, 7, 10, 1, 2, 9, 4\}$, so that $S = RT_{11}(r)$.
 \end{example}
 
+%--------------------------------------------------------------------------
 \begin{theorem}
 	\label{topSquareSideTheorem}
 	Let $r$ be a row. If a solution exists for a combination of top, side and square, then it is unique.
@@ -631,21 +650,25 @@ The row $S$ is not in its canonical form. An application of Listing~\ref{getCano
 	\end{proof}
 \end{theorem}
 
+%--------------------------------------------------------------------------
 \begin{corollary}
 	\label{topSquareSideCorollary}
 	Let $r$ be a row. If a  solution exists for a combination of top, side and square, then the set of permutations of the side vector form an equivalence class of solutions.
 	\begin{proof}
-		The identity permutation of the side is essentially the same combination matrix, hence a solution. Reordering the entries of the side and applying Th.~\ref{topSquareSideTheorem} shows that a permutation of the side is also a solution. Let the problem size be $m$ and regard the side as a vector of indices with entries in $\mathbb{Z} / m \mathbb{Z}$. Then transitivity comes from the fact that $\mathbb{Z} / m \mathbb{Z}$ is a subgroup of $S_m$, that is, composition of permutations of the side vector are also a solution.
+		The identity permutation of the side is essentially the same combination matrix, hence a solution. Reordering the entries of the side and applying the same reasoning in the proof of Th.~\ref{topSquareSideTheorem}, that is, the fact that a derived row fits uniquely under the top, shows that a permutation of the side is also a solution. Let the problem size be $m$ and regard the side as a vector of indices with entries in $\mathbb{Z} / m \mathbb{Z}$. Then transitivity comes from the fact that $\mathbb{Z} / m \mathbb{Z}$ is a subgroup of $S_m$, that is, the composition of permutations of the side vector is also a solution.
 	\end{proof}
 \end{corollary}
 
+%--------------------------------------------------------------------------
 \begin{corollary}
     Let $r$ be a row, let the problem size be equal to $m$, and regard the top vector as the direct product of $m$ copies of $G_r$, the group of $RT_nI$-transforms of $r$. If a solution exists for a combination of top, side and square, then right-multiplying the solution by an element of $G_r$ represents a group action that induces an equivalence class of solutions. In particular, this equivalence class preserves the structure of the semi-magic square.
     \begin{proof}
+    The action of $G_r$ on itself by right multiplication is a permutation of $G_r$. Similarly, if $G$ is the direct product of $m$ copies of $G_r$, the action of $G_r$ on $G$ is a permutation of each entry in $G$. An element of $g$ is a top. If $S$ is a solution, that is, a combination matrix of self-derivation, then the action of $G_r$ on the top may be extended to each entry in the side vector as well, since the side vector may also be construed as an element of $G$. By Th.~\ref{topSquareSideTheorem}, each derived row in the side vector fits uniquely under the top, since $S$ is a solution. For every column of the top, the permutation induced by the action of $G_r$ is the same permutation induced on the partition of the side row that fits under that top column. In particular, the semi-magic square and the alignment between the top column entries and the side partition entries are unchanged by this permutation. The same reasoning applies to every other side row, yielding the result.
     \end{proof}
 \end{corollary}
 
-As described above, the side and top vectors are key components in this implementation. Even though the side and the top are both vectors of length equal to the problem size, and they are both vectors of $RT_nI$ transforms of a row, there are some important distinctions between them. The most relevant distinction is that the top vector is used to define the input of a problem, whereas the side vector is used to compute a solution. In derivation theory words, the top vector is the linearization of the combination matrix, and each element in the side vector is a transform of the row $r$ that can be derived from from the top. Another fundamental distinction is that the contents of a side are permutable by Corollary~\ref{topSquareSideCorollary}, whereas the contents of the top are usually not. Even though there are permutations of the top vector that yield equivalent solutions, those are special cases and will be discussed in more detail in the next section. Lastly, like Listing~\ref{allSquaresRecursive}, the algorithm presented in Listing~\ref{allSidesRecursive} below also facilitates understanding of Listing~\ref{allSolutionsRecursive}, but it is not used in computing combination matrices of self-derivation. The algorithm described in Listing~\ref{allTopsRecursive}, on the other hand, is not only used in this implementation, but will also be the subject of future research.
+%--------------------------------------------------------------------------
+As described above, the side and top vectors are key components in this implementation. Even though the side and the top are both vectors of length equal to the problem size, and they are both vectors of $RT_nI$ transforms of a row, there are some important distinctions between them. The most relevant distinction is that the top vector is used to define the input of a problem, whereas the side vector is used to compute a solution. In derivation theory words, the top vector is the linearization of the combination matrix, and each element in the side vector is a transform of the row $r$ that can be derived from the top. Another fundamental distinction is that the contents of a side are permutable by Corollary~\ref{topSquareSideCorollary}, whereas the contents of the top are usually not. Even though there are permutations of the columns of the top vector that yield equivalent solutions, those are special cases and will be discussed in more detail in the next section. Lastly, like Listing~\ref{allSquaresRecursive}, the algorithm presented in Listing~\ref{allSidesRecursive} below also facilitates the understanding of Listing~\ref{allSolutionsRecursive}, but it is not used in computing combination matrices of self-derivation. The algorithm described in Listing~\ref{allTopsRecursive}, on the other hand, is not only used in this implementation, but also an important subject for future research.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Recursively computing all side vectors of a certain size.},label={allSidesRecursive}]
