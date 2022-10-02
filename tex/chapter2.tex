@@ -661,9 +661,9 @@ Let $S = \{ 3, 8, 1, 0, 9, 6, 4, 7, 10, 5, 2, 11 \}$ as in Ex.~\ref{topSquareSid
 
 %--------------------------------------------------------------------------
 \begin{corollary}
-    Let $r$ be a row, let the problem size be equal to $m$, and regard the top vector as the direct product of $m$ copies of $G_r$, the group of $RT_nI$-transforms of $r$. If a solution exists for a combination of top, side and square, then right-multiplying the solution by an element of $G_r$ represents a group action that induces an equivalence class of solutions. In particular, this equivalence class preserves the structure of the semi-magic square.
+    Let $r$ be a row, let the problem size be equal to $m$, and regard the top vector as the direct product of $m$ copies of $G$, the group of $RT_nI$-transforms of $r$. If a solution exists for a combination of top, side and square, then right-multiplying the solution by an element of $G$ represents a group action that induces an equivalence class of solutions. In particular, this equivalence class preserves the structure of the semi-magic square.
     \begin{proof}
-    The action of $G_r$ on itself by right multiplication is a permutation of $G_r$. Similarly, if $G$ is the direct product of $m$ copies of $G_r$, the action of $G_r$ on $G$ is a permutation of each entry in $G$. An element of $g$ is a top. If $S$ is a solution, that is, a combination matrix of self-derivation, then the action of $G_r$ on the top may be extended to each entry in the side vector as well, since the side vector may also be construed as an element of $G$. By Th.~\ref{topSquareSideTheorem}, each derived row in the side vector fits uniquely under the top, since $S$ is a solution. For every column of the top, the permutation induced by the action of $G_r$ is the same permutation induced on the partition of the side row that fits under that top column. In particular, the semi-magic square and the alignment between the top column entries and the side partition entries are unchanged by this permutation. The same reasoning applies to every other side row, yielding the result.
+    The action of $G$ on itself by right multiplication is a permutation of $G$. Similarly, if $G_m$ is the direct product of $m$ copies of $G$, the action of $G$ on $G_m$ induces a permutation in each component of $G_m$. An element of $G_m$ is a top, and each component of a top is a column. If $S$ is a solution, that is, a combination matrix of self-derivation, then the action of $G$ on the top may be extended to each component of the side vector as well, since the side vector may also be construed as an element of $G_m$. By the proof of Th.~\ref{topSquareSideTheorem}, each derived row in the side vector fits uniquely under the top, since $S$ is a solution. For every column of the top, the permutation induced by the action of $G$ is the same permutation induced on the partition of the side row that fits under that top column. In particular, the semi-magic square and the alignment between the top column entries and the side partition entries are unchanged by this permutation. The same reasoning applies to every other side row, yielding the result.
     \end{proof}
 \end{corollary}
 
@@ -688,16 +688,18 @@ void allSidesRecursive(number *tmp, number currentSize, number problemSize, rang
 }
 \end{lstlisting}
 
+%--------------------------------------------------------------------------
 \begin{enumerate}
-\item The inputs are some pre-allocated scratch memory with size equal to the problem size, the current size of the vector, the problem size itself, the size of the row class, and a pointer to a C-style FILE data structure.
+\item The inputs are some pre-allocated scratch memory with size equal to the problem size, the current size of the vector, the problem size itself, the size of the row class, and a pointer to a FILE data structure.
 \item Line 2 is the base case of the recursion, and simply checks that the current size of the vector has already reached the problem size. If so, line 3 writes the contents of the scratch memory contiguously to the provided FILE handle and line 4 returns control to the caller.
 \addtocounter{enumi}{4}
-\item Line 7 is a similar mechanism to that described in line 12 of Listing~\ref{allSquaresRecursive}. Like the latter, its purpose is to avoid permutations of the size vector by forcing upon them being nondecreasing sequences of indices into the row class array. It will be shown in Listing~\ref{allSolutionsRecursive} that size vectors can actually be strictly increasing sequences.
+\item Line 7 is a similar mechanism to that described in line 12 of Listing~\ref{allSquaresRecursive}. Like the latter, its purpose is to avoid permutations of the size vector by forcing them to be nondecreasing sequences of indices into the row class array. It will be shown in Listing~\ref{allSolutionsRecursive} that side vectors can actually be strictly increasing sequences.
 \addtocounter{enumi}{1}
 \item Line 9 begins iteration from the start index computed in line 7, until the last index possible, which is the size of the row class minus one. Line 10 sets the scratch memory's entry at the current size to the current index of iteration and increases the current size. Line 11 pushes onto the call stack another call to Listing~\ref{allSidesRecursive}, and line 12 backtracks by decreasing the current size, thus ensuring that all nondecreasing sequences of indices in the range from zero to row class size minus one are seen and written to the provided FILE.
 \end{enumerate}
 
-In this implementation, tops are pre-computed and saved to a file. This is a two-edged sword, as it increases speed at the expense of risking some potentially prohibitive file sizes. Let $r$ be a row of size $n$, let $c$ be the size of its row class, and let $m$ be a problem size. Then the number of all possible tops is $c^m$, which can be an incredibly large number. If $r$ is a 12-tone row that is not retrograde or retrograde inverse-invariant, then $c = 48$. The number of all possible $4 \times 4$ tops is then $48^4 = 5308416$. For music composition applications, $m = 4$ is a rather small number. A composer may well be interested in combination matrices of sizes up to $n$, hence reducing the number of tops into smaller equivalence classes is of utmost importance. Under the action of $RT_nI$, the number of tops can be reduced substantially, but this reduction is asymptotically irrelevant as row size and problem size grow. In other words, dealing with large $n$ and $m$ can be a very difficult problem. On the bright side, this analysis shows that solutions do exist in abundance, however difficult they may be to compute.
+%--------------------------------------------------------------------------
+In this implementation, tops are pre-computed and saved to a file. This is a two-edged sword, as it increases speed at the expense of risking some potentially prohibitive file sizes. Let $r$ be a row of size $n$, let $c$ be the size of its row class, and let $m$ be a problem size. Then the number of all possible tops is $c^m$, which can be an incredibly large number. If $r$ is a 12-tone row that is not retrograde or retrograde inverse-invariant, then $c = 48$. The number of all possible $4 \times 4$ tops is then $48^4 = 5308416$. For music composition applications, $m = 4$ is a rather small number. A composer may well be interested in combination matrices of sizes up to $n$, hence reducing the number of tops into equivalence classes is of utmost importance. Under the action of $RT_nI$, the number of tops can be reduced substantially, but this reduction is asymptotically irrelevant as row size and problem size grow. In other words, dealing with large $n$ and $m$ can be a very difficult problem. On the bright side, this analysis shows that solutions do exist in abundance, however difficult they may be to compute.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Recursively computing all top vectors of a certain size.},label={allTopsRecursive}]
@@ -718,23 +720,24 @@ void allTopsRecursive(number *tmp, number currentSize, number problemSize, range
 }
 \end{lstlisting}
 
+%--------------------------------------------------------------------------
 \begin{enumerate}
 \item The inputs are the memory address of some scratch memory space, pre-allocated with size equal to the problem size, the current size of the top, the problem size, the row class size, and a pointer to a FILE where the tops should be saved.
 \item Line 2 handles the base case of the recursion, line 3 writes the contents of the current top to the FILE, and line 4 returns.
-\addtocounter{enumi}{5}
+\addtocounter{enumi}{4}
 \item Line 7 restricts the number of tops that will be computed by enforcing in line 8 that the first element of the top vector be always zero. If the problem size is $m$ and the class size is $c$, then Listing~\ref{allTopsRecursive} effectively computes $c^{m - 1}$ tops. It will be shown in the next section how all equivalence classes of tops under the action of $RT_nI$ can be computed departing from $c^{m - 1}$ elements.
 \addtocounter{enumi}{2}
 \item In line 10, the for-loop always starts from zero, since from the second element to the last, all possibilities are needed. Lines 11 to 13 describe the same backtracking recursive procedure in other algorithms already discussed above.
 \end{enumerate}
 
-
+%--------------------------------------------------------------------------
 Similarly to Listing~\ref{writeAllPartitions}, Listing~\ref{writeAllTops} wraps around Listing~\ref{allTopsRecursive} to save a file in the same location where the the main executable is built, so the details are omitted. Unlike Listing~\ref{writeAllPartitions}, however, the output of Listing~\ref{writeAllTops} can be a very large file. Suppose $r$ is a row of size $n = 12$, its row class has size $c = 48$, and the problem size is $m = 8$. Since a number of type char requires one byte of memory, the output of Listing~\ref{writeAllTops} would be a file of size $c^{m - 1} = 546.75$ Gigabytes.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Writing all tops to a file.},label={writeAllTops}]
 void writeAllTops(number problemSize, range classSize) {
-    char fileName[NAME_SIZE];
-    sprintf(fileName, TOPS_FILE, problemSize, classSize);
+    char fileName[32];
+    sprintf(fileName, "all_tops_%i_%i.dat", problemSize, classSize);
     FILE *file = fopen(fileName, "wb");
 
     number *tmp = malloc(problemSize * sizeof(number));
@@ -745,13 +748,14 @@ void writeAllTops(number problemSize, range classSize) {
 }
 \end{lstlisting}
 
-The same applies to Listing~\ref{readAllTops}, whose details are omitted for being similar to Listing~\ref{readAllPartitions} above, including the way Listing~\ref{readAllTops} generates a new file if none has been already created.
+%--------------------------------------------------------------------------
+The same applies to Listing~\ref{readAllTops}, whose details are omitted for being similar to Listing~\ref{readAllPartitions} above, including the way Listing~\ref{readAllTops} generates a new file if none has been created already.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Reading all tops from a file.},label={readAllTops}]
 number *readAllTops(length *numTops, number problemSize, range classSize) {
-    char fileName[NAME_SIZE];
-    sprintf(fileName, TOPS_FILE, problemSize, classSize);
+    char fileName[32];
+    sprintf(fileName, "all_tops_%i_%i.dat", problemSize, classSize);
 
     number *allTops = readFile(fileName, numTops, problemSize);
 
@@ -765,9 +769,8 @@ number *readAllTops(length *numTops, number problemSize, range classSize) {
 }
 \end{lstlisting}
 
-The main algorithm in this implementation writes to a file the combination matrices of self-derivation computed from a provided set of tops. It writes them to a provided file in a format that is readily useable for music composition, unless otherwise specified. It takes as input a significant amount of pre-computed data which can be shared between several threads of execution, as well many pointers to scratch memory addresses that must be allocated for each thread. Both common and thread-specific data are organized into data structures to reduce the number of parameters necessary for each call. These data structures, as well as the text formatting of the output will be discussed in this section.
-
-Listing~\ref{threadCommonDataStructure} below is a data structure where all members are immutable, so is safe to shares between different threads of execution. Some members are common to a particular row, namely the memory address and size of the row class, the retrograde and retrograde inverse maps addresses, which will be discussed in the next section, the row size, and whether it is retrograde or retrograde inverse-invariant. All other members are common to all rows of a particular size $n$, given a problem size $m$. These members are namely the memory address and size of all partitions read from the partitions file, the memory address and size of all tops read from the tops file, and the problem size itself.
+%--------------------------------------------------------------------------
+The main algorithm in this implementation writes to a file the combination matrices of self-derivation computed from a provided set of tops, doing so in a format that is readily usable for music composition. It takes as input a significant amount of pre-computed data which can be shared between several threads of execution, as well many pointers to scratch memory addresses that must be allocated for each thread. Both common and thread-specific data are organized into data structures to reduce the number of parameters necessary for each call. These data structures, as well as the text formatting of the output shall be discussed next. Listing~\ref{threadCommonDataStructure} below defines a data structure where all members are immutable, so is safe to be shared between different threads of execution. Some members are common to a particular row, namely the memory address and size of the row class, the retrograde and retrograde inverse maps' addresses, which will be discussed in the next section, the row size, and whether the row is retrograde or retrograde inverse-invariant. All other members are common to all rows of a particular size $n$, given a problem size $m$. These members are namely the memory address and size of all partitions read from the partitions file, the memory address and size of all tops read from the tops file, and the problem size itself.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Defining a data structure to hold thread-common data.},label={threadCommonDataStructure}]
@@ -779,7 +782,8 @@ typedef struct {
 } common_data;
 \end{lstlisting}
 
-Listing~\ref{threadSpecificDataStructure} below, on the other hand, cannot be shared between different threads of execution, as it mostly contains allocated scratch memory space to be used in a call to Listing~\ref{allSolutionsRecursive}, which computes all solutions for a given top. The members are, in order, the scratch memory for the size vector, the current top being used as input, the memory address for a stack of tops that will be needed by Listing~\ref{allSolutionsRecursive}, the current sum of the semi-magic square columns, the scratch memory for the semi-magic square itself, and lastly a variable to store the number of solutions obtained by the top at hand.
+%--------------------------------------------------------------------------
+Listing~\ref{threadSpecificDataStructure}, on the other hand, describes a data structure that cannot be shared between different threads of execution, as it mostly contains allocated scratch memory space to be used in a call to Listing~\ref{allSolutionsRecursive}, which computes all solutions for a given top. The members are, in order, the scratch memory for the size vector, the current top being used as input, the memory address for a stack of tops that will be needed by Listing~\ref{allSolutionsRecursive}, the current sum of the semi-magic square columns, the scratch memory for the semi-magic square itself, and lastly a variable to store the number of solutions obtained by the top at hand.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Defining a data structure to hold thread-specific data.},label={threadSpecificDataStructure}]
@@ -790,7 +794,8 @@ typedef struct {
 } thread_data;
 \end{lstlisting}
 
-Listing~\ref{writeRow} is used in Listing~\ref{writeSolution} as a subroutine to write as text an entire solution line-by-line. The lines in the solution include the top line, as well as one line for each entry in the side vector.
+%--------------------------------------------------------------------------
+Listing~\ref{writeRow} is used in Listing~\ref{writeSolution} as a subroutine to write as text an entire solution, line-by-line. The lines in the solution include the top line, as well as one line for each entry in the side vector.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Writing a single row from a combination matrix.},label={writeRow}]
@@ -812,16 +817,18 @@ void writeRow(const number *row, number rowSize, range topSize, bool newLine, FI
 }
 \end{lstlisting}
 
+%--------------------------------------------------------------------------
 \begin{enumerate}
-\item The inputs are the combination matrix row at hand, which includes the top line. These rows have the same length as the top row. Rows that are derived from the top, however, will have nonnegative entries whenever those entries align with the top's current index, and minus one otherwise. The row size, which is used to add separators at each of the top's columns, the top size, a boolean to indicate whether a new line character should be included after the combination matrix, and the address of a C-style FILE data structure.
-\item Line 2 iterates over the top's length and line 3 checks if the current index of iteration has reached the boundary of a column. If so, line 4 will write a separator character and a space.
+\item The inputs are the combination matrix row at hand, which includes the top line. These rows have the same length as the top row. Rows that are derived from the top, however, will have nonnegative entries whenever those entries align with the top's current index, and minus one otherwise. Next, the row size, which is used to add separators at each of the top's columns, the top size, a boolean to indicate whether a new line character should be included after the combination matrix, and the address of a FILE data structure.
+\item Line 2 iterates over the top's length and line 3 checks if the current index of iteration has reached the boundary of a column. If so, line 4 writes a separator character and a space.
 \addtocounter{enumi}{3}
-\item Line 6 checks if the current row's entry is less than zero, in which case there is nothing to align with the top, hence line 7 writes three spaces. Line 8 checks if the current entry is less than ten, in which case line 9 writes a single-character number and two spaces. If line 10 is reached, then the current entry has two characters, so line 11 lines the two-digit number and a single space.
+\item Line 6 checks if the current row's entry is less than zero, in which case there is nothing to align with the top, hence line 7 writes three spaces. Line 8 checks if the current entry is less than ten, in which case line 9 writes a single-character number and two spaces. If line 10 is reached, then the current entry has two characters, so line 11 writes the two-digit number and a single space.
 \addtocounter{enumi}{7}
 \item Line 14 checks if a new line character was requested and, if so, line 15 writes one to the file.
 \end{enumerate}
 
-The algorithm for converting a solution into text is presented below in Listing~\ref{writeSolution}. A text solution consists of the solution number within the thread-specific context, and all the rows appended using calls to Listing~\ref{writeRow}. If a single thread is used, then the solution number is unique within the set of all solutions, otherwise it is only unique within the text file created by the thread the processed the solution. The rows of the combination matrix are prepended by their side vector index, and appended by their square row index, which is an index into the array of all integer partitions of size $n$, with entries in the range $[0, n - 1]$, as previously discussed.
+%--------------------------------------------------------------------------
+The algorithm for converting a solution into text is presented below in Listing~\ref{writeSolution}. A text solution consists of the solution number within the thread-specific context, and all the rows appended using calls to Listing~\ref{writeRow}. If a single thread is used, then the solution number is unique within the set of all solutions, otherwise it is only unique within the text file created by the thread that processed the solution. The rows of the combination matrix are prepended by their side vector index, and appended by their square row index, which is an index into the array of all integer partitions of size $n$, with entries in the range $[0, n - 1]$, as previously discussed.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Writing an entire solution.},label={writeSolution}]
@@ -866,27 +873,29 @@ void writeSolution(thread_data *d, common_data *cd, FILE *solutionsFile) {
 }
 \end{lstlisting}
 
+%--------------------------------------------------------------------------
 \begin{enumerate}
-\item The inputs are the address of a thread-specific data structure, the address of a thread-common structure, and a pointer to a C-style FILE structure.
-\item Line 2 writes the solution number within the current thread context. It also writes an additioinal line break, and five spaces, since the next line to be written is the top vector, which is not prepended by a side vector entry like the other derived rows. Line 3 then calls Listing~\ref{writeRow} to write the top vector, using the fact that the latter is stored as the bottommost element of the \emph{tmpTops} stack, whose details are deferred until the next section. 
+\item The inputs are the address of a thread-specific data structure, the address of a thread-common structure, and a pointer to a FILE structure.
+\item Line 2 writes the solution number within the current thread context. It also writes an additioinal line break and five spaces, since the next line to be written is the top vector, which is not prepended by a side vector entry like the other derived rows. Line 3 then calls Listing~\ref{writeRow} to write the top vector, using the fact that the latter is stored as the bottommost element of the \emph{tmpTops} stack, whose details are deferred until the next section. 
 \addtocounter{enumi}{2}
 \item Line 5 iterates over the problem size, which is precisely the number of derived rows that combine to form a combination matrix. The thread-specific data structure provided as input contains a schematic solution, given by indices into various arrays found in the thread-common data structure. Therefore each derived row must be constructed before being written. Line 6 is then an index into the top vector, and line 7 is an index into the derived row. Line 8 is the address of the semi-magic square row within all the integer partitions, and line 9 is the address of the derived row within the row class. The memory address used to compute the spelled-out derived row is a reused scratch space, hence it is re-initialized at every iteration of the for-loop in line 5. Line 10 fills this scratch space with minus ones, as negative entries are skipped in Listing~\ref{writeRow}.
 \addtocounter{enumi}{6}
 \item Line 12 too iterates over the problem size, only this time regarding each column of the semi-magic square. Line 13 simply stores the integer partition value for the current iteration in a variable for convenience. This value is effectively the cell of the semi-magic square at row \emph{i} and column \emph{j}.
 \addtocounter{enumi}{2}
 \item The innermost for-loop in line 15 starts from the last top index and iterates $n$ times, where $n$ is the row size, and its body is responsible for matching the next \emph{pj} entries in the derived row against the entire \emph{j}\textsuperscript{th} column in the top vector, which has size $n$. Line 16 checks if all \emph{pj} entries have been matched, in which case line 17 breaks the for-loop.
-\addtocounter{enumi}{2}
+\addtocounter{enumi}{3}
 \item Line 19 checks if the derived row's entry at the current row index aligns with the current top column at the index of iteration given in line 15. If so, line 20 updates the scratch memory that will be used to write the derived row, line 21 increments the row index, and line 22 decrements \emph{pj}, which at each iteration represents the number of elements in the current square cell that still need to be matched.
-\addtocounter{enumi}{6}
-\item Line 25 increments the current top index by $n$ at each iteration of the for-loop in line 12, needed in order to traverse the top vector column-by-column.
+\addtocounter{enumi}{5}
+\item Line 25 increments the current top index by $n$ at each iteration of the for-loop in line 12, needed in order to traverse the top vector, column-by-column.
 \addtocounter{enumi}{1}
-\item Line 27 checks if the current side vector index is less than ten, that is, if it has a single digit and, if so, line 28 prepends to the derived row line the side index, followed by two spaces and a separator. If the side index requires two digits, then line 30 prepends the side index followed by a single spaces and a separator.
+\item Line 27 checks if the current side vector index is less than ten, that is, if it has a single digit and, if so, line 28 prepends to the derived row line the side index, followed by two spaces and a separator. If the side index requires two digits, then line 30 prepends the side index, followed by a single space and a separator.
 \addtocounter{enumi}{4}
 \item Line 32 calls Listing~\ref{writeRow} to write the computed derived row without a line break. Line 33 then prepends to the line the current square row index and a new line character.
 \addtocounter{enumi}{3}
 \item Line 36 simply separates this solution from the next with an additional line break.
 \end{enumerate}
 
+%--------------------------------------------------------------------------
 \begin{example}
 	Below is a sample output of Listing~\ref{writeSolution}. In it, the row $r = \{0, 1, 4, 2, 5, 3\}$ is a 6-tone row that is not retrograde or retrograde inverse-invariant. The top row is the vector $\{T_0(r), RT_3I(r), T_0I(r)\}$. The side vector is equal to $\{21, 16, 19\} = \{RT_3I(r), RT_1(r), RT_4(r)\}$. The semi-magic square is the vector $\{8, 13, 17\}$. These are indices into the array of all partitions of six, that can be inferred from the combination matrix to be the square
 	
@@ -914,6 +923,7 @@ Solution 610:
 
 \vspace{12pt}
 
+%--------------------------------------------------------------------------
 The algorithm presented in Listing~\ref{allSolutionsRecursive} is the main procedure in this implementation for computing solutions to the problem of self-derivation. Like other algorithms described in the previous sections, it is a recursive backtracking algorithm. It utilizes Listing~\ref{matchRowWithTop} as a subroutine to test if the a given representative of a row class can be matched with the top row. Listing~\ref{matchRowWithTop} is very similar to the first inner for-loop in Listing~\ref{writeSolution} in that it tries to match a transform of the row $r$ against a top vector, and that matching is done column-by-column, using the partition scheme given by the current square row. The main difference between Listing~\ref{writeSolution} and Listing~\ref{matchRowWithTop} lies in the fact that the top row is not immutable. Rather, it is some scratch memory space that gets changed every time Listing~\ref{matchRowWithTop} is called. Another key difference is the fact that Listing~\ref{matchRowWithTop} can fail to produce a match, whereas Listing~\ref{writeSolution} is only called once a solution already exists for all derived rows.
 
 %--------------------------------------------------------------------------
@@ -946,9 +956,10 @@ bool matchRowWithTop(number *top, const number *row, const number *partitions, n
 }
 \end{lstlisting}
 
+%--------------------------------------------------------------------------
 \begin{enumerate}
 \item The inputs are a memory address that holds some scratch space with size equal to the top size, the address of the transform of the row which the algorithm will try to match with the top, the address of the integer partition to be used, that is, a row from the semi-magic square, the problem size, and the row size.
-\item Like lines 6 and 7 in Listing~\ref{writeSolution}, lines 2 and 3 here are indices into the top vector and row transform. 
+\item Like lines 6 and 7 in Listing~\ref{writeSolution}, lines 2 and 3 here are indices into the top vector and row transform, respectively.
 \addtocounter{enumi}{2}
 \item Line 5 iterates over the problem size, that is, over the number of columns in the top vector, similarly to line 12 in Listing~\ref{writeSolution}. Line 6 stores in a variable the current square cell value, and the use of variable \emph{p} here is identical to the use of variable \emph{p} in Listing~\ref{writeSolution}.
 \addtocounter{enumi}{2}
@@ -956,14 +967,17 @@ bool matchRowWithTop(number *top, const number *row, const number *partitions, n
 \addtocounter{enumi}{3}
 \item Line 12 tests that the \emph{j}\textsuperscript{th} entry in the top vector matches the row transform at the current row index. Unlike Listing~\ref{writeSolution}, the top vector may not be unaltered. If the \emph{j}\textsuperscript{th} entry in the top vector was already matched to a different transform of the row $r$ in a previous call to Listing~\ref{matchRowWithTop}, then the \emph{j}\textsuperscript{th} entry in the top vector will have been set to minus one, and Listing~\ref{matchRowWithTop} will fail. Otherwise, line 13 will set the \emph{j}\textsuperscript{th} entry in the top vector to minus one, which differs from Listing~\ref{writeSolution} in the sense that the latter sets a scratch memory space that had previously initialized with minus ones to the the corresponding entry in the row transform. Line 14 increases the row index, and line 15 decreases \emph{p}, similarly to what Listing~\ref{writeSolution} does in lines 21 and 22.
 \addtocounter{enumi}{6}
-\item Line 19 checks that all \emph{p} elements from the row transform starting at row index have been matched with the current top vector column. If not, line 20 returns false.
+\item Line 19 checks that all \emph{p} elements from the row transform starting at the current row index have been matched with the current top vector column. If not, line 20 returns false.
 \addtocounter{enumi}{2}
 \item If line 22 is reached, then the top index is increased by the row size, like line 25 in Listing~\ref{writeSolution}, and the algorithm moves to the next top vector column.
 \addtocounter{enumi}{2}
 \item If line 25 is reached, then the row transform has been matched successfully to all top vector columns. Still, the algorithm performs a sanity check and confirms that all row elements have been indeed matched by comparing the current row index with the row size.
 \end{enumerate}
 
-Listing~\ref{allSolutionsRecursive} combines Listing~\ref{allSidesRecursive} and Listing~\ref{allSquaresRecursive} to compute all possible solutions for a given top. The general idea is to, for each potential row of a semi-magic square, try to match a transform of the row $r$ with the current top using Listing~\ref{matchRowWithTop}. If that succeeds, Listing~\ref{allSolutionsRecursive} recurses then backtracks, thus covering all of the row class and all of the partitions. Side vectors are not computed directly, but rather as a side effect of matching transforms of $r$ with the top. The side vector is still maintained as the algorithm recurses, as it is crucial for avoiding permutations of the rows, as previously discussed, and is also used in Listing~\ref{writeSolution} to label each derived row in the text output of a solution.
+%--------------------------------------------------------------------------
+Listing~\ref{allSolutionsRecursive} combines Listing~\ref{allSidesRecursive} and Listing~\ref{allSquaresRecursive} to compute all possible solutions for a given top. The general idea is, for each potential row of a semi-magic square, to try to match a transform of the row $r$ with the current top using Listing~\ref{matchRowWithTop}. If that succeeds, Listing~\ref{allSolutionsRecursive} recurses then backtracks, thus covering all of the row class and all of the partitions. Side vectors are not computed directly, but rather as a side effect of matching transforms of $r$ with the top. The side vector is still maintained as the algorithm recurses, as it is crucial for avoiding permutations of the rows, as previously discussed, and is also used in Listing~\ref{writeSolution} to label each derived row in the text output of a solution.
+
+\newpage
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Recursively computing all solutions for a top vector of a certain size.},label={allSolutionsRecursive}]
@@ -1010,17 +1024,18 @@ void allSolutionsRecursive(thread_data *d, common_data *cd, FILE *solutionsFile,
 }
 \end{lstlisting}
 
+%--------------------------------------------------------------------------
 \begin{enumerate}
-\item The inputs are the memory address of the thread-specific data, the memory address of the thread-common data, a pointer to a C-style FILE data structure, and the current size of the call stack.
+\item The inputs are the memory address of the thread-specific data, the memory address of the thread-common data, a pointer to a FILE data structure, and the current size of the call stack.
 \item Line 2 deals with the base case of the recursion by testing whether the current size has reached the problem size. If so, line 3 increases the thread-specific solution counter, line 4 calls Listing~\ref{writeSolution} to write the solution to the provided FILE, and line 5 returns.
 \addtocounter{enumi}{5}
-\item Line 8 initializes a variable for where iteration of integer partition rows should start, similarly to line 7 in Listing~\ref{allSquaresRecursive}.
+\item Line 8 initializes a variable representing where iteration of integer partition rows should start, similarly to line 7 in Listing~\ref{allSquaresRecursive}.
 \addtocounter{enumi}{1}
 \item Line 10 tests if the current size is greater than zero and, if so, line 11 sets the start value to the last row appended to the current semi-magic square, similarly to what line 12 in Listing~\ref{allSquaresRecursive} does, and line 12 here pushes onto the top history stack the current top. As derived rows are added to form a solution, the state of the current sum of square columns is always easy to backtrack by subtracting from the current sum array the last integer partition row that was appended to the square. Backtracking the current top, on the other hand, is more difficult. Every time a derived row is successfully matched against the current top, the entries where they align according to the square row at hand will be set to minus one in the current top. If all derived rows are matched and a solution is found, the entire current top scratch memory will contain only minus ones. Therefore backtracking the current top requires maintaining its history every time Listing~\ref{matchRowWithTop} succeeds and a new call to Listing~\ref{allSolutionsRecursive} is pushed onto the call stack.
 \addtocounter{enumi}{4}
 \item Lines 15 to 17 do exactly what lines 14 to 16 do in Listing~\ref{allSquaresRecursive}.
 \addtocounter{enumi}{3}
-\item Similarly, lines 19 and 20 are identical to lines 18 and 19 in Listing~\ref{allSquaresRecursive}. At this point, the current sum of square columns have been validated and a new integer partition row has been appended to the square. With an integer partition row and a current top in place, the algorithm now searches for a representative of the row class that will fit under the current top given the scheme provided by the integer partition. Line 21 then declares a variable to represent what the start index of iteration over the representatives of the row class should be.
+\item Similarly, lines 19 and 20 are identical to lines 18 and 19 in Listing~\ref{allSquaresRecursive}. At this point, the current sum of square columns has been validated and a new integer partition row has been appended to the square. With an integer partition row and a current top in place, the algorithm now searches for a representative of the row class that will fit under the current top given the scheme provided by the integer partition. Line 21 then declares a variable to represent what the start index of iteration over the representatives of the row class should be.
 \addtocounter{enumi}{3}
 \item The rows of the square, seen as indices into the array of all integer partition rows, form a nondecreasing sequence. That is to avoid permutations of the square's rows, as by Cor.~\ref{topSquareSideCorollary} two squares with permuted rows are equivalent. Nonetheless, squares may have several repeated rows. One simple example is the square in which all entries are equal to $n / m$, where $n$ is the row size, $m$ is the problem size, and $m$ divides $n$. Line 23 tests for the case where the current square row is the same as the previous one, which can only be true if the current size is greater than zero. If that is the case, then the sequence of representatives of the row class that fall under the subsequence of repeated integer partition rows can be allowed to be nondecreasing, as well, to avoid permutations that would produce equivalent solutions. In fact, a stronger condition applies, and the sequence of representatives falling under repeated square rows can be strictly increasing. That is because the same representative of a row class cannot fit under the top row twice using the same integer partition row scheme. Line 24 then changes the start index of iteration over the representatives of the row class accordingly.
 \addtocounter{enumi}{2}
@@ -1028,7 +1043,7 @@ void allSolutionsRecursive(thread_data *d, common_data *cd, FILE *solutionsFile,
 \addtocounter{enumi}{2}
 \item Line 29 is a call to Listing~\ref{matchRowWithTop}. If it succeeds, line 30 sets the next row representative index in the side vector and increases the current size. Line 31 then pushes another call to Listing~\ref{allSolutionsRecursive} onto the stack, and line 32 backtracks the current size.
 \addtocounter{enumi}{5}
-\item Line 35 backtracks the current top to its previous state, using the top history stored in the top stack in line 12. Every call to Listing~\ref{matchRowWithTop} is matched with the backtracking procedure in line 35.
+\item Line 35 backtracks the current top to its previous state, using the top history stored in the top history stack in line 12. Every call to Listing~\ref{matchRowWithTop} is matched with the backtracking procedure in line 35.
 \addtocounter{enumi}{3}
 \item Finally, line 39 backtracks the current sum of square columns with a balancing call to Listing~\ref{minus}, similarly to what Listing~\ref{allSquaresRecursive} does in its line 24.
 \end{enumerate}
