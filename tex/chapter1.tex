@@ -713,7 +713,13 @@ Three algorithms for computing combination matrices of self-derivation are prese
 \end{example}
 
 %--------------------------------------------------------------------------
-In a complementary but diametrically opposite approach to \cite{Starr1984}, \cite{Kowalski1987b} proposes an algorithmic view of the specific problem of computing combination matrices of self-derivation.
+In a complementary but diametrically opposite approach to \cite{Starr1984}, \cite{Kowalski1987b} proposes an algorithmic view of the specific problem of computing combination matrices of self-derivation. The point of departure of the proposed algorithm is to find the embeddings of transformed row segments in the row itself. These embeddings are pre-computed and stored in a lookup table, then used to construct the first column of a combination matrix by splitting the row into an arbitrary number of initial segments of itself under some transformation \cite[29]{Kowalski1987b}. The algorithm artificially constrains the first column of the combination matrix by disallowing empty cells. This constraint is justified by an increase in performance \cite[30]{Kowalski1987b}.
+
+- construct all possible aggregate-forming partitions of the remaining columns
+
+- examine the resultant order constraints
+
+- try to find a transform of the series that is compatible with these constraints
 
 %--------------------------------------------------------------------------
 \section{Final Remarks}
