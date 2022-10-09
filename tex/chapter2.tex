@@ -56,6 +56,8 @@ bool isRetrograded(const number *row, number rowSize, bool isInvariant) {
 
         if (back < front)
             return true;
+        else if (back > front)
+            return false;
     }
 
     return false;
@@ -72,8 +74,10 @@ bool isRetrograded(const number *row, number rowSize, bool isInvariant) {
 \item Lines 8 and 9 simply update the variables \emph{front} and \emph{back} using Listing~\ref{intervalClass} defined above. As $i$ increases, \emph{front} traverses half of the interval classes in the row from left to right, whereas \emph{back} does the same from right to left, that is, \emph{back} looks at the row as if it were retrograded.
 \addtocounter{enumi}{2}
 \item Line 11 compares the front and back interval classes and line 12 returns true if any interval class seen from right to left is strictly less than the corresponding interval class seen from left to right, which would indicate that retrograding the row would produce a row with a lower lexicographic position than the one given as input.
+\addtocounter{enumi}{1}
+\item Line 13 performs the opposite check in line 11 and line 14 returns true in this case, as the given row is already in a lower lexicographic position than its retrograde.
 \addtocounter{enumi}{3}
-\item If all interval classes seen from both directions are equal, then the row is retrograde or retrograde inverse-invariant. Line 15 then returns false to avoid unnecessarily reversing a row that is invariant.
+\item If all interval classes seen from both directions are equal, then the row is retrograde or retrograde inverse-invariant. Line 17 then returns false to avoid unnecessarily reversing a row that is invariant. However, line 17 exists for correctness and should never be reached when the row given as input is correctly formed.
 \end{enumerate}
 
 %--------------------------------------------------------------------------
