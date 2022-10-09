@@ -418,7 +418,7 @@ An analogue to the technique of oblique combination described in \cite[241, 267]
 \vspace{12pt}
 
 %--------------------------------------------------------------------------
-Self-derivation may be seen both from the set-theoretic perspective, and from the standpoint of aggregate realizations is discussed in \cite[217, 226]{Starr1984}. The only difference between self-derivation and the general case is that in combination matrices of self-derivation all row forms belong to the same row class, that is, all rows are $RT_nI$-transforms of the original row. The same applies to folded and skewed combination matrices of self-derivation. The general scheme for a two-row combination matrix of self-derivation involving the retrograde is given in Eq.~\ref{eq:derivation-self} \cite[219]{Starr1984}. It is stated without proof in \cite[217]{Starr1984} that the operations $F$ and $G$ in Eq.~\ref{eq:derivation-self} must commute. For this type of self-derivation on two-row counterpoint, however, simple inspection of the examples that follow such statement already affords a counter-proof, as described in Ex.~\ref{topSquareSideExample}. Similarly to the general derivation case, two-row self-derivations can also be folded. What is unique to self-derivation, however, is that the same pattern of order numbers that give the self-derived transform of a row can be used to fold each row of a combination matrix, as seen in Ex.~\ref{self-folded}. The folded rows can subsequently be folded, and this procedure can generate many levels of self-derivation \cite[221]{Starr1984}. Ex.~\ref{ex:scotto} provides a musical application of folded self-derivation matrices that constitute the main compositional procedure in Ciro Scotto's \emph{Tetralogy}.
+Self-derivation is discussed in \cite[217, 226]{Starr1984} both from the set-theoretic perspective, and from the standpoint of aggregate realizations. The only difference between self-derivation and the general case is that in combination matrices of self-derivation all row forms belong to the same row class, that is, all rows are $RT_nI$-transforms of the original row. The same applies to folded and skewed combination matrices of self-derivation. The general scheme for a two-row combination matrix of self-derivation involving the retrograde is given in Eq.~\ref{eq:derivation-self} \cite[219]{Starr1984}. It is stated without proof in \cite[217]{Starr1984} that the operations $F$ and $G$ in Eq.~\ref{eq:derivation-self} must commute. For this type of self-derivation on two-row counterpoint, however, simple inspection of the examples that follow such statement already affords a counter-proof, as described in Ex.~\ref{topSquareSideExample}. Similarly to the general derivation case, two-row self-derivations can also be folded. What is unique to self-derivation, however, is that the same pattern of order numbers that give the self-derived transform of a row can be used to fold each row of a combination matrix, as seen in Ex.~\ref{self-folded}. The folded rows can subsequently be folded, and this procedure can generate many levels of self-derivation \cite[221]{Starr1984}. Ex.~\ref{ex:scotto} provides a musical application of folded self-derivation matrices that constitute the main compositional procedure in Ciro Scotto's \emph{Tetralogy}.
 
 %--------------------------------------------------------------------------
 \begin{equation}
@@ -713,16 +713,81 @@ Three algorithms for computing combination matrices of self-derivation are prese
 \end{example}
 
 %--------------------------------------------------------------------------
-In a complementary but diametrically opposite approach to \cite{Starr1984}, \cite{Kowalski1987b} proposes an algorithmic view of the specific problem of computing combination matrices of self-derivation. The point of departure of the proposed algorithm is to find the embeddings of transformed row segments in the row itself. These embeddings are pre-computed and stored in a lookup table, then used to construct the first column of a combination matrix by splitting the row into an arbitrary number of initial segments of itself under some transformation \cite[29]{Kowalski1987b}. The algorithm artificially constrains the first column of the combination matrix by disallowing empty cells. This constraint is justified by an increase in performance \cite[30]{Kowalski1987b}.
+In a complementary but diametrically opposite approach to \cite{Starr1984}, \cite{Kowalski1987b} proposes an algorithmic view of the specific problem of computing combination matrices of self-derivation. The point of departure of the proposed algorithm is to find the embeddings of transformed row segments in the row itself. These embeddings are pre-computed and stored in a lookup table, then used to construct the first column of a combination matrix by splitting the row into an arbitrary number of initial segments of itself under some transformation \cite[29]{Kowalski1987b}. The algorithm artificially constrains the first column of the combination matrix by disallowing empty cells. This constraint is justified by an increase in performance \cite[30]{Kowalski1987b}. After constructing the first column, the algorithm enumerates all integer partitions of the row size with length equal to the problem size $N$, and finds the next partition that can be used in the next column. In the process, all partitions that cannot be matched with the partitions already present in the previous columns are skipped. Whenever a partition is capable of producing an aggregate, the algorithm moves onto the next column. If all columns up to $N - 1$ are well-formed, the $N$-\textsuperscript{th} column does not need to be verified \cite[31]{Kowalski1987b}. At each column after the first, an order matrix is generated for the column and compared to other transforms in the row class using the $\lor$ operator, as these are binary matrices. If a transform can be found that contains no contradictions with the order matrix for the column at hand, then that transform can be derived from the column. After forming all columns, the algorithm is backtracked so that other possible row transforms may be found. During this phase, if all possibilities were searched, or if some column is incapable of producing a result, then the algorithm resumes the partition enumeration process, trying all possible order matrices for each partition that fits. After trying all partitions for the $(N - 1)$-\textsuperscript{th} column, the algorithm backtracks to the previous column, trying all remaining partitions. After trying all partitions for the second column, a new first column is generated, using the lookup table of embeddings. After trying all combination of size $N$ from the lookup table of embeddings, the process is repeated reading the embedding table backwards while attempting to form the first columns, that is, trying to derive retrograde transforms in them, provided the row is not retrograde-invariant. This entire process is repeated with increasing problem sizes, up to the maximum desired size \cite[32]{Kowalski1987b}.
 
-- construct all possible aggregate-forming partitions of the remaining columns
-
-- examine the resultant order constraints
-
-- try to find a transform of the series that is compatible with these constraints
+Alg.~\ref{alg:kowalski} shows in pseudocode the entire algorithm described in \cite{Kowalski1987b}. In addition to the procedure illustrated above, the full algorithm iterates over every 12-tone row class, looking for combination matrices of self-derivation in all of them. These row classes are generated in ascending order, as if each row were a 12-digit integer. After generating a new row, if any transform of the row starting with zero is smaller than the row being considered, then this row is skipped. Moreover, the algorithm only considers rows that start with zero, since any other would belong to a row class that has a representative that starts with zero. Rows with a beginning interval $i$ larger than six are also skipped, since those may be considered the inversion of a row beginning with the complement of $i$ \cite[34]{Kowalski1987b}. Similarly, if $i = 5$, then the row may be construed as the $M$-transform of a row in which the first interval is $M(i) = 1$. Rows that have an initial segment of form $\{0, 6, x\}$, with $x > 6$ may also be immediately skipped, since they can be seen as the inverse of a row whose initial segment is $\{0, 6, 12 - x\}$. Analogously, rows that have an initial segment of form $\{0, 6, 5\}$ may also be seen as the $M$-transform of a row whose initial segment is $\{0, 6, 1\}$. Altogether, this reasoning affords contemplating only rows with initial segment in the set
+\begin{equation}
+	\{\{0, 1\}, \{0, 2\}, \{0, 3\}, \{0, 4\}, \{0, 6, 1\}, \{0, 6, 2\}, \{0, 6, 3\}, \{0, 6, 4\}\} \enspace.
+\end{equation}
 
 %--------------------------------------------------------------------------
-\section{Final Remarks}
+\begin{algorithm}
+\caption{\cite[35, 36, 37]{Kowalski1987b}}
+\label{alg:kowalski}
+\DontPrintSemicolon
+\SetKw{KwGoTo}{goto}
+Let $ROW$ be the chromatic scale\;
+Find the next permutation of 12 pitch-classes\;
+\If{All permutations have been found}{\Return}
+Compare $ROW$ with all transforms in its row class that begin with zero\;
+\If{Any transform of $ROW$ is numerically lower than $ROW$}{\KwGoTo line 2}
+Let $N$ be the smallest problem size minus one\;
+Let $IMBED$ be the table of all embeddings of the row class of $ROW$ in itself\;
+Let $MAXLEN$ be the longest embedding in the table $IMBED$\;
+$N \gets N + 1$\;
+\If{$N$ is greater than the largest problem size}{\KwGoTo line 2}
+\If{$MAXLEN < 12 / N$}{\KwGoTo line 11}
+Take the next $N$-entry combination from the $IMBED$ table\;
+\If{All possibilities in $IMBED$ have been tried}{\KwGoTo line 11}
+Take the next element of the combination\;
+\If{All elements have been tried}{\KwGoTo line 16}
+\If{The element duplicates pitch-classes from elements in the same column}{Reduce the element to eliminate duplicates}
+\If{The first pitch-class of the element is a duplicate}{\KwGoTo line 16}
+\uIf{The columnar aggregate is not complete}{\KwGoTo line 19}
+\ElseIf{The columnar aggregate contains fewer than $N$ row segments}{\KwGoTo line 19}
+Let $M \gets 1$\;
+$M \gets M + 1$\;
+\If{$M > N - 1$}{\KwGoTo line 11}
+\uIf{All partitions have not been tried for column $M$}{\KwGoTo line 42}
+\Else{$M \gets M - 1$}
+\uIf{$M > 1$}{\KwGoTo line 34}
+\end{algorithm}
+
+%--------------------------------------------------------------------------
+\setlength{\interspacetitleruled}{0pt}%
+\setlength{\algotitleheightrule}{0pt}%
+
+\begin{algorithm}
+\SetKw{KwGoTo}{goto}
+\DontPrintSemicolon
+\setcounter{AlgoLine}{39}
+\Else{\KwGoTo line 11}
+Take the next partition for the current column $M$\;
+\If{Partition does not fit $M$}{\KwGoTo line 34}
+\If{No aggregates are possible for the partition}{\KwGoTo line 34}
+\If{$M < N - 1$}{\KwGoTo line 31}
+Let $J \gets 1$\;
+$J \gets J + 1$\;
+Let $OM$ be the order matrix for column $J$\;
+\uIf{$OM$ has not been compared to all order matrices in the row class of $ROW$}{\KwGoTo line 62}
+\uElseIf{Column $J$ produced no derivations}{\KwGoTo line 30}
+\Else{$J \gets J - 1$}
+\uIf{$J = 0$}{\KwGoTo line 73}
+\Else{\KwGoTo line 51}
+Compare $OM$ with the next transform of $ROW$ using the $\lor$ operator\;
+\If{Any contradictions are found}{\KwGoTo line 52}
+\uIf{$J = N$ and this is the first derivation of column $J$}{Print the combination matrix}
+\Else{Store this derivation}
+\uIf{Not all columns have produced a derivation}{\KwGoTo line 50}
+\Else{\KwGoTo line 52}
+Print all stored alternatives for this combination matrix and \KwGoTo line 30\;
+\uIf{$ROW$ is retrograde-invariant}{Go to line 2}
+\Else{Take the retrograde of $ROW$}
+Change $IMBED$ to point at $R$-embeddings and \KwGoTo line 16\;
+\end{algorithm}
+
+%--------------------------------------------------------------------------
+\section{Objectives and Limitations}
 
 %--------------------------------------------------------------------------
 The main objective of the present paper is to understand the construction of combination matrices of self-derivation from an algorithmic standpoint. The techniques proposed in \cite{Starr1984} for self-derivation depart from row segments, aggregate realizations or columnar aggregates to construct a total order, but the row as a whole is not known before hand. The algorithm proposed in the next chapter will approach the problem of self-derivation from previous knowledge of row. In other words, given a row and a combination matrix size, what are all the possible combination matrices of self-derivation that can be constructed. A fundamental aspect of this algorithm is that it is conceived in all generality, that is, there are no restrictions to row or to problem sizes, hence it will be possible to compute combination matrices for arbitrary $n$-tone equal temperament systems, if the intention is to use the results to organize pitch classes. However, this generality also implies that self-derivation be used for musical dimensions other than pitch, for which the 12-TET paradigm might not apply. Another important concern is the reduction of the body of solutions into representatives of equivalence classes. Reducing solutions is fundamental for improving execution time and space requirements. The last chapter of the present work will present musical applications of self-derivation as obtained by the proposed model and algorithm. The main relevance of this research is that it extends the field of self-derivation with a novel algorithm based on semi-magic squares. This procedure is simple enough to compute solutions by hand, and powerful enough to compute thousands of solutions in a few milliseconds using a computer. It also completely general with regard to row and matrix sizes. Moreover, it complements the existing techniques and algorithms in the literature by allowing the composer to use a pre-existing row as input, rather than to have a row composed as a byproduct of the procedure. An important contribution is the understanding of how the group $RT_nI$ acts on the set of solutions produced by the algorithm, inducing orbits of different sizes depending on whether the input row is retrograde-invariant or not.
