@@ -311,7 +311,7 @@ The procedure described in Ex.~\ref{ex:derivation} represents a type of derivati
 A distinction is made in \cite[211, 214]{Starr1984} between derivation and polyphonyzation. The former departs from a combination matrix of rows to infer a concatenation of rows that constitute the linearized result of flattening the combination matrix. The latter is the opposite concept, that is, given a concatenation of rows, a combination matrix is constructed such that each column breaks down the row at the top into disjoint ordered segments. Although differentiating between derivation and polyphonization is an important concept in the set-theoretic view of the problem, this paper shall not make that distinction. The term derivation will be used indiscriminately to both the breaking down of rows into contrapuntal combination matrices, and the flattening thereof.
 
 %--------------------------------------------------------------------------
-A related technique involving greater than 2-row counterpoint is achieved by folding a combination matrix. The process is similar to first constructing a matrix of hexachordal combinatoriality in the traditional sense, then deriving rows from this matrix using the techniques above. Let $S$ be a row whose first hexachord is invariant under the operation $G$. Consider a row $V = V_1 | V_2$ and an operation $F$ such that $S$ is in the total order order class of $V_1 \cup \R \circ \F(V_2)$. Then putting $S$ in counterpoint with $G(S)$, as well as deriving $V$ from $S | \R\circ F(S)$, yields the schematic representation in Eq.~\ref{eq:derivation-folded}. It is argued without proof that vertically satisfying $G$ while horizontally satisfying $F$ implies $F$ and $G$ must commute \cite[215]{Starr1984}. Ex.~\ref{derivation-folded} shows an application of folded derivation.
+A related technique involving greater than 2-row counterpoint is achieved by folding a combination matrix. The process is similar to first constructing a matrix of hexachordal combinatoriality in the traditional sense, then deriving rows from this matrix using the techniques above. Let $S$ be a row whose first hexachord is invariant under the operation $G$. Consider a row $V = V_1 | V_2$ and an operation $F$ such that $S$ is in the total order order class of $V_1 \cup \R \circ \F(V_2)$. Then putting $S$ in counterpoint with $G(S)$, as well as deriving $V$ from $S | \R\circ F(S)$, yields the schematic representation in Eq.~\ref{eq:derivation-folded}. It is argued without proof that vertically satisfying $G$ while horizontally satisfying $F$ implies $F$ and $G$ must commute \cite[215]{Starr1984}. Ex.~\ref{ex:derivation-folded} shows an application of folded derivation.
 
 %--------------------------------------------------------------------------
 \begin{equation}
@@ -713,7 +713,32 @@ Three algorithms for computing combination matrices of self-derivation are prese
 \end{example}
 
 %--------------------------------------------------------------------------
-The framework provided by \cite{Starr1984} is expanded in \cite{Kowalski1987a}, a paper that focuses exclusively on the problem of self-derivation. In particular, this focus is restricted to combination matrices with problem sizes two and three, as larger problem sizes are deemed more straightforward to achieve.
+The framework provided by \cite{Starr1984} is expanded in \cite{Kowalski1987a}, a paper that focuses exclusively on the problem of self-derivation. In particular, this focus is restricted to combination matrices with problem sizes two and three, as larger problem sizes are deemed increasingly straightforward to achieve. The technique of folding, as illustrated in Ex.~\ref{self-folded}, is discussed in depth and presented as an alternative to achieving larger than $2 \times 2$ combination matrices \cite[298]{Kowalski1987a}. The direction taken in \cite{Kowalski1987a} differs substantially form \cite{Starr1984} not only in the sense that the former does not contemplate derivation in general, but also because it constantly emphasizes qualitative aspects of self-derivation. Arguably the greatest contribution in that regard is the introduction of the concept of \emph{merge index} in combination matrices of self-derivation. The merge index measures how rows segments are interweaved in a combination matrix and is defined as the number of discrete row segments present in all derived rows, divided by the total number of rows. Ex.~\ref{ex:merge-index} illustrates the basic idea. In general, the more trivial the self-derivation, the lower the merge index \cite[310]{Kowalski1987a}.
+
+%--------------------------------------------------------------------------
+\begin{example}
+	\cite[314]{Kowalski1987a}
+	\label{ex:merge-index}
+    The $3 \times 3$ combination matrix $A$ has 10 discrete row segments in all its derived rows. Since there are three derived rows in total, the merge index of $A$ is $10 / 3 = 3.33$. This is considered a rather low merge index.
+    \begin{multline}
+        A = \left[
+        \begin{array}{cccccccccccc|ccccc}
+        &&&&&&&&&& 2 & 3 &&&&& \\
+        0 & 1 & 4 &&& 10 & 9 & 6 & 5 &&&& 7 & 8 & 11 & 2 & 3 \\
+        &&& 7 & 8 &&&&& 11 &&&&&&&
+        \end{array}
+        \right. \cdots \\\\
+        \cdots \left.
+        \begin{array}{ccccccc|cccccccccccc}
+        &&&& 6 & 9 & 10 &&&&&& 0 & 11 & 8 & 7 & 1 & 4 & 5 \\
+        &&&&&&&&&&&&&&&&&& \\
+        5 & 4 & 1 & 0 &&&& 2 & 3 & 6 & 9 & 10 &&&&&&&
+        \end{array}
+        \right] \enspace.
+    \end{multline}
+\end{example}
+
+\vspace{12pt}
 
 %--------------------------------------------------------------------------
 In a complementary but diametrically opposite approach to \cite{Starr1984}, \cite{Kowalski1987b} proposes an algorithmic view of the specific problem of computing combination matrices of self-derivation. The point of departure of the proposed algorithm is to find the embeddings of transformed row segments in the row itself. These embeddings are pre-computed and stored in a lookup table, then used to construct the first column of a combination matrix by splitting the row into an arbitrary number of initial segments of itself under some transformation \cite[29]{Kowalski1987b}. The algorithm artificially constrains the first column of the combination matrix by disallowing empty cells. This constraint is justified by an increase in performance \cite[30]{Kowalski1987b}. After constructing the first column, the algorithm enumerates all integer partitions of the row size with length equal to the problem size $N$, and finds the next partition that can be used in the next column. In the process, all partitions that cannot be matched with the partitions already present in the previous columns are skipped. Whenever a partition is capable of producing an aggregate, the algorithm moves onto the next column. If all columns up to $N - 1$ are well-formed, the $N$-\textsuperscript{th} column does not need to be verified \cite[31]{Kowalski1987b}. At each column after the first, an order matrix is generated for the column and compared to other transforms in the row class using the $\lor$ operator, as these are binary matrices. If a transform can be found that contains no contradictions with the order matrix for the column at hand, then that transform can be derived from the column. After forming all columns, the algorithm is backtracked so that other possible row transforms may be found. During this phase, if all possibilities were searched, or if some column is incapable of producing a result, then the algorithm resumes the partition enumeration process, trying all possible order matrices for each partition that fits. After trying all partitions for the $(N - 1)$-\textsuperscript{th} column, the algorithm backtracks to the previous column, trying all remaining partitions. After trying all partitions for the second column, a new first column is generated, using the lookup table of embeddings. After trying all combination of size $N$ from the lookup table of embeddings, the process is repeated reading the embedding table backwards while attempting to form the first columns, that is, trying to derive retrograde transforms in them, provided the row is not retrograde-invariant. This entire process is repeated with increasing problem sizes, up to the maximum desired size \cite[32]{Kowalski1987b}.
