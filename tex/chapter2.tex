@@ -236,7 +236,7 @@ The purpose of the procedure described in Listing~\ref{getRowClass} is to store 
 	\begin{equation}
 		P = (0 \; n - 1) \; (1 \; n - 2) \; \cdots \; (\lfloor \tfrac{n}{2} \rfloor) \enspace .
 	\end{equation}
-	Since $P$ is a transposition, the only possibility is $P = T_{\frac{n}{2}}$ with $n$ even.
+	Since $P$ is a transposition, the only possibility is $P = T_{\frac{n}{2}}$, with $n$ even.
 	\end{proof}
 \end{lemma}
 
@@ -1054,7 +1054,7 @@ void allSolutionsRecursive(thread_data *d, common_data *cd, FILE *solutionsFile,
 \section{Creating work data for use in concurrent threads}
 
 %--------------------------------------------------------------------------
-This section outlines the procedures used for allocating the data structures to be used as inputs to Listing~\ref{allSolutionsRecursive}. Pre-allocating and reusing scratch memory locations is absolutely critical for the performance of all algorithms described above. Unnecessary calls to allocate and deallocate memory can significantly increase the time it takes for Listing~\ref{allSolutionsRecursive} to execute as row size and problem size grow. Listing~\ref{createCommonData} describes how thread-common data is allocated, and every call to Listing~\ref{createCommonData} should be balanced with a call to Listing~\ref{destroyCommonData} when resources are no longer needed. Listing~\ref{createCommonData} allocates two arrays with size equal to the row class size. These are namely the retrograde and the retrograde inverse maps. As the names suggest, theses are mappings between indices within the row class. The retrograde map takes an element into its retrograde, and the retrograde inverse map takes an element into its retrograde inverse. These maps will be used in conjunction with Listing~\ref{unseen}, thus further details are deferred until the next section.
+This section outlines the procedures used for allocating the data structures to be used as inputs to Listing~\ref{allSolutionsRecursive}. Pre-allocating and reusing scratch memory locations is absolutely critical for the performance of all algorithms described above. Unnecessary calls to allocate and deallocate memory can significantly increase the time it takes for Listing~\ref{allSolutionsRecursive} to execute as row size and problem size grow. Listing~\ref{createCommonData} describes how thread-common data is allocated, and every call to Listing~\ref{createCommonData} should be balanced with a call to Listing~\ref{destroyCommonData} when resources are no longer needed. Listing~\ref{createCommonData} allocates two arrays with size equal to the row class size. These are namely the retrograde and the retrograde inverse maps. As the names suggest, these are mappings between indices within the row class. The retrograde map takes an element into its retrograde, and the retrograde inverse map takes an element into its retrograde inverse. These maps will be used in conjunction with Listing~\ref{unseen}, thus further details are deferred until the next section.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Allocating thread-common data.},label={createCommonData}]
