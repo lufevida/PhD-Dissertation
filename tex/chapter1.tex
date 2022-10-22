@@ -44,7 +44,7 @@ Many structured approaches to derivation exist that guarantee that the extracted
 
 %--------------------------------------------------------------------------
 \begin{example}
-The basic row in Berg's \emph{Lulu} \cite[182]{Starr1984} may be used as motivation for a basic derivation procedure. The first step is to create a $2 \times 24$ array where the first row $S$ is followed by $\R(S)$, and the second row is initially undefined.
+The basic row in Berg's \emph{Lulu} \cite[182]{Starr1984} may be used as motivation for a basic derivation procedure. The first step is to create a $2 \times 24$ array where the first row $S$ is followed by $R(S)$, and the second row is initially undefined.
 \begin{equation}
     \left[
     \begin{array}{cccccccccccc|cccccccccccc}
@@ -62,12 +62,12 @@ Next, an arbitrary segment is chosen, separated from the the top row, and placed
     \end{array}
     \right] \enspace.
 \end{equation}
-Let $V = \{ 2, 3, 4, 6, 9, 8, 1, 11, 7, 5, 0, 10 \}$. Then $V$ is a row derived from $S$. In particular, the ordered segment $\{ 10, 0, 5, 7 \}$ in $S$ is preserved by $\R(V)$, and a counterpoint that combines $S$ vertically with $V$ horizontally is possible by construction.
+Let $V = \{ 2, 3, 4, 6, 9, 8, 1, 11, 7, 5, 0, 10 \}$. Then $V$ is a row derived from $S$. In particular, the ordered segment $\{ 10, 0, 5, 7 \}$ in $S$ is preserved by $R(V)$, and a counterpoint that combines $S$ vertically with $V$ horizontally is possible by construction.
 \label{ex:derivation}
 \end{example}
 
 %--------------------------------------------------------------------------
-It is of interest to note at this point that, in this kind of construction, the choice of a particular segment is already an important compositional decision. This choice bears relevance in that it establishes motivic material, that is, the segment itself. It also potentially introduces complementary harmonic regions, one given by the segment, the other given by its set complement. Moreover, and perhaps more importantly, it presents an opportunity for exploring syntax. There are a multitude of ways in which a composer may obtain syntax from a simple derivation procedure such as the one given in Ex.~\ref{ex:derivation}. One way would be to find an operation that makes the chosen segment invariant. In particular, it is easily checked that $S_1 = \{ 10, 0, 5, 7 \} = \R\T_5\I(S_1)$. Ex.~\ref{ex:derivation} can then be followed by the combination matrix $[\R\T_5\I(S) \; | \; \T_5\I(S_1)]$. In this second matrix, the segment $S_1$ could be preserved, but the row derived from $\R\T_5\I(S)$ by preserving the segment $S_1$ would not be a transform of $V$. If the set complement of $S_1$ in $V$ were parsed to produce more than one harmonic region, then the complement of $S_1$ under this newly derived row would produce different harmonic regions under the same parsing. This procedure can be very pertinent compositionally, as it would be capable of producing contrasting harmonic regions while maintaining motivic coherence under the $S_1$ segment. Yet another way of generating syntax from derivation would be to follow $S$ with $V$ itself. A new row would then be derived from $V$, say $Q$, and eventually $V$ would be followed by $Q$. Repeating this procedure \emph{ad libitum} could generate many contrasting harmonic regions. In particular, this type of procedure is seen in Donald Martino's \emph{Notturno} of 1974, a composition that won the Pulitzer Prize in the following year \cite[181]{Starr1984}. If, by compositional choice, the chain of derived rows picked always the same order numbers, then a potential for rhythmic and agogic coherence could also be explored.
+It is of interest to note at this point that, in this kind of construction, the choice of a particular segment is already an important compositional decision. This choice bears relevance in that it establishes motivic material, that is, the segment itself. It also potentially introduces complementary harmonic regions, one given by the segment, the other given by its set complement. Moreover, and perhaps more importantly, it presents an opportunity for exploring syntax. There are a multitude of ways in which a composer may obtain syntax from a simple derivation procedure such as the one given in Ex.~\ref{ex:derivation}. One way would be to find an operation that makes the chosen segment invariant. In particular, it is easily checked that $S_1 = \{ 10, 0, 5, 7 \} = RT_5I(S_1)$. Ex.~\ref{ex:derivation} can then be followed by the combination matrix $[RT_5I(S) \; | \; T_5I(S_1)]$. In this second matrix, the segment $S_1$ could be preserved, but the row derived from $RT_5I(S)$ by preserving the segment $S_1$ would not be a transform of $V$. If the set complement of $S_1$ in $V$ were parsed to produce more than one harmonic region, then the complement of $S_1$ under this newly derived row would produce different harmonic regions under the same parsing. This procedure can be very pertinent compositionally, as it would be capable of producing contrasting harmonic regions while maintaining motivic coherence under the $S_1$ segment. Yet another way of generating syntax from derivation would be to follow $S$ with $V$ itself. A new row would then be derived from $V$, say $Q$, and eventually $V$ would be followed by $Q$. Repeating this procedure \emph{ad libitum} could generate many contrasting harmonic regions. In particular, this type of procedure is seen in Donald Martino's \emph{Notturno} of 1974, a composition that won the Pulitzer Prize in the following year \cite[181]{Starr1984}. If, by compositional choice, the chain of derived rows picked always the same order numbers, then a potential for rhythmic and agogic coherence could also be explored.
 
 %TODO: make a distinction here between polyphonization and derivation
 
@@ -229,10 +229,10 @@ In one of the seminal academic works in the field of twelve-tone theory, \cite{S
     \label{starr-theorem-operations}
     Let $C$ be a pitch-class relation and $\{ a, b \}$ an element of $U$ such that $\{ a, b \} \in C$.
     \begin{enumerate}[i.]
-        \item If $F$ is a pitch-class operation, then $\{ F(a), F(b) \} \in F(C)$ if and only if $\{ a, b \} \in C$. In particular, if $\R(C)$ is the retrograde of $C$, then $\{ a, b \} \in \R(C)$ if and only if $\{ b, a \} \in C$.
-        \item If $C$ is totally ordered, then $\R(C) = (S \setminus D) \cup F$, where $S$ is the simultaneous aggregate and $F$ is the free aggregate.
+        \item If $F$ is a pitch-class operation, then $\{ F(a), F(b) \} \in F(C)$ if and only if $\{ a, b \} \in C$. In particular, if $R(C)$ is the retrograde of $C$, then $\{ a, b \} \in R(C)$ if and only if $\{ b, a \} \in C$.
+        \item If $C$ is totally ordered, then $R(C) = (S \setminus D) \cup F$, where $S$ is the simultaneous aggregate and $F$ is the free aggregate.
         \item If $C_1$ covers $C_2$, then $F(C_1)$ covers $F(C_2)$.
-        \item Finally, if $C$ is $F\R$-invariant, then all cycles in $F$ have length two.
+        \item Finally, if $C$ is $FR$-invariant, then all cycles in $F$ have length two.
     \end{enumerate}
 \end{theorem}
 
@@ -263,29 +263,29 @@ An aggregate realization is a particular type of partial order $C$ in which, for
 \end{example}
 
 %--------------------------------------------------------------------------
-A row segment is a pitch-class relation that is reflexive, transitive, and antisymmetric, with the additional requirement that some subset of its order constraints also satisfy trichotomy. Any partial order that covers some row segment is said to be an embedded segment of that partial order. By transitivity of covering, any other partial order covering the former partial order will have the aforementioned row segment embedded in it, including naturally any total order in its total order class. In this sense, a partial order may be seen as the union of its various embedded segments \cite[198]{Starr1984}. Row segments may be concatenated in a natural way. Let $X = \{ 0, 1, 2 \}$ and $Y = \{ 3, 4, 5 \}$ be row segments such that $X \cap Y = \emptyset$ when seeing $X$ and $Y$ as partial orders. The concatenation $X | Y$ will then be the partial order $X \cup Y \cup \{ \{ a, b \} : a \in X, b \in Y \}$. It follows both $X$ and $Y$ are embedded row segments of $X | Y$. The use of concatenation here is sequential, that is, the entire row segment $X$ precedes the entire row segment $Y$ in $X | Y$. In other words, intercalation of segments is not allowed when concatenating. Finding embedded segments that are common to different partial orders is straightforward. Let $X = \{ 0, 1, 7, 2, 10, 9, 11, 4, 8, 5, 3, 6 \}$ and $Y = \{ 1, 2, 8, 3, 11, 10, 0, 5, 9, 6, 4, 7 \}$ be total orders. In particular, $Y = \T_1(X)$. Pruning the intersection $X \cap Y$ yields a graph whose longest row segments are $\{ 1, 2, 10, 9, 4 \}$, $\{ 1, 2, 10, 5, 6 \}$, $\{ 1, 2, 11, 5, 6 \}$, $\{ 1, 2, 8, 5, 6 \}$, and $\{ 1, 2, 8, 3, 6 \}$. These row segments are then the longest embedded segments of both $X$ and $Y$ \cite[200]{Starr1984}.
+A row segment is a pitch-class relation that is reflexive, transitive, and antisymmetric, with the additional requirement that some subset of its order constraints also satisfy trichotomy. Any partial order that covers some row segment is said to be an embedded segment of that partial order. By transitivity of covering, any other partial order covering the former partial order will have the aforementioned row segment embedded in it, including naturally any total order in its total order class. In this sense, a partial order may be seen as the union of its various embedded segments \cite[198]{Starr1984}. Row segments may be concatenated in a natural way. Let $X = \{ 0, 1, 2 \}$ and $Y = \{ 3, 4, 5 \}$ be row segments such that $X \cap Y = \emptyset$ when seeing $X$ and $Y$ as partial orders. The concatenation $X | Y$ will then be the partial order $X \cup Y \cup \{ \{ a, b \} : a \in X, b \in Y \}$. It follows both $X$ and $Y$ are embedded row segments of $X | Y$. The use of concatenation here is sequential, that is, the entire row segment $X$ precedes the entire row segment $Y$ in $X | Y$. In other words, intercalation of segments is not allowed when concatenating. Finding embedded segments that are common to different partial orders is straightforward. Let $X = \{ 0, 1, 7, 2, 10, 9, 11, 4, 8, 5, 3, 6 \}$ and $Y = \{ 1, 2, 8, 3, 11, 10, 0, 5, 9, 6, 4, 7 \}$ be total orders. In particular, $Y = T_1(X)$. Pruning the intersection $X \cap Y$ yields a graph whose longest row segments are $\{ 1, 2, 10, 9, 4 \}$, $\{ 1, 2, 10, 5, 6 \}$, $\{ 1, 2, 11, 5, 6 \}$, $\{ 1, 2, 8, 5, 6 \}$, and $\{ 1, 2, 8, 3, 6 \}$. These row segments are then the longest embedded segments of both $X$ and $Y$ \cite[200]{Starr1984}.
 
 %--------------------------------------------------------------------------
-Pruning an intersection of partial orders is also a method for computing common tones between sets that not only produces embedded segments, but can also be applied to the intersection of an arbitrary number of sets. When the sets are related to one another by a twelve-tone operation, finding common tones between them can be accomplished by expressing the operation as a permutation. Let $S = \{ 0, 1, 4, 5, 8, 9 \}$ and consider the cycle decomposition of $T_3I = (0 \; 3) \; (1 \; 2) \; (4 \; 11) \; (5 \; 10) \; (6 \; 9) \; (7 \; 8)$. It follows every pitch-class in $S$ maps to the twelve-tone complement of $S$ under $\T_3\I$. If the operation is $\T_9 = (0 \; 9 \; 6 \; 3) \; (1 \; 10 \; 7 \; 4) \; (2 \; 11 \; 8 \; 5)$, then $S$ shares three common tones with $\T_9(S)$, namely $0 \mapsto 9$, $4 \mapsto 1$, and $8 \mapsto 5$. A simple formula for computing the number of common tones between two sets under some $T_nI$ transform is also given in \cite[10]{Rahn1975}. Yet another technique for finding common tones between two sets consists of computing a table or matrix. This procedure has the advantage of not only giving all indices of transposition under which a set shares common tones with another, but of making it possible to determine whether these common tones will preserve their ordering after the transformation by examining the table's diagonals. It has the disadvantage of only being able to produce common tones between two sets at a time. Let $X$ be an $n$-tone row seen as a column vector, and consider the $n \times n$ matrix $A = [X, \cdots, X]$. In particular, the matrix $B = A - A^T$ will have a main diagonal of zeros, which indicates that $X$ shares with itself $n$ common tones under $T_0$. If there are $k$ threes in the matrix, then $X$ will share with itself $k$ tones under $T_3$. There is no requirement that a row be compared with itself. If, for instance, $A$ is given as above, and $\bar{A}$ is the matrix for the row $\bar{X}$, then counting the number $k$ of, say, threes in $B = A - \bar{A}^T$, will mean in turn that $X$ and $\T_3(\bar{X})$ share $k$ tones under $\T_3$. Naturally, the main diagonal of $B$ will not comprise only zeros if $A \ne \bar{A}$. To find common tones under inversion, let $B = A + A^T$ and, similarly, $\M$ and $\M \circ \I$ become $B = A - \M(A)^T$ and $B = A + \M(A)^T$. Finally, if the indices being counted are disposed in any of the matrix's diagonals, then they will preserve ordering after the transform, thus becoming embedded segments; if, in addition, they are adjacent, then they will in fact be row segments shared by $X$ and the transform of $\bar{X}$ \cite[49]{Morris1987}. This matrix for finding common tones under transposition has the interesting property that it becomes a symmetric matrix when $A = \bar{A}$ and its elements are taken as interval classes. This reflects the fact that, if $X$ shares $k$ tones with $T_i(X)$, then surely $T_i(X)$ will share exactly $k$ tones with $T_{12 - i}(X)$. If $i$ is an interval class, then $i = 12 - i$, showing why the matrix will be symmetric. The matrix of common tones under inversion is always symmetric, regardless whether its elements are taken as interval classes. Multiplicative operations, however, will often lack multiplicative inverses in twelve tones. For $p$-TET systems where $p$ is prime, multiplicative operations yield symmetric matrices as well, but those will sometimes require a proper definition of multiplicative interval classes.
+Pruning an intersection of partial orders is also a method for computing common tones between sets that not only produces embedded segments, but can also be applied to the intersection of an arbitrary number of sets. When the sets are related to one another by a twelve-tone operation, finding common tones between them can be accomplished by expressing the operation as a permutation. Let $S = \{ 0, 1, 4, 5, 8, 9 \}$ and consider the cycle decomposition of $T_3I = (0 \; 3) \; (1 \; 2) \; (4 \; 11) \; (5 \; 10) \; (6 \; 9) \; (7 \; 8)$. It follows every pitch-class in $S$ maps to the twelve-tone complement of $S$ under $T_3I$. If the operation is $T_9 = (0 \; 9 \; 6 \; 3) \; (1 \; 10 \; 7 \; 4) \; (2 \; 11 \; 8 \; 5)$, then $S$ shares three common tones with $T_9(S)$, namely $0 \mapsto 9$, $4 \mapsto 1$, and $8 \mapsto 5$. A simple formula for computing the number of common tones between two sets under some $T_nI$ transform is also given in \cite[10]{Rahn1975}. Yet another technique for finding common tones between two sets consists of computing a table or matrix. This procedure has the advantage of not only giving all indices of transposition under which a set shares common tones with another, but of making it possible to determine whether these common tones will preserve their ordering after the transformation by examining the table's diagonals. It has the disadvantage of only being able to produce common tones between two sets at a time. Let $X$ be an $n$-tone row seen as a column vector, and consider the $n \times n$ matrix $A = [X, \cdots, X]$. In particular, the matrix $B = A - A^T$ will have a main diagonal of zeros, which indicates that $X$ shares with itself $n$ common tones under $T_0$. If there are $k$ threes in the matrix, then $X$ will share with itself $k$ tones under $T_3$. There is no requirement that a row be compared with itself. If, for instance, $A$ is given as above, and $\bar{A}$ is the matrix for the row $\bar{X}$, then counting the number $k$ of, say, threes in $B = A - \bar{A}^T$, will mean in turn that $X$ and $T_3(\bar{X})$ share $k$ tones under $T_3$. Naturally, the main diagonal of $B$ will not comprise only zeros if $A \ne \bar{A}$. To find common tones under inversion, let $B = A + A^T$ and, similarly, $M$ and $M \circ I$ become $B = A - M(A)^T$ and $B = A + M(A)^T$. Finally, if the indices being counted are disposed in any of the matrix's diagonals, then they will preserve ordering after the transform, thus becoming embedded segments; if, in addition, they are adjacent, then they will in fact be row segments shared by $X$ and the transform of $\bar{X}$ \cite[49]{Morris1987}. This matrix for finding common tones under transposition has the interesting property that it becomes a symmetric matrix when $A = \bar{A}$ and its elements are taken as interval classes. This reflects the fact that, if $X$ shares $k$ tones with $T_i(X)$, then surely $T_i(X)$ will share exactly $k$ tones with $T_{12 - i}(X)$. If $i$ is an interval class, then $i = 12 - i$, showing why the matrix will be symmetric. The matrix of common tones under inversion is always symmetric, regardless whether its elements are taken as interval classes. Multiplicative operations, however, will often lack multiplicative inverses in twelve tones. For $p$-TET systems where $p$ is prime, multiplicative operations yield symmetric matrices as well, but those will sometimes require a proper definition of multiplicative interval classes.
 
 %--------------------------------------------------------------------------
-The procedure described in Ex.~\ref{ex:derivation} represents a type of derivation in which the series being displayed vertically is unrelated to the series being derived horizontally, except for the fact that both share a row segment when one of the rows is retrograded. The construction is part of a more general procedure, detailed in in \cite[211]{Starr1984}, in which a row is always matched with a retrograded transform of itself. In the particular case of Ex.~\ref{ex:derivation}, the transform was $F = \T_0$ for simplicity, but arbitrary twelve-tone operations may be used. Denote the given series by $S$ and define the derived row as $V = V_1 | V_2$, that is, $V$ is a concatenation of two row segments. The only requirement is that $V_1$, the segment that is singled out, remain invariant under $F$, which will force $V_2$ to also be invariant under $F$. In Ex.~\ref{ex:derivation} this requirement is satisfied trivially. It is usually the case in this type of derivation procedure that the invariance of $V$ under $F$, or under $\R \circ F$ for that matter, does not preserve any ordering, as illustrated in Ex.~\ref{ex:derivation-unordered}. On the other hand, Ex.~\ref{ex:derivation-ordered} illustrates a derivation procedure similar to that in Ex.~\ref{ex:derivation} where the operation $F$ is not trivial and the singled-out segments are preserved as partial orders. That is accomplished by applying the technique described in \cite[49]{Morris1987} for finding common row segments. As a consequence of $F$ and the retrograde operation, combination matrices of this type feature two columns that are upside-down, $F$-mirrors of each other \cite[211]{Starr1984}. More can be said about such combination matrices. Prop.~\ref{derivation-polyphony-proposition} summarizes the general procedure under set-theoretic terms, and Eq.~\ref{eq:derivation-retrograde} provides the schematic representation of a derivation procedure involving the retrograde and an arbitrary operation $F$ \cite[212]{Starr1984}.
+The procedure described in Ex.~\ref{ex:derivation} represents a type of derivation in which the series being displayed vertically is unrelated to the series being derived horizontally, except for the fact that both share a row segment when one of the rows is retrograded. The construction is part of a more general procedure, detailed in in \cite[211]{Starr1984}, in which a row is always matched with a retrograded transform of itself. In the particular case of Ex.~\ref{ex:derivation}, the transform was $F = T_0$ for simplicity, but arbitrary twelve-tone operations may be used. Denote the given series by $S$ and define the derived row as $V = V_1 | V_2$, that is, $V$ is a concatenation of two row segments. The only requirement is that $V_1$, the segment that is singled out, remain invariant under $F$, which will force $V_2$ to also be invariant under $F$. In Ex.~\ref{ex:derivation} this requirement is satisfied trivially. It is usually the case in this type of derivation procedure that the invariance of $V$ under $F$, or under $R \circ F$ for that matter, does not preserve any ordering, as illustrated in Ex.~\ref{ex:derivation-unordered}. On the other hand, Ex.~\ref{ex:derivation-ordered} illustrates a derivation procedure similar to that in Ex.~\ref{ex:derivation} where the operation $F$ is not trivial and the singled-out segments are preserved as partial orders. That is accomplished by applying the technique described in \cite[49]{Morris1987} for finding common row segments. As a consequence of $F$ and the retrograde operation, combination matrices of this type feature two columns that are upside-down, $F$-mirrors of each other \cite[211]{Starr1984}. More can be said about such combination matrices. Prop.~\ref{derivation-polyphony-proposition} summarizes the general procedure under set-theoretic terms, and Eq.~\ref{eq:derivation-retrograde} provides the schematic representation of a derivation procedure involving the retrograde and an arbitrary operation $F$ \cite[212]{Starr1984}.
 
 %--------------------------------------------------------------------------
 \begin{proposition}
 	\label{derivation-polyphony-proposition}
     \cite[211, 214]{Starr1984}
-    Consider a 2-row combination matrix $C$ where a row is derived via the retrograde and some operation $F$. Denote the derived row by $V = V_1 | V_2$. Then the first column is the partial order $C_1 = V_1 \cup \R \circ \F(V_2)$, and similarly the second column is the partial order $C_2 = V_2 \cup \R \circ \F(V_1)$, such that $C_2 = \R \circ F(C_1)$. If $D$ is a partial order that covers $C_1$, then $\R \circ F(D)$ will cover $C_2$, and if $D$ is in the total order class of $C_1$, that is, $D$ is a row that can be linearized from $C_1$, then $\R \circ F(D)$ is in the total order class of $C_2$. Finally, 2-row derivations of this type exist for arbitrary rows.
+    Consider a 2-row combination matrix $C$ where a row is derived via the retrograde and some operation $F$. Denote the derived row by $V = V_1 | V_2$. Then the first column is the partial order $C_1 = V_1 \cup R \circ F(V_2)$, and similarly the second column is the partial order $C_2 = V_2 \cup R \circ F(V_1)$, such that $C_2 = R \circ F(C_1)$. If $D$ is a partial order that covers $C_1$, then $R \circ F(D)$ will cover $C_2$, and if $D$ is in the total order class of $C_1$, that is, $D$ is a row that can be linearized from $C_1$, then $R \circ F(D)$ is in the total order class of $C_2$. Finally, 2-row derivations of this type exist for arbitrary rows.
 \end{proposition}
 
 %--------------------------------------------------------------------------
 \begin{equation}
 \begin{array}{c|cc}
 	\hline
-    & S & \R \circ F(S) \\
+    & S & R \circ F(S) \\
     \hline
     V & V_1 & V_2 \\
-    \R \circ F(V) & \R \circ F(V_2) & \R \circ F(V_1) \\
+    R \circ F(V) & R \circ F(V_2) & R \circ F(V_1) \\
     \hline
 \end{array}
 \label{eq:derivation-retrograde}
@@ -297,7 +297,7 @@ The procedure described in Ex.~\ref{ex:derivation} represents a type of derivati
 \begin{example}
     \cite[212]{Starr1984}
     \label{ex:derivation-unordered}
-    Let $S = \{ 0, 1, 7, 2, 10, 9, 11, 4, 8, 5, 3, 6 \}$ and consider the operation $\T_2\I = (0 \; 2) \; (3 \; 11) \; (4 \; 10) \; (5 \; 9) \; (6 \; 8)$. Inspecting the cycle decomposition of $\T_2\I$ reveals that the segment $S_1 = \{ 0, 1, 7, 2 \}$ remains invariant under this operation. If a combination matrix involving $\R\T_2\I$ is considered, however, then the $S_1$, seen as a partial order, shall not be preserved, since both $(1)$ and $(7)$ are fixed points. The same would happen to any $\T_k\I$ where $k$ is even. In particular, this shows that, in order to obtain the same ordered row segment in both columns of the combination matrix, $F$ cannot be trivial.
+    Let $S = \{ 0, 1, 7, 2, 10, 9, 11, 4, 8, 5, 3, 6 \}$ and consider the operation $T_2I = (0 \; 2) \; (3 \; 11) \; (4 \; 10) \; (5 \; 9) \; (6 \; 8)$. Inspecting the cycle decomposition of $T_2I$ reveals that the segment $S_1 = \{ 0, 1, 7, 2 \}$ remains invariant under this operation. If a combination matrix involving $RT_2I$ is considered, however, then the $S_1$, seen as a partial order, shall not be preserved, since both $(1)$ and $(7)$ are fixed points. The same would happen to any $T_kI$ where $k$ is even. In particular, this shows that, in order to obtain the same ordered row segment in both columns of the combination matrix, $F$ cannot be trivial.
 	\begin{equation}
     	\left[
     	\begin{array}{cccccccccccc|cccccccccccc}
@@ -320,7 +320,7 @@ The procedure described in Ex.~\ref{ex:derivation} represents a type of derivati
         	5 & 7 & 0 & 2
         \end{bmatrix} \pmod{12} \enspace.
 	\end{equation}
-	\noindent In particular, the row segment $\{ 10, 0, 5, 7 \}$ is invariant under $\R\T_5\I$, since $A + A^T$ displays an anti-diagonal of fives. Thus, by matching $S$ with $\R\T_5\I(S)$, the row segment $\{ 10, 0, 5, 7 \}$ may be obtained in the derived row $V$ itself, rather than in its retrograde, as was the case in Ex.~\ref{ex:derivation}. Setting it to $V_2$, say, yields $V = \{ 2, 3, 4, 6, 9, 8, 1, 11, 10, 0, 5, 7 \}$.
+	\noindent In particular, the row segment $\{ 10, 0, 5, 7 \}$ is invariant under $RT_5I$, since $A + A^T$ displays an anti-diagonal of fives. Thus, by matching $S$ with $RT_5I(S)$, the row segment $\{ 10, 0, 5, 7 \}$ may be obtained in the derived row $V$ itself, rather than in its retrograde, as was the case in Ex.~\ref{ex:derivation}. Setting it to $V_2$, say, yields $V = \{ 2, 3, 4, 6, 9, 8, 1, 11, 10, 0, 5, 7 \}$.
 	\begin{equation}
     	\left[
     	\begin{array}{cccccccccccc|cccccccccccc}
@@ -335,20 +335,20 @@ The procedure described in Ex.~\ref{ex:derivation} represents a type of derivati
 A distinction is made in \cite[211, 214]{Starr1984} between derivation and polyphonyzation. The former departs from a combination matrix of rows to infer a concatenation of rows that constitute the linearized result of flattening the combination matrix. The latter is the opposite concept, that is, given a concatenation of rows, a combination matrix is constructed such that each column breaks down the row at the top into disjoint ordered segments. Although differentiating between derivation and polyphonization is an important concept in the set-theoretic view of the problem, this paper shall not make that distinction. The term derivation will be used indiscriminately to both the breaking down of rows into contrapuntal combination matrices, and the flattening thereof.
 
 %--------------------------------------------------------------------------
-A related technique involving greater than 2-row counterpoint is achieved by folding a combination matrix. The process is similar to first constructing a matrix of hexachordal combinatoriality in the traditional sense, then deriving rows from this matrix using the techniques above. Let $S$ be a row whose first hexachord is invariant under the operation $G$. Consider a row $V = V_1 | V_2$ and an operation $F$ such that $S$ is in the total order order class of $V_1 \cup \R \circ \F(V_2)$. Then putting $S$ in counterpoint with $G(S)$, as well as deriving $V$ from $S | \R\circ F(S)$, yields the schematic representation in Eq.~\ref{eq:derivation-folded}. It is argued without proof that vertically satisfying $G$ while horizontally satisfying $F$ implies $F$ and $G$ must commute \cite[215]{Starr1984}. Ex.~\ref{ex:derivation-folded} shows an application of folded derivation.
+A related technique involving greater than 2-row counterpoint is achieved by folding a combination matrix. The process is similar to first constructing a matrix of hexachordal combinatoriality in the traditional sense, then deriving rows from this matrix using the techniques above. Let $S$ be a row whose first hexachord is invariant under the operation $G$. Consider a row $V = V_1 | V_2$ and an operation $F$ such that $S$ is in the total order order class of $V_1 \cup R \circ F(V_2)$. Then putting $S$ in counterpoint with $G(S)$, as well as deriving $V$ from $S | R \circ F(S)$, yields the schematic representation in Eq.~\ref{eq:derivation-folded}. It is argued without proof that vertically satisfying $G$ while horizontally satisfying $F$ implies $F$ and $G$ must commute \cite[215]{Starr1984}. Ex.~\ref{ex:derivation-folded} shows an application of folded derivation.
 
 %--------------------------------------------------------------------------
 \begin{equation}
 \begin{array}{c|cc}
 	\hline
-	& S & \R \circ F(S) \\
+	& S & R \circ F(S) \\
 	\hline
 	V & V_1 & V_2 \\
-	\R \circ F(V) & \R \circ F(V_2) & \R \circ F(V_1) \\
-	\R \circ GF(V) & \R \circ GF(V_2) & \R \circ GF(V_1) \\
+	R \circ F(V) & R \circ F(V_2) & R \circ F(V_1) \\
+	R \circ GF(V) & R \circ GF(V_2) & R \circ GF(V_1) \\
 	G(V) & G(V_1) & G(V_2) \\
 	\hline
-	& G(S) & \R \circ GF(S) = \R \circ FG(S) \\
+	& G(S) & R \circ GF(S) = R \circ FG(S) \\
 	\hline 
 \end{array}
 \label{eq:derivation-folded}
@@ -360,7 +360,7 @@ A related technique involving greater than 2-row counterpoint is achieved by fol
 \begin{example}
     \cite[215]{Starr1984}
     \label{ex:derivation-folded}
-    Let $S = \{ 0, 1, 11, 3, 8, 10, 4, 9, 7, 6, 2, 5 \}$ and consider the cycle decomposition of $\T_6 = (0 \; 6) \; (1 \; 7) \; (2 \; 8) \; (3 \; 9) \; (4 \; 10) \; (5 \; 11)$. Let $V_1 = \{ 1, 3, 8, 9, 7, 2 \}$. Since the unordered set $V_1$ is $T_6$-invariant, it follows $V_2 = \{ 11, 0, 10, 4, 5, 6 \}$ and the following combination matrix is obtained:
+    Let $S = \{ 0, 1, 11, 3, 8, 10, 4, 9, 7, 6, 2, 5 \}$ and consider the cycle decomposition of $T_6 = (0 \; 6) \; (1 \; 7) \; (2 \; 8) \; (3 \; 9) \; (4 \; 10) \; (5 \; 11)$. Let $V_1 = \{ 1, 3, 8, 9, 7, 2 \}$. Since the unordered set $V_1$ is $T_6$-invariant, it follows $V_2 = \{ 11, 0, 10, 4, 5, 6 \}$ and the following combination matrix is obtained:
     \begin{equation}
         \left[
         \begin{array}{cccccccccccc|cccccccccccc}
@@ -369,7 +369,7 @@ A related technique involving greater than 2-row counterpoint is achieved by fol
         \end{array}
         \right] \enspace.
     \end{equation}
-    Consider further the cycle decomposition of $\T_5\I = (0 \; 5) \; (1 \; 4) \; (2 \; 3) \; (6 \; 11) \; (7 \; 10) \; (8 \; 9)$. Then $S_1 = \{ 0, 1, 11, 3, 8, 10 \}$ maps to its complement under $\T_5\I$, so $S$ can be used in a combination matrix where $S$ is matched with its transform under $\T_5\I$ in the usual way, that is, in a matrix of hexachordal combinatoriality. Moreover, the row $\T_5\I(V)$ can be derived from $\T_5\I(S)$. Since $\T_5\I$ commutes with $T_6$, as any pitch-class operation does, the following folded derivation is possible:
+    Consider further the cycle decomposition of $T_5I = (0 \; 5) \; (1 \; 4) \; (2 \; 3) \; (6 \; 11) \; (7 \; 10) \; (8 \; 9)$. Then $S_1 = \{ 0, 1, 11, 3, 8, 10 \}$ maps to its complement under $T_5I$, so $S$ can be used in a combination matrix where $S$ is matched with its transform under $T_5I$ in the usual way, that is, in a matrix of hexachordal combinatoriality. Moreover, the row $T_5I(V)$ can be derived from $T_5I(S)$. Since $T_5I$ commutes with $T_6$, as any pitch-class operation does, the following folded derivation is possible:
     \begin{equation}
         \left[
         \begin{array}{cccccccccccc|cccccccccccc}
@@ -390,14 +390,14 @@ An analogue to the technique of oblique combination described in \cite[241, 267]
 \begin{equation}
 \begin{array}{c|ccc}
 	\hline
-    & S & \R \circ F(S) & \\
+    & S & R \circ F(S) & \\
     \hline
     V & V_1 & V_2 & \\
-    \R \circ F(V) & \R \circ F(V_2) & \R \circ F(V_1) & \\
-    \R \circ G(V)^* && \R \circ G(V_2)^* & \R \circ G(V_1)^* \\
+    R \circ F(V) & R \circ F(V_2) & R \circ F(V_1) & \\
+    R \circ G(V)^* && R \circ G(V_2)^* & R \circ G(V_1)^* \\
     GF(V)^* && GF(V_1)^* & GF(V_2)^* \\
     \hline
-    && GF(S) & \R \circ G(S) \\
+    && GF(S) & R \circ G(S) \\
     \hline
 \end{array}
 \label{eq:derivation-shifted}
@@ -409,7 +409,7 @@ An analogue to the technique of oblique combination described in \cite[241, 267]
 \begin{example}
     \cite[216]{Starr1984}
     \label{ex:derivation-shifted}
-    Consider the row $S = \{ 0, 1, 7, 2, 10, 9, 11, 4, 8, 5, 3, 6 \}$ and the combination matrix given by $\R\T_{10}\I(S)$ against $\T_{11}(S)$:
+    Consider the row $S = \{ 0, 1, 7, 2, 10, 9, 11, 4, 8, 5, 3, 6 \}$ and the combination matrix given by $RT_{10}I(S)$ against $T_{11}(S)$:
     \begin{equation}
         \left[
         \begin{array}{cccccccc|cccccccc}
@@ -418,7 +418,7 @@ An analogue to the technique of oblique combination described in \cite[241, 267]
         \end{array}
         \right]
     \end{equation}
-    Deriving the row $V = V_1 | V_2 = \{ 1, 7, 2, 9, 8, 3 \} | \{ 4, 5, 6, 11, 0, 10 \}$ from $S | \R\T_{10}\I(S)$, and following the scheme given in Eq.~\ref{eq:derivation-shifted}, yields the following shifted derivation:
+    Deriving the row $V = V_1 | V_2 = \{ 1, 7, 2, 9, 8, 3 \} | \{ 4, 5, 6, 11, 0, 10 \}$ from $S | RT_{10}I(S)$, and following the scheme given in Eq.~\ref{eq:derivation-shifted}, yields the following shifted derivation:
     \begin{multline}
         \left[
         \begin{array}{cccccccccccc|cccccccc|c}
@@ -448,10 +448,10 @@ Self-derivation is discussed in \cite[217, 226]{Starr1984} both from the set-the
 \begin{equation}
 \begin{array}{c|cc}
 	\hline
-    & G(S) & \R \circ FG(S) \\
+    & G(S) & R \circ FG(S) \\
     \hline
     S & S_1 & S_2 \\
-    \R \circ F(S) & \R \circ F(S_2) & \R \circ F(S_1) \\
+    R \circ F(S) & R \circ F(S_2) & R \circ F(S_1) \\
     \hline
 \end{array}
 \label{eq:derivation-self}
@@ -463,7 +463,7 @@ Self-derivation is discussed in \cite[217, 226]{Starr1984} both from the set-the
 \begin{example}
 	\label{topSquareSideExample}
     \cite[218]{Starr1984}
-    Let $S = S_1 | S_2 = \{ 3, 8, 1, 0, 9, 6 \} | \{ 4, 7, 10, 5, 2, 11 \}$ and consider the cycle decomposition of $\T_9\I = (0 \; 9) \; (1 \; 8) \; (2 \; 7) \; (3 \; 6) \; (4 \; 5) \; (10 \; 11)$. In particular, both $S_1$ and $S_2$ are invariant under $\T_9\I$. It is not obvious, however, that $S$ and $\R\T_9\I(S)$ can be derived from a combination matrix $A$ where the first column is $\T_7(S)$ and the second is $\R\T_2\I(S) = \R\T_9\I \circ \T_7(S)$. Here $F = \T_9\I$ and $G = \T_7$. It is not the case that $F$ and $G$ commute, as $\T_2\I = F \circ G \ne G \circ F = \T_4\I$.
+    Let $S = S_1 | S_2 = \{ 3, 8, 1, 0, 9, 6 \} | \{ 4, 7, 10, 5, 2, 11 \}$ and consider the cycle decomposition of $T_9I = (0 \; 9) \; (1 \; 8) \; (2 \; 7) \; (3 \; 6) \; (4 \; 5) \; (10 \; 11)$. In particular, both $S_1$ and $S_2$ are invariant under $T_9I$. It is not obvious, however, that $S$ and $RT_9I(S)$ can be derived from a combination matrix $A$ where the first column is $T_7(S)$ and the second is $RT_2I(S) = RT_9I \circ T_7(S)$. Here $F = T_9I$ and $G = T_7$. It is not the case that $F$ and $G$ commute, as $T_2I = F \circ G \ne G \circ F = T_4I$.
     \begin{equation}
     	\label{topSquareSideEquation}
         A = \left[
@@ -479,7 +479,7 @@ Self-derivation is discussed in \cite[217, 226]{Starr1984} both from the set-the
 \begin{example}
     \cite[221]{Starr1984}
     \label{self-folded}
-    Let $S = \{ 0, 11, 5, 10, 4, 2, 7, 9, 8, 3, 6, 1 \}$ and consider the following combination matrix given by $T_2(S) | \R\T_2(S)$, whose derived rows are $S$ and $\R(S)$:
+    Let $S = \{ 0, 11, 5, 10, 4, 2, 7, 9, 8, 3, 6, 1 \}$ and consider the following combination matrix given by $T_2(S) | RT_2(S)$, whose derived rows are $S$ and $R(S)$:
     \begin{equation}
         \label{eq:self-first}
         \left[
@@ -522,14 +522,14 @@ Self-derivation is discussed in \cite[217, 226]{Starr1984} both from the set-the
 		\caption[Self-derived row in Scotto's \emph{Tetralogy}]{Self-derived row in Scotto's \emph{Tetralogy}.}
     	\label{fig:scotto-array}
 	\end{figure}
-	\noindent Similarly to Ex.~\ref{self-folded}, the above matrix can be folded in order to obtain subsequent levels of derivation. Unlike Ex.~\ref{self-folded}, however, Scotto derives a rotated transform of $S$ from $\R\T_7(S)$. The rows in Fig.~\ref{fig:scotto-folded} are thus $\T_2(S), \R\T_2(S), \rho_6\R\T_2(S)$ and $\rho_6\T_2(S)$, where $\rho$ is the cyclical rotation operator.
+	\noindent Similarly to Ex.~\ref{self-folded}, the above matrix can be folded in order to obtain subsequent levels of derivation. Unlike Ex.~\ref{self-folded}, however, Scotto derives a rotated transform of $S$ from $RT_7(S)$. The rows in Fig.~\ref{fig:scotto-folded} are thus $T_2(S), RT_2(S), \rho_6RT_2(S)$ and $\rho_6T_2(S)$, where $\rho$ is the cyclical rotation operator.
 	\begin{figure}[H]
     	\centering
 		\includegraphics[width=6.5in]{figures/scotto-folded.pdf}
 		\caption[Folded derivation in Scotto's \emph{Tetralogy}]{Folded derivation in Scotto's \emph{Tetralogy}.}
     	\label{fig:scotto-folded}
 	\end{figure}
-	\noindent In an entirely Schenkerian fashion, Scotto utilizes the folded array as the source material for the middle-ground structure of \emph{Tetralogy}. The only difference between the derivation array and the Schenkerian graph is that $\T_2(S)$ now corresponds to the alto register, as seen in Fig.~\ref{fig:scotto-schenker1}. One of the foreground realizations of the Schenkerian graph in Fig.~\ref{fig:scotto-schenker1} is given in Fig.~\ref{fig:scotto-music1}. Rather than a strict serial composition, \emph{Tetralogy} employs a variety of prolongation procedures which are in line with its Schenkerian orientation.
+	\noindent In an entirely Schenkerian fashion, Scotto utilizes the folded array as the source material for the middle-ground structure of \emph{Tetralogy}. The only difference between the derivation array and the Schenkerian graph is that $T_2(S)$ now corresponds to the alto register, as seen in Fig.~\ref{fig:scotto-schenker1}. One of the foreground realizations of the Schenkerian graph in Fig.~\ref{fig:scotto-schenker1} is given in Fig.~\ref{fig:scotto-music1}. Rather than a strict serial composition, \emph{Tetralogy} employs a variety of prolongation procedures which are in line with its Schenkerian orientation.
 	\begin{figure}[H]
     	\centering
 		\includegraphics[width=6.5in]{figures/scotto-schenker1.pdf}
@@ -573,7 +573,7 @@ Three algorithms for computing combination matrices of self-derivation are prese
         \end{array}
         \right] \enspace.
     \end{equation}
-    Now consider the cycles of $\T_{11}\I = (0 \; 11) \; (1 \; 10) \; (2 \; 9) \; (3 \; 8) \; (4 \; 7) \; (5 \; 6)$. In particular, the first column of $A$ will comprise the partial order $S_1 \cup \R(S_4)$, and this union will, in turn, map onto its hexachordal complement under $\T_{11}\I$, as it takes precisely one element from each of the operation's cycles, all of which have length two. Since the second column above is the complement of the first, it will also map onto its complement under $\T_{11}\I$. Because the third and fourth columns are mirrors of the first two, hexachordal combinatoriality under $\T_{11}\I$ is obtained in every column, that is, for the partial orders $S_1 \cup \R(S_4)$ and $S_2 \cup \R(S_3)$, as well as their retrogrades. The same result is not obtained between $S$ and $\T_{11}\I(S)$, that is, the first hexachord of $\T_{11}\I(S)$ is \emph{not} the complement of the first hexachord of $S$. This procedure yields the matrix $\hat{A}$.
+    Now consider the cycles of $T_{11}I = (0 \; 11) \; (1 \; 10) \; (2 \; 9) \; (3 \; 8) \; (4 \; 7) \; (5 \; 6)$. In particular, the first column of $A$ will comprise the partial order $S_1 \cup R(S_4)$, and this union will, in turn, map onto its hexachordal complement under $T_{11}I$, as it takes precisely one element from each of the operation's cycles, all of which have length two. Since the second column above is the complement of the first, it will also map onto its complement under $T_{11}I$. Because the third and fourth columns are mirrors of the first two, hexachordal combinatoriality under $T_{11}I$ is obtained in every column, that is, for the partial orders $S_1 \cup R(S_4)$ and $S_2 \cup R(S_3)$, as well as their retrogrades. The same result is not obtained between $S$ and $T_{11}I(S)$, that is, the first hexachord of $T_{11}I(S)$ is \emph{not} the complement of the first hexachord of $S$. This procedure yields the matrix $\hat{A}$.
     \begin{equation}
         \hat{A} = \left[
         \begin{array}{c|c|c|c}
@@ -584,7 +584,7 @@ Three algorithms for computing combination matrices of self-derivation are prese
         \end{array}
         \right] \enspace.
     \end{equation}
-    The above can be construed as a sequence of four columnar aggregates. It may be possible to derive members of the same row class from each column. If the total order class of the intersection of all columns is not empty, that is, if it contains the free aggregate and does not contain any symmetry, then Th.~\ref{starr-theorem} guarantees that representatives of this row class can be derived from each column. Let $C_1, C_2, C_3, C_4$ be the four columns of the matrix $\hat{A}$. It follows the row $V = \{ 11, 0, 1, 6, 10, 4, 7, 2, 9, 5, 3, 8 \}$ has the property that $T \in \Toc \{ \Ext[ C_1 \cup \R\T_1\I(C_2) \cup \T_1\I(C_3) \cup \R(C_4) ] \}$. Therefore $[V | \R\T_1\I(V) | \T_1\I(V) | \R(V)]$ can be derived from the columns of $\hat{A}$.
+    The above can be construed as a sequence of four columnar aggregates. It may be possible to derive members of the same row class from each column. If the total order class of the intersection of all columns is not empty, that is, if it contains the free aggregate and does not contain any symmetry, then Th.~\ref{starr-theorem} guarantees that representatives of this row class can be derived from each column. Let $C_1, C_2, C_3, C_4$ be the four columns of the matrix $\hat{A}$. It follows the row $V = \{ 11, 0, 1, 6, 10, 4, 7, 2, 9, 5, 3, 8 \}$ has the property that $T \in \Toc \{ \Ext[ C_1 \cup RT_1I(C_2) \cup T_1I(C_3) \cup R(C_4) ] \}$. Therefore $[V | RT_1I(V) | T_1I(V) | R(V)]$ can be derived from the columns of $\hat{A}$.
     \begin{equation*}
         \left[
         \begin{array}{cccccccccccc|cccccccccccc|c}
@@ -612,7 +612,7 @@ Three algorithms for computing combination matrices of self-derivation are prese
 \begin{example}
     \cite[226, 227]{Starr1984}
     \label{ex:starr-aggregate-realization}
-    Let $S = S_1 | S_2 | S_3 = \{ 0, 1, 7, 2 \} | \{ 10, 9, 11, 4 \} | \{ 8, 5, 3, 6 \}$ and consider the matrix $A = [S | \T_4(S) | \T_8(S)]^T$.
+    Let $S = S_1 | S_2 | S_3 = \{ 0, 1, 7, 2 \} | \{ 10, 9, 11, 4 \} | \{ 8, 5, 3, 6 \}$ and consider the matrix $A = [S | T_4(S) | T_8(S)]^T$.
     \begin{equation}
         A = \left[
         \begin{array}{cccc|cccc|cccc}
@@ -630,11 +630,11 @@ Three algorithms for computing combination matrices of self-derivation are prese
             & 8 \arrow[ur] && 9 \arrow[ur] && 3 \arrow[ur] && 10 \arrow[ur] &
         \end{tikzcd}
     \end{equation}
-    When the first column of $A$ is regarded as an aggregate realization, it becomes clearer that any $V \in \Toc(A_1)$ must be a succession of augmented triads. One possibility would be $V = \{ 4, 8, 0, 9, 1, 5, 11, 7, 3, 2, 10, 6 \}$. It is easy to see that linearizing $V$ from $A_1$ is possible, but it is not obvious whether some transform of $V$ can be linearized from the other columns of $A$. The answer depends on the chosen operation, $\T_4$ in this case, and on the chosen $S$. To verify that $A_2$ is a transform of $A_1$, it suffices to check whether there is a base-four $\R\T_n\M\I$ operation that maps $S_1 \pmod 4$ onto $S_2 \pmod 4$. This is easily verified, as indeed
+    When the first column of $A$ is regarded as an aggregate realization, it becomes clearer that any $V \in \Toc(A_1)$ must be a succession of augmented triads. One possibility would be $V = \{ 4, 8, 0, 9, 1, 5, 11, 7, 3, 2, 10, 6 \}$. It is easy to see that linearizing $V$ from $A_1$ is possible, but it is not obvious whether some transform of $V$ can be linearized from the other columns of $A$. The answer depends on the chosen operation, $T_4$ in this case, and on the chosen $S$. To verify that $A_2$ is a transform of $A_1$, it suffices to check whether there is a base-four $RT_nMI$ operation that maps $S_1 \pmod 4$ onto $S_2 \pmod 4$. This is easily verified, as indeed
     \begin{equation}
-        S_1 \pmod 4 = \{ 0, 1, 3, 2 \} = \T_2\I(\{ 2, 1, 3, 0 \}) = \T_2\I \circ S_2 \pmod 4 \enspace.
+        S_1 \pmod 4 = \{ 0, 1, 3, 2 \} = T_2I(\{ 2, 1, 3, 0 \}) = T_2I \circ S_2 \pmod 4 \enspace.
     \end{equation}
-    The above method works because the elements in each of $A_1$'s columns are incomparable, thus may be picked from each column in any order. In other words, $A_1$ could be flipped horizontally, say, and still have the same aggregate realization. Since all of $A$'s columns can be reduced $\mod 4$ by construction, it becomes enough to only consider each column's residue modulo four, and four-tone operations. Since $S_1 \pmod 4 = S_3 \pmod 4$, $V$ itself can be derived from $A_3$, yielding the following derivation matrix, where the second column is $\T_2\I(V)$:
+    The above method works because the elements in each of $A_1$'s columns are incomparable, thus may be picked from each column in any order. In other words, $A_1$ could be flipped horizontally, say, and still have the same aggregate realization. Since all of $A$'s columns can be reduced $\mod 4$ by construction, it becomes enough to only consider each column's residue modulo four, and four-tone operations. Since $S_1 \pmod 4 = S_3 \pmod 4$, $V$ itself can be derived from $A_3$, yielding the following derivation matrix, where the second column is $T_2I(V)$:
     \begin{multline}
         \left[
         \begin{array}{cccccccccccc|cccccc}
@@ -651,7 +651,7 @@ Three algorithms for computing combination matrices of self-derivation are prese
         \end{array}
         \right] \enspace.
     \end{multline}
-    It may be possible to derive other rows from $A$ that are not based on the concatenation of cycles from an operation. Knowing that the columns of $A$ are related as aggregate realizations by the operation tuple $\mathcal{A} = [\T_0 \; \T_2\I \; \T_0]$, and regarding the $A_i$ as columnar aggregates, take $\hat{A} = \Ext[\bigcup_i(\mathcal{A}_i \circ A_i)]$. By Th.~\ref{starr-theorem}, any row that can be linearized from $\hat{A}$, will be in $\bigcap_i \Toc(A_i)$, and thus its $\mathcal{A}_i$-transform can be derived from each $i$-column of $A$. Below is the columnar aggregate $\hat{A}$.
+    It may be possible to derive other rows from $A$ that are not based on the concatenation of cycles from an operation. Knowing that the columns of $A$ are related as aggregate realizations by the operation tuple $\mathcal{A} = [T_0 \; T_2I \; T_0]$, and regarding the $A_i$ as columnar aggregates, take $\hat{A} = \Ext[\bigcup_i(\mathcal{A}_i \circ A_i)]$. By Th.~\ref{starr-theorem}, any row that can be linearized from $\hat{A}$, will be in $\bigcap_i \Toc(A_i)$, and thus its $\mathcal{A}_i$-transform can be derived from each $i$-column of $A$. Below is the columnar aggregate $\hat{A}$.
     \begin{equation}
         \hat{A} = \begin{tikzcd}
             & 0 \arrow[r] \arrow[ddr] & 1 \arrow[r] \arrow[dr] & 7 \arrow[r] \arrow[ddr] & 2 \arrow[dr] & \\
@@ -693,7 +693,7 @@ Three algorithms for computing combination matrices of self-derivation are prese
             & 3 \arrow[uuur] && 2 \arrow[uuur] &
         \end{tikzcd} \enspace.
     \end{equation}
-    It is easily seen that $A$ is invariant under the set of operations $\Omega = \{ \T_0, \T_4, \T_8, \T_3\I, \T_7\I, \T_{11}\I \}$. Thus if $\rho \in \Toc(A)$, then also $\Omega_i(\rho) \in \Toc(A)$. It is also easy to see that $\R(\rho) \in \Toc(\R \circ \Omega_i(A))$. Now let $S = \{ 0, 1, 5, 8, 9, 4, 10, 3, 7, 6, 2, 11 \}$, and consider the combination matrix $\mathcal{A} = [\mathcal{A}_1 | \cdots | \mathcal{A}_6]$.
+    It is easily seen that $A$ is invariant under the set of operations $\Omega = \{ T_0, T_4, T_8, T_3I, T_7I, T_{11}I \}$. Thus if $\rho \in \Toc(A)$, then also $\Omega_i(\rho) \in \Toc(A)$. It is also easy to see that $R(\rho) \in \Toc(R \circ \Omega_i(A))$. Now let $S = \{ 0, 1, 5, 8, 9, 4, 10, 3, 7, 6, 2, 11 \}$, and consider the combination matrix $\mathcal{A} = [\mathcal{A}_1 | \cdots | \mathcal{A}_6]$.
     \begin{equation}
         \mathcal{A} = \left[
         \begin{array}{cc|cc|cc|cc|cc|cc}
@@ -706,7 +706,7 @@ Three algorithms for computing combination matrices of self-derivation are prese
         \end{array}
         \right] \enspace.
     \end{equation}
-    By construction, every row of $\mathcal{A}$ is an $\Omega$-transform of $S$. Also by construction, every $\mathcal{A}_i$ is an instance of either $A$ or $\R(A)$, seen as a columnar aggregate, and thus $\Omega$-invariant. It follows a transform of $S$ can be derived from every $\mathcal{A}_i$. Since $\T_7(S) \in \Toc(\mathcal{A}_1)$ and $\R\T_0\I(S) \in \Toc(\mathcal{A}_2)$, the self-derivation matrix $X$ is obtained.
+    By construction, every row of $\mathcal{A}$ is an $\Omega$-transform of $S$. Also by construction, every $\mathcal{A}_i$ is an instance of either $A$ or $R(A)$, seen as a columnar aggregate, and thus $\Omega$-invariant. It follows a transform of $S$ can be derived from every $\mathcal{A}_i$. Since $T_7(S) \in \Toc(\mathcal{A}_1)$ and $RT_0I(S) \in \Toc(\mathcal{A}_2)$, the self-derivation matrix $X$ is obtained.
     \begin{equation}
         X = \left[
         \begin{array}{cccccccccccc|cccccccccccc}
@@ -721,11 +721,11 @@ Three algorithms for computing combination matrices of self-derivation are prese
     \end{equation}
     It is important to point out that, although the matrix $X$ could be extended to a $6 \times 72$ derivation matrix wherein all columns of $\mathcal{A}$ are presented, this could not be done using arbitrary transforms of $S$. Upon inspection, it follows that the transforms of $S$ that can be derived from $\mathcal{A}_1$ and $\mathcal{A}_5$ are in
     \begin{equation}
-        \{ \T_3, \T_7, \T_{11}, \R\T_1, \R\T_5, \R\T_9, \T_0\I, \T_4\I, \T_8\I, \R\T_2\I, \R\T_6\I, \R\T_{10}\I \} \enspace.
+        \{ T_3, T_7, T_{11}, RT_1, RT_5, RT_9, T_0I, T_4I, T_8I, RT_2I, RT_6I, RT_{10}I \} \enspace.
     \end{equation}
     For the columns $\mathcal{A}_2, \mathcal{A}_3, \mathcal{A}_4$ and $\mathcal{A}_6$, the transforms of $S$ that can be derived are in
     \begin{equation}
-        \{ \T_1, \T_5, \T_9, \R\T_3, \R\T_7, \R\T_{11}, \T_2\I, \T_6\I, \T_{10}\I, \R\T_0\I, \R\T_4\I, \R\T_8\I \} \enspace.
+        \{ T_1, T_5, T_9, RT_3, RT_7, RT_{11}, T_2I, T_6I, T_{10}I, RT_0I, RT_4I, RT_8I \} \enspace.
     \end{equation}
     Rather than a hinderance, this fact can be leveraged to explore contrasting harmonic regions. Fig.~\ref{fig:stingray} shows a musical realization of $X$:
     \begin{figure}[htbp]
@@ -771,7 +771,7 @@ In a complementary but diametrically opposite approach to \cite{Starr1984}, \cit
 Alg.~\ref{alg:kowalski} shows in pseudocode the entire algorithm described in \cite{Kowalski1987b}. In addition to the procedure illustrated above, the full algorithm iterates over every 12-tone row class, looking for combination matrices of self-derivation in all of them. These row classes are generated in ascending order, as if each row were a 12-digit integer. After generating a new row, if any transform of the row starting with zero is smaller than the row being considered, then this row is skipped. Moreover, the algorithm only considers rows that start with zero, since any other would belong to a row class that has a representative that starts with zero. Rows with a beginning interval $i$ larger than six are also skipped, since those may be considered the inversion of a row beginning with the complement of $i$ \cite[34]{Kowalski1987b}. Similarly, if $i = 5$, then the row may be construed as the $M$-transform of a row in which the first interval is $M(i) = 1$. Rows that have an initial segment of form $\{0, 6, x\}$, with $x > 6$ may also be immediately skipped, since they can be seen as the inverse of a row whose initial segment is $\{0, 6, 12 - x\}$.
 
 %--------------------------------------------------------------------------
-\begin{algorithm}
+\begin{algorithm2e}
 \caption{\cite[35, 36, 37]{Kowalski1987b}}
 \label{alg:kowalski}
 \DontPrintSemicolon
@@ -801,13 +801,13 @@ $M \gets M + 1$\;
 \uIf{All partitions have not been tried for column $M$}{\KwGoTo line 42}
 \Else{$M \gets M - 1$}
 \uIf{$M > 1$}{\KwGoTo line 34}
-\end{algorithm}
+\end{algorithm2e}
 
 %--------------------------------------------------------------------------
 \setlength{\interspacetitleruled}{0pt}%
 \setlength{\algotitleheightrule}{0pt}%
 
-\begin{algorithm}
+\begin{algorithm2e}
 \SetKw{KwGoTo}{goto}
 \DontPrintSemicolon
 \setcounter{AlgoLine}{39}
@@ -834,7 +834,7 @@ Print all stored alternatives for this combination matrix and \KwGoTo line 30\;
 \uIf{$ROW$ is retrograde-invariant}{Go to line 2}
 \Else{Take the retrograde of $ROW$}
 Change $IMBED$ to point at $R$-embeddings and \KwGoTo line 16\;
-\end{algorithm}
+\end{algorithm2e}
 
 %--------------------------------------------------------------------------
 \noindent Analogously, rows that have an initial segment of form $\{0, 6, 5\}$ may also be seen as the $M$-transform of a row whose initial segment is $\{0, 6, 1\}$. Altogether, this reasoning affords contemplating only rows with initial segment in the set $\mathcal{S}$ \cite[35]{Kowalski1987b}.
