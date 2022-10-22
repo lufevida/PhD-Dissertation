@@ -4,6 +4,266 @@
 
 %--------------------------------------------------------------------------
 \begin{definition}
+	\cite[99]{Rotman1967}
+	\cite[41]{DummitFoote2004}
+	Let $X$ be a set and $G$ a group. An \textbf{action} of $G$ on $X$ is a function
+	$G \times X \to X$ given by $(g, x) \mapsto gx$, such that:
+	\begin{enumerate}[i.]
+		\item $(gh)x = g(hx)$ for all $g, h \in G$ and $x \in X$;
+		\item $1x = x$ for all $x \in X$, where $1 \in G$ is the identity.
+	\end{enumerate}
+\end{definition}
+
+%--------------------------------------------------------------------------
+\begin{proposition}
+	\cite[99]{Rotman1967}
+	\cite[42]{DummitFoote2004}
+	If a group $G$ acts on a set $X$ then, for every $g \in G$, the function
+	$f_g : X \to X$ given by $f_g(x) = gx$ is a permutation of $X$. Further, the function
+	$f : G \to S_X$ given by $f(g) = f_g$ is a homomorphism and, conversely, for any
+	homomorphism $\phi : G \to S_X$, there is a corresponding group action given by
+	$\phi(g)(x)$.
+\end{proposition}
+
+%--------------------------------------------------------------------------
+\begin{theorem}[Cayley]
+	\cite[96]{Rotman1967}
+	\cite[120]{DummitFoote2004}
+	Every group is isomorphic to a subgroup of the symmetric group $S_G$. In particular,
+	if $|G| = n$, then $G$ is isomorphic to a subgroup of $S_n$.
+\end{theorem}
+
+%--------------------------------------------------------------------------
+\begin{theorem}
+	\cite[97]{Rotman1967}
+	Let $H \leq G$ be a subgroup of finite index $n$. Then there exists a homomorphism
+	$\phi : G \to S_n$ such that $\ker \phi \leq H$. In particular, when $H = \{ 1 \}$,
+	we get Cayley's theorem.
+\end{theorem}
+
+%--------------------------------------------------------------------------
+\begin{example}
+	\cite[122]{DummitFoote2004}
+	A group acts on itself by conjugation. Let $g, h \in G$ and $x \in G$. Then
+	$1 x 1^{-1} = x$ and
+	\begin{equation}
+		g(hx) = g(h x h^{-1}) = gh x h^{-1}g^{-1} = (gh) x (gh)^{-1} = (gh)x \enspace.
+	\end{equation}
+	It is also immediate from the above that a group acts on its power set by conjugation.
+	In particular, a group acts on the set of all its subgroups.
+\end{example}
+
+%--------------------------------------------------------------------------
+\begin{definition}
+	\cite[100]{Rotman1967}
+	\cite[112]{DummitFoote2004}
+	If $G$ acts on $X$, then the \textbf{orbit} of $x \in X$ is the set
+	\begin{equation}
+		\mathcal{O}(x) = \{ gx : g \in G \} \subseteq X \enspace.
+	\end{equation}
+	We say an action is \textbf{transitive} if there is only one orbit. The \textbf{kernel}
+	of the action is the set
+	\begin{equation}
+		\{ g \in g : gx = x, \forall x \in X \} \enspace.
+	\end{equation}
+	We say an action is \textbf{faithful} if the kernel is the identity. The
+	\textbf{stabilizer} of $x$ in $G$ is the group
+	\begin{equation}
+		G_x = \{ g \in g : gx = x \} \leq G \enspace.
+	\end{equation}
+	When a group acts on itself by conjugation, we call the orbits
+	\textbf{conjugacy classes}. The stabilizer of some $g \in G$ is the
+	\textbf{centralizer} of $g$ in $G$, denoted $C_G(g)$. When a group acts on the set of
+	its subgroups by conjugation, the stabilizer of a subgroup $H \leq$ is the
+	\textbf{normalizer} of $H$ in $G$, denoted by $N_G(H)$.
+\end{definition}
+
+%--------------------------------------------------------------------------
+\begin{proposition}
+	\cite[102]{Rotman1967}
+	\cite[114]{DummitFoote2004}
+	\cite[250]{Tucker1974}
+	If $G$ acts on $X$, for $x_1, x_2 \in X$, the relation $x_1 \sim x_2$ given by
+	$x_1 = gx_2$ is an equivalence relation. It follows immediately that the equivalence
+	classes are the orbits of the action of $G$ on $X$ and that
+	\begin{equation}
+		|X| = \sum_i |\mathcal{O}(x_i)| \enspace,
+	\end{equation}
+	where $x_i$ is a single representative from each orbit.
+\end{proposition}
+
+%--------------------------------------------------------------------------
+\begin{theorem}[Orbit-Stabilizer]
+	\cite[102]{Rotman1967}
+	If $G$ acts on $X$, then for each $x \in X$
+	\begin{equation}
+		|\mathcal{O}(x)| = [G : G_x] \enspace.
+	\end{equation}
+\end{theorem}
+
+%--------------------------------------------------------------------------
+\begin{corollary}
+	\cite[103]{Rotman1967}
+	If $G$ is finite and acts on $X$, then the size of any orbit is a divisor of $|G|$.
+\end{corollary}
+
+%--------------------------------------------------------------------------
+\begin{proposition}
+	\cite[123]{DummitFoote2004}
+	The number of conjugates of a subset $S$ in a group $G$ is $|G : N_G(S)|$, the index
+	of the normalizer of $S$. In particular, the number of conjugates of an element $s$ is
+	$|G : C_G(s)|$, the index of the centralizer of $s$.
+\end{proposition}
+
+%--------------------------------------------------------------------------
+\begin{proposition}
+	\cite[125]{DummitFoote2004}
+	Let $\sigma, \tau \in S_n$. If
+	\begin{equation}
+		\sigma = (a_1 \; a_2 \; \cdots a_j) (b_1 \; b_2 \; \cdots a_k) \cdots \enspace,
+	\end{equation}
+	then
+	\begin{equation}
+		\tau \sigma \tau^{-1} = (\tau(a_1) \; \tau(a_2) \; \cdots
+		\tau(a_j)) (\tau(b_1) \; \tau(b_2) \; \cdots \tau(b_k)) \cdots \enspace.
+	\end{equation}
+\end{proposition}
+
+%--------------------------------------------------------------------------
+\begin{example}
+	\cite[127]{DummitFoote2004}
+	Let $\sigma \in S_n$ be an $m$-cycle. The number of conjugates of $\sigma$ is
+	\begin{equation}
+		\frac{|S_n|}{|C_{S_n}(\sigma)|} = \frac{n (n - 1) (n - m + 1)}{m} \enspace,
+	\end{equation}
+	so that $|C_{S_n}(\sigma)| = m (n - m)!$. Since $\sigma$ commutes with its powers,
+	and also with any permutation in $S_n$ whose cycles are disjoint from it, and there are
+	$(n - m)!$ of those, the number computed above is the full centralizer of $\sigma$.
+\end{example}
+
+%--------------------------------------------------------------------------
+\begin{example}
+	\cite[132]{DummitFoote2004}
+	The size of each conjugacy class in $S_n$ is
+	\begin{equation}
+		\frac{n!}{\prod_{r}r^{n_r}n_r!} \enspace,
+	\end{equation}
+	where, for each $r$-cycle, we divide by $r$ to account for the cyclical permutations
+	of elements within a cycle. Further, if there are $n_r$ cycles of length $r$, we divide
+	by $n_r!$ to account for the different orders in which those cycles may appear.
+\end{example}
+
+%--------------------------------------------------------------------------
+\begin{proposition}
+	\cite[126]{DummitFoote2004}
+	Two elements in $S_n$ are conjugate if and only if they have the same cycle type.
+	The number of conjugacy classes of $S_n$ is the number of partitions of $n$.
+\end{proposition}
+
+%--------------------------------------------------------------------------
+\begin{definition}
+	\cite[133]{DummitFoote2004}
+	An isomorphism from a group $G$ to itself is called an \textbf{automorphism} of $G$.
+	The group under composition of all automorphisms of $G$ is denoted by $\Aut(G)$.
+\end{definition}
+
+%--------------------------------------------------------------------------
+\begin{proposition}
+	\cite[133]{DummitFoote2004}
+	If $H$ is a normal subgroup of $G$, then the action of $G$
+	by conjugation on $H$ is, for each $g \in G$, an automorphism of $H$. The kernel of the
+	action is $C_G(H)$. In particular, $G / c_G(H)$ is a subgroup of $\Aut(H)$.
+\end{proposition}
+
+%--------------------------------------------------------------------------
+\begin{corollary}
+	\cite[134]{DummitFoote2004}
+	For any subgroup $H < G$ and $g \in G$, $H \cong gHg^{-1}$. Moreover, $N_G(H) / C_G(H)$
+	(and also $G/Z(G)$ when $G = H$) is isomorphic to a subgroup of $\Aut(H)$.
+\end{corollary}
+
+%--------------------------------------------------------------------------
+\begin{definition}
+	\cite[135]{DummitFoote2004}
+	A subgroup $H < G$ is called \textbf{characteristic} if every automorphism of $G$ maps
+	$H$ to itself.
+\end{definition}
+
+%--------------------------------------------------------------------------
+\begin{proposition}
+	\cite[135]{DummitFoote2004}
+	Characteristic subgroups are normal. Unique subgroups of a given order are
+	characteristic. A characteristic subgroup of a normal subgroup is normal. In particular,
+	every subgroup of a cyclic group is characteristic.
+\end{proposition}
+
+%--------------------------------------------------------------------------
+\begin{proposition}
+	\cite[135]{DummitFoote2004}
+	If $G$ is cyclic of order $n$, then $\Aut(G) \cong (\mathbb{Z} / n \mathbb{Z})^\times$,
+	and $|\Aut(G)| = \varphi(n)$, where $\varphi$ is Euler's totient function.
+\end{proposition}
+
+%--------------------------------------------------------------------------
+\begin{corollary}
+	\cite[136]{DummitFoote2004}
+	Let $|G| = pq$, with $p \leq q$ primes. If $p \nmid q - 1$, then $G$ is abelian.
+	If, further, $p < q$, then $G$ is cyclic.
+\end{corollary}
+
+%--------------------------------------------------------------------------
+\begin{proposition}
+	\cite[136]{DummitFoote2004}
+	If $|G| = p^n$, with $p$ an odd prime, then
+	\begin{equation}
+		|\Aut(G)| = p^{n - 1} (p - 1)
+	\end{equation}
+	and the latter group is also cyclic. If $|G| = 2^n$ is cyclic, with $n \geq 3$, then
+	\begin{equation}
+		\Aut(G) \cong \mathbb{Z} / 2 \mathbb{Z} \times \mathbb{Z} / 2^{n - 2} \mathbb{Z}
+	\end{equation}
+	and the latter is not cyclic, but has a cyclic subgroup of index 2. If $V$ is the
+	elementary abelian group of order $p^n$, then $pv = 0$ for all $v \in V$ and $V$ is an
+	$n$-dimensional vector space over the field $\mathbb{F}_p = \mathbb{Z} / p \mathbb{Z}$.
+	The automorphisms of $V$ are the nonsingular linear transformations from $V$ to itself:
+	\begin{equation}
+		\Aut(V) \cong GL(V) \cong GL_n(\mathbb{F}_p) \enspace,
+	\end{equation}
+	and if $F$ is the finite field of order $q$, then
+	\begin{equation}
+		|GL_n(F)| = (q^n - 1) (q^n - q) (q^n - q^2) \cdots (q^n - q^{n - 1}) \enspace.
+	\end{equation}
+	For all $n \ne 6$, we have $\Aut(S_n) \cong S_n$. Finally, $\Aut(D_8) \cong D_8$ and
+	$\Aut(Q_8) \cong S_4$.
+\end{proposition}
+
+%--------------------------------------------------------------------------
+\begin{example}
+	\cite[137]{DummitFoote2004}
+	The Klein 4-group is the elementary abelian group of order 4. It follows
+	$\Aut(V_4) \cong GL_2(\mathbb{F}_2)$, and $|\Aut(V_4)| = 6$. Since the action of
+	$\Aut(V_4)$ on $V_4$ permutes the latter's 3 nonidentity elements, by order
+	considerations we have
+	\begin{equation}
+		\Aut(V_4) \cong GL_2(\mathbb{F}_2) \cong S_3 \enspace.
+	\end{equation}
+\end{example}
+
+%--------------------------------------------------------------------------
+\begin{proposition}
+	\cite[314]{DummitFoote2004}
+	A finite subgroup of the multiplicative group of a field is cyclic. In particular,
+	if $F$ is a finite field, then $F^\times$ is cyclic.
+\end{proposition}
+
+%--------------------------------------------------------------------------
+\begin{corollary}
+	\cite[314]{DummitFoote2004}
+	For $p$ a prime, $(\mathbb{Z} / p \mathbb{Z})^\times$ is cyclic.
+\end{corollary}
+
+%--------------------------------------------------------------------------
+\begin{definition}
 	\cite[85]{Aigner2007}
 	Let $N$ be a set of $n$ beads and $R$ be a set of $r$ colors. A colored necklace is
 	a function $f : N \to R$. Denote the set of all such functions by $R^N$, so that
@@ -95,7 +355,7 @@
 \begin{corollary}
 	\cite[54]{Reiner1985}
 	\cite[127]{FripertingerLackner2015}
-	The number of $n$-tone rows under $\R \T_n \I$ is
+	The number of $n$-tone rows under $RT_nI$ is
 	\begin{equation}
 		\begin{cases}
 			\frac{1}{4} \left[ (n - 1)! + (n - 1) (n - 3) \cdots (2) \right]
@@ -291,7 +551,7 @@
  		\end{cases}
 	\end{equation}
 	In particular, the pattern inventory of $k$-chords in 12 tones that are equivalent under
-	$\T_n \I$ is
+	$T_nI$ is
 	\begin{equation}
 		P_{D_{24}}(1 + x, \cdots, 1 + x^{12}) = C^{12} + \cdots + 50 C^6 +
 		38 C^5 + 29 C^4 + 12 C^3 + 6 C^2 + C^1 + C^0 \enspace.
