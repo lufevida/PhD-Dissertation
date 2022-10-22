@@ -27,22 +27,9 @@
 \usepackage{scrextend}
 \deffootnote{1.5em}{0em}{\thefootnotemark\quad}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%                     User Configuration commands
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%% Uncomment the relevant line below if you have tables or figures.
-\haveTablestrue%        Uncomment this if you have tables in your thesis.
-\haveFigurestrue%       Uncomment this if you have figures in your thesis.
-\haveObjectstrue%       Uncomment this if you have Objects in your thesis. This is almost certainly not the case however.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Below are the commands to set the degree type, department, graduation time, and chair. 
-%       Most of these are self explanatory. 
-%       Note: The \chair command takes an optional argument for a cochair. 
-%           So if John was your chair and Jacob was a cochair, you would use \chair[Jacob]{John}.
-%           If John was your chair and you had no cochair, you can simply use \chair{John}.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\haveTablestrue
+\haveFigurestrue
+%\haveObjectstrue
 
 \title{GENERALIZED SELF-DERIVATION}
 
@@ -54,36 +41,14 @@
 \degreeMonth{December}
 \chair{James P. Sain}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% For each of the following, type in the name of the file that contains each section. 
-% They are assumed to be tex files, but if they aren't the command takes an optional argument for the extension.
-%So, you could load dedication.tex as your dedication file using \setDedicationFile{dedication}
-% You could load dedication.txt instead with \setDedicationFile[txt]{dedication}.
-
-% NOTE: For some compilers they may or may not add a .tex to the end of the file automatically.
-% If you get a "couldn't find dedication.tex.tex" type error, try the command with an empty optional argument,
-%e.g. \setDedicationFile[]{dedication}
-%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%% These are REQUIRED sections; easiest to do via these commands.
-
-\setDedicationFile{dedicationFile}%                 Dedication Page
-\setAcknowledgementsFile{acknowledgementsFile}%     Acknowledgements Page
-\setAbstractFile{abstractFile}%                     Abstract Page (This should only include the abstract itself)
-\setReferenceFile{references}{amsplain}%         References. First argument is your bibtex source file
-%                                                       the second argument is your bibtex style file.
-
-\setBiographicalFile{biographyFile}%                Biography file of the Author (you).
-
-%%% These are NOT required, so only use them if you actually need/have them.
+\setDedicationFile{dedicationFile}
+\setAcknowledgementsFile{acknowledgementsFile}
+\setAbstractFile{abstractFile}
+\setReferenceFile{references}{amsplain}
+\setBiographicalFile{biographyFile}
 
 \setAppendixFile{appendix}
 \multipleAppendixtrue
-
-
-%%%%%%%                     End of File Assignment
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \DeclareMathOperator{\Ext}{Ext}
 \DeclareMathOperator{\Toc}{Toc}
@@ -97,13 +62,6 @@
 \newtheorem{example}[theorem]{Example}
 
 \begin{document}
-
-%%%% Here you just need to include/input your actual work. 
-%       The above files (dedication, acknowledgement, titlepage, etc etc) will all be added for you 
-%       using the files you assigned above. 
-%       If you want to input the above files manually you can comment out the \setFILE command above 
-%       and use \input or \include here. Generally you want to use \include to get your pagebreak.
-%       NOTE: If you input manually you will have to do some/all the formatting manually.
 
 \include{tex/chapter1}
 \include{tex/chapter2}
