@@ -7,7 +7,7 @@
 	\cite[41]{DummitFoote2004}
 	Let $X$ be a set and $G$ a group. An \textbf{action} of $G$ on $X$ is a function
 	$G \times X \to X$ given by $(g, x) \mapsto gx$, such that:
-	\begin{enumerate}[i.]
+	\begin{enumerate}
 		\item $(gh)x = g(hx)$ for all $g, h \in G$ and $x \in X$;
 		\item $1x = x$ for all $x \in X$, where $1 \in G$ is the identity.
 	\end{enumerate}
@@ -37,7 +37,7 @@
 	\cite[97]{Rotman1967}
 	Let $H \leq G$ be a subgroup of finite index $n$. Then there exists a homomorphism
 	$\phi : G \to S_n$ such that $\ker \phi \leq H$. In particular, when $H = \{ 1 \}$,
-	we get Cayley's theorem.
+	this is Cayley's theorem.
 \end{theorem}
 
 %--------------------------------------------------------------------------
@@ -60,17 +60,17 @@
 	\begin{equation}
 		\mathcal{O}(x) = \{ gx : g \in G \} \subseteq X \enspace.
 	\end{equation}
-	We say an action is \textbf{transitive} if there is only one orbit. The \textbf{kernel}
+	An action is \textbf{transitive} if there is only one orbit. The \textbf{kernel}
 	of the action is the set
 	\begin{equation}
 		\{ g \in g : gx = x, \forall x \in X \} \enspace.
 	\end{equation}
-	We say an action is \textbf{faithful} if the kernel is the identity. The
+	An action is \textbf{faithful} if the kernel is the identity. The
 	\textbf{stabilizer} of $x$ in $G$ is the group
 	\begin{equation}
 		G_x = \{ g \in g : gx = x \} \leq G \enspace.
 	\end{equation}
-	When a group acts on itself by conjugation, we call the orbits
+	When a group acts on itself by conjugation, the orbits are called
 	\textbf{conjugacy classes}. The stabilizer of some $g \in G$ is the
 	\textbf{centralizer} of $g$ in $G$, denoted $C_G(g)$. When a group acts on the set of
 	its subgroups by conjugation, the stabilizer of a subgroup $H \leq$ is the
@@ -147,8 +147,8 @@
 	\begin{equation}
 		\frac{n!}{\prod_{r}r^{n_r}n_r!} \enspace,
 	\end{equation}
-	where, for each $r$-cycle, we divide by $r$ to account for the cyclical permutations
-	of elements within a cycle. Further, if there are $n_r$ cycles of length $r$, we divide
+	where, for each $r$-cycle, $n!$ is divided by $r$ to account for the cyclical permutations
+	of elements within a cycle. If there are $n_r$ cycles of length $r$, $n!$ is further divided
 	by $n_r!$ to account for the different orders in which those cycles may appear.
 \end{example}
 
@@ -171,7 +171,7 @@
 	\cite[133]{DummitFoote2004}
 	If $H$ is a normal subgroup of $G$, then the action of $G$
 	by conjugation on $H$ is, for each $g \in G$, an automorphism of $H$. The kernel of the
-	action is $C_G(H)$. In particular, $G / c_G(H)$ is a subgroup of $\Aut(H)$.
+	action is $C_G(H)$. In particular, $G / C_G(H)$ is a subgroup of $\Aut(H)$.
 \end{proposition}
 
 %--------------------------------------------------------------------------
@@ -232,17 +232,17 @@
 	\begin{equation}
 		|GL_n(F)| = (q^n - 1) (q^n - q) (q^n - q^2) \cdots (q^n - q^{n - 1}) \enspace.
 	\end{equation}
-	For all $n \ne 6$, we have $\Aut(S_n) \cong S_n$. Finally, $\Aut(D_8) \cong D_8$ and
+	For all $n \ne 6$, it follows $\Aut(S_n) \cong S_n$. Finally, $\Aut(D_8) \cong D_8$ and
 	$\Aut(Q_8) \cong S_4$.
 \end{proposition}
 
 %--------------------------------------------------------------------------
 \begin{example}
 	\cite[137]{DummitFoote2004}
-	The Klein 4-group is the elementary abelian group of order 4. It follows
+	The Klein 4-group is the elementary abelian group of order 4. Then
 	$\Aut(V_4) \cong GL_2(\mathbb{F}_2)$, and $|\Aut(V_4)| = 6$. Since the action of
 	$\Aut(V_4)$ on $V_4$ permutes the latter's 3 nonidentity elements, by order
-	considerations we have
+	considerations it follows
 	\begin{equation}
 		\Aut(V_4) \cong GL_2(\mathbb{F}_2) \cong S_3 \enspace.
 	\end{equation}
@@ -294,7 +294,7 @@
 	equivalence relation that partitions $R^N$ into equivalence classes denoted
 	\textbf{patterns}. Under the conditions of \ref{coloring}, an orbit
 	$(c_1, \cdots, c_n) \in \mathcal{C}^n$ is called a $(q, G)$-\textbf{coloring} of $X$.
-	Moreover, two equivalent colorings have the same weight, so that we may refer to
+	Moreover, two equivalent colorings have the same weight, so that it makes sense to refer to
 	the weight of a class of colorings rather than the weights of its representatives.
 \end{proposition}
 
@@ -307,7 +307,7 @@
 	\begin{equation}
 		w(R^N, G) = \sum_{M \in \mathcal{M}} w(M) \enspace.
 	\end{equation}
-	In particular, when $x_j = 1$ for all $j \in R$, we get $w(R^N, G) = |\mathcal{M}|$.
+	In particular, when $x_j = 1$ for all $j \in R$, it follows $w(R^N, G) = |\mathcal{M}|$.
 \end{definition}
 
 %--------------------------------------------------------------------------
@@ -385,7 +385,7 @@
 		P_{S_3}(x_1, x_2, x_3) = \frac{1}{6}(x_1^3 + 3 x_1^1 x_2^1 + 2 x_3^1) \enspace,
 	\end{equation}
 	since there are two elements in $S_3$ that comprise one cycle of length three,
-	three elements that comprise one cycle of length one, and one cycle of length two,
+	three elements that comprise one cycle of length one and one cycle of length two,
 	and one element that comprises three cycles of length one.
 \end{example}
 
@@ -399,18 +399,18 @@
 
 %--------------------------------------------------------------------------
 \begin{example}
-	For $S_n$ we have
+	For $S_n$, it follows
 	\begin{equation}
 		P_{S_n} = \sum_{j_1 + 2j_2 + \cdots + nj_n = n}
 		\frac{1}{\prod_{k = 1}^n k^{j_k} j_k!} \prod_{k = 1}^n a_k^{j_k} \enspace.
 	\end{equation}
-	In words, there is a summand for each conjugacy class in $S_n$, and we divide each
-	summand by the size of its corresponding conjugacy class.
+	In words, there is a summand for each conjugacy class in $S_n$, and each
+	summand is divided by the size of its corresponding conjugacy class.
 \end{example}
 
 %--------------------------------------------------------------------------
 \begin{example}
-	For $D_n$ we have
+	For $D_n$, it follows
 	\begin{equation}
 		P_{D_n} = \frac{1}{2} P_{C_n} +
 		\begin{cases}
@@ -418,7 +418,7 @@
 			\frac{1}{4} (a_1^2 a_2^{(n - 2) / 2} + a_2^{n / 2)} & n \text{ even}
 		\end{cases}
 	\end{equation}
-	In particular, we obtain
+	In particular,
 	\begin{equation}
 		P_{D_{24}}(1 + x, \cdots, 1 + x^{12}) = \frac{1}{24} ( x_1^{12} + 6 x_1^2 x_2^5 +
 		7 x_2^6 + 2 x_3^4 + 2 x_4^3 + 2 x_6^2 + 4 x_{12} ) \enspace.
@@ -429,7 +429,7 @@
 \begin{example}
 	%\cite[1]{WeiXu1993}
 	\cite[120]{FripertingerLackner2015}
-	For $\Aff_1(C_{12})$ we have
+	For $\Aff_1(C_{12})$, it follows
 	\begin{multline}
 		P_{\Aff_1(C_{12})}(1 + x, \cdots, 1 + x^{12}) = \frac{1}{48} (
 		x_1^{12} + 2 x_1^6 x_2^3 + 3 x_1^4 x_2^4 + 6 x_1^2 x_2^5 \\ + 12 x_2^6 +
@@ -487,14 +487,14 @@
 	The definition of a weight function is useful in order to count how many necklaces
 	contain precisely $x_j$ beads of color $j$. Set $W$ to be the color white and $B$
 	to be the color black. Then a 4-bead necklace with exactly 2 white and 2 black beads
-	is expressed by $W^2B^2$. If we do not wish to account for a particular color,
-	per \ref{oneColor} we may assign its weight to 1. If we chose not to account for the color
+	is expressed by $W^2B^2$. When not accounting for a particular color,
+	per \ref{oneColor} its weight may be assigned to 1. If not accounting for the color
 	black, say, then the representation above would become simply $W^21^2 = W^2$.
 \end{example}
 
 %--------------------------------------------------------------------------
 \begin{example}
-	We use Polya's theorem to describe the pattern inventory of 3-bead necklaces under
+	Polya's theorem may be used to describe the pattern inventory of 3-bead necklaces under
 	the action of $S_3$. Let the colors be $A$ and $B$. Then
 	%\begin{equation}
 		\begin{align}
@@ -503,16 +503,16 @@
 			& = A^3 + A^2 B + A B^2 + B^3 \enspace.
 		\end{align}
 	%\end{equation}
-	In words, we have one necklace with three $A$ beads, one with two $A$ and one $B$ bead,
+	In words, there is one necklace with three $A$ beads, one with two $A$ and one $B$ bead,
 	one with one $A$ and two $B$ beads, and one with three $B$ beads.
 \end{example}
 
 %--------------------------------------------------------------------------
 \begin{example}
-	We can use Polya's theorem to count chords in 12 tones that are equivalent under
-	transposition by setting our set of colors to be $R = \{ r_0, r_1 \}$. We then disregard
+	Polya's theorem may be used to count chords in 12 tones that are equivalent under
+	transposition by setting the set of colors to be $R = \{ r_0, r_1 \}$, then disregarding
 	one of the colors, say $r_0$, by setting $w(r_0) = 1$ and $w(r_1) = C$. The group of
-	transpositions is just $C_{12} = \mathbb{Z} / 12 \mathbb{Z}$, so we get
+	transpositions is just $C_{12} = \mathbb{Z} / 12 \mathbb{Z}$, so it follows
 	%\begin{equation}
 		\begin{align}
 			P_{C_{12}}(1 + x, \cdots, 1 + x^{12})
@@ -538,7 +538,7 @@
 	\begin{equation}
 		\frac{1}{n} \sum_{j | (n, k)} \varphi(j) {{n / j}\choose{k / j}} \enspace.
 	\end{equation}
-	Under the action of the dihedral group $D_{2n}$, we obtain
+	Under the action of the dihedral group $D_{2n}$, it follows
 	\begin{equation}
 		\begin{cases}
  			\frac{1}{2n} \left[ \sum_{j | (n, k)} \varphi(j) {{n / j}\choose{k / j}} +
@@ -566,15 +566,15 @@
 		P_{D_8}(x_1, x_2, x_3, x_4) =
 		\frac{1}{8}(x_1^4 + 2x_1^2x_2 + 3x_2^2 + x_4^1) \enspace.
 	\end{equation}
-	Note that, in particular, we get no $x_3$ factors by Lagrange. The identity element
+	Note that, in particular, there are no $x_3$ factors by Lagrange. The identity element
 	in $D_8$ fixes all collorings, and is represented as a permutation by four cycles
-	of length one. By Polya's formula, we make the substitution
+	of length one. By Polya's formula, make the substitution
 	\begin{equation}
 		x_1^4 = (B^1 + W^1)^4 = B^4 + 4 B^3 W + 6 B^2 W^2 + 4 B W^3 + W^4 \enspace,
 	\end{equation}
 	where the exponent outside the parenthesis is the number of cycles, and the exponents
 	inside the parenthesis correspond to the lengths of the cycles, for each color.
-	The element of order four in $D_8$ has one cycle of length four, so we get
+	The element of order four in $D_8$ has one cycle of length four, so it follows
 	\begin{equation}
 		x_4^1 = (B^4 + W^4)^1 = B^4 + W^4 \enspace,
 	\end{equation}
@@ -590,7 +590,7 @@
 		x_1^2x_2 = (B + W)^2 (B^2 + W^2) =
 		B^4 + 2 B^3 W + 2 B^2 W^2 + 2 B W^2 + W^4 \enspace.
 	\end{equation}
-	Putting it all together, we get the following pattern inventory of orbits:
+	Putting it all together, the following pattern inventory of orbits is obtained:
 	\begin{equation}
 		P_{D_8}(B + W, B^2 + W^2, B^3 + W^3, B^4 + W^4) =
 		B^4 + 4 B^3 W + 6 B^2 W^2 + 4 B W^3 + W^4 \enspace.
