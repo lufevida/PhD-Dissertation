@@ -13,8 +13,8 @@
 %--------------------------------------------------------------------------
 \begin{figure}[htbp]
     \centering
-	\includegraphics[width=6.5in]{figures/berg1.pdf}
-	\caption[Berg's \emph{Lulu}]{Alban Berg's \emph{Lulu} \cite[182]{Starr1984}.}
+	\includegraphics[width=6.5in]{figures/Berg_Lulu.pdf}
+	\caption[Berg's \emph{Lied der Lulu}]{Alban Berg's \emph{Lied der Lulu} \cite[182]{Starr1984}.}
 	\label{fig:berg-lulu}
 \end{figure}
 
@@ -28,7 +28,7 @@ Derivation is the process of extracting ordered segments from rows in order to g
 \begin{figure}[htbp]
     \centering
 	\includegraphics[width=6.5in]{figures/Schoenberg_4.pdf}
-	\caption[Schoenberg's \emph{Fourth String Quartet} Op.~37]{Derived row in Schoenberg's \emph{Fourth String Quartet} Op.~37 \cite[100]{Westergaard1966}.}
+	\caption[Schoenberg's \emph{Fourth String Quartet} Op.~37]{Derived rows in Arnold Schoenberg's \emph{Fourth String Quartet} Op.~37 \cite[100]{Westergaard1966}.}
 	\label{fig:schoenberg-quartet}
 \end{figure}
 
@@ -40,11 +40,9 @@ Derivation is the process of extracting ordered segments from rows in order to g
 %--------------------------------------------------------------------------
 Many structured approaches to derivation exist that guarantee that the extracted segments, when combined, will produce derived rows. These approaches often involve constructing a combination matrix of rows. The rows combined in the matrix are usually twelve-tone transforms of the same basic row. The rows that are derived from the segments of these transforms, on the other hand, may or may not be themselves transforms of the basic row.
 
-%TODO: cite Morris here
-
 %--------------------------------------------------------------------------
 \begin{example}
-The basic row in Berg's \emph{Lulu} \cite[182]{Starr1984} may be used as motivation for a basic derivation procedure. The first step is to create a $2 \times 24$ array where the first row $S$ is followed by $R(S)$, and the second row is initially undefined.
+The basic row in Berg's \emph{Lulu} may be used as motivation for a basic derivation procedure \cite[182]{Starr1984}. The first step is to create a $2 \times 24$ array where the first row $S$ is followed by $R(S)$, and the second row is initially undefined \cite[241]{Morris1977}.
 \begin{equation}
     \left[
     \begin{array}{cccccccccccc|cccccccccccc}
@@ -243,7 +241,7 @@ An aggregate realization is a particular type of partial order $C$ in which, for
 \begin{figure}[htbp]
     \centering
 	\includegraphics[width=6.5in]{figures/Webern_1.pdf}
-	\caption[Webern's Op.~27]{Anton Webern's \emph{Variations for Piano} Op.~27 \cite[203]{Starr1984}.}
+	\caption[Webern's \emph{Variations for Piano} Op.~27]{Anton Webern's \emph{Variations for Piano} Op.~27 \cite[203]{Starr1984}.}
 	\label{fig:webern-variations}
 \end{figure}
 
@@ -511,6 +509,8 @@ Self-derivation is discussed in \cite[217, 226]{Starr1984} both from the set-the
     \end{equation}
 \end{example}
 
+%TODO: add discussion about different definitions of folding here
+
 %--------------------------------------------------------------------------
 \begin{example}
     \cite[180]{Scotto2000}
@@ -526,7 +526,7 @@ Self-derivation is discussed in \cite[217, 226]{Starr1984} both from the set-the
         \right] \enspace.
     \end{equation}
 	\noindent Similarly to Ex.~\ref{self-folded}, the above matrix can be folded in order to obtain subsequent levels of derivation. Unlike Ex.~\ref{self-folded}, however, Scotto derives a rotated transform of $S$ from $RT_7(S)$. The rows in Eq.~\ref{eq:scotto-folded} are thus $T_2(S), RT_2(S), \rho_6RT_2(S)$ and $\rho_6T_2(S)$, where $\rho$ is the cyclical rotation operator.
-	\begin{multline}
+	\begin{equation*}
 		\label{eq:scotto-folded}
         \left[
         \begin{array}{cccccccccccc|cccccccccccc|}
@@ -536,7 +536,9 @@ Self-derivation is discussed in \cite[217, 226]{Starr1984} both from the set-the
         	& 4 &&&&&& 1 &&&& 5 && 9 && 6 &&& 2 &&&&& \\
         	0 &&& 3 &&&&&& 8 &&&&&&&& 10 && 11 && 7 &&
         \end{array}
-        \right. \quad \cdots \\\\
+        \right. \quad \cdots
+    \end{equation*}
+	\begin{equation}
         \cdots \quad \left.
         \begin{array}{|cccccccccccc|cccccccccccc}
         	0 &&& 3 &&&&&& 8 &&&&&&&& 10 && 11 && 7 && \\
@@ -546,7 +548,7 @@ Self-derivation is discussed in \cite[217, 226]{Starr1984} both from the set-the
         	&&&&& 2 &&& 6 && 9 && 5 &&&& 1 &&&&&& 4 &
         \end{array}
         \right] \enspace.
-    \end{multline}
+    \end{equation}
 	\noindent In an entirely Schenkerian fashion, Scotto utilizes the folded array as the source material for the middle-ground structure of \emph{Tetralogy}. The only difference between the derivation array and the Schenkerian graph is that $T_2(S)$ now corresponds to the alto register, as seen in Fig.~\ref{fig:scotto-schenker1}. One of the foreground realizations of the Schenkerian graph in Fig.~\ref{fig:scotto-schenker1} is given in Fig.~\ref{fig:scotto-music1}. Rather than a strict serial composition, \emph{Tetralogy} employs a variety of prolongation procedures which are in line with its Schenkerian orientation.
 	\begin{figure}[H]
     	\centering
@@ -653,14 +655,16 @@ Three algorithms for computing combination matrices of self-derivation are prese
         S_1 \pmod 4 = \{ 0, 1, 3, 2 \} = T_2I(\{ 2, 1, 3, 0 \}) = T_2I \circ S_2 \pmod 4 \enspace.
     \end{equation}
     The above method works because the elements in each of $A_1$'s columns are incomparable, thus may be picked from each column in any order. In other words, $A_1$ could be flipped horizontally, say, and still have the same aggregate realization. Since all of $A$'s columns can be reduced $\mod 4$ by construction, it becomes enough to only consider each column's residue modulo four, and four-tone operations. Since $S_1 \pmod 4 = S_3 \pmod 4$, $V$ itself can be derived from $A_3$, yielding the following derivation matrix, where the second column is $T_2I(V)$:
-    \begin{multline}
+    \begin{equation*}
         \left[
         \begin{array}{cccccccccccc|cccccc}
         	&& 0 && 1 &&& 7 && 2 && & 10 &&&&& 9 \\
         	4 &&&&& 5 & 11 &&&&& 6 & && 2 && 1 & \\
         	& 8 && 9 &&&&& 3 && 10 & & & 6 && 5 &&
         \end{array}
-        \right. \quad \cdots \\\\
+        \right. \quad \cdots
+    \end{equation*}
+    \begin{equation}
         \cdots \left. \quad
         \begin{array}{cccccc|cccccccccccc}
         	&& 11 && 4 & & & 8 &&&& 5 &&& 3 &&& 6 \\
@@ -668,7 +672,7 @@ Three algorithms for computing combination matrices of self-derivation are prese
         	& 7 && 0 && & 4 &&&& 1 && 11 &&& 2 &&
         \end{array}
         \right] \enspace.
-    \end{multline}
+    \end{equation}
     It may be possible to derive other rows from $A$ that are not based on the concatenation of cycles from an operation. Knowing that the columns of $A$ are related as aggregate realizations by the operation tuple $\mathcal{A} = [T_0 \; T_2I \; T_0]$, and regarding the $A_i$ as columnar aggregates, take $\hat{A} = \Ext[\bigcup_i(\mathcal{A}_i \circ A_i)]$. By Th.~\ref{starr-theorem}, any row that can be linearized from $\hat{A}$, will be in $\bigcap_i \Toc(A_i)$, and thus its $\mathcal{A}_i$-transform can be derived from each $i$-column of $A$. Below is the columnar aggregate $\hat{A}$.
     \begin{equation}
         \hat{A} = \begin{tikzcd}
@@ -874,4 +878,4 @@ The main objective of this dissertation is to understand the construction of sel
 Despite the many unique contributions, there are certain areas within the field of self-derivation that will not be studied in the present work. In particular, folded and skewed combination matrices are not computed by the algorithm. Folding as described in Ex.~\ref{self-folded} can be construed as an equivalence relation in the sense that combination matrices of different sizes may form an orbit of contractions and expansions. Understanding how solutions of different sizes relate is a fascinating subject for further research, but unfortunately not discussed here. Another important limitation is the fact that only the action of $RT_nI$ is studied, hence multiplication and the cyclic rotation operator are not considered. The former operation is simpler than the latter if the present algorithm were to be improved. However, the latter is arguably more relevant. Eq.~\ref{eq:scotto-folded} presents an important example of how cyclic rotation may appear when folding combination matrices of self-derivation. Multiplication, on the other hand, is controversial for not preserving intervallic content. Magic squares in themselves have amazing compositional applications. One interesting example is the music of Zack Browning. This paper will discuss semi-magic squares only in conjunction with self-derivation. Even within the realm of self-derivation, however, semi-magic squares present a potential for musical syntax, as one can go from one square to another via matrix operations. This potential is nevertheless left for future research. Derivation is often approached from the more general context of multiple order functions. These include not only the derivation techniques described above, but also row segments that can belong to more than one dimension of the musical discourse at a time. A prototypical example are the Mallalieu-type rows, which are discussed in Appendix \ref{app:mallalieu}. Multiple order functions, including Mallalieu rows, are well-understood \cite{Batstone1972a, Batstone1972b, Morris1977}, and the latter do not necessarily yield combination matrices of self-derivation with a high merge index. Therefore, self-derivation shall not be addressed here from the perspective of multiple order functions. Having an efficient algorithm to compute self-deriving matrices is an important component in the algorithmic composition of electroacoustic music. Devising algorithms for both real-time and non-real-time generation of electroacoustic music, where self-derivation is applied to arbitrary parameters of a musical composition, is also not discussed in this paper, but represents a fundamental direction for future research.
 
 %--------------------------------------------------------------------------
-The ideas presented throughout the theoretical framework in the next chapter assume a wealth of prior knowledge. A set-theoretic view of 20\textsuperscript{th}-century musical analysis, as taught in graduate-level courses, that is, familiarity with such basic concepts as contour, pitch, and pitch-class spaces, intervals and interval classes, set and row classes, twelve-tone operations, and associated group-theoretic notions is assumed. Likewise, solid knowledge of 12-tone theory, including the hexachordal combinatoriality seen in the works of Schoenberg, and the trichordal combinatoriality seen in the works of Babbitt, as well as the methods that afford constructing such combinatorialities will not be discussed, but assumed. Also necessary is a working knowledge of abstract and linear algebra, to the extend that many graduate texts in atonal music theory will require. C and C++ programming, and basic concepts of computer science are not included, but only a very superficial knowledge of computer science is necessary to understand the theoretical framework. More involved correctness proofs and complexity analyses of the algorithms presented in the next chapter will be omitted in order to maintain the focus on the musical relevance of such constructs.
+The ideas presented throughout the theoretical framework in the next chapter assume a wealth of prior knowledge. A set-theoretic view of 20\textsuperscript{th}-century musical analysis, as taught in graduate-level courses, that is, familiarity with such basic concepts as contour, pitch, and pitch-class spaces, intervals and interval classes, set and row classes, twelve-tone operations, and associated group-theoretic notions is assumed. Likewise, solid knowledge of 12-tone theory, including the hexachordal combinatoriality seen in the works of Schoenberg, and the trichordal combinatoriality seen in the works of Babbitt, as well as the methods that afford constructing such combinatorialities will not be discussed, but assumed. Also necessary is a working knowledge of abstract and linear algebra, to the extend that many graduate texts in atonal music theory will require. Preliminary results on the topic of group actions are included in Appendix \ref{app:group-actions}. C and C++ programming, and basic concepts of computer science are not included, but only a very superficial knowledge of computer science is necessary to understand the theoretical framework. More involved correctness proofs and complexity analyses of the algorithms presented in the next chapter will be omitted in order to maintain the focus on the musical relevance of such constructs.
