@@ -753,7 +753,7 @@ Three algorithms for computing combination matrices of self-derivation are prese
     \begin{figure}[htbp]
         \centering
         \includegraphics[width=6.5in]{figures/stingray-example.pdf}
-        \caption[Self-derivation in Damiani's \emph{Stingray}.]{Self-derivation in Damiani's \emph{Stingray}.}
+        \caption[Self-derivation in Damiani's \emph{Stingray}.]{Self-derivation in Damiani's \emph{Stingray} for solo violoncello.}
         \label{fig:stingray}
     \end{figure}
 \end{example}
@@ -869,36 +869,52 @@ Change $IMBED$ to point at $R$-embeddings and \KwGoTo line 16\;
 %The programming language of choice was FORTRAN, and the implementation does not rely on recursion \cite[40]{Kowalski1987b}. The algorithm was implemented on an IBM 3081 \cite[42]{Kowalski1987b}
 
 %--------------------------------------------------------------------------
-\begin{itemize}
-	\item Differentiate between foldings
-	\item Add MOF discussion
-	\item Add MOF example
-	\item Add Mead
-	\item Add percussion key
-	\item Add more musical examples
-	\item Engrave images
-\end{itemize}
+%TODO Differentiate between foldings
+%TODO Add MOF discussion
+%TODO Add MOF example
+%TODO Add Mead
+%TODO Add percussion key
+%TODO Add more musical examples
 
-%--------------------------------------------------------------------------
+\begin{example}
+	\cite[241, 247]{Morris1977}
+	Constructing a multiple order function row may be accomplished mechanically by devising a partition scheme, aligning the scheme with the order number row, and extracting permutation cycles. These cycles are then matched with the cycles of some $RT_nI$ operation. Consider the partition scheme given by Eq.~\ref{eq:mof}.
+
+	\begin{equation}
+		\label{eq:mof}
+		\left(
+        \begin{array}{cccccccccccc}
+            0  & 1 & 2  & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 \\
+            \hline
+               & 0 &    & 1 & 2 &   &   & 3 &   & 4 &    & 5  \\
+            11 &   & 10 &   &   & 9 & 8 &   & 7 &   & 6  &
+        \end{array}
+        \right) \enspace.
+	\end{equation}
+	
+	\noindent In particular, the lower row of the partition scheme is retrograded in regard to the upper row. Extracting permutation cycles from Eq.~\ref{eq:mof} results in the permutation $P = (0 \; 11 \; 5 \; 9 \; 4 \; 2 \; 10 \; 6 \; 8 \; 7 \; 3 \; 1)$. The permutation $P$ can be matched against $RT_7I = (0 \; 7 \; 2 \; 9 \; 4 \; 11 \; 6 \; 1 \; 8 \; 3 \; 10 \; 5)$, for example, to obtain a series, since both $P$ and $RT_7I$ have a single cycle of length 12. This series then is $S = \{0, 5, 11, 10, 4, 2, 1, 3, 8, 9, 6, 7\}$. This construction yields a $12 \times 24$ the following combination matrix of self derivation where the columns are are $[]$:
+	
+	\begin{equation}
+		\left[
+        \begin{array}{cccccccccccc|cccccccccccc}
+        & 0 && 5 & 11 &&& 10 && 4 && 2 && 1 && 3 && 8 & 9 &&& 6 && 7 \\
+        7 && 6 &&& 9 & 8 && 3 && 1 && 2 && 4 && 10 &&& 11 & 5 && 6 &
+        \end{array}
+        \right] \enspace.
+	\end{equation}
+	
+	\noindent Not every partition scheme affords permutation cycles that can be matched to 
+
+
+\end{example}
+
 \begin{verbatim}
-Use retrograde to preserve the partition scheme.
 
-a b c d e f g h i j k l
-  a   b c     d   e   f
-l   k     j i   h   g
+a b c d e f h g i j k l
+h i     j       k l
+    a b   c d e     f g
 
-(a l f j e c  k g i h d  b)
-(0 7 2 9 4 11 6 1 8 3 10 5)
-
-S = {0, 5, 11, 10, 4, 2, 1, 3, 8, 9, 6, 7}
-
-Solution 5:
-
-     7  0  6  5  11 9  8  10 3  4  1  2  | 2  1  4  3  10 8  9  11 5  6  0  7  
-5  |    0     5  11       10    4     2  |    1     3     8  9        6     7  | 5
-29 | 7     6        9  8     3     1     | 2     4     10       11 5     0     | 5
-
-Just mapping to cycles is not enough.
+(a h d b i k f c) (e j l g)    
 
 a b c d e f h g i j k l
 g h     i j     k l
