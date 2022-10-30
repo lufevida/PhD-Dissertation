@@ -509,8 +509,6 @@ Self-derivation is discussed in \cite[217, 226]{Starr1984} both from the set-the
     \end{equation}
 \end{example}
 
-%TODO: add discussion about different definitions of folding here
-
 %--------------------------------------------------------------------------
 \begin{example}
     \cite[180]{Scotto2000}
@@ -869,13 +867,10 @@ Change $IMBED$ to point at $R$-embeddings and \KwGoTo line 16\;
 %The programming language of choice was FORTRAN, and the implementation does not rely on recursion \cite[40]{Kowalski1987b}. The algorithm was implemented on an IBM 3081 \cite[42]{Kowalski1987b}
 
 %--------------------------------------------------------------------------
-%TODO Differentiate between foldings
 %TODO Add MOF discussion
-%TODO Add MOF example
 %TODO Add Mead
-%TODO Add percussion key
-%TODO Add more musical examples
 
+%--------------------------------------------------------------------------
 \begin{example}
 	\cite[241, 247]{Morris1977}
 	Constructing a multiple order function row may be accomplished mechanically by devising a partition scheme, aligning the scheme with the order number row, and extracting permutation cycles. These cycles are then matched with the cycles of some $RT_nI$ operation. Consider the partition scheme given by Eq.~\ref{eq:mof}.
@@ -892,7 +887,7 @@ Change $IMBED$ to point at $R$-embeddings and \KwGoTo line 16\;
         \right) \enspace.
 	\end{equation}
 	
-	\noindent In particular, the lower row of the partition scheme is retrograded in regard to the upper row. Extracting permutation cycles from Eq.~\ref{eq:mof} results in the permutation $P = (0 \; 11 \; 5 \; 9 \; 4 \; 2 \; 10 \; 6 \; 8 \; 7 \; 3 \; 1)$. The permutation $P$ can be matched against $RT_7I = (0 \; 7 \; 2 \; 9 \; 4 \; 11 \; 6 \; 1 \; 8 \; 3 \; 10 \; 5)$, for example, to obtain a series, since both $P$ and $RT_7I$ have a single cycle of length 12. This series then is $S = \{0, 5, 11, 10, 4, 2, 1, 3, 8, 9, 6, 7\}$. This construction yields a $12 \times 24$ the following combination matrix of self derivation where the columns are are $[]$:
+	\noindent In particular, the lower row of the partition scheme is retrograded in regard to the upper row, which is an important aspect in this type of construction. Extracting permutation cycles from Eq.~\ref{eq:mof} results in the permutation $P = (0 \; 11 \; 5 \; 9 \; 4 \; 2 \; 10 \; 6 \; 8 \; 7 \; 3 \; 1)$. The permutation $P$ can be matched against $RT_7I = (0 \; 7 \; 2 \; 9 \; 4 \; 11 \; 6 \; 1 \; 8 \; 3 \; 10 \; 5)$, for example, to obtain a series, since both $P$ and $RT_7I$ have a single cycle of length 12. This series then is $S = \{0, 5, 11, 10, 4, 2, 1, 3, 8, 9, 6, 7\}$. This construction yields a $12 \times 24$ the following combination matrix of self derivation where the columns are are $[T_7 \; | \; RT_7]$:
 	
 	\begin{equation}
 		\left[
@@ -902,29 +897,7 @@ Change $IMBED$ to point at $R$-embeddings and \KwGoTo line 16\;
         \end{array}
         \right] \enspace.
 	\end{equation}
-	
-	\noindent Not every partition scheme affords permutation cycles that can be matched to 
-
-
 \end{example}
-
-\begin{verbatim}
-
-a b c d e f h g i j k l
-h i     j       k l
-    a b   c d e     f g
-
-(a h d b i k f c) (e j l g)    
-
-a b c d e f h g i j k l
-g h     i j     k l
-    a b     c d     e f
-
-(a g c) (b h d) (e i k)  (f j m)
-(0 4 8) (1 5 9) (2 6 10) (3 7 11)
-
-S = {0, 1, 8, 9, 2, 3, 4, 5, 6, 7, 10, 11}
-\end{verbatim}
 
 %--------------------------------------------------------------------------
 \section{Objectives and Limitations}
