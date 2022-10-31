@@ -11,14 +11,6 @@
 \vspace{1em}
 
 %--------------------------------------------------------------------------
-\begin{figure}[htbp]
-    \centering
-	\includegraphics[width=6.5in]{figures/Berg_Lulu.pdf}
-	\caption[Berg's \emph{Lied der Lulu}]{Alban Berg's \emph{Lied der Lulu} \cite[182]{Starr1984}.}
-	\label{fig:berg-lulu}
-\end{figure}
-
-%--------------------------------------------------------------------------
 \section{Basic Derivation Techniques}
 
 %--------------------------------------------------------------------------
@@ -31,8 +23,6 @@ Derivation is the process of extracting ordered segments from rows in order to g
 	\caption[Schoenberg's \emph{Fourth String Quartet} Op.~37]{Derived rows in Arnold Schoenberg's \emph{Fourth String Quartet} Op.~37 \cite[100]{Westergaard1966}.}
 	\label{fig:schoenberg-quartet}
 \end{figure}
-
-%TODO: see if this is an example of skewed derivation
 
 %--------------------------------------------------------------------------
 \noindent While separating the row between the two violins, two other rows are constructed, namely the row that is stated by the first violin between the two bars shown, and similarly the row that is stated by the second violin. These two rows are constructed from ordered segments extracted from the basic row, and so are said to be derived from it. Neither the first violin row, nor the second violin row are twelve-tone transforms of the original row or of each other. The same procedure of picking a fixed pattern of order numbers to separate the $[T_0 \; | \; T_5I]$ statement of the row between the two violins is used to split the $[T_5I \; | \; T_0]$ combined statement between viola and violoncello. While picking a fixed pattern of order numbers between the two lower instruments, however, the resulting linear statements for these instruments do not result in derived rows.
@@ -65,20 +55,15 @@ Let $V = \{ 2, 3, 4, 6, 9, 8, 1, 11, 7, 5, 0, 10 \}$. Then $V$ is a row derived 
 \end{example}
 
 %--------------------------------------------------------------------------
+\begin{figure}[htbp]
+    \centering
+	\includegraphics[width=6.5in]{figures/Berg_Lulu.pdf}
+	\caption[Berg's \emph{Lied der Lulu}]{Alban Berg's \emph{Lied der Lulu} \cite[182]{Starr1984}.}
+	\label{fig:berg-lulu}
+\end{figure}
+
+%--------------------------------------------------------------------------
 It is of interest to note at this point that, in this kind of construction, the choice of a particular segment is already an important compositional decision. This choice bears relevance in that it establishes motivic material, that is, the segment itself. It also potentially introduces complementary harmonic regions, one given by the segment, the other given by its set complement. Moreover, and perhaps more importantly, it presents an opportunity for exploring syntax. There are a multitude of ways in which a composer may obtain syntax from a simple derivation procedure such as the one given in Ex.~\ref{ex:derivation}. One way would be to find an operation that makes the chosen segment invariant. In particular, it is easily checked that $S_1 = \{ 10, 0, 5, 7 \} = RT_5I(S_1)$. Ex.~\ref{ex:derivation} can then be followed by the combination matrix $[RT_5I(S) \; | \; T_5I(S_1)]$. In this second matrix, the segment $S_1$ could be preserved, but the row derived from $RT_5I(S)$ by preserving the segment $S_1$ would not be a transform of $V$. If the set complement of $S_1$ in $V$ were parsed to produce more than one harmonic region, then the complement of $S_1$ under this newly derived row would produce different harmonic regions under the same parsing. This procedure can be very pertinent compositionally, as it would be capable of producing contrasting harmonic regions while maintaining motivic coherence under the $S_1$ segment. Yet another way of generating syntax from derivation would be to follow $S$ with $V$ itself. A new row would then be derived from $V$, say $Q$, and eventually $V$ would be followed by $Q$. Repeating this procedure \emph{ad libitum} could generate many contrasting harmonic regions. In particular, this type of procedure is seen in Donald Martino's \emph{Notturno} of 1974, a composition that won the Pulitzer Prize in the following year \cite[181]{Starr1984}. If, by compositional choice, the chain of derived rows picked always the same order numbers, then a potential for rhythmic and agogic coherence could also be explored.
-
-%TODO: make a distinction here between polyphonization and derivation
-
-%In its most incipient form, a composer may simply extract these segments from a row, and combine them to form another, as seen in Berg's \emph{Lulu} \cite[182]{Starr1984}. The basic row used by Berg is $S = \{ 10, 2, 3, 0, 5, 7, 4, 6, 9, 8, 1, 11 \}$. In the Prologue, however, one is greeted with the row $\{ 10, 3, 4, 9, 2, 7, 8, 1, 0, 5, 6, 11 \}$, as depicted in Fig.~\ref{fig:berg-prologue}. It is clear that the segments that constitute the Prologue's row are ordered segments in the basic row form, and that there is no concern for the fact that one row cannot obtained from the other via twelve-tone operations.
-%
-%\begin{figure}[htbp]
-%    \centering
-%	\includegraphics[width=6.5in]{figures/berg2.png}
-%	\caption[Derived Row in Berg's \emph{Lulu}]{Derived row in the \emph{Prologue} of Alban Berg's \emph{Lulu} \cite[182]{Starr1984}.}
-%	\label{fig:berg-prologue}
-%\end{figure}
-
-%TODO: make a distinction here between MOF and derivation
 
 %--------------------------------------------------------------------------
 \section{Literature Review}
