@@ -274,8 +274,6 @@ The procedure described in Ex.~\ref{ex:derivation} represents a type of derivati
 \label{eq:derivation-retrograde}
 \end{equation}
 
-\vspace{12pt}
-
 %--------------------------------------------------------------------------
 \begin{example}
     \cite[212]{Starr1984}
@@ -337,8 +335,6 @@ A related technique involving greater than 2-row counterpoint is achieved by fol
 \label{eq:derivation-folded}
 \end{equation}
 
-\vspace{12pt}
-
 %--------------------------------------------------------------------------
 \begin{example}
     \cite[215]{Starr1984}
@@ -386,8 +382,6 @@ An analogue to the technique of oblique combination described in \cite[241, 267]
 \label{eq:derivation-shifted}
 \end{equation}
 
-\vspace{12pt}
-
 %--------------------------------------------------------------------------
 \begin{example}
     \cite[216]{Starr1984}
@@ -422,8 +416,6 @@ An analogue to the technique of oblique combination described in \cite[241, 267]
     \end{multline}
 \end{example}
 
-\vspace{12pt}
-
 %--------------------------------------------------------------------------
 Self-derivation is discussed in \cite[217, 226]{Starr1984} both from the set-theoretic perspective, and from the standpoint of aggregate realizations. The only difference between self-derivation and the general case is that, in combination matrices of self-derivation, all row forms belong to the same row class, that is, all rows are $RT_nI$-transforms of the original row. The same applies to folded and skewed combination matrices of self-derivation. The general scheme for a two-row combination matrix of self-derivation involving the retrograde is given in Eq.~\ref{eq:derivation-self} \cite[219]{Starr1984}. It is stated without proof in \cite[217]{Starr1984} that the operations $F$ and $G$ in Eq.~\ref{eq:derivation-self} must commute. For this type of self-derivation on two-row counterpoint, however, simple inspection of the examples that follow such statement already affords a counter-proof, as described in Ex.~\ref{topSquareSideExample}. Similarly to the general derivation case, two-row self-derivations can also be folded. Although the same term is used, folding in combination matrices of self-derivation usually means taking one of the derived rows and pulling another level of self-derivation from it, as seen in Ex.~\ref{self-folded}. The problem size grows as a natural consequence of folding combination matrices of self-derivation. The folded rows can subsequently be folded, and this procedure can generate many levels of self-derivation \cite[221]{Starr1984}. Ex.~\ref{ex:scotto} provides a musical application of folded self-derivation matrices that constitute the main compositional procedure in Ciro Scotto's \emph{Tetralogy}. Folded self-derivation matrices are discussed in detail by Kowalski in \cite{Kowalski1987a}, always in the context of Eq.~\ref{eq:self-third} and not as the technique described in Ex.~\ref{ex:derivation-folded}.
 
@@ -439,8 +431,6 @@ Self-derivation is discussed in \cite[217, 226]{Starr1984} both from the set-the
 \end{array}
 \label{eq:derivation-self}
 \end{equation}
-
-\vspace{12pt}
 
 %--------------------------------------------------------------------------
 \begin{example}
@@ -767,8 +757,6 @@ The framework provided by \cite{Starr1984} is expanded in \cite{Kowalski1987a}, 
         \right] \enspace.
     \end{multline}
 \end{example}
-
-\vspace{12pt}
 
 %--------------------------------------------------------------------------
 In a complementary but diametrically opposite approach to \cite{Starr1984}, \cite{Kowalski1987b} proposes an algorithmic view of the specific problem of computing combination matrices of self-derivation. The point of departure of the proposed algorithm is to find the embeddings of transformed row segments in the row itself. These embeddings are pre-computed and stored in a lookup table, then used to construct the first column of a combination matrix by splitting the row into an arbitrary number of initial segments of itself under some transformation \cite[29]{Kowalski1987b}. The algorithm artificially constrains the first column of the combination matrix by disallowing empty cells. This constraint is justified by an increase in performance \cite[30]{Kowalski1987b}. After constructing the first column, the algorithm enumerates all integer partitions of the row size with length equal to the problem size $N$, and finds the next partition that can be used in the next column. In the process, all partitions that cannot be matched with the partitions already present in the previous columns are skipped. Whenever a partition is capable of producing an aggregate, the algorithm moves onto the next column. If all columns up to $N - 1$ are well-formed, the $N$-\textsuperscript{th} column does not need to be verified \cite[31]{Kowalski1987b}. At each column after the first, an order matrix is generated for the column and compared to other transforms in the row class using the $\lor$ operator, as these are binary matrices. If a transform can be found that contains no contradictions with the order matrix for the column at hand, then that transform can be derived from the column. After forming all columns, the algorithm is backtracked so that other possible row transforms may be found. During this phase, if all possibilities were searched, or if some column is incapable of producing a result, then the algorithm resumes the partition enumeration process, trying all possible order matrices for each partition that fits. After trying all partitions for the $(N - 1)$-\textsuperscript{th} column, the algorithm backtracks to the previous column, trying all remaining partitions. After trying all partitions for the second column, a new first column is generated, using the lookup table of embeddings. After trying all combinations of size $N$ from the lookup table of embeddings, the process is repeated reading the embedding table backwards while attempting to form the first columns, that is, trying to derive retrograde transforms in them, provided the row is not retrograde-invariant. This entire process is repeated with increasing problem sizes, up to the maximum desired size \cite[32]{Kowalski1987b}.
