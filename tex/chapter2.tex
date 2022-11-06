@@ -650,26 +650,132 @@ Let $S = \{ 3, 8, 1, 0, 9, 6, 4, 7, 10, 5, 2, 11 \}$ as in Ex.~\ref{topSquareSid
 	\label{topSquareSideTheorem}
 	Let $r$ be a row. If a solution exists for a combination of top, side and square, then it is unique.
 	\begin{proof}
-	Suppose there exist two different solutions for the same combination of top, side and square. Then each solution comprises a combination matrix of self-derivation, say $M_1$ and $M_2$. By assumption $M_1 \ne M_2$. Now consider the linearized top and the first row of $M_1$, which is a transform of $r$, say $S_1(r)$. Since $M_1$ is a solution, when $S_1(r)$ is partitioned using the partition scheme given by the first row of the square, each partition of $S_1(r)$ fits exactly under each column of the top. Each column of the top is totally ordered, and so is each partition of $S_1(r)$. So there is only one way in which one can fit under another. The same reasoning applies to the first row of $M_2$, and to all subsequent rows of $M_1$ and $M_2$. Hence it must be that $M_1 = M_2$ and the solution is unique, as desired.
+	Suppose there exist two different solutions for the same combination of top, side and square. Then each solution comprises a combination matrix of self-derivation, say $M_1$ and $M_2$. By assumption $M_1 \ne M_2$. Now consider the first row of $M_1$, which is a transform of $r$ under $G = D_{2n} \times \mathbb{F}_2$, say $g_1(r)$, where $g_1 \in G$. Since $M_1$ is a solution, when $g_1(r)$ is partitioned using the partition scheme given by the first row of the square, each partition of $g_1(r)$ fits exactly under each column of the top. Each column of the top is totally ordered, and so is each partition of $g_1(r)$. So there is only one way in which one can fit under another. The same reasoning applies to the first row of $M_2$, and to all subsequent rows of $M_1$ and $M_2$. Hence it must be that $M_1 = M_2$ and the solution is unique, as desired.
 	\end{proof}
 \end{theorem}
 
 %--------------------------------------------------------------------------
 \begin{corollary}
 	\label{topSquareSideCorollary}
-	Let $r$ be a row. If a solution exists for a combination of top, side and square, then the set of permutations of the side vector forms an equivalence class of solutions.
+	Let $r$ be a row and let $M$ be a combination matrix corresponding to a top, side and square that together constitute a solution. Then a permutation of the rows of $M$ is also a solution. Moreover, the set of permutations of the rows of $M$ is an equivalence class of solutions.
 	\begin{proof}
-		The identity permutation of the side is essentially the same combination matrix, hence a solution. Reordering the entries of the side and applying the same reasoning in the proof of Th.~\ref{topSquareSideTheorem}, that is, the fact that a derived row fits uniquely under the top, shows that a permutation of the side is also a solution. Let the problem size be $m$ and regard the side as a vector of indices with entries in $\mathbb{Z} / m \mathbb{Z}$. Then transitivity comes from the fact that $\mathbb{Z} / m \mathbb{Z}$ is a subgroup of $S_m$, that is, the composition of permutations of the side vector is also a solution.
+	By the proof of Th.~\ref{topSquareSideTheorem}, each row of $M$ is a transform of $r$ that fits uniquely under the top following the partition scheme given by the corresponding square row. Because this alignment is unique, the rows of $M$ can be pulled from the top in any order to form different solutions. This proves the first claim. Let $m$ be the problem size and regard the rows of $M$ as a sequence $\mathcal{S}$ of indices from 1 to $m$. Then a permutation of $\mathcal{S}$ can be construed as the action of $S_m$ on itself by left multiplication. Since this action is transitive, the second claim follows.
 	\end{proof}
 \end{corollary}
 
 %--------------------------------------------------------------------------
 \begin{corollary}
-	Let $r$ be a row. If a solution exists for a combination of top, side and square, then the set or $RT_nI$-transforms of the solution forms an equivalence class of solutions. In particular, this equivalence class preserves the alignment between the top and the derived rows, up to retrogrades.
+	\label{topSquareSideOrbit}
+	Let $r$ be a row and let $G = D_{2n} \times \mathbb{F}_2$. If a solution exists for a combination of top, side and square, then the set of $G$-transforms of the solution, where the retrograde operator reverses the entire solution, forms an equivalence class of solutions. In particular, this equivalence class preserves the alignment between the top and the derived rows, up to retrogrades.
     \begin{proof}
-    Let $\mathcal{S}$ be set of all solutions for $r$ with a given problem size. Then the action of $RT_nI$ on $\mathcal{S}$ is an equivalence relation on $\mathcal{S}$ by Prop.~\ref{prop:equivalence-relation}. The orbits are the equivalence classes of solutions. The action of $RT_nI$ on a solution is just the action of $RT_nI$ on itself, extended to every linearized top column and derived row, which are elements of the row class of $r$. Therefore the action of $RT_nI$ on a solution is a permutation of the entire solution that is oblivious to the alignment between the top and the derived rows. By the proof of Th.~\ref{topSquareSideTheorem}, this alignment is unique, hence applying the \emph{same} permutation to all linearized top columns and derived rows preserves this alignment. At most, the action of $RT_nI$ on a solution will retrograde the entire solution at once.
+    Every top entry is a transform of $r$, say $g_i(r)$, and similarly every side vector entry is also a transform of $r$, say $g_j(r)$, where $m$ is the problem size, $1 \le i, j \le m$ and $g_i, g_j \in G$. The action of $g \in D_{2n}$ by left multiplication on the entire solution is still a solution because, by assumption, every $g_j(r)$ fits uniquely under every $g_i(r)$ following the partition scheme given by the corresponding square row. Since the action of $g$ permutes the order constraints in every $g_i(r)$ and every $g_j(r)$, it follows $g \cdot g_j(r)$ fits uniquely under $g \cdot g_i(r)$ for every $i$ and $j$. If $g \in D_{2n} \times \mathbb{F}_2$ contains the retrograde, the entire solution is reversed. The uniqueness of the alignments is then given by the fact that, for any order constraint $\{a, b\}$ in any transform of $r$, the retrograde of such transform will contain instead the reversed order constraint $\{b, a\}$, as all transforms of $r$ are totally ordered. Because $G$ acts on itself by left multiplication on every $g_i$ and every $g_j$, this is an equivalence relation that preserves the semi-magic square, hence the original alignments, up to reversing the entire solution, as claimed.
     \end{proof}
 \end{corollary}
+
+%--------------------------------------------------------------------------
+\begin{example}
+	Let $r = \{0, 1, 3, 2, 4\}$ be a row, let
+	\begin{equation}
+		\mathcal{T} = [T_0(r), T_4(r), T_4(r)] = [\{0, 1, 3, 2, 4\}, \{4, 0, 2, 1, 3\}, \{4, 0, 2, 1, 3\}]
+	\end{equation}
+	be a top vector, let
+	\begin{equation}
+		S = [T_2I(r), RT_1(r), RT_0(r)]^T = [\{2, 1, 4, 0, 3\}, \{1, 4, 0, 3, 2\}, \{0, 3, 4, 2, 1\}]^T
+	\end{equation}
+	be a side vector, and consider the semi-magic square
+	\begin{equation}
+		Q = \left[
+    	\begin{array}{c|c|c}
+		1 & 1 & 3 \\
+		\hline
+		1 & 3 & 1 \\
+		\hline
+		3 & 1 & 1
+		\end{array}
+    	\right] \enspace.
+	\end{equation}
+	Then the combination matrix $\mathcal{S}$ is a solution for $T$, $S$ and $Q$.
+	\begin{equation}
+    	\mathcal{S} = \left[
+    	\begin{array}{ccccc|ccccc|ccccc}
+        	0 & 1 & 3 & 2 & 4 & 4 & 0 & 2 & 1 & 3 & 4 & 0 & 2 & 1 & 3 \\
+        	\hline
+        	&&& 2 &&&&& 1 && 4 & 0 &&& 3 \\
+        	& 1 &&&& 4 & 0 &&& 3 &&& 2 && \\
+        	0 && 3 && 4 &&& 2 &&&&&& 1 &
+    	\end{array}
+    	\right] \enspace.
+	\end{equation}
+	The derived rows of $\mathcal{S}$ may be represented as totally ordered sets of totally ordered sets, which are formed by partitioning each side vector entry using the partition scheme provided by the corresponding semi-magic square row. For each tuple $(S_i \; Q_i)$ of side vector entry and semi-magic square row in $\mathcal{S}$, the following set of sets representation is obtained:
+	\begin{equation}
+	\begin{split}
+	(S_1 \; Q_1) &= (\{2, 1, 4, 0, 3\} \; \{1, 1, 3\}) \iff \{\{2\}, \{1\}, \{4, 0, 3\}\} \\
+	(S_2 \; Q_2) &= (\{1, 4, 0, 3, 2\} \; \{1, 3, 1\}) \iff \{\{1\}, \{4, 0, 3\}, \{2\}\} \\
+	(S_3 \; Q_3) &= (\{0, 3, 4, 2, 1\} \; \{3, 1, 1\}) \iff \{\{0, 3, 4\}, \{2\}, \{1\}\}
+	\end{split} \enspace .
+	\end{equation}
+	The first top vector entry is the row $\{0, 1, 3, 2, 4\}$, and the first entry in the first row of $\mathcal{S}$ is the totally ordered set $\{2\}$. Since a row is a totally ordered set with no repeated entries, there is only one way in which $\{2\}$ can be aligned under $\{0, 1, 3, 2, 4\}$. The same applies to all other entries in every derived row of $\mathcal{S}$. This demonstrates the uniqueness stated in the Th.~\ref{topSquareSideTheorem}. Now consider the permutation of the derived rows of $\mathcal{S}$ given by $\tilde{\mathcal{S}}$.
+	\begin{equation}
+    	\tilde{\mathcal{S}} = \left[
+    	\begin{array}{ccccc|ccccc|ccccc}
+        	0 & 1 & 3 & 2 & 4 & 4 & 0 & 2 & 1 & 3 & 4 & 0 & 2 & 1 & 3 \\
+        	\hline
+        	&&& 2 &&&&& 1 && 4 & 0 &&& 3 \\
+        	0 && 3 && 4 &&& 2 &&&&&& 1 & \\
+        	& 1 &&&& 4 & 0 &&& 3 &&& 2 &&
+    	\end{array}
+    	\right] \enspace.
+	\end{equation}
+	Since a derived combination matrix row is a tuple of side vector entry and a semi-magic square row, permuting the derived rows of a combination matrix preserves the alignments with the top. Since $\mathcal{S}$ is a solution, there are no vertical alignments between its derived rows, so permuting them also preserves the ability to recover the top when collapsing, or linearizing the derived rows. Even though in a solution two side vector entries can be equal, and similarly two semi-magic square rows can also be equal, no two derived rows of a combination matrix can be equal, otherwise there would be vertical alignments, which are impossible in a solution. Therefore each side-square row tuple in a solution must be unique, and thus the number of different solutions obtained by permuting the derived rows of a combination matrix is just the size of the symmetric group $S_m$, where $m$ is the problem size. This demonstrates Cor.~\ref{topSquareSideCorollary}, but it is important to point out that the top vector stays the same in these permutations. Finally, consider the retrograde transform of $\mathcal{S}$.
+	\begin{equation}
+    	R(\mathcal{S}) = \left[
+    	\begin{array}{ccccc|ccccc|ccccc}
+        	3 & 1 & 2 & 0 & 4 & 3 & 1 & 2 & 0 & 4 & 4 & 2 & 3 & 1 & 0 \\
+        	\hline
+        	3 &&& 0 & 4 && 1 &&&&& 2 &&& \\
+        	&& 2 &&& 3 &&& 0 & 4 &&&& 1 & \\
+        	& 1 &&&&&& 2 &&& 4 && 3 && 0
+    	\end{array}
+    	\right] \enspace.
+	\end{equation}
+	The reverse of a solution is still a solution as long as the retrograde operator is applied not only to every entry in the top and side vectors, each being a transform of $r$, but also to the top and side vectors themselves, as well as to every row of the semi-magic square. The reversed top then becomes:
+	\begin{equation}
+		R(\mathcal{T}) = [RT_4(r), RT_4(r), RT_0(r)] = [\{3, 1, 2, 0, 4\}, \{3, 1, 2, 0, 4\}, \{4, 2, 3, 1, 0\}] \enspace .
+	\end{equation}
+	Similarly, the set of sets representation of $R(\mathcal{S})$ becomes:
+	\begin{equation}
+	\begin{split}
+	(\{3, 0, 4, 1, 2\} \; \{3, 1, 1\}) &\iff \{\{3, 0, 4\}, \{1\}, \{2\}\} \\
+	(\{2, 3, 0, 4, 1\} \; \{1, 3, 1\}) &\iff \{\{2\}, \{3, 0, 4\}, \{1\}\} \\
+	(\{1, 2, 4, 3, 0\} \; \{1, 1, 3\}) &\iff \{\{1\}, \{2\}, \{4, 3, 0\}\}
+	\end{split} \enspace .
+	\end{equation}
+	The entire solution $\mathcal{S}$ can also be transformed by an element of $G = D_{2n} \times \mathbb{F}_2$. If $g \in G$ includes the retrograde then, in addition to applying $g$ to all entries in the top and side vectors, top, side and square themselves must be reversed, as above. Let $g = T_2I$. In particular, $g = (0 \; 2) \; (3 \; 4)$ when regarded as a permutation. Then
+	\begin{equation}
+		g(\mathcal{T}) = [T_2I(r), T_1I(r), T_1I(r)] = [\{2, 1, 4, 0, 3\}, \{3, 2, 0, 1, 4\}, \{3, 2, 0, 1, 4\}] \enspace .
+	\end{equation}
+	The action of $g$ on the set of sets representation for $\mathcal{S}$ yields:
+	\begin{equation}
+	\begin{split}
+	(\{0, 1, 3, 2, 4\} \; \{1, 1, 3\}) &\iff \{\{0\}, \{1\}, \{3, 2, 4\}\} \\
+	(\{1, 3, 2, 4, 0\} \; \{1, 3, 1\}) &\iff \{\{1\}, \{3, 2, 4\}, \{0\}\} \\
+	(\{2, 4, 3, 0, 1\} \; \{3, 1, 1\}) &\iff \{\{2, 4, 3\}, \{0\}, \{1\}\}
+	\end{split} \enspace .
+	\end{equation}
+	Combining the transformed top with the transformed set of sets representation under $g$ produces the combination matrix $g(\mathcal{S})$.
+	\begin{equation}
+    	g(\mathcal{S}) = \left[
+    	\begin{array}{ccccc|ccccc|ccccc}
+        	2 & 1 & 4 & 0 & 3 & 3 & 2 & 0 & 1 & 4 & 3 & 2 & 0 & 1 & 4 \\
+        	\hline
+        	&&& 0 &&&&& 1 && 3 & 2 &&& 4 \\
+        	& 1 &&&& 3 & 2 &&& 4 &&& 0 && \\
+        	2 && 4 && 3 &&& 0 &&&&&& 1 &
+    	\end{array}
+    	\right] \enspace.
+	\end{equation}
+	The first top vector entry of $g(\mathcal{S})$ is the row $g(\{0, 1, 3, 2, 4\})$, and the first entry in the first row of the combination matrix is the totally ordered set $g(\{2\})$. Since the action of $g$ permutes the order constraints in both these totally ordered sets in the exact same way, the original alignments are preserved, or at most retrograded, as above. The same applies to all other entries in every derived combination matrix row of $g(\mathcal{S})$. This demonstrates both claims in Cor.~\ref{topSquareSideOrbit}.
+\end{example}
 
 %--------------------------------------------------------------------------
 As described above, the side and top vectors are key components in this implementation. Even though the side and the top are both vectors of length equal to the problem size, and they are both vectors of $RT_nI$ transforms of a row, there are some important distinctions between them. The most relevant distinction is that the top vector is used to define the input of a problem, whereas the side vector is used to compute a solution. In derivation theory words, the top vector is the linearization of the combination matrix, and each element in the side vector is a transform of the row $r$ that can be derived from the top. Another fundamental distinction is that the contents of a side are permutable by Corollary~\ref{topSquareSideCorollary}, whereas the contents of the top are usually not. Even though there are permutations of the columns of the top vector that yield equivalent solutions, those are special cases and will be discussed in more detail in the next section. Lastly, like Listing~\ref{allSquaresRecursive}, the algorithm presented in Listing~\ref{allSidesRecursive} below also facilitates the understanding of Listing~\ref{allSolutionsRecursive}, but it is not used in computing combination matrices of self-derivation. The algorithm described in Listing~\ref{allTopsRecursive}, on the other hand, is not only used in this implementation, but also an important subject for future research.
