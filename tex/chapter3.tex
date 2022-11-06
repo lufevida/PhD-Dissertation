@@ -198,6 +198,7 @@ This section shows how various outputs of Listing~\ref{writeSolutions} may be us
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize,numbers=none,caption={Output of Listing~\ref{writeSolutions} for problem size three and row $\{0, 2, 3, 1, 4\}$.},label={list:percussion}]
+
 Solution 37:
 
      0  2  3  1  4  | 4  2  1  3  0  | 0  3  1  2  4  
@@ -242,21 +243,22 @@ Each of the five instruments from each family is notated in Fig.~\ref{fig:percus
 
 %--------------------------------------------------------------------------
 The next musical application is a passage for string quartet where four $4 \times 32$ combination matrices of self-derivation are used to determine pitch. The four instruments are associated with the four rows of the combination matrix in the canonical score order. An 8-tone row is used as the indices of an octatonic scale. The basic index row is $S = \{0, 2, 5, 6, 3, 1, 7, 4\}$. Listing~\ref{list:quartet} displays the output of a modified version of Listing~\ref{writeSolutions} where the base row is $RT_4(S) = \{0, 3, 5, 7, 2, 1, 6, 4\}$. The octatonic row is $\mathcal{O} = \{0, 2, 4, 5, 6, 8, 10, 11\}$, so that $S \mapsto \mathcal{O}$ is the injective mapping
-
 \begin{equation}
 	0 \mapsto 0, 1 \mapsto 2, 2 \mapsto 4, 3 \mapsto 5, 4 \mapsto 6, 5 \mapsto 8, 6 \mapsto 10, 7 \mapsto 11 \enspace . 
 \end{equation}
 
 %--------------------------------------------------------------------------
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize,numbers=none,caption={Output of Listing~\ref{writeSolutions} for problem size four and row $\{0, 3, 5, 7, 2, 1, 6, 4\}$.},label={list:quartet}]
-Solution 86:
+The output of Listing~\ref{writeSolutions} presented in Listing~\ref{list:quartet} is shown as a musical score in Fig.~\ref{fig:quartet}. The chosen set of solutions is $\{86, 116, 161, 175\}$, and these choices were based mostly on how each semi-magic square explored all instruments. The musical realization is straightforward in regards to how the rows of the combination matrices are mapped to the four instruments. Rhythmically, the contents of the combination matrices are realized depending on the contents of each semi-magic square. Square cells equal to one, two or zero are realized as 8\textsuperscript{th}-notes or rests. Square cells equal to three are realized as 16\textsuperscript{th}-note triplets, cells equal to four are realized as 32\textsuperscript{nd}-notes, and cells equal to five and six are realized as 32\textsuperscript{nd}-note quintuplets and sextuplets, respectively. Cells equal to two are struck simultaneously as double-stops and prolonged as 32\textsuperscript{nd}-note sextuplet tremolos. The tremolo order is the same as the square cell order, and the tremolos have a left and right spacing of one 8\textsuperscript{th}-note, that is, tremolos begin one 8\textsuperscript{th}-note after the double-stop, and end one 8\textsuperscript{th}-note before the next non-empty square cell for that instrument. Tremolos are altogether omitted when there is not enough time for them, hence there needs to be at least three 8\textsuperscript{th}-note rests between a double-stop and the next non-empty cell, so that the tremolo may be surrounded by rests. Besides the tremolos, the remainder of the passage is mostly pointillistic. To emphasize this characteristic, single and double-stop 8\textsuperscript{th}-notes are marked with pizzicati. The time signature changes in this realization are also influenced by the combination matrices. Given the aforementioned durations for each square cell size, every combination matrix column corresponds in Fig.~\ref{fig:quartet} to a bar, such that the time signature of every bar is the sum of the durations of the column cell in the corresponding combination matrix.
 
+%--------------------------------------------------------------------------
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize,numbers=none,caption={Output of Listing~\ref{writeSolutions} for problem size four and row $\{0, 3, 5, 7, 2, 1, 6, 4\}$.},label={list:quartet}]
+
+Solution 86:
      0  3  5  7  2  1  6  4  | 0  3  5  7  2  1  6  4  |
 2  |             2           |       5  7              |
 28 | 0                 6     |    3        2           | ...
 23 |    3  5                 | 0              1  6  4  |
 19 |          7     1     4  |                         |
-
    | 2  5  7  1  4  3  0  6  | 7  1  4  5  2  0  6  3  
    |          1  4  3  0  6  |                         | 62
    |    5  7                 |    1  4                 | 93
@@ -264,7 +266,6 @@ Solution 86:
    |                         |          5  2  0  6  3  | 106
 
 Solution 116:
-
      0  3  5  7  2  1  6  4  | 0  3  5  7  2  1  6  4  |
 14 |                   6     |    3                    |
 30 |             2           | 0     5              4  | ...
@@ -278,7 +279,6 @@ Solution 116:
    | 4                       |                         | 125
 
 Solution 161:
-
      0  3  5  7  2  1  6  4  | 0  3  5  7  2  1  6  4  |
 0  |                         | 0  3  5                 |
 7  |                         |          7  2        4  | ...
@@ -292,7 +292,6 @@ Solution 161:
    |       4                 |                         | 156
 
 Solution 175:
-
      0  3  5  7  2  1  6  4  | 0  3  5  7  2  1  6  4  |
 0  |                         | 0  3  5                 |
 9  |                1  6     |                      4  | ...
@@ -305,6 +304,8 @@ Solution 175:
    | 0  5  3  1  6           |                         | 90
    |                      4  |                         | 140
 \end{lstlisting}
+
+\vspace{-1pt}
 
 %--------------------------------------------------------------------------
 \begin{figure}[H]
@@ -319,9 +320,6 @@ Solution 175:
 \caption[Using self-derivation with an octatonic scale.]{Using self-derivation to map an octatonic scale to an 8-tone row.}
 \label{fig:quartet}
 \end{figure}
-
-%--------------------------------------------------------------------------
-The output of Listing~\ref{writeSolutions} presented in Listing~\ref{list:quartet} is shown as a musical score in Fig.~\ref{fig:quartet}. The chosen set of solutions is $\{86, 116, 161, 175\}$, and these choices were based mostly on how each semi-magic square explored all instruments. The musical realization is straightforward in regards to how the rows of the combination matrices are mapped to the four instruments. Rhythmically, the contents of the combination matrices are realized depending on the contents of each semi-magic square. Square cells equal to one, two or zero are realized as 8\textsuperscript{th}-notes or rests. Square cells equal to three are realized as 16\textsuperscript{th}-note triplets, cells equal to four are realized as 32\textsuperscript{nd}-notes, and cells equal to five and six are realized as 32\textsuperscript{nd}-note quintuplets and sextuplets, respectively. Cells equal to two are struck simultaneously as double-stops and prolonged as 32\textsuperscript{nd}-note sextuplet tremolos. The tremolo order is the same as the square cell order, and the tremolos have a left and right spacing of one 8\textsuperscript{th}-note, that is, tremolos begin one 8\textsuperscript{th}-note after the double-stop, and end one 8\textsuperscript{th}-note before the next non-empty square cell for that instrument. Tremolos are altogether omitted when there is not enough time for them, hence there needs to be at least three 8\textsuperscript{th}-note rests between a double-stop and the next non-empty cell, so that the tremolo may be surrounded by rests. Besides the tremolos, the remainder of the passage is mostly pointillistic. To emphasize this characteristic, single and double-stop 8\textsuperscript{th}-notes are marked with pizzicati. The time signature changes in this realization are also influenced by the combination matrices. Given the aforementioned durations for each square cell size, every combination matrix column corresponds in Fig.~\ref{fig:quartet} to a bar, such that the time signature of every bar is the sum of the durations of the column cell in the corresponding combination matrix.
 
 %TODO Add more musical examples
 
