@@ -143,23 +143,21 @@
 \end{example}
 
 %--------------------------------------------------------------------------
-\begin{example}
-	\cite[132]{DummitFoote2004}
-	The size of each conjugacy class in $S_n$ is
-	\begin{equation}
-		\frac{n!}{\prod_{r}r^{n_r}n_r!} \enspace,
-	\end{equation}
-	where, for each $r$-cycle, $n!$ is divided by $r$ to account for the cyclical permutations
-	of elements within a cycle. If there are $n_r$ cycles of length $r$, $n!$ is further divided
-	by $n_r!$ to account for the different orders in which those cycles may appear.
-\end{example}
-
-%--------------------------------------------------------------------------
 \begin{proposition}
 	\cite[126]{DummitFoote2004}
 	Two elements in $S_n$ are conjugate if and only if they have the same cycle type.
 	The number of conjugacy classes of $S_n$ is the number of partitions of $n$.
 \end{proposition}
+
+%--------------------------------------------------------------------------
+\begin{example}
+	\cite[132]{DummitFoote2004}
+	The size of each conjugacy class in $S_n$ is
+	\begin{equation}
+		\frac{n!}{\prod_{r}(r^{k_r}k_r!)} \enspace,
+	\end{equation}
+	where, for each cycle of length $r$, including the cases where $r = 1$, $|S_n| = n!$ is divided by $r$ to account for the cyclical permutations of elements within that $r$-cycle. If there are $k_r$ cycles of length $r$, $n!$ is divided by $r^{k_r}$ for each $r$, and further divided by $k_r!$ for each $r$ to account for the different orders in which those cycles may appear.
+\end{example}
 
 %--------------------------------------------------------------------------
 \begin{definition}
@@ -359,8 +357,8 @@
 %--------------------------------------------------------------------------
 \begin{corollary}
 	\cite[54]{Reiner1985}
-	\cite[127]{FripertingerLackner2015}
-	The number of $n$-tone rows under $RT_nI$ is
+	\cite[127]{FripertingerLackner2015}	
+	The number of $RT_nI$-equivalence classes of $n$-tone rows is
 	\begin{equation}
 		\begin{cases}
 			\frac{1}{4} \left[ (n - 1)! + (n - 1) (n - 3) \cdots (2) \right]
@@ -369,7 +367,7 @@
 			\right] & n \text{ even} \\
 		\end{cases}
 	\end{equation}
-	In particular, there are 9985920 twelve-tone rows.
+	In particular, there are 9985920 classes of twelve-tone rows that are equivalent under transposition, inversion and retrograde operations.
 \end{corollary}
 
 %--------------------------------------------------------------------------
@@ -455,8 +453,6 @@
 		\sum_{j \in R} x_j^2, \cdots, \sum_{j \in R} x_j^n) \enspace.
 	\end{equation}
 \end{theorem}
-
-\newpage
 
 %--------------------------------------------------------------------------
 \begin{corollary}
@@ -565,6 +561,8 @@
 	\end{equation}
 \end{example}
 
+\newpage
+
 %--------------------------------------------------------------------------
 \begin{example}
 	\cite[249]{Tucker1974}
@@ -641,8 +639,6 @@ A way of looking at the Mallalieu property from the standpoint of replacing, for
 \begin{example}
 	Let $S = \{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 \}$ and $S^*$ be as above. Then $M_3(S^*) = \{ 3, 6, 9, 12, 2, 5, 8, 11, 1, 4, 7, 10 \}$, which corresponds to the row $V = \{ 2, 5, 8, 11, 1, 4, 7, 10, 0, 3, 6, 9 \}$. The row $V$ can be equivalently constructed by placing an asterisk at the $13^\text{th}$ order number of $S$, then taking every third element. However, being able to express the process through multiplication, rather than mechanically, greatly facilitates its theoretical description, as well as any algorithmic implementation thereof. The fact that $V$ and $S$ are not related by $T_nMI$ reflects the fact that neither $S$ nor $V$ have the Mallalieu property.
 \end{example}
-
-\newpage
 
 %--------------------------------------------------------------------------
 It should be of interest to many composers whether other $n$-TET systems are capable of producing Mallalieu rows, and if so, how many. Unfortunately, answering this question is not as straightforward as the above discussion, since relying on the isomorphism that constitutes the proof of \ref{lewin-mallalieu} is not possible in general. Whenever possible, however, the existence of Mallalieu rows is easily verified.
