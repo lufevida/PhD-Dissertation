@@ -629,6 +629,7 @@ void allSquaresRecursive(number *tmp, number *currentSum, number currentSize, nu
 This section outlines a procedure that produces all combination matrices of self-derivation of a certain size for a particular row. The main idea relies on departing from a top row, which is a concatenation of transforms of the canonical form of a row $r$. If the row size is $n$, and the problem size is $m$, then the size of the top row is $m \times n$. In terms of derivation theory, the top row is completely linearized, and each of its $m$ transforms of the row $r$ will constitute a column of the combination matrix, if a solution for the top exists. The top itself is not part of the combination matrix, but rather the linearization thereof. It is, nonetheless, the point of departure for the main algorithm in this implementation. The combination matrix per se consists of a semi-magic square of size $m \times m$, where each column in the square defines a partition of the transform of $r$ for the corresponding section of the top. The last component in this view of a combination matrix of self-derivation are the transforms of the row $r$ that can be derived from the top row as a whole from the integer partitions given by the rows of the semi-magic square. These derived rows are a column vector of size $m$ which are called the sides of the combination matrix.
 
 %--------------------------------------------------------------------------
+\pagebreak
 \begin{example}
 Let $S = \{ 3, 8, 1, 0, 9, 6, 4, 7, 10, 5, 2, 11 \}$ as in Ex.~\ref{topSquareSideExample} and consider the combination matrix of self-derivation in Eq.~\ref{topSquareSideEquation}. In it, the top vector is $[T_7(S) | RT_2I(S)]$, the side vector is $[S | T_9I(S)]^T$, and the semi-magic square is
 
@@ -715,6 +716,7 @@ Let $S = \{ 3, 8, 1, 0, 9, 6, 4, 7, 10, 5, 2, 11 \}$ as in Ex.~\ref{topSquareSid
 	\end{split} \enspace .
 	\end{equation}
 	The first top vector entry is the row $\{0, 1, 3, 2, 4\}$, and the first entry in the first row of $\mathcal{S}$ is the totally ordered set $\{2\}$. Since a row is a totally ordered set with no repeated entries, there is only one way in which $\{2\}$ can be aligned under $\{0, 1, 3, 2, 4\}$. The same applies to all other entries in every derived row of $\mathcal{S}$. This demonstrates the uniqueness stated in the Th.~\ref{topSquareSideTheorem}. Now consider the permutation of the derived rows of $\mathcal{S}$ given by $\tilde{\mathcal{S}}$.
+	\pagebreak
 	\begin{equation}
     	\tilde{\mathcal{S}} = \left[
     	\begin{array}{ccccc|ccccc|ccccc}
@@ -750,6 +752,7 @@ Let $S = \{ 3, 8, 1, 0, 9, 6, 4, 7, 10, 5, 2, 11 \}$ as in Ex.~\ref{topSquareSid
 	(\{1, 2, 4, 3, 0\} \; \{1, 1, 3\}) &\iff \{\{1\}, \{2\}, \{4, 3, 0\}\}
 	\end{split} \enspace .
 	\end{equation}
+	\enlargethispage{\baselineskip}
 	The entire solution $\mathcal{S}$ can also be transformed by an element of $G = D_{2n} \times \mathbb{F}_2$. If $g \in G$ includes the retrograde then, in addition to applying $g$ to all entries in the top and side vectors, top, side and square themselves must be reversed, as above. Let $g = T_2I$. In particular, $g = (0 \; 2) \; (3 \; 4)$ when regarded as a permutation. Then
 	\begin{equation}
 		g(\mathcal{T}) = [T_2I(r), T_1I(r), T_1I(r)] = [\{2, 1, 4, 0, 3\}, \{3, 2, 0, 1, 4\}, \{3, 2, 0, 1, 4\}] \enspace .
@@ -833,6 +836,7 @@ void allTopsRecursive(number *tmp, number currentSize, number problemSize, range
 %--------------------------------------------------------------------------
 \begin{enumerate}
 \item The inputs are the memory address of some scratch memory space, pre-allocated with size equal to the problem size, the current size of the top, the problem size, the row class size, and a pointer to a FILE where the tops should be saved.
+\pagebreak
 \item Line 2 handles the base case of the recursion, line 3 writes the contents of the current top to the FILE, and line 4 returns.
 \addtocounter{enumi}{4}
 \item Line 7 restricts the number of tops that will be computed by enforcing in line 8 that the first element of the top vector be always zero. If the problem size is $m$ and the class size is $c$, then Listing~\ref{allTopsRecursive} effectively computes $c^{m - 1}$ tops. It will be shown in the next section how all equivalence classes of tops under the action of $RT_nI$ can be computed departing from $c^{m - 1}$ elements.
@@ -905,6 +909,7 @@ typedef struct {
 \end{lstlisting}
 
 %--------------------------------------------------------------------------
+\enlargethispage{\baselineskip}
 Listing~\ref{writeRow} is used in Listing~\ref{writeSolution} as a subroutine to write as text an entire solution, line-by-line. The lines in the solution include the top line, as well as one line for each entry in the side vector.
 
 %--------------------------------------------------------------------------
@@ -932,6 +937,7 @@ void writeRow(const number *row, number rowSize, range topSize, bool newLine, FI
 \item The inputs are the combination matrix row at hand, which includes the top line. These rows have the same length as the top row. Rows that are derived from the top, however, will have nonnegative entries whenever those entries align with the top's current index, and minus one otherwise. Next, the row size, which is used to add separators at each of the top's columns, the top size, a boolean to indicate whether a new line character should be included after the combination matrix, and the address of a FILE data structure.
 \item Line 2 iterates over the top's length and line 3 checks if the current index of iteration has reached the boundary of a column. If so, line 4 writes a separator character and a space.
 \addtocounter{enumi}{3}
+\pagebreak
 \item Line 6 checks if the current row's entry is less than zero, in which case there is nothing to align with the top, hence line 7 writes three spaces. Line 8 checks if the current entry is less than ten, in which case line 9 writes a single-character number and two spaces. If line 10 is reached, then the current entry has two characters, so line 11 writes the two-digit number and a single space.
 \addtocounter{enumi}{7}
 \item Line 14 checks if a new line character was requested and, if so, line 15 writes one to the file.
@@ -1271,7 +1277,11 @@ void destroyCommonData(common_data *cd) {
 \end{lstlisting}
 
 %--------------------------------------------------------------------------
-Listing~\ref{createThreadData} is a very simple procedure, as well. As it depends on a previous call to Listing~\ref{createCommonData}, all thread-common data has already been allocated, and sizes computed. Listing~\ref{createThreadData} then allocates the necessary scratch areas that cannot be shared between different thread contexts, and sets the thread-specific solution counter to zero.
+Listing~\ref{createThreadData} is a very simple procedure, as well. As it depends on a previous call to Listing~\ref{createCommonData}, all thread-common data has already been allocated, and sizes computed.
+
+\pagebreak
+
+\noindent Listing~\ref{createThreadData} then allocates the necessary scratch areas that cannot be shared between different thread contexts, and sets the thread-specific solution counter to zero.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Allocating thread-specific data.},label={createThreadData}]
