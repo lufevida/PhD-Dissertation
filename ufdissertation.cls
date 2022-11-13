@@ -75,8 +75,8 @@
 \RequirePackage{titletoc}
 \RequirePackage{float}
 
-\RequirePackage[numbers]{natbib}
-%\RequirePackage{natbib}
+%\RequirePackage[numbers]{natbib}
+\RequirePackage{natbib}
 
 
 % Check to see if a macro is defined, for the use of detecting 
