@@ -111,7 +111,7 @@ bool isOwnInverse(number x, number base) {
 %--------------------------------------------------------------------------
 \begin{enumerate}
 \item The input $x$ is assumed to be in the range $[0, n - 1]$.
-\item Since $x$ is non-negative, it can only be its own inverse if it is the identity, or if $x \equiv -x \pmod{n}$. It is also possible to check that if $n$ is even and $x$ is equal to $n / 2$, then $x$ is its own inverse. But this alternative method is more expensive that the computation performed in line 2.
+\item Since $x$ is non-negative, it can only be its own inverse if it is the identity, or if $x \equiv -x \pmod{n}$. It is also possible to check that if $n$ is even and $x$ is equal to $n / 2$, then $x$ is its own inverse. But this alternative method is more expensive than the computation performed in line 2.
 \end{enumerate}
 
 %--------------------------------------------------------------------------
@@ -221,7 +221,7 @@ void getCanonicalForm(number *row, number rowSize, bool isInvariant) {
 \end{enumerate}
 
 %--------------------------------------------------------------------------
-The purpose of the procedure described in Listing~\ref{getRowClass} is to store an entire row class contiguously in memory. That consists of creating an array large enough to hold all transforms of a row, and sequentially copying said transforms into this array. Even for rows whose bases are considered large, a row class under $RTn_I$ is still very small. Thus holding these transforms in memory makes sense for execution speed purposes. The size of the row class array depends on whether the row is reverse or reverse inverse-invariant. The row class array begins with the canonical form of the row, followed by all its transpositions, in ascending order, followed by all transpositions of the inversion of the canonical form, also in ascending order. If the row is not reverse or reverse inverse-invariant, the row class array is appended by all transpositions of the reverse of the canonical order, followed by all transpositions of the retrograde inverse of the canonical order. Therefore, the overall size of the row class array is $2n^2$ if the row is retrograde or retrograde inverse-invariant, or $4n^2$ otherwise, where $n$ is the row size. The main routine for creating the row class array is described in Listing~\ref{getRowClass}. It depends on two subroutines, namely Listing~\ref{isRetrogradeInvariant} and Listing~\ref{isRetrogradeInverseInvariant} that are described below.
+The purpose of the procedure described in Listing~\ref{getRowClass} is to store an entire row class contiguously in memory. That consists of creating an array large enough to hold all transforms of a row, and sequentially copying said transforms into this array. Even for rows whose bases are considered large, a row class under $RT_nI$ is still very small. Thus, holding these transforms in memory makes sense for execution speed purposes. The size of the row class array depends on whether the row is reverse or reverse inverse-invariant. The row class array begins with the canonical form of the row, followed by all its transpositions, in ascending order, followed by all transpositions of the inversion of the canonical form, also in ascending order. If the row is not reverse or reverse inverse-invariant, the row class array is appended by all transpositions of the reverse of the canonical order, followed by all transpositions of the retrograde inverse of the canonical order. Therefore, the overall size of the row class array is $2n^2$ if the row is retrograde or retrograde inverse-invariant, or $4n^2$ otherwise, where $n$ is the row size. The main routine for creating the row class array is described in Listing~\ref{getRowClass}. It depends on two subroutines, namely Listing~\ref{isRetrogradeInvariant} and Listing~\ref{isRetrogradeInverseInvariant} that are described below.
 
 %--------------------------------------------------------------------------
 \begin{lemma}
@@ -270,7 +270,7 @@ bool isRetrogradeInvariant(const number *row, number rowSize) {
 \end{enumerate}
 
 %--------------------------------------------------------------------------
-Unlike retrograde invariance, every row size can produce retrograde inverse-invariant rows. A simple example is the row of any size with the lowest lexicographic order. If $n = 12$, this is a chromatic scale. Retrograding, inverting, and transposing by $-1$ always yields back the initial row. Listing~\ref{isRetrogradeInverseInvariant} outlines the procedure in all generality.
+Unlike retrograde invariance, every row size can produce retrograde inverse-invariant rows. A simple example is the row of any size with the lowest lexicographic position. If $n = 12$, this is a chromatic scale. Retrograding, inverting, and transposing by $-1$ always yields back the initial row. Listing~\ref{isRetrogradeInverseInvariant} outlines the procedure in all generality.
 
 %--------------------------------------------------------------------------
 \begin{lemma}
@@ -313,7 +313,7 @@ bool isRetrogradeInverseInvariant(const number *row, number rowSize) {
 \end{enumerate}
 
 %--------------------------------------------------------------------------
-The procedure to compute and store an entire row class in memory is outlined below in Listing~\ref{getRowClass}. It returns a memory address that must be freed by the caller. While computing combination matrices of self-derivation, this memory location will be held for the duration of the program, and possibly also be shared by many different threads of execution. The procedure makes heavy use of Listing~\ref{getTransformInPlace} to sequentially store in memory all transforms of the canonical form of the row. It also takes the input row and transforms it in-place into its canonical form. Any representative of a row class can therefore be used to construct a row class with Listing~\ref{getRowClass}.
+The procedure to compute and store an entire row class in memory is outlined below in Listing~\ref{getRowClass}. It returns a memory address that must be freed by the caller. While computing combination matrices of self-derivation, this memory location will be held for the duration of the program, and possibly also be shared by many different threads of execution. The procedure makes heavy use of Listing~\ref{getTransformInPlace} to sequentially store in memory all transforms of the canonical form of the row. It also takes the input row and transforms it in place into its canonical form. Any representative of a row class can therefore be used to construct a row class with Listing~\ref{getRowClass}.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Computing and storing a row class in memory.},label={getRowClass}]
@@ -393,7 +393,7 @@ long getFileSize(FILE *file) {
 \end{lstlisting}
 
 %--------------------------------------------------------------------------
-Listing~\ref{getFileSize} is a completely common-place procedure in the C-language, and its details are omitted. It is used as a subroutine in Listing~\ref{readFile}, which is described next.
+Listing~\ref{getFileSize} is a completely common-place procedure in the C-language and its details are omitted. It is used as a subroutine in Listing~\ref{readFile}, which is described next.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Reading the contents of a file.},label={readFile}]
@@ -540,7 +540,7 @@ void plus(number *a, const number *b, number problemSize) {
 \end{enumerate}
 
 %--------------------------------------------------------------------------
-The counterpart to Listing~\ref{plus} is Listing~\ref{minus}. It is important to notice that vector addition and subtraction can be vectorized for speed, that is, SIMD instructions from the processor architecture at hand can replace much of the work the for-loops in Listing~\ref{plus} is Listing~\ref{minus} do to great effect. This option is not explored in this implementation, however. Details are omitted for Listing~\ref{minus}, as it is essentially the same as Listing~\ref{plus}, only with the inverse operation.
+The counterpart to Listing~\ref{plus} is Listing~\ref{minus}. It is important to notice that vector addition and subtraction can be vectorized for speed, that is, SIMD instructions from the processor architecture at hand can replace much of the work the for-loops in Listing~\ref{plus} and Listing~\ref{minus} do to great effect. This option is not explored in this implementation, however. Details are omitted for Listing~\ref{minus}, as it is essentially the same as Listing~\ref{plus}, only with the inverse operation.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Subtracting one vector from another.},label={minus}]
@@ -884,7 +884,7 @@ number *readAllTops(length *numTops, number problemSize, range classSize) {
 \end{lstlisting}
 
 %--------------------------------------------------------------------------
-The main algorithm in this implementation writes to a file the combination matrices of self-derivation computed from a provided set of tops, doing so in a format that is readily usable for music composition. It takes as input a significant amount of pre-computed data which can be shared between several threads of execution, as well many pointers to scratch memory addresses that must be allocated for each thread. Both common and thread-specific data are organized into data structures to reduce the number of parameters necessary for each call. These data structures, as well as the text formatting of the output shall be discussed next. Listing~\ref{threadCommonDataStructure} below defines a data structure where all members are immutable, and therefore is safe to be shared between different threads of execution. Some members are common to a particular row, namely the memory address and size of the row class, the retrograde and retrograde inverse maps' addresses, which will be discussed in the next section, the row size, and whether the row is retrograde or retrograde inverse-invariant. All other members are common to all rows of a particular size $n$, given a problem size $m$. These members are namely the memory address and size of all partitions read from the partitions file, the memory address and size of all tops read from the tops file, and the problem size itself.
+The main algorithm in this implementation writes to a file the combination matrices of self-derivation computed from a provided set of tops, doing so in a format that is readily usable for music composition. It takes as input a significant amount of pre-computed data which can be shared between several threads of execution, as well as many pointers to scratch memory addresses that must be allocated for each thread. Both common and thread-specific data are organized into data structures to reduce the number of parameters necessary for each call. These data structures, as well as the text formatting of the output shall be discussed next. Listing~\ref{threadCommonDataStructure} below defines a data structure where all members are immutable, and therefore is safe to be shared between different threads of execution. Some members are common to a particular row, namely the memory address and size of the row class, the retrograde and retrograde inverse maps' addresses, which will be discussed in the next section, the row size, and whether the row is retrograde or retrograde inverse-invariant. All other members are common to all rows of a particular size $n$, given a problem size $m$. These members are namely the memory address and size of all partitions read from the partitions file, the memory address and size of all tops read from the tops file, and the problem size itself.
 
 %--------------------------------------------------------------------------
 \begin{lstlisting}[caption={Defining a data structure to hold thread-common data.},label={threadCommonDataStructure}]
@@ -1002,7 +1002,7 @@ void writeSolution(thread_data *d, common_data *cd, FILE *solutionsFile) {
 \addtocounter{enumi}{3}
 \item Line 19 checks if the derived row's entry at the current row index aligns with the current top column at the index of iteration given in line 15. If so, line 20 updates the scratch memory that will be used to write the derived row, line 21 increments the row index, and line 22 decrements \emph{pj}, which at each iteration represents the number of elements in the current square cell that still need to be matched.
 \addtocounter{enumi}{5}
-\item Line 25 increments the current top index by $n$ at each iteration of the for-loop in line 12, needed in order to traverse the top vector, column-by-column.
+\item Line 25 increments the current top index by $n$ at each iteration of the for-loop in line 12, which is needed in order to traverse the top vector, column-by-column.
 \addtocounter{enumi}{1}
 \item Line 27 checks if the current side vector index is less than ten, that is, if it has a single digit and, if so, line 28 prepends to the derived row line the side index, followed by two spaces and a separator. If the side index requires two digits, then line 30 prepends the side index, followed by a single space and a separator.
 \addtocounter{enumi}{4}
@@ -1013,7 +1013,7 @@ void writeSolution(thread_data *d, common_data *cd, FILE *solutionsFile) {
 
 %--------------------------------------------------------------------------
 \begin{example}
-	Below is a sample output of Listing~\ref{writeSolution}. In it, the row $r = \{0, 1, 4, 2, 5, 3\}$ is a 6-tone row that is not retrograde or retrograde inverse-invariant. The top row is the vector $\{T_0(r), RT_3I(r), T_0I(r)\}$. The side vector is equal to $\{21, 16, 19\} = \{RT_3I(r), RT_1(r), RT_4(r)\}$. The semi-magic square is the vector $\{8, 13, 17\}$. These are indices into the array of all partitions of six, that can be inferred from the combination matrix to be the square
+	Below is a sample output of Listing~\ref{writeSolution}. In it, the row $r = \{0, 1, 4, 2, 5, 3\}$ is a 6-tone row that is not retrograde or retrograde inverse-invariant. The top row is the vector $[T_0(r), RT_3I(r), T_0I(r)]$. The side vector is equal to $[21, 16, 19] = [RT_3I(r), RT_1(r), RT_4(r)]$. The semi-magic square is the vector $[8, 13, 17]$. These are indices into the array of all partitions of six, that can be inferred from the combination matrix to be the square
 	
 	\begin{equation}
         \left[
@@ -1335,7 +1335,7 @@ FILE *createSolutionsFile(number *row, number problemSize, number rowSize, lengt
 
 %--------------------------------------------------------------------------
 \begin{enumerate}
-\item The inputs are the row in canonical form, the problem size, the row size, and the start and end indices into the all-tops array. Since this file will contain solutions only for the tops between theses indices, the indices are used in the name of the file, to distinguish it from other files written by other threads.
+\item The inputs are the row in canonical form, the problem size, the row size, and the start and end indices into the all-tops array. Since this file will contain solutions only for the tops between these indices, the indices are used in the name of the file, to distinguish it from other files written by other threads.
 \item Line 2 creates a buffer to store the file name, and line 3 writes the first part of the name into the buffer. Line 4 computes the current offset from which the rest of the name should start, which depends on the problem size.
 \addtocounter{enumi}{3}
 \item Line 6 iterates over the row size, appending in line 7 each row entry to the file name, and updating in line 8 the offset declared in line 4.
