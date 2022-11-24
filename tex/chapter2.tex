@@ -1443,7 +1443,7 @@ bool seen(const number *combo, common_data *cd) {
 \addtocounter{enumi}{1}
 \item Line 20 tests the opposite case, where the transformed top entry seen from right to left is greater than the non-transformed entry seen form left to right. If that is the case, this top or some transform that leads to it has already been processed and thus line 21 returns true.
 \addtocounter{enumi}{3}
-\item If line 24 is reached, then every transformed top entry seen from right to left is equal to the corresponding non-transformed entry seen form left to right, which indicates that the top is retrograde or retrograde inverse-invariant. The algorithm then returns false. Since the first element of every top is always zero, line 24 can only be reached if the top at hand is being seen for the first time. Note that there are exceptions to the rule that every top's first element is zero, which shall be discussed in conjunction with Listing~\ref{writeSolutions}.
+\item If line 24 is reached, then every transformed top entry seen from right to left is equal to the corresponding non-transformed entry seen form left to right, which indicates that the top is retrograde or retrograde inverse-invariant. The algorithm then returns false. Since the first element of every top is either zero or the index of $RT_0$, line 24 can only be reached if the top at hand is being seen for the first time. Note that the cases in which the top's first element is the index of $RT_0$ shall be discussed in conjunction with Listing~\ref{writeSolutions}.
 \end{enumerate}
 
 %--------------------------------------------------------------------------
