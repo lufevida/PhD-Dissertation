@@ -414,6 +414,7 @@ number *readFile(const char *fileName, length *numLines, number problemSize) {
 \end{lstlisting}
 
 %--------------------------------------------------------------------------
+\pagebreak
 \begin{enumerate}
 \item The inputs are the file name, assuming both the main executable and the file are in the same folder, a memory address where the number of lines read will be stored, and the problem size, which is the size of the magic square. The output is a memory location with the contents of the file, or a null pointer if the operation fails.
 \item Line 2 simply opens the file at the given path for reading. Line 4 performs a sanity check and line 5 returns a null pointer if the file cannot be read.
